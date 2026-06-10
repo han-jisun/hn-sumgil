@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import "@/firebase";
 
 export const metadata: Metadata = {
-  title: "섬길 (Seomgil) | 섬의 아름다운 길을 걷다",
+  title: "섬길 (Sumgil) | 섬의 아름다운 길을 걷다",
   description: "아름다운 섬들의 비경과 조용한 산책로를 발견하고 특별한 여정을 떠나보세요.",
   keywords: ["섬길", "산책로", "비밀의숲", "제주돌담길", "제주노을길", "독립서점", "힐링여행"],
   openGraph: {
-    title: "섬길 (Seomgil) | 섬의 아름다운 길을 걷다",
+    title: "섬길 (Sumgil) | 섬의 아름다운 길을 걷다",
     description: "아름다운 섬들의 비경과 조용한 산책로를 발견해보세요.",
     type: "website",
     locale: "ko_KR",
@@ -47,7 +48,7 @@ export default function RootLayout({
               </li>
             </ul>
             <p className="text-xs text-text-muted">
-              &copy; {new Date().getFullYear()} 섬길 (Seomgil). All rights reserved.
+              &copy; {new Date().getFullYear()} 섬길 (Sumgil). All rights reserved.
             </p>
           </div>
         </footer>

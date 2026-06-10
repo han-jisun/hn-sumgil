@@ -11,7 +11,7 @@ export default function Navbar() {
       <div className="flex justify-between items-center h-[72px] container m-auto">
         <Link href="/" className="flex items-center gap-2 text-[1.4rem] font-bold text-text-primary tracking-tight">
           <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#10b981]"></span>
-          섬길 <span className="opacity-50 text-[0.9rem] font-normal">Seomgil</span>
+          섬길 <span className="opacity-50 text-[0.9rem] font-normal">Sumgil</span>
         </Link>
         <nav>
           <ul className="flex gap-8 list-none">

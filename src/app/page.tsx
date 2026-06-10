@@ -13,7 +13,7 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)] -z-10 pointer-events-none blur-[40px]"></div>
         <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.15] mb-5 tracking-[-1.5px]">
           섬들의 아름다움을 걷다<br />
-          <span className="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">섬길 (Seomgil)</span>
+          <span className="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">섬길 (Sumgil)</span>
         </h1>
         <p className="text-[clamp(1rem,2vw,1.25rem)] text-text-secondary max-w-[600px] leading-relaxed mb-10">
           고요한 숲터널, 붉게 물드는 해안선, 오랜 이야기를 품은 돌담길까지. 

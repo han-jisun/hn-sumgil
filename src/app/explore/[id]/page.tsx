@@ -4,6 +4,12 @@ import Link from "next/link";
 import { trails } from "@/data";
 import Checklist from "@/components/Checklist";
 
+export async function generateStaticParams() {
+  return trails.map((trail) => ({
+    id: trail.id,
+  }));
+}
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

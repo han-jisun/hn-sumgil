@@ -30,42 +30,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-20 container">
-        <h2 className="text-[1.8rem] font-bold mb-3 tracking-tight">테마별 섬길</h2>
-        <p className="text-[0.95rem] text-text-secondary mb-9">오늘 당신의 마음에 닿는 길은 어디인가요?</p>
-        
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-5">
-          <Link href="/explore?category=nature" className="flex flex-col p-8 text-left border border-card-border relative overflow-hidden group hover:border-card-hover-border hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(16,185,129,0.08)] transition-all duration-300 glass-panel">
-            <span className="absolute top-0 left-0 w-1 h-full bg-card-border group-hover:bg-primary transition-all duration-300"></span>
-            <span className="text-3xl mb-5">🌲</span>
-            <h3 className="text-[1.2rem] font-semibold mb-2">숲 / 자연</h3>
-            <p className="text-[0.85rem] text-text-secondary leading-relaxed">초록빛 가득한 숲에서 내쉬는 상쾌한 피톤치드와 치유의 시간.</p>
-          </Link>
-
-          <Link href="/explore?category=ocean" className="flex flex-col p-8 text-left border border-card-border relative overflow-hidden group hover:border-card-hover-border hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(16,185,129,0.08)] transition-all duration-300 glass-panel">
-            <span className="absolute top-0 left-0 w-1 h-full bg-card-border group-hover:bg-primary transition-all duration-300"></span>
-            <span className="text-3xl mb-5">🌊</span>
-            <h3 className="text-[1.2rem] font-semibold mb-2">바다길</h3>
-            <p className="text-[0.85rem] text-text-secondary leading-relaxed">끝없이 펼쳐진 푸른 수평선과 붉게 타오르는 저녁 노을길.</p>
-          </Link>
-
-          <Link href="/explore?category=alley" className="flex flex-col p-8 text-left border border-card-border relative overflow-hidden group hover:border-card-hover-border hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(16,185,129,0.08)] transition-all duration-300 glass-panel">
-            <span className="absolute top-0 left-0 w-1 h-full bg-card-border group-hover:bg-primary transition-all duration-300"></span>
-            <span className="text-3xl mb-5">🧱</span>
-            <h3 className="text-[1.2rem] font-semibold mb-2">숨은 골목</h3>
-            <p className="text-[0.85rem] text-text-secondary leading-relaxed">따뜻한 돌담과 고즈넉한 한옥 너머로 흐르는 오랜 시간의 흔적.</p>
-          </Link>
-
-          <Link href="/explore?category=culture" className="flex flex-col p-8 text-left border border-card-border relative overflow-hidden group hover:border-card-hover-border hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(16,185,129,0.08)] transition-all duration-300 glass-panel">
-            <span className="absolute top-0 left-0 w-1 h-full bg-card-border group-hover:bg-primary transition-all duration-300"></span>
-            <span className="text-3xl mb-5">📚</span>
-            <h3 className="text-[1.2rem] font-semibold mb-2">문화 / 예술</h3>
-            <p className="text-[0.85rem] text-text-secondary leading-relaxed">책 향기와 잔잔한 커피 향이 어우러지는 나만의 작은 아지트.</p>
-          </Link>
-        </div>
-      </section>
-
       {/* Featured Section */}
       <section id="featured" className="py-20 bg-gradient-to-b from-transparent to-[rgba(16,185,129,0.02)]">
         <div className="container m-auto">

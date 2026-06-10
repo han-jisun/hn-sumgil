@@ -41,6 +41,19 @@ export default function Navbar() {
                 )}
               </Link>
             </li>
+            <li>
+              <Link 
+                href="/data" 
+                className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
+                  pathname.startsWith("/data") ? "text-primary font-semibold" : "text-text-secondary"
+                }`}
+              >
+                데이터 확인
+                {pathname.startsWith("/data") && (
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#10b981]"></span>
+                )}
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

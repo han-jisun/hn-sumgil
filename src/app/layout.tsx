@@ -41,6 +41,9 @@ export default function RootLayout({
                 <a href="/explore" className="text-text-secondary hover:text-primary transition-colors duration-300">탐색하기</a>
               </li>
               <li>
+                <a href="/data" className="text-text-secondary hover:text-primary transition-colors duration-300">데이터 확인</a>
+              </li>
+              <li>
                 <a href="#" className="text-text-secondary hover:text-primary transition-colors duration-300">소개</a>
               </li>
               <li>

@@ -4,11 +4,11 @@ import Navbar from "@/components/Navbar";
 import "@/firebase";
 
 export const metadata: Metadata = {
-  title: "섬길 (Sumgil) | 섬의 아름다운 길을 걷다",
+  title: "한눈섬길 | 섬의 아름다운 길을 걷다",
   description: "아름다운 섬들의 비경과 조용한 산책로를 발견하고 특별한 여정을 떠나보세요.",
-  keywords: ["섬길", "산책로", "비밀의숲", "제주돌담길", "제주노을길", "독립서점", "힐링여행"],
+  keywords: ["한눈섬길", "산책로", "비밀의숲", "제주돌담길", "제주노을길", "독립서점", "힐링여행"],
   openGraph: {
-    title: "섬길 (Sumgil) | 섬의 아름다운 길을 걷다",
+    title: "한눈섬길 | 섬의 아름다운 길을 걷다",
     description: "아름다운 섬들의 비경과 조용한 산책로를 발견해보세요.",
     type: "website",
     locale: "ko_KR",
@@ -31,7 +31,7 @@ export default function RootLayout({
           <div className="flex flex-col items-center gap-6 text-center container m-auto">
             <div className="text-lg font-bold text-text-primary flex items-center gap-1.5">
               <span className="w-1.5 height-1.5 bg-primary rounded-full shadow-[0_0_8px_#10b981]" style={{ height: 6 }}></span>
-              섬길
+              한눈섬길
             </div>
             <ul className="flex gap-6 list-none">
               <li>
@@ -51,7 +51,7 @@ export default function RootLayout({
               </li>
             </ul>
             <p className="text-xs text-text-muted">
-              &copy; {new Date().getFullYear()} 섬길 (Sumgil). All rights reserved.
+              &copy; {new Date().getFullYear()} 한눈섬길. All rights reserved.
             </p>
           </div>
         </footer>

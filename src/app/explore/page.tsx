@@ -61,9 +61,9 @@ function ExploreContent() {
     <div className="container m-auto">
       {/* Exploration Header & Search */}
       <section className="pt-[60px] pb-[40px] text-center">
-        <h1 className="text-[2.2rem] font-bold mb-3 tracking-tight">섬길 탐색하기</h1>
+        <h1 className="text-[2.2rem] font-bold mb-3 tracking-tight">한눈섬길 탐색하기</h1>
         <p className="text-base text-text-secondary max-w-[500px] mx-auto mb-8 leading-normal">
-          당신만을 위해 준비된 섬들의 발걸음. 카테고리별 검색과 태그 매칭으로 마음에 쏙 드는 섬길을 발견해보세요.
+          당신만을 위해 준비된 섬들의 발걸음. 카테고리별 검색과 태그 매칭으로 마음에 쏙 드는 한눈섬길을 발견해보세요.
         </p>
 
         <div className="max-w-[600px] mx-auto relative flex items-center w-full">

@@ -13,7 +13,7 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)] -z-10 pointer-events-none blur-[40px]"></div>
         <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[1.15] mb-5 tracking-[-1.5px]">
           섬들의 아름다움을 걷다<br />
-          <span className="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">섬길 (Sumgil)</span>
+          <span className="bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">한눈섬길</span>
         </h1>
         <p className="text-[clamp(1rem,2vw,1.25rem)] text-text-secondary max-w-[600px] leading-relaxed mb-10">
           고요한 숲터널, 붉게 물드는 해안선, 오랜 이야기를 품은 돌담길까지. 
@@ -33,7 +33,7 @@ export default function Home() {
       {/* Featured Section */}
       <section id="featured" className="py-20 bg-gradient-to-b from-transparent to-[rgba(16,185,129,0.02)]">
         <div className="container m-auto">
-          <h2 className="text-[1.8rem] font-bold mb-3 tracking-tight">이달의 인기 섬길</h2>
+          <h2 className="text-[1.8rem] font-bold mb-3 tracking-tight">이달의 인기 한눈섬길</h2>
           <p className="text-[0.95rem] text-text-secondary mb-9">여행자들이 가장 사랑한 고요하고 고즈넉한 코스들을 만나보세요.</p>
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(360px,1fr))] gap-8 max-[480px]:grid-cols-1">

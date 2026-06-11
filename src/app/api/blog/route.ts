@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get("query") || "섬길 여행";
+  const query = searchParams.get("query") || "한눈섬길 여행";
   const display = searchParams.get("display") || "12";
   const start = searchParams.get("start") || "1";
 

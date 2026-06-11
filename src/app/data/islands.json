@@ -1,6 +1,9 @@
 [
   {
     "island": "굴업도",
+    "address": "인천 옹진군 덕적면 굴업리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "2시간 30분",
@@ -10,6 +13,9 @@
   },
   {
     "island": "대연평",
+    "address": "인천 옹진군 연평면 연평리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "2시간",
@@ -19,6 +25,9 @@
   },
   {
     "island": "대이작도",
+    "address": "인천 옹진군 자월면 이작리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 40분",
@@ -32,6 +41,9 @@
   },
   {
     "island": "대청도",
+    "address": "인천 옹진군 대청면 대청리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "3시간 40분",
@@ -41,6 +53,9 @@
   },
   {
     "island": "덕적도",
+    "address": "인천 옹진군 덕적면 진리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 10분",
@@ -54,6 +69,9 @@
   },
   {
     "island": "문갑도",
+    "address": "인천 옹진군 덕적면 문갑리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 30분",
@@ -63,6 +81,9 @@
   },
   {
     "island": "백령도",
+    "address": "인천 옹진군 백령면 진촌리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "4시간",
@@ -72,6 +93,9 @@
   },
   {
     "island": "백아도",
+    "address": "인천 옹진군 덕적면 백아리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "2시간 40분",
@@ -81,6 +105,9 @@
   },
   {
     "island": "소연평",
+    "address": "인천 옹진군 연평면 연평리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 40분",
@@ -90,6 +117,9 @@
   },
   {
     "island": "소이작도",
+    "address": "인천 옹진군 자월면 이작리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 30분",
@@ -103,6 +133,9 @@
   },
   {
     "island": "소청도",
+    "address": "인천 옹진군 대청면 소청리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "3시간 20분",
@@ -112,6 +145,9 @@
   },
   {
     "island": "승봉도",
+    "address": "인천 옹진군 자월면 승봉리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 20분",
@@ -125,6 +161,9 @@
   },
   {
     "island": "울도",
+    "address": "인천 옹진군 덕적면 울도리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "3시간 20분",
@@ -134,6 +173,9 @@
   },
   {
     "island": "자월도",
+    "address": "인천 옹진군 자월면 자월리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간",
@@ -147,6 +189,9 @@
   },
   {
     "island": "지도",
+    "address": "인천 옹진군 덕적면 백아리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "2시간",
@@ -156,6 +201,9 @@
   },
   {
     "island": "소야도",
+    "address": "인천 옹진군 덕적면 소야리",
+    "areaCode": 2,
+    "sigunguCode": 10,
     "ferries": [
       {
         "time": "1시간 10분",

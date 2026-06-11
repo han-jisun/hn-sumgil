@@ -11,22 +11,22 @@ const islandGroups = {
 };
 
 const targetIslands = [
-  { name: '굴업도', time: '2시간 30분', match: '굴업' },
-  { name: '대연평', time: '2시간', match: '대연평도' },
-  { name: '대이작도', time: '1시간 40분', match: '이작도', isSpecial: true },
-  { name: '대청도', time: '3시간 40분', match: '대청도' },
-  { name: '덕적도', time: '1시간 10분', match: '덕적도' },
-  { name: '문갑도', time: '1시간 30분', match: '문갑도' },
-  { name: '백령도', time: '4시간', match: '백령도' },
-  { name: '백아도', time: '2시간 40분', match: '백아' },
-  { name: '소연평', time: '1시간 40분', match: '소연평도' },
-  { name: '소이작도', time: '1시간 30분', match: '이작도', isSpecial: true },
-  { name: '소청도', time: '3시간 20분', match: '소청도' },
-  { name: '승봉도', time: '1시간 20분', match: '이작도', isSpecial: true },
-  { name: '울도', time: '3시간 20분', match: '울도' },
-  { name: '자월도', time: '1시간', match: '자월도' },
-  { name: '지도', time: '2시간', match: '지도' },
-  { name: '소야도', time: '1시간 10분', match: '덕적도', isSpecial: true }
+  { name: '굴업도', time: '2시간 30분', match: '굴업', address: '인천 옹진군 덕적면 굴업리', areaCode: 2, sigunguCode: 10 },
+  { name: '대연평', time: '2시간', match: '대연평도', address: '인천 옹진군 연평면 연평리', areaCode: 2, sigunguCode: 10 },
+  { name: '대이작도', time: '1시간 40분', match: '이작도', isSpecial: true, address: '인천 옹진군 자월면 이작리', areaCode: 2, sigunguCode: 10 },
+  { name: '대청도', time: '3시간 40분', match: '대청도', address: '인천 옹진군 대청면 대청리', areaCode: 2, sigunguCode: 10 },
+  { name: '덕적도', time: '1시간 10분', match: '덕적도', address: '인천 옹진군 덕적면 진리', areaCode: 2, sigunguCode: 10 },
+  { name: '문갑도', time: '1시간 30분', match: '문갑도', address: '인천 옹진군 덕적면 문갑리', areaCode: 2, sigunguCode: 10 },
+  { name: '백령도', time: '4시간', match: '백령도', address: '인천 옹진군 백령면 진촌리', areaCode: 2, sigunguCode: 10 },
+  { name: '백아도', time: '2시간 40분', match: '백아', address: '인천 옹진군 덕적면 백아리', areaCode: 2, sigunguCode: 10 },
+  { name: '소연평', time: '1시간 40분', match: '소연평도', address: '인천 옹진군 연평면 연평리', areaCode: 2, sigunguCode: 10 },
+  { name: '소이작도', time: '1시간 30분', match: '이작도', isSpecial: true, address: '인천 옹진군 자월면 이작리', areaCode: 2, sigunguCode: 10 },
+  { name: '소청도', time: '3시간 20분', match: '소청도', address: '인천 옹진군 대청면 소청리', areaCode: 2, sigunguCode: 10 },
+  { name: '승봉도', time: '1시간 20분', match: '이작도', isSpecial: true, address: '인천 옹진군 자월면 승봉리', areaCode: 2, sigunguCode: 10 },
+  { name: '울도', time: '3시간 20분', match: '울도', address: '인천 옹진군 덕적면 울도리', areaCode: 2, sigunguCode: 10 },
+  { name: '자월도', time: '1시간', match: '자월도', address: '인천 옹진군 자월면 자월리', areaCode: 2, sigunguCode: 10 },
+  { name: '지도', time: '2시간', match: '지도', address: '인천 옹진군 덕적면 백아리', areaCode: 2, sigunguCode: 10 },
+  { name: '소야도', time: '1시간 10분', match: '덕적도', isSpecial: true, address: '인천 옹진군 덕적면 소야리', areaCode: 2, sigunguCode: 10 }
 ];
 
 function parseTable(html, groupName) {
@@ -202,6 +202,9 @@ async function run() {
       
       return {
         island: island.name,
+        address: island.address,
+        areaCode: island.areaCode,
+        sigunguCode: island.sigunguCode,
         ferries
       };
     });

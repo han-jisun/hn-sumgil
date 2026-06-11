@@ -10,6 +10,9 @@ interface IslandFerry {
 
 interface IslandData {
   island: string;
+  address: string;
+  areaCode: number;
+  sigunguCode: number;
   ferries: IslandFerry[];
 }
 
@@ -80,10 +83,16 @@ export default function SumList() {
               filteredIslands.map((item, idx) => (
                 <div key={idx} className="p-5 rounded-2xl border border-card-border bg-[#0a0a0f]/60 hover:border-card-hover-border hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] transition-all duration-300 group flex flex-col justify-between">
                   <div>
-                    {/* Island Name */}
-                    <h3 className="text-sm font-bold text-text-primary mb-3 group-hover:text-secondary transition-colors duration-300">
-                      🏝️ {item.island}
-                    </h3>
+                    {/* Island Name & Address */}
+                    <div className="flex flex-col gap-1.5 mb-3.5">
+                      <h3 className="text-sm font-bold text-text-primary group-hover:text-secondary transition-colors duration-300">
+                        🏝️ {item.island}
+                      </h3>
+                      <div className="flex flex-col gap-0.5 text-[0.65rem] text-text-muted">
+                        <span>📍 {item.address}</span>
+                        <span>🏷️ 관광공사 코드: {item.areaCode}-{item.sigunguCode}</span>
+                      </div>
+                    </div>
                     
                     {/* Ferry Details */}
                     <div className="flex flex-col gap-2">

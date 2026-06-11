@@ -2,6 +2,7 @@
 
 import SumList from "@/components/SumList";
 import BackpackingCheck from "@/components/BackpackingCheck";
+import CampingList from "@/components/CampingList";
 
 export default function DataPage() {
   return (
@@ -43,7 +44,7 @@ export default function DataPage() {
         {/* Item 3: 공식 캠핑장 여부 */}
         <div className="w-full p-8 glass-panel border border-card-border shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
           <h2 className="text-xl font-bold text-text-primary mb-4">3. 공식 캠핑장 여부</h2>
-          <div className="text-sm text-text-secondary leading-relaxed flex flex-col gap-3">
+          <div className="text-sm text-text-secondary leading-relaxed flex flex-col gap-3 mb-8">
             <p>해당 데이터는 한국관광공사 고캠핑 api를 통해 가져올 예정입니다.</p>
             <p className="flex items-center gap-1.5 text-secondary">
               <span>url :</span>
@@ -60,10 +61,11 @@ export default function DataPage() {
               <span className="font-semibold text-text-primary block mb-2">표출할 데이터</span>
               <ul className="list-disc pl-5 flex flex-col gap-1.5 text-text-secondary">
                 <li>섬 별 공식 야영장 정보</li>
-
               </ul>
             </div>
           </div>
+          {/* 캠핑장 기능 로드 */}
+          <CampingList />
         </div>
 
       </div>

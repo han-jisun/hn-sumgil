@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import "@/firebase";
+
 
 export const metadata: Metadata = {
   title: "한눈섬길 | 섬의 아름다운 길을 걷다",

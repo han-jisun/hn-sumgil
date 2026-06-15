@@ -19,6 +19,7 @@ export async function GET(request: Request) {
         "X-Naver-Client-Secret": clientSecret,
         "Content-Type": "application/json",
       },
+      next: { revalidate: 1209600 },
     });
 
     if (!response.ok) {

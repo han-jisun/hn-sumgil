@@ -125,10 +125,10 @@ const mockRestaurants = [
 
 export async function GET() {
   const serviceKey = "4369f9db6162243492f66da1d8255bf8611fb890b7c48656485aaa6c9006ac48";
-  const uddi = "uddi:6f690159-2f37-4752-99c2-b51e1fa35101";
+  const uddi = "uddi:a4fb9876-daf9-4e95-8e9b-ed01a99cdb14";
   
   // Request 1000 items from the API to cover all restaurants in Ongjin-gun
-  const odcloudUrl = `https://api.odcloud.kr/api/15053424/v1/${uddi}?page=1&perPage=1000&serviceKey=${serviceKey}`;
+  const odcloudUrl = `https://api.odcloud.kr/api/15035885/v1/${uddi}?page=1&perPage=1000&serviceKey=${serviceKey}`;
   
   try {
     const response = await fetch(odcloudUrl, {
@@ -155,7 +155,7 @@ export async function GET() {
     const items = data.data.map((item: any) => ({
       bsshNm: item["업소명"] || "",
       addr: item["소재지(도로명)"] || item["소재지(지번)"] || "",
-      tel: item["전화번호"] || "",
+      tel: item["소재지전화"] || item["전화번호"] || "",
       type: item["업태명"] || item["업태구분명"] || "일반음식점",
       bizArea: item["소재지(지번)"] ? item["소재지(지번)"].split(" ").slice(2, 4).join(" ") : ""
     }));

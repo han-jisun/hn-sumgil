@@ -3,6 +3,7 @@
 import SumList from "@/components/SumList";
 import BackpackingCheck from "@/components/BackpackingCheck";
 import CampingList from "@/components/CampingList";
+import RestaurantList from "@/components/RestaurantList";
 
 export default function DataPage() {
   return (
@@ -66,6 +67,26 @@ export default function DataPage() {
           </div>
           {/* 캠핑장 기능 로드 */}
           <CampingList />
+        </div>
+
+        {/* Item 4: 주변 음식점 정보 */}
+        <div className="w-full p-8 glass-panel border border-card-border shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+          <h2 className="text-xl font-bold text-text-primary mb-4">4. 주변 음식점 정보</h2>
+          <div className="text-sm text-text-secondary leading-relaxed flex flex-col gap-3 mb-8">
+            <p>해당 데이터는 공공데이터포털의 일반음식점 현황 API를 통해 가져옵니다.</p>
+            <p className="flex items-center gap-1.5 text-secondary">
+              <span>endpoint :</span>
+              <span className="text-secondary font-medium break-all">api.odcloud.kr/api</span>
+            </p>
+            <div className="mt-2 pt-3 border-t border-white/5">
+              <span className="font-semibold text-text-primary block mb-2">표출할 데이터</span>
+              <ul className="list-disc pl-5 flex flex-col gap-1.5 text-text-secondary">
+                <li>섬 별 주변 일반음식점 현황 (업소명, 업태, 주소, 연락처)</li>
+              </ul>
+            </div>
+          </div>
+          {/* 음식점 기능 로드 */}
+          <RestaurantList />
         </div>
 
       </div>

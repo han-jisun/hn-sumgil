@@ -119,120 +119,13 @@ export default function HomePage() {
             🏝️ 인천 16개 섬 탐색하기
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </Link>
-          <Link 
-            href="/explore?filter=backpacking" 
-            className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-text-primary border border-white/10 hover:border-white/20 py-4 px-9 rounded-full font-bold text-base transition-all duration-300"
-          >
-            🎒 백패킹 가능 섬 검색
-          </Link>
         </div>
       </section>
 
-      {/* Philosophy & Target Section - Explaining the CORE intent */}
-      <section className="py-24 border-t border-white/5 bg-gradient-to-b from-transparent to-[#040816]/30">
-        <div className="container m-auto px-6">
-          <div className="text-center max-w-[700px] mx-auto mb-20">
-            <h2 className="text-[2rem] font-bold mb-4 tracking-tight">우리가 이 서비스를 만든 이유</h2>
-            <p className="text-[0.95rem] text-text-secondary leading-relaxed">
-              섬 여행 계획의 가장 큰 장벽은 <span className="text-text-primary font-semibold">"정보의 단절"</span>이었습니다.<br />
-              일반 지도 앱이나 한두 개의 사이트만 보고 떠났다가는 배편이 없거나, 야영이 불법이거나, 밥 먹을 곳이 없는 낭패를 보기 쉽습니다. 한눈섬길은 이 파편화된 탐색 과정을 한눈에 모았습니다.
-            </p>
-          </div>
-
-          {/* Side-by-Side Comparison Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto">
-            {/* The Old Way */}
-            <div className="lg:col-span-5 p-8 rounded-3xl border border-red-500/10 bg-red-950/5 flex flex-col justify-between gap-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full blur-3xl"></div>
-              <div>
-                <div className="flex items-center gap-2 mb-6 text-red-400 font-bold text-sm tracking-wide uppercase">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-                  기존의 번거로운 섬 여행 준비
-                </div>
-                <h3 className="text-xl font-bold text-text-primary mb-6">최소 4개 이상의 흩어진 사이트 검색</h3>
-                
-                <ul className="flex flex-col gap-4 text-xs text-text-secondary">
-                  <li className="flex gap-3 items-start bg-white/2 p-3.5 rounded-xl border border-white/5">
-                    <span className="text-lg leading-none">⛴️</span>
-                    <div>
-                      <strong className="text-text-primary font-semibold block mb-0.5">여객선 요금 & 배편</strong>
-                      인천항 여객 터미널 혹은 개별 선사 예약 홈페이지를 일일이 찾아 운임 요금표와 배편 시간 조율
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-start bg-white/2 p-3.5 rounded-xl border border-white/5">
-                    <span className="text-lg leading-none">🎒</span>
-                    <div>
-                      <strong className="text-text-primary font-semibold block mb-0.5">백패킹 & 비박 가능 여부</strong>
-                      군사 접경 법적 제한구역인지, 해안 텐트가 허용되는지 최근 네이버 블로그/카페 글 수십 개를 직접 탐색
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-start bg-white/2 p-3.5 rounded-xl border border-white/5">
-                    <span className="text-lg leading-none">🍽️</span>
-                    <div>
-                      <strong className="text-text-primary font-semibold block mb-0.5">식당 & 숙소 부대시설</strong>
-                      작은 섬 안의 맛집이 지도 서비스와 달리 폐업했거나 예약제 운영은 아닌지 공사/전화로 확인
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <p className="text-[0.7rem] text-red-400/75 italic bg-red-500/5 p-3 rounded-lg border border-red-500/10 text-center font-medium">
-                ⚠️ 계획 과정만 수 시간이 소요되며 정보의 정합성이 낮음
-              </p>
-            </div>
-
-            {/* Middle Vector Connector for larger screens */}
-            <div className="hidden lg:flex lg:col-span-2 flex-col justify-center items-center">
-              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold shadow-[0_0_15px_rgba(14,165,233,0.1)]">
-                ➔
-              </div>
-              <div className="h-24 w-[1px] bg-gradient-to-b from-primary/30 to-secondary/30 my-2"></div>
-            </div>
-
-            {/* The Hn-Sumgil Way */}
-            <div className="lg:col-span-5 p-8 rounded-3xl border border-primary/20 bg-primary/5 flex flex-col justify-between gap-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
-              <div>
-                <div className="flex items-center gap-2 mb-6 text-primary font-bold text-sm tracking-wide uppercase">
-                  <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse-glow"></span>
-                  편리한 한눈섬길 하나로
-                </div>
-                <h3 className="text-xl font-bold text-text-primary mb-6">검증된 통합 대시보드 1초 매칭</h3>
-
-                <ul className="flex flex-col gap-4 text-xs text-text-secondary">
-                  <li className="flex gap-3 items-start bg-primary/10 p-3.5 rounded-xl border border-primary/15">
-                    <span className="text-lg leading-none">⚡</span>
-                    <div>
-                      <strong className="text-text-primary font-semibold block mb-0.5">한눈에 다 보여주는 레이아웃</strong>
-                      섬 하나만 선택하면 배편 가격, 이동 시간, 야영 조건, 식당 현황이 깔끔하게 정렬된 한 페이지로 표출
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-start bg-primary/10 p-3.5 rounded-xl border border-primary/15">
-                    <span className="text-lg leading-none">🛡️</span>
-                    <div>
-                      <strong className="text-text-primary font-semibold block mb-0.5">실시간 소셜 크로스 검증</strong>
-                      단순 고정 데이터가 아닌, 최근 3년 블로그 인덱스를 파싱하여 진짜 야영이 가능한지 지수화 제공
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-start bg-primary/10 p-3.5 rounded-xl border border-primary/15">
-                    <span className="text-lg leading-none">📋</span>
-                    <div>
-                      <strong className="text-text-primary font-semibold block mb-0.5">옹진군 지자체 인허가 대장 필터링</strong>
-                      포털 지도에 없는 소규모 현지 한식당과 민박집의 행정등록 내역 및 전화번호를 실제 검증하여 매칭
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <p className="text-[0.7rem] text-primary bg-primary/10 p-3 rounded-lg border border-primary/25 text-center font-bold">
-                ✨ 복잡한 준비를 마우스 클릭 몇 번으로 해결!
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Real-time Popular Islands Top 3 */}
-      <section className="py-24 border-t border-white/5 bg-[#050917]/30">
-        <div className="container m-auto px-6">
+      <section className="py-12 border-t border-white/5 bg-[#050917]/30">
+        <div className="container m-auto px-5">
           <div className="text-center max-w-[650px] mx-auto mb-16">
             <span className="text-xs font-bold text-primary uppercase tracking-widest block mb-2">실시간 통계</span>
             <h2 className="text-[2rem] font-bold mb-4 tracking-tight">🔥 인기 있는 섬 Top 3</h2>
@@ -266,7 +159,7 @@ export default function HomePage() {
                       {decoration.badge}
                     </span>
                     {/* Live Clicks Badge */}
-                    <span className="absolute top-4 right-4 bg-black/60 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.6rem] font-bold text-orange-400 border border-orange-500/20 shadow-sm">
+                    <span className="absolute top-4 right-4 bg-black/60 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.6rem] font-bold text-point border border-point/20 shadow-sm">
                       조회수 {island.clicksCount}회
                     </span>
                   </div>
@@ -317,34 +210,6 @@ export default function HomePage() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section - Final push for exploration */}
-      <section className="py-28 px-6 text-center border-t border-white/5 bg-gradient-to-b from-transparent to-[#040816]/50">
-        <div className="max-w-[700px] mx-auto flex flex-col items-center">
-          <h2 className="text-[clamp(1.8rem,4vw,2.5rem)] font-extrabold mb-6 tracking-tight">
-            지금 바로 당신만의 인천 섬 여행을 설계해 보세요.
-          </h2>
-          <p className="text-sm text-text-secondary mb-10 leading-relaxed max-w-[500px]">
-            더 이상 선사 사이트와 블로그를 오가며 시간 낭비하지 마세요.<br />
-            배편, 백패킹 가능 여부, 맛집까지 단 1초 만에 확인해 드립니다.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <Link
-              href="/explore"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white py-3.5 px-8 rounded-full font-bold text-sm shadow-[0_4px_20px_rgba(14,165,233,0.25)] hover:-translate-y-0.5 transition-all duration-300"
-            >
-              🧭 실시간 섬 탐색 시작하기
-            </Link>
-            <Link
-              href="/explore?filter=backpacking"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-text-primary border border-white/10 py-3.5 px-8 rounded-full font-bold text-sm transition-all duration-300"
-            >
-              🎒 백패킹 가능 섬 필터링
-            </Link>
           </div>
         </div>
       </section>

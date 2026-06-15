@@ -86,10 +86,29 @@ function ExploreContent() {
   
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<"all" | "backpacking" | "trekking">("all");
-  const [sortBy, setSortBy] = useState<"default" | "time" | "fare">("default");
+  const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "clicks">("default");
   const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
+  const [clicks, setClicks] = useState<Record<string, number>>({});
 
   const islands: IslandData[] = islandsData as IslandData[];
+
+  // Fetch click counts from API on load
+  useEffect(() => {
+    const fetchClicks = async () => {
+      try {
+        const res = await fetch("/api/clicks");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.clicks) {
+            setClicks(data.clicks);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load click counts:", err);
+      }
+    };
+    fetchClicks();
+  }, []);
 
   // Read URL parameters on load
   useEffect(() => {
@@ -102,8 +121,8 @@ function ExploreContent() {
       setFilterType("all");
     }
 
-    if (sortParam === "time" || sortParam === "fare") {
-      setSortBy(sortParam);
+    if (sortParam === "time" || sortParam === "fare" || sortParam === "clicks") {
+      setSortBy(sortParam as any);
     } else {
       setSortBy("default");
     }
@@ -133,9 +152,43 @@ function ExploreContent() {
     updateParams(filter, sortBy);
   };
 
-  const handleSortChange = (sort: "default" | "time" | "fare") => {
+  const handleSortChange = (sort: "default" | "time" | "fare" | "clicks") => {
     setSortBy(sort);
     updateParams(filterType, sort);
+  };
+
+  const incrementClick = async (islandName: string) => {
+    // Optimistically update client state immediately for responsiveness
+    setClicks((prev) => ({
+      ...prev,
+      [islandName]: (prev[islandName] || 0) + 1,
+    }));
+
+    try {
+      const res = await fetch("/api/clicks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ island: islandName }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.clicks) {
+          setClicks(data.clicks);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to increment click count on server:", err);
+    }
+  };
+
+  const handleIslandClick = (islandName: string) => {
+    const isExpanded = expandedIsland === islandName;
+    if (!isExpanded) {
+      setExpandedIsland(islandName);
+      incrementClick(islandName);
+    } else {
+      setExpandedIsland(null);
+    }
   };
 
   // Filter & Search Islands
@@ -164,6 +217,11 @@ function ExploreContent() {
       const fareA = parseFareToNumber(a.ferries[0]?.fare || "999,999원");
       const fareB = parseFareToNumber(b.ferries[0]?.fare || "999,999원");
       return fareA - fareB;
+    }
+    if (sortBy === "clicks") {
+      const clicksA = clicks[a.island] || 0;
+      const clicksB = clicks[b.island] || 0;
+      return clicksB - clicksA; // Descending (highest clicks first)
     }
     return 0; // Default order
   });
@@ -248,6 +306,14 @@ function ExploreContent() {
               기본순
             </button>
             <button
+              onClick={() => handleSortChange("clicks")}
+              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
+                sortBy === "clicks" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              }`}
+            >
+              🔥 인기순
+            </button>
+            <button
               onClick={() => handleSortChange("time")}
               className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
                 sortBy === "time" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
@@ -279,7 +345,7 @@ function ExploreContent() {
               return (
                 <div 
                   key={item.island} 
-                  onClick={() => setExpandedIsland(isExpanded ? null : item.island)}
+                  onClick={() => handleIslandClick(item.island)}
                   className={`flex flex-col rounded-[20px] overflow-hidden border transition-all duration-300 bg-card-bg cursor-pointer group ${
                     isExpanded 
                       ? "border-primary/40 shadow-[0_12px_36px_rgba(14,165,233,0.15)] md:col-span-2 row-span-1" 
@@ -300,6 +366,10 @@ function ExploreContent() {
                     {/* Floating Island Badge */}
                     <span className="absolute top-3.5 left-3.5 bg-[#030712]/75 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.65rem] font-bold text-primary border border-primary/20">
                       🏝️ {item.island}
+                    </span>
+                    {/* Floating Click Count Badge */}
+                    <span className="absolute top-3.5 right-3.5 bg-black/60 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.6rem] font-extrabold text-orange-400 border border-orange-500/20 flex items-center gap-0.5 shadow-sm">
+                      🔥 {clicks[item.island] || 0}
                     </span>
                   </div>
 

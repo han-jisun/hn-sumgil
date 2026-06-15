@@ -216,7 +216,7 @@ export default function CampingList() {
                       {/* Expanded campsite information */}
                       {isExpanded && hasCampsites && (
                         <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-4 animate-fadeIn">
-                          {status.campsites.map((camp, cIdx) => (
+                          {status.campsites.map((camp) => (
                             <div key={camp.contentId} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-3">
                               {/* Thumbnail Image */}
                               {camp.firstImageUrl && (

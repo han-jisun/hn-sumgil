@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import islandsData from "@/app/data/islands.json";
 
 interface IslandData {
@@ -23,6 +21,14 @@ interface IslandSpotStatus {
   spots: Spot[];
 }
 
+interface SpotDetail {
+  contentId: string;
+  overview: string;
+  homepage: string;
+  tel: string;
+  telname: string;
+}
+
 export default function EtcList() {
   const [spots, setSpots] = useState<Spot[]>([]);
   const [islandStatuses, setIslandStatuses] = useState<IslandSpotStatus[]>([]);
@@ -30,6 +36,39 @@ export default function EtcList() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
+
+  const [spotDetails, setSpotDetails] = useState<Record<string, SpotDetail>>({});
+  const [loadingDetails, setLoadingDetails] = useState<Record<string, boolean>>({});
+  const [expandedSpotId, setExpandedSpotId] = useState<string | null>(null);
+
+  const handleToggleSpotDetail = async (contentId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (expandedSpotId === contentId) {
+      setExpandedSpotId(null);
+      return;
+    }
+
+    setExpandedSpotId(contentId);
+
+    if (spotDetails[contentId]) {
+      return;
+    }
+
+    setLoadingDetails(prev => ({ ...prev, [contentId]: true }));
+    try {
+      const response = await fetch(`/api/spot?contentId=${contentId}`);
+      if (!response.ok) throw new Error("상세 정보를 가져오지 못했습니다.");
+      const data = await response.json();
+      if (data.success && data.detail) {
+        setSpotDetails(prev => ({ ...prev, [contentId]: data.detail }));
+      }
+    } catch (err) {
+      console.error("Error fetching spot detail:", err);
+    } finally {
+      setLoadingDetails(prev => ({ ...prev, [contentId]: false }));
+    }
+  };
 
   const islands: IslandData[] = islandsData as IslandData[];
 
@@ -261,39 +300,124 @@ export default function EtcList() {
 
                       {/* Expanded spot list */}
                       {isExpanded && hasSpots && (
-                        <div className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-4 animate-fadeIn">
+                        <div 
+                          className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-4 animate-fadeIn"
+                          onClick={(e) => e.stopPropagation()} // Prevent closing the island card when interacting with spots
+                        >
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {status.spots.map((spot, idx) => (
-                              <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-3">
-                                {/* Spot Thumbnail */}
-                                {spot.firstImage && (
-                                  <div className="relative w-full h-[120px] rounded-lg overflow-hidden border border-white/5">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img 
-                                      src={spot.firstImage} 
-                                      alt={spot.title} 
-                                      className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
-                                    />
-                                  </div>
-                                )}
-                                
-                                <div>
-                                  <h5 className="text-[0.8rem] font-bold text-primary mb-1">
-                                    {spot.title}
-                                  </h5>
-                                  <span className={`text-[0.6rem] px-2 py-0.5 rounded border ${getContentTypeStyle(spot.contentTypeId)}`}>
-                                    {getContentTypeName(spot.contentTypeId)}
-                                  </span>
-                                </div>
+                            {status.spots.map((spot, idx) => {
+                              const isSpotExpanded = expandedSpotId === spot.contentId;
+                              return (
+                                <div 
+                                  key={idx} 
+                                  className={`bg-[#12121e]/80 border rounded-xl p-4 flex flex-col gap-3 transition-all duration-300 ${
+                                    isSpotExpanded 
+                                      ? "border-primary/30 shadow-[0_4px_12px_rgba(16,185,129,0.08)] col-span-full" 
+                                      : "border-white/5 hover:border-white/10"
+                                  }`}
+                                >
+                                  <div className="flex flex-col sm:flex-row gap-4">
+                                    {/* Spot Thumbnail */}
+                                    {spot.firstImage && (
+                                      <div className={`relative rounded-lg overflow-hidden border border-white/5 shrink-0 ${
+                                        isSpotExpanded 
+                                          ? "w-full sm:w-[200px] h-[130px]" 
+                                          : "w-full h-[120px]"
+                                      }`}>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img 
+                                          src={spot.firstImage} 
+                                          alt={spot.title} 
+                                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                                        />
+                                      </div>
+                                    )}
+                                    
+                                    <div className="flex-1 flex flex-col justify-between">
+                                      <div>
+                                        <div className="flex justify-between items-start gap-2 mb-1.5">
+                                          <h5 className="text-[0.8rem] font-bold text-primary">
+                                            {spot.title}
+                                          </h5>
+                                          <span className={`text-[0.55rem] px-2 py-0.5 rounded border shrink-0 ${getContentTypeStyle(spot.contentTypeId)}`}>
+                                            {getContentTypeName(spot.contentTypeId)}
+                                          </span>
+                                        </div>
+                                        
+                                        <div className="flex flex-col gap-1 text-[0.7rem] text-text-secondary">
+                                          <div className="flex justify-between items-start">
+                                            <span className="min-w-[40px] text-text-muted">📍 주소</span>
+                                            <span className="text-text-primary text-right max-w-[85%] truncate">{spot.addr}</span>
+                                          </div>
+                                        </div>
+                                      </div>
 
-                                <div className="flex flex-col gap-1 text-[0.7rem] text-text-secondary mt-1">
-                                  <div className="flex justify-between">
-                                    <span className="min-w-[40px]">📍 주소</span>
-                                    <span className="text-text-primary text-right max-w-[85%] truncate-2">{spot.addr}</span>
+                                      {/* Action button */}
+                                      <div className="mt-3 flex justify-end">
+                                        <button
+                                          onClick={(e) => handleToggleSpotDetail(spot.contentId, e)}
+                                          className="text-[0.65rem] font-semibold bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-text-primary px-3 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer transition-all duration-200"
+                                        >
+                                          {loadingDetails[spot.contentId] ? (
+                                            <>
+                                              <div className="w-2.5 h-2.5 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                                              불러오는 중...
+                                            </>
+                                          ) : isSpotExpanded ? (
+                                            <>설명 접기 ▴</>
+                                          ) : (
+                                            <>📄 설명 보기 ▾</>
+                                          )}
+                                        </button>
+                                      </div>
+                                    </div>
                                   </div>
+
+                                  {/* Expanded detail view */}
+                                  {isSpotExpanded && (
+                                    <div className="mt-2 pt-3 border-t border-white/5 flex flex-col gap-3 animate-fadeIn">
+                                      {loadingDetails[spot.contentId] ? (
+                                        <div className="flex flex-col items-center justify-center py-6">
+                                          <div className="w-5 h-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin mb-2"></div>
+                                          <p className="text-[0.65rem] text-text-muted">설명 정보를 조회하고 있습니다...</p>
+                                        </div>
+                                      ) : spotDetails[spot.contentId] ? (
+                                        <div className="flex flex-col gap-2.5 text-[0.7rem]">
+                                          <div className="bg-[#08080d]/60 border border-white/5 rounded-lg p-3">
+                                            <p className="text-text-secondary leading-relaxed whitespace-pre-wrap">
+                                              {spotDetails[spot.contentId].overview}
+                                            </p>
+                                          </div>
+                                          
+                                          <div className="flex flex-wrap gap-x-6 gap-y-1.5 text-[0.65rem] text-text-muted px-1">
+                                            {spotDetails[spot.contentId].tel && (
+                                              <div className="flex gap-1.5">
+                                                <span>📞 문의처:</span>
+                                                <span className="text-text-secondary font-medium">
+                                                  {spotDetails[spot.contentId].tel}
+                                                  {spotDetails[spot.contentId].telname && ` (${spotDetails[spot.contentId].telname})`}
+                                                </span>
+                                              </div>
+                                            )}
+                                            {spotDetails[spot.contentId].homepage && (
+                                              <div className="flex gap-1.5 items-center">
+                                                <span>🌐 웹사이트:</span>
+                                                <span 
+                                                  className="text-primary hover:underline [&_a]:text-primary [&_a]:hover:underline [&_a]:font-semibold [&_a]:transition-all"
+                                                  dangerouslySetInnerHTML={{ __html: spotDetails[spot.contentId].homepage }}
+                                                />
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <p className="text-[0.65rem] text-center text-text-muted py-2">상세 정보를 불러올 수 없습니다.</p>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       )}

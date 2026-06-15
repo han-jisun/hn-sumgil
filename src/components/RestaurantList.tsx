@@ -26,7 +26,6 @@ export default function RestaurantList() {
   const [islandStatuses, setIslandStatuses] = useState<IslandRestaurantStatus[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isMock, setIsMock] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
 
@@ -73,7 +72,6 @@ export default function RestaurantList() {
       }
       
       const data = await response.json();
-      setIsMock(data.isMock || false);
       const items = data.items || [];
       setRestaurants(items);
 
@@ -145,21 +143,7 @@ export default function RestaurantList() {
       {/* Main Content */}
       {!loading && !error && islandStatuses.length > 0 && (
         <div className="flex flex-col gap-4">
-          {/* Notification for Mock Data */}
-          {isMock && (
-            <div className="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5 flex flex-col gap-1 text-[0.75rem] text-text-secondary leading-relaxed">
-              <span className="font-bold text-amber-400 flex items-center gap-1">
-                💡 공공데이터포털 활용신청 안내
-              </span>
-              <p>
-                제공해주신 인증키로 <strong>‘인천광역시 옹진군_일반음식점 현황’</strong> 오픈 API 서비스가 활성화되지 않았습니다.
-                공공데이터포털에서 해당 데이터의 오픈 API 활용 신청을 승인받으시면 실시간 데이터로 자동 연동됩니다.
-                <span className="text-primary font-medium block mt-1">
-                  * 현재 화면에는 UI 확인을 위한 섬별 모의(Mock) 음식점 데이터가 표시되고 있습니다.
-                </span>
-              </p>
-            </div>
-          )}
+
 
           {/* Controls */}
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between pb-2">

@@ -219,9 +219,10 @@ function ExploreContent() {
       return fareA - fareB;
     }
     if (sortBy === "clicks") {
+      // Keep click sort in memory if queried via code, but disabled in main UI controls
       const clicksA = clicks[a.island] || 0;
       const clicksB = clicks[b.island] || 0;
-      return clicksB - clicksA; // Descending (highest clicks first)
+      return clicksB - clicksA;
     }
     return 0; // Default order
   });
@@ -306,14 +307,6 @@ function ExploreContent() {
               기본순
             </button>
             <button
-              onClick={() => handleSortChange("clicks")}
-              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
-                sortBy === "clicks" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
-              }`}
-            >
-              🔥 인기순
-            </button>
-            <button
               onClick={() => handleSortChange("time")}
               className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
                 sortBy === "time" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
@@ -366,10 +359,6 @@ function ExploreContent() {
                     {/* Floating Island Badge */}
                     <span className="absolute top-3.5 left-3.5 bg-[#030712]/75 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.65rem] font-bold text-primary border border-primary/20">
                       🏝️ {item.island}
-                    </span>
-                    {/* Floating Click Count Badge */}
-                    <span className="absolute top-3.5 right-3.5 bg-black/60 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.6rem] font-extrabold text-orange-400 border border-orange-500/20 flex items-center gap-0.5 shadow-sm">
-                      🔥 {clicks[item.island] || 0}
                     </span>
                   </div>
 

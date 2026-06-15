@@ -6,6 +6,7 @@ import CampingList from "@/components/CampingList";
 import RestaurantList from "@/components/RestaurantList";
 import LodgeList from "@/components/lodgeList";
 import EtcList from "@/components/etc";
+import YoutubeList from "@/components/YoutubeList";
 
 export default function DataPage() {
   return (
@@ -129,6 +130,26 @@ export default function DataPage() {
           </div>
           {/* 관광지/명소 기능 로드 */}
           <EtcList />
+        </div>
+
+        {/* Item 7: 섬 별 인기 유튜브 영상 */}
+        <div className="w-full p-8 glass-panel border border-card-border shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+          <h2 className="text-xl font-bold text-text-primary mb-4">7. 섬 별 인기 유튜브 영상</h2>
+          <div className="text-sm text-text-secondary leading-relaxed flex flex-col gap-3 mb-8">
+            <p>해당 데이터는 유튜브 검색 결과를 파싱하여 노출하며, 섬별 인기 여행/리뷰 동영상 3개를 가져옵니다.</p>
+            <p className="flex items-center gap-1.5 text-secondary">
+              <span>endpoint :</span>
+              <span className="text-secondary font-medium break-all">youtube.com/results?search_query</span>
+            </p>
+            <div className="mt-2 pt-3 border-t border-white/5">
+              <span className="font-semibold text-text-primary block mb-2">표출할 데이터</span>
+              <ul className="list-disc pl-5 flex flex-col gap-1.5 text-text-secondary">
+                <li>섬 별 유튜브 동영상 정보 및 채널명, 조회수, 업로드일 정보 (인라인 플레이어로 재생 가능)</li>
+              </ul>
+            </div>
+          </div>
+          {/* 유튜브 목록 기능 로드 */}
+          <YoutubeList />
         </div>
 
       </div>

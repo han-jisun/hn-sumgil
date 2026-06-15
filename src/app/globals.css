@@ -2,27 +2,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #10b981;
-  --color-secondary: #06b6d4;
-  --color-accent: #6366f1;
-  --color-background: #030307;
-  --color-foreground: #f4f4f7;
-  --color-card-bg: rgba(15, 15, 25, 0.6);
-  --color-card-border: rgba(255, 255, 255, 0.08);
-  --color-card-hover-border: rgba(16, 185, 129, 0.4);
-  --color-text-primary: #f4f4f7;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
-  --color-nav-bg: rgba(3, 3, 7, 0.75);
+  --color-primary: #0ea5e9; /* Sky/Sea Blue */
+  --color-secondary: #06b6d4; /* Deep Cyan/Turquoise */
+  --color-accent: #3b82f6; /* Ocean Blue */
+  --color-background: #030712; /* Deep Slate/Navy Black */
+  --color-foreground: #f8fafc;
+  --color-card-bg: rgba(15, 23, 42, 0.65); /* Translucent Slate */
+  --color-card-border: rgba(255, 255, 255, 0.06);
+  --color-card-hover-border: rgba(14, 165, 233, 0.4); /* Primary blue hover */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-nav-bg: rgba(3, 7, 18, 0.75);
   
   --font-sans: 'Outfit', 'Noto Sans KR', sans-serif;
   
   --animate-pulse-glow: pulse-glow 2s infinite;
   
   @keyframes pulse-glow {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(14, 165, 233, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
   }
 }
 
@@ -50,8 +50,8 @@
     display: flex;
     flex-direction: column;
     background-image: 
-      radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
+      radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 40%);
     background-attachment: fixed;
   }
 
@@ -99,7 +99,7 @@
 }
 
 @utility glow-text-primary {
-  text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  text-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
 }
 
 @utility glow-text-secondary {
@@ -116,9 +116,9 @@
 }
 
 @utility badge-easy {
-  background: rgba(16, 185, 129, 0.1);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: rgba(14, 165, 233, 0.1);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.2);
 }
 
 @utility badge-medium {

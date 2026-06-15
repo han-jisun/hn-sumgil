@@ -10,7 +10,7 @@ export default function Navbar() {
     <header className="sticky top-0 left-0 w-full z-[100] bg-nav-bg backdrop-blur-md border-b border-card-border transition-all duration-300">
       <div className="flex justify-between items-center h-[72px] container m-auto">
         <Link href="/" className="flex items-center gap-2 text-[1.4rem] font-bold text-text-primary tracking-tight">
-          <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#10b981]"></span>
+          <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0ea5e9]"></span>
           한눈섬길 <span className="opacity-50 text-[0.9rem] font-normal">Hn-Sumgil</span>
         </Link>
         <nav>
@@ -24,7 +24,7 @@ export default function Navbar() {
               >
                 홈
                 {pathname === "/" && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#10b981]"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
                 )}
               </Link>
             </li>
@@ -37,7 +37,7 @@ export default function Navbar() {
               >
                 탐색하기
                 {pathname.startsWith("/explore") && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#10b981]"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
                 )}
               </Link>
             </li>
@@ -50,7 +50,7 @@ export default function Navbar() {
               >
                 데이터 확인
                 {pathname.startsWith("/data") && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#10b981]"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
                 )}
               </Link>
             </li>

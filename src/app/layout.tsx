@@ -30,7 +30,7 @@ export default function RootLayout({
         <footer className="bg-[#020205] border-t border-card-border py-12 mt-auto text-text-secondary text-sm">
           <div className="flex flex-col items-center gap-6 text-center container m-auto">
             <div className="text-lg font-bold text-text-primary flex items-center gap-1.5">
-              <span className="w-1.5 height-1.5 bg-primary rounded-full shadow-[0_0_8px_#10b981]" style={{ height: 6 }}></span>
+              <span className="w-1.5 height-1.5 bg-primary rounded-full shadow-[0_0_8px_#0ea5e9]" style={{ height: 6 }}></span>
               한눈섬길
             </div>
             <ul className="flex gap-6 list-none">

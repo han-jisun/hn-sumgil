@@ -13,7 +13,7 @@ export default function DataPage() {
     <div className="py-12 px-6 container m-auto min-h-[80vh] relative">
       {/* Background Glows */}
       <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(6,182,212,0.06)_0%,transparent_70%)] -z-10 pointer-events-none blur-[40px]"></div>
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] -z-10 pointer-events-none blur-[40px]"></div>
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(14,165,233,0.06)_0%,transparent_70%)] -z-10 pointer-events-none blur-[40px]"></div>
 
       {/* Header Section */}
       <section className="text-center max-w-[700px] m-auto mb-16">

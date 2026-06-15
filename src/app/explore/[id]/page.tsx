@@ -146,7 +146,7 @@ export default async function TrailDetailPage({ params }: PageProps) {
                     strokeDasharray="4 4"
                   />
                 </svg>
-                <div className="w-3 h-3 bg-primary border-[3px] border-white rounded-full absolute top-[30%] left-1/2 shadow-[0_0_10px_#10b981] animate-pulse-glow z-[2]"></div>
+                <div className="w-3 h-3 bg-primary border-[3px] border-white rounded-full absolute top-[30%] left-1/2 shadow-[0_0_10px_#0ea5e9] animate-pulse-glow z-[2]"></div>
               </div>
               <p className="text-[0.85rem] text-text-secondary leading-normal">
                 <strong>주소:</strong><br />

@@ -5,6 +5,7 @@ import BackpackingCheck from "@/components/BackpackingCheck";
 import CampingList from "@/components/CampingList";
 import RestaurantList from "@/components/RestaurantList";
 import LodgeList from "@/components/lodgeList";
+import EtcList from "@/components/etc";
 
 export default function DataPage() {
   return (
@@ -108,6 +109,26 @@ export default function DataPage() {
           </div>
           {/* 숙박 시설 기능 로드 */}
           <LodgeList />
+        </div>
+
+        {/* Item 6: 섬 내 가볼 만한 명소/관광지 목록 */}
+        <div className="w-full p-8 glass-panel border border-card-border shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+          <h2 className="text-xl font-bold text-text-primary mb-4">6. 섬 내 가볼 만한 명소/관광지 목록</h2>
+          <div className="text-sm text-text-secondary leading-relaxed flex flex-col gap-3 mb-8">
+            <p>해당 데이터는 한국관광공사 국문 관광정보 서비스(KorService2) API를 통해 가져옵니다.</p>
+            <p className="flex items-center gap-1.5 text-secondary">
+              <span>endpoint :</span>
+              <span className="text-secondary font-medium break-all">KorService2/areaBasedList2</span>
+            </p>
+            <div className="mt-2 pt-3 border-t border-white/5">
+              <span className="font-semibold text-text-primary block mb-2">표출할 데이터</span>
+              <ul className="list-disc pl-5 flex flex-col gap-1.5 text-text-secondary">
+                <li>섬 별 가볼 만한 명소, 문화시설 및 레포츠 정보 (명소명, 구분, 주소, 이미지 등)</li>
+              </ul>
+            </div>
+          </div>
+          {/* 관광지/명소 기능 로드 */}
+          <EtcList />
         </div>
 
       </div>

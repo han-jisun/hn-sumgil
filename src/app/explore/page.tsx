@@ -57,6 +57,26 @@ const islandMeta: Record<string, { backpacking: boolean; trekking: boolean; desc
   "소야도": { backpacking: true, trekking: true, desc: "덕적도와 다리로 이어진 조용하고 한적한 떼뿌리 캠핑 천국" }
 };
 
+const matchRules: Record<string, (addr: string) => boolean> = {
+  "굴업도": (addr) => addr.includes("굴업"),
+  "대연평": (addr) => addr.includes("연평") && !addr.includes("소연평"),
+  "대이작도": (addr) => addr.includes("이작") && !addr.includes("소이작"),
+  "대청도": (addr) => addr.includes("대청") && !addr.includes("소청"),
+  "덕적도": (addr) => (addr.includes("덕적") || addr.includes("진리")) && 
+                      !["굴업", "문갑", "백아", "울도", "지도", "소야", "북도"].some(x => addr.includes(x)),
+  "문갑도": (addr) => addr.includes("문갑"),
+  "백령도": (addr) => addr.includes("백령"),
+  "백아도": (addr) => addr.includes("백아"),
+  "소연평": (addr) => addr.includes("소연평"),
+  "소이작도": (addr) => addr.includes("소이작"),
+  "소청도": (addr) => addr.includes("소청"),
+  "승봉도": (addr) => addr.includes("승봉"),
+  "울도": (addr) => addr.includes("울도"),
+  "자월도": (addr) => addr.includes("자월") && !["이작", "승봉"].some(x => addr.includes(x)),
+  "지도": (addr) => addr.includes("지도리") || (addr.includes("지도") && addr.includes("덕적")),
+  "소야도": (addr) => addr.includes("소야")
+};
+
 // Convert "2시간 30분", "1시간" etc. to total minutes
 const parseTimeToMinutes = (timeStr: string): number => {
   let minutes = 0;
@@ -89,6 +109,12 @@ function ExploreContent() {
   const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "clicks">("default");
   const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
   const [clicks, setClicks] = useState<Record<string, number>>({});
+  
+  // Real-time API States
+  const [restaurants, setRestaurants] = useState<any[]>([]);
+  const [loadingRestaurants, setLoadingRestaurants] = useState(true);
+  const [campsites, setCampsites] = useState<Record<string, any[]>>({});
+  const [loadingCampsites, setLoadingCampsites] = useState(true);
 
   const islands: IslandData[] = islandsData as IslandData[];
 
@@ -108,6 +134,57 @@ function ExploreContent() {
       }
     };
     fetchClicks();
+  }, []);
+
+  // Fetch restaurant list
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const res = await fetch("/api/restaurant");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.items) {
+            setRestaurants(data.items);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch restaurants:", err);
+      } finally {
+        setLoadingRestaurants(false);
+      }
+    };
+    fetchRestaurants();
+  }, []);
+
+  // Fetch campsites for all islands
+  useEffect(() => {
+    const fetchCampsites = async () => {
+      const results: Record<string, any[]> = {};
+      try {
+        await Promise.all(
+          islands.map(async (item) => {
+            try {
+              const res = await fetch(`/api/camping?query=${encodeURIComponent(item.island)}`);
+              if (res.ok) {
+                const data = await res.json();
+                results[item.island] = data.success && data.items ? data.items : [];
+              } else {
+                results[item.island] = [];
+              }
+            } catch (e) {
+              console.error(`Failed to fetch campsite for ${item.island}:`, e);
+              results[item.island] = [];
+            }
+          })
+        );
+        setCampsites(results);
+      } catch (err) {
+        console.error("Failed to load campsites:", err);
+      } finally {
+        setLoadingCampsites(false);
+      }
+    };
+    fetchCampsites();
   }, []);
 
   // Read URL parameters on load
@@ -387,6 +464,23 @@ function ExploreContent() {
                           <span className="text-text-primary font-bold">{item.ferries[0]?.fare}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
+                          <span className="text-text-muted">🍽️ 식당 수</span>
+                          <span className="text-text-primary font-bold">
+                            {loadingRestaurants ? "로딩중..." : `${restaurants.filter(r => {
+                              const rule = matchRules[item.island];
+                              return rule ? rule(r.addr) : r.addr.includes(item.island);
+                            }).length}개`}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-text-muted">⛺ 야영장</span>
+                          <span className="text-text-primary font-bold">
+                            {loadingCampsites ? "로딩중..." : (
+                              (campsites[item.island]?.length > 0) ? "있음" : (meta.backpacking ? "노지야영" : "없음")
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
                           <span className="text-text-muted">🎒 백패킹</span>
                           <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold border ${
                             meta.backpacking 
@@ -429,6 +523,61 @@ function ExploreContent() {
                         <div className="flex flex-col gap-1">
                           <span className="font-bold text-primary">📍 상세 주소</span>
                           <span className="text-text-secondary">{item.address}</span>
+                        </div>
+
+                        {/* Restaurants List */}
+                        <div className="flex flex-col gap-2">
+                          <span className="font-bold text-primary">🍽️ 주요 식당 정보 ({
+                            restaurants.filter(r => {
+                              const rule = matchRules[item.island];
+                              return rule ? rule(r.addr) : r.addr.includes(item.island);
+                            }).length
+                          }개)</span>
+                          <div className="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1">
+                            {restaurants.filter(r => {
+                              const rule = matchRules[item.island];
+                              return rule ? rule(r.addr) : r.addr.includes(item.island);
+                            }).slice(0, 5).map((rest, idx) => (
+                              <div key={idx} className="bg-white/2 border border-white/5 rounded-lg p-2.5 flex justify-between items-center text-[0.7rem]">
+                                <div>
+                                  <span className="text-text-primary font-bold">{rest.bsshNm}</span>
+                                  <span className="text-text-muted ml-1.5">({rest.type})</span>
+                                </div>
+                                <span className="text-text-secondary text-[0.65rem]">{rest.tel || "전화번호 없음"}</span>
+                              </div>
+                            ))}
+                            {restaurants.filter(r => {
+                              const rule = matchRules[item.island];
+                              return rule ? rule(r.addr) : r.addr.includes(item.island);
+                            }).length === 0 && (
+                              <span className="text-text-muted text-[0.7rem] italic py-1">등록된 식당 정보가 없습니다.</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Campsites List */}
+                        <div className="flex flex-col gap-2">
+                          <span className="font-bold text-primary">⛺ 야영장 및 캠핑장 정보 ({
+                            campsites[item.island]?.length || 0
+                          }개)</span>
+                          <div className="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1">
+                            {campsites[item.island]?.slice(0, 5).map((camp, idx) => (
+                              <div key={idx} className="bg-white/2 border border-white/5 rounded-lg p-2.5 flex flex-col gap-1 text-[0.7rem]">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-text-primary font-bold">{camp.facltNm}</span>
+                                  <span className="text-primary font-medium text-[0.65rem]">{camp.induty || "일반야영장"}</span>
+                                </div>
+                                {camp.addr1 && <span className="text-text-muted text-[0.65rem]">📍 {camp.addr1}</span>}
+                              </div>
+                            ))}
+                            {(campsites[item.island]?.length || 0) === 0 && (
+                              <span className="text-text-muted text-[0.7rem] italic py-1">
+                                {meta.backpacking 
+                                  ? "공식 캠핑장은 없으나 백패킹(노지야영)이 가능합니다." 
+                                  : "등록된 공식 야영장 정보가 없습니다."}
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         <div className="flex justify-end gap-2.5 pt-2">

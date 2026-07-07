@@ -323,6 +323,25 @@ export default function ChecklistPageClient() {
       document.body.removeChild(tempDiv);
 
       const image = canvas.toDataURL("image/png");
+      
+      try {
+        const response = await fetch(image);
+        const blob = await response.blob();
+        const file = new File([blob], `한눈섬길_나의체크리스트_${Date.now()}.png`, { type: "image/png" });
+
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: "한눈섬길 나의 체크리스트",
+            text: "한눈섬길 체크리스트 이미지입니다.",
+          });
+          return;
+        }
+      } catch (shareErr) {
+        console.warn("Web Share API not supported or failed:", shareErr);
+      }
+
+      // Fallback for browsers that don't support file sharing (e.g. PC browser)
       const link = document.createElement("a");
       link.href = image;
       link.download = `한눈섬길_나의체크리스트_${Date.now()}.png`;

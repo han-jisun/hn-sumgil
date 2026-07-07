@@ -380,14 +380,14 @@ export default function ChecklistPageClient() {
   const totalCount = currentItems.length;
 
   return (
-    <div className="py-10 pb-[100px] container m-auto px-6 max-w-[900px]">
+    <div className="py-10 pb-[100px] container m-auto px-4 sm:px-6 max-w-[900px]">
       
       {/* Page Header */}
-      <section className="mb-10 text-center relative">
-        <h1 className="text-[2.2rem] font-bold mb-3 tracking-tight bg-gradient-to-br from-white to-text-secondary bg-clip-text text-transparent">
+      <section className="mb-8 text-center relative">
+        <h1 className="text-[1.8rem] sm:text-[2.2rem] font-bold mb-3 tracking-tight bg-gradient-to-br from-white to-text-secondary bg-clip-text text-transparent">
           🎒 섬 여행 체크리스트
         </h1>
-        <p className="text-xs text-text-secondary max-w-[600px] m-auto leading-relaxed">
+        <p className="text-[0.72rem] sm:text-xs text-text-secondary max-w-[600px] m-auto leading-relaxed px-2">
           필수 사전 확인사항과 스타일별 준비물을 둘러보고, 나만의 맞춤형 체크리스트에 담아 체계적으로 관리하세요.
         </p>
 
@@ -403,8 +403,8 @@ export default function ChecklistPageClient() {
       </section>
 
       {/* Tabs Menu (Pre-travel -> Preparations -> My Checklist) */}
-      <div className="flex flex-wrap gap-2.5 justify-center mb-6 pb-2 border-b border-white/5 relative">
-        <div className="flex gap-2">
+      <div className="flex justify-start sm:justify-center mb-6 pb-2 border-b border-white/5 relative overflow-x-auto scrollbar-none w-full max-w-[100vw] flex-nowrap whitespace-nowrap">
+        <div className="flex gap-2 flex-nowrap shrink-0">
           {mainTabs.map(tab => (
             <button
               key={tab.key}
@@ -421,7 +421,7 @@ export default function ChecklistPageClient() {
         </div>
         
         {/* Mobile reset fallback */}
-        <div className="sm:hidden w-full flex justify-center mt-2">
+        <div className="sm:hidden w-full flex justify-center mt-2 hidden">
           <button 
             onClick={handleReset}
             className="px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[0.7rem] hover:bg-red-500/20 hover:border-red-500/30 transition-all duration-300 cursor-pointer"
@@ -433,12 +433,12 @@ export default function ChecklistPageClient() {
 
       {/* Sub-Tabs Menu (Only visible when 'preparations' is active) */}
       {activeTab === "preparations" && (
-        <div className="flex flex-wrap gap-2 justify-center mb-8 bg-white/2 border border-white/5 p-2 rounded-2xl max-w-lg m-auto animate-fadeIn">
+        <div className="flex gap-2 justify-start md:justify-center overflow-x-auto w-full scrollbar-none flex-nowrap whitespace-nowrap mb-8 bg-white/2 border border-white/5 p-2 rounded-2xl max-w-lg m-auto animate-fadeIn">
           {prepSubTabs.map(subTab => (
             <button
               key={subTab.key}
               onClick={() => setActiveSubTab(subTab.key)}
-              className={`px-3.5 py-1.5 rounded-xl text-[0.7rem] font-bold transition-all duration-300 flex items-center gap-1 cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-[0.7rem] font-bold transition-all duration-300 flex items-center gap-1 cursor-pointer shrink-0 ${
                 activeSubTab === subTab.key
                   ? "bg-secondary text-black"
                   : "text-text-muted hover:text-text-primary hover:bg-white/5"
@@ -454,7 +454,7 @@ export default function ChecklistPageClient() {
       <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/40 glass-panel overflow-hidden transition-all duration-300">
         
         {/* Category Header Card (Title, Desc, and My Checklist counts) */}
-        <div className="p-6 md:p-8 border-b border-white/5 bg-[#030712]/45 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-5 md:p-8 border-b border-white/5 bg-[#030712]/45 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-4">
             <span className="text-2xl bg-white/5 p-2 rounded-xl border border-white/5 shrink-0">
               {activeTab === "preparations" 
@@ -495,7 +495,7 @@ export default function ChecklistPageClient() {
         </div>
 
         {/* Checklist Content Items */}
-        <div className="p-6 md:p-8 flex flex-col gap-4">
+        <div className="p-5 md:p-8 flex flex-col gap-4">
           
           {/* Add custom item form (ONLY visible in 'my' tab) */}
           {activeTab === "my" ? (

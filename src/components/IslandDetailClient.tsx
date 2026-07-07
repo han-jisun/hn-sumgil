@@ -331,7 +331,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
   }
 
   return (
-    <div className="py-10 pb-[100px] container m-auto px-6 max-w-[900px]">
+    <div className="py-10 pb-[100px] container m-auto px-4 sm:px-6 max-w-[900px]">
       
       {/* Back Button */}
       <Link 
@@ -346,7 +346,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
       </Link>
 
       {/* 1) 섬정보 Card (Intro block with address, desc, 4 photos) */}
-      <section className="p-6 md:p-8 rounded-[24px] border border-card-border bg-[#0a0a0f]/80 glass-panel shadow-2xl mb-8 flex flex-col gap-6">
+      <section className="p-5 md:p-8 rounded-[24px] border border-card-border bg-[#0a0a0f]/80 glass-panel shadow-2xl mb-8 flex flex-col gap-6">
         <div>
           <div className="flex flex-wrap gap-2 mb-3">
             {meta.backpacking && (
@@ -360,7 +360,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
               </span>
             )}
           </div>
-          <h1 className="text-[2.2rem] md:text-[2.8rem] font-bold mb-2 tracking-tight text-white">{islandName}</h1>
+          <h1 className="text-[1.8rem] sm:text-[2.2rem] md:text-[2.8rem] font-bold mb-2 tracking-tight text-white">{islandName}</h1>
           <p className="text-[0.9rem] md:text-[1rem] text-text-secondary leading-relaxed mb-4">{meta.desc}</p>
           <a 
             href={`https://map.naver.com/index.naver?query=${encodeURIComponent(island?.address || "")}`} 
@@ -397,7 +397,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("ferry")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
               ⚓ 여객선 운항 및 운임 정보
@@ -408,7 +408,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           </button>
           
           {openSections.ferry && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn flex flex-col gap-6">
+            <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn flex flex-col gap-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {island?.ferries.map((ferry, idx) => (
                   <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2">
@@ -446,7 +446,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
             <button 
               onClick={() => toggleSection("restaurant")}
-              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+              className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
             >
               <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
                 🍽️ 주변 식당 정보 ({restaurants.length}개)
@@ -457,7 +457,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </button>
             
             {openSections.restaurant && (
-              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+              <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
                   {restaurants.map((rest: any, idx: number) => (
                     <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2 text-xs">
@@ -492,7 +492,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
             <button 
               onClick={() => toggleSection("lodge")}
-              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+              className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
             >
               <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
                 🏡 주변 숙박업소 현황 ({lodges.length}개)
@@ -503,7 +503,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </button>
             
             {openSections.lodge && (
-              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+              <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
                   {lodges.map((lodge: any, idx: number) => (
                     <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2 text-xs">
@@ -534,7 +534,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
             <button 
               onClick={() => toggleSection("camping")}
-              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+              className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
             >
               <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
                 ⛺ 야영장 정보 ({campsites.length}개)
@@ -545,7 +545,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </button>
             
             {openSections.camping && (
-              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+              <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {campsites.map((camp: any, idx: number) => (
                     <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 text-xs">
@@ -588,7 +588,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
             <button 
               onClick={() => toggleSection("trek")}
-              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+              className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
             >
               <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
                 🥾 트레킹 정보
@@ -599,7 +599,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </button>
             
             {openSections.trek && (
-              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+              <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 {trekBlogs.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {trekBlogs.map((blog, idx) => (
@@ -642,7 +642,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
             <button 
               onClick={() => toggleSection("backpack")}
-              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+              className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
             >
               <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
                 🎒 백패킹 정보
@@ -653,7 +653,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </button>
             
             {openSections.backpack && (
-              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+              <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 {backpackBlogs.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {backpackBlogs.map((blog, idx) => (
@@ -695,7 +695,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("tide")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
               🌊 실시간 3일 조석(물때) 정보
@@ -706,7 +706,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           </button>
           
           {openSections.tide && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+            <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
               <p className="text-[0.7rem] text-text-muted mb-4">
                 * 본 데이터는 천문학적 주기에 근거하여 시뮬레이션 계산된 정보입니다. 갯벌체험 및 해안 탐방 시 간조(물 빠짐) 시간을 반드시 참고하세요.
               </p>
@@ -749,7 +749,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
             <button 
               onClick={() => toggleSection("spot")}
-              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+              className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
             >
               <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
                 📸 섬내 추천 관광 명소 ({spots.length}개)
@@ -760,7 +760,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </button>
             
             {openSections.spot && (
-              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+              <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {spots.map((spot: any) => {
                     const isExpanded = expandedSpotId === spot.contentId;
@@ -843,7 +843,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("blog")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
               📚 네이버 블로그 리뷰
@@ -854,7 +854,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           </button>
           
           {openSections.blog && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+            <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
               {blogs.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {blogs.map((blog, idx) => (
@@ -895,7 +895,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("youtube")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            className="w-full p-5 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
               📺 생생 유튜브 인기 영상 (3건)
@@ -906,7 +906,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           </button>
           
           {openSections.youtube && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+            <div className="px-5 pb-5 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
               {videos.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {videos.map((video) => (

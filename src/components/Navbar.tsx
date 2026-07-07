@@ -7,68 +7,118 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 left-0 w-full z-[100] bg-nav-bg backdrop-blur-md border-b border-card-border transition-all duration-300">
-      <div className="flex justify-between items-center h-[72px] container m-auto">
-        <Link href="/" className="flex items-center gap-2 text-[1.4rem] font-bold text-text-primary tracking-tight">
-          <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0ea5e9]"></span>
-          인천 한눈섬길
+    <>
+      <header className="sticky top-0 left-0 w-full z-[100] bg-nav-bg backdrop-blur-md border-b border-card-border transition-all duration-300">
+        <div className="flex justify-between items-center h-[60px] md:h-[72px] container m-auto px-4 sm:px-6">
+          <Link href="/" className="flex items-center gap-2 text-[1.15rem] md:text-[1.4rem] font-bold text-text-primary tracking-tight">
+            <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0ea5e9]"></span>
+            인천 한눈섬길
+          </Link>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden md:block">
+            <ul className="flex gap-8 items-center list-none">
+              <li>
+                <Link 
+                  href="/" 
+                  className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
+                    pathname === "/" ? "text-primary font-semibold" : "text-text-secondary"
+                  }`}
+                >
+                  홈
+                  {pathname === "/" && (
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
+                  )}
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/explore" 
+                  className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
+                    pathname.startsWith("/explore") ? "text-primary font-semibold" : "text-text-secondary"
+                  }`}
+                >
+                  탐색하기
+                  {pathname.startsWith("/explore") && (
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
+                  )}
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/checklist" 
+                  className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
+                    pathname.startsWith("/checklist") ? "text-primary font-semibold" : "text-text-secondary"
+                  }`}
+                >
+                  체크리스트
+                  {pathname.startsWith("/checklist") && (
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
+                  )}
+                </Link>
+              </li>
+              <li className="ml-2">
+                <Link 
+                  href="/data" 
+                  className={`text-[0.8rem] font-medium py-1.5 px-3 rounded-lg border transition-all duration-300 ${
+                    pathname.startsWith("/data") 
+                      ? "bg-white/5 border-white/10 text-text-secondary font-semibold" 
+                      : "border-transparent text-text-muted hover:text-text-secondary opacity-50 hover:opacity-90"
+                  }`}
+                >
+                  데이터 확인 ⚙️
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Mobile Admin Link */}
+          <div className="md:hidden flex items-center">
+            <Link 
+              href="/data" 
+              className={`text-xs p-2 rounded-lg border transition-all duration-300 ${
+                pathname.startsWith("/data") 
+                  ? "bg-white/10 border-white/20 text-text-secondary" 
+                  : "border-transparent text-text-muted opacity-50 hover:opacity-90"
+              }`}
+              title="데이터 확인 (관리자)"
+            >
+              ⚙️
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Bottom Navigation Bar (Sticky bottom for true app feel) */}
+      <div className="fixed bottom-0 left-0 w-full z-[99] md:hidden bg-nav-bg/95 backdrop-blur-lg border-t border-white/5 py-3 px-6 flex justify-around items-center shadow-[0_-5px_25px_rgba(0,0,0,0.5)]">
+        <Link 
+          href="/" 
+          className={`flex flex-col items-center gap-1.5 text-[0.68rem] font-extrabold tracking-tight transition-all duration-300 ${
+            pathname === "/" ? "text-primary scale-105" : "text-text-muted hover:text-text-secondary"
+          }`}
+        >
+          <span className="text-lg leading-none">🏠</span>
+          홈
         </Link>
-        <nav>
-          <ul className="flex gap-8 items-center list-none">
-            <li>
-              <Link 
-                href="/" 
-                className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
-                  pathname === "/" ? "text-primary font-semibold" : "text-text-secondary"
-                }`}
-              >
-                홈
-                {pathname === "/" && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
-                )}
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="/explore" 
-                className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
-                  pathname.startsWith("/explore") ? "text-primary font-semibold" : "text-text-secondary"
-                }`}
-              >
-                탐색하기
-                {pathname.startsWith("/explore") && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
-                )}
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="/checklist" 
-                className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
-                  pathname.startsWith("/checklist") ? "text-primary font-semibold" : "text-text-secondary"
-                }`}
-              >
-                체크리스트
-                {pathname.startsWith("/checklist") && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
-                )}
-              </Link>
-            </li>
-            <li className="ml-2">
-              <Link 
-                href="/data" 
-                className={`text-[0.8rem] font-medium py-1.5 px-3 rounded-lg border transition-all duration-300 ${
-                  pathname.startsWith("/data") 
-                    ? "bg-white/5 border-white/10 text-text-secondary font-semibold" 
-                    : "border-transparent text-text-muted hover:text-text-secondary opacity-50 hover:opacity-90"
-                }`}
-              >
-                데이터 확인 ⚙️
-              </Link>
-            </li>
-          </ul>
-        </nav>
+        <Link 
+          href="/explore" 
+          className={`flex flex-col items-center gap-1.5 text-[0.68rem] font-extrabold tracking-tight transition-all duration-300 ${
+            pathname.startsWith("/explore") ? "text-primary scale-105" : "text-text-muted hover:text-text-secondary"
+          }`}
+        >
+          <span className="text-lg leading-none">🧭</span>
+          탐색하기
+        </Link>
+        <Link 
+          href="/checklist" 
+          className={`flex flex-col items-center gap-1.5 text-[0.68rem] font-extrabold tracking-tight transition-all duration-300 ${
+            pathname.startsWith("/checklist") ? "text-primary scale-105" : "text-text-muted hover:text-text-secondary"
+          }`}
+        >
+          <span className="text-lg leading-none">🎒</span>
+          체크리스트
+        </Link>
       </div>
-    </header>
+    </>
   );
 }

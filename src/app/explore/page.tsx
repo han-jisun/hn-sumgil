@@ -370,37 +370,36 @@ function ExploreContent() {
   });
 
   return (
-    <div className="container m-auto px-6">
+    <div className="container m-auto px-4 sm:px-6">
       {/* Exploration Header & Search */}
-      <section className="pt-[60px] pb-[40px] text-center">
-        <h1 className="text-[2.2rem] font-bold mb-3 tracking-tight">아름다운 섬 탐색하기</h1>
-        <p className="text-base text-text-secondary max-w-[550px] mx-auto mb-8 leading-normal">
-          인천 옹진군의 매력적인 16개 섬의 정보를 한눈에 비교해보세요. <br />
-          이동 시간, 여객운임비, 아웃도어 가능 여부별 필터 및 정렬을 지원합니다.
+      <section className="pt-10 md:pt-[60px] pb-8 md:pb-[40px] text-center">
+        <h1 className="text-[1.7rem] sm:text-[2.2rem] font-bold mb-3 tracking-tight">아름다운 섬 탐색하기</h1>
+        <p className="text-xs sm:text-sm md:text-base text-text-secondary max-w-[550px] mx-auto mb-6 leading-normal px-2">
+          인천 옹진군의 매력적인 16개 섬의 정보를 한눈에 비교해보세요. 이동 시간, 여객운임비, 아웃도어 가능 여부별 필터 및 정렬을 지원합니다.
         </p>
 
         {/* Search Bar */}
-        <div className="max-w-[600px] mx-auto relative flex items-center w-full">
+        <div className="max-w-[600px] mx-auto relative flex items-center w-full px-2 sm:px-0">
           <input 
             type="text" 
             placeholder="섬 이름 또는 면/리 주소로 검색해보세요... (예: 굴업도, 대청면)" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="peer w-full py-4 pl-[52px] pr-5 text-sm bg-card-bg border border-card-border text-text-primary rounded-full font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(14,165,233,0.15)] focus:bg-[#121826]/80"
+            className="peer w-full py-3.5 pl-12 pr-4 text-xs sm:text-sm bg-card-bg border border-card-border text-text-primary rounded-full font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(14,165,233,0.15)] focus:bg-[#121826]/80"
           />
-          <svg className="absolute left-5 text-text-muted pointer-events-none transition-colors duration-300 peer-focus:text-primary" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <svg className="absolute left-6 sm:left-5 text-text-muted pointer-events-none transition-colors duration-300 peer-focus:text-primary" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
       </section>
 
       {/* Filters & Ordering Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10 pb-4 border-b border-white/5">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/5 w-full">
         {/* Filter Type Tabs */}
-        <nav aria-label="Island filter">
-          <ul className="flex gap-2 list-none overflow-x-auto py-1">
+        <nav aria-label="Island filter" className="w-full md:w-auto overflow-hidden">
+          <ul className="flex gap-2 list-none overflow-x-auto py-1 w-full scrollbar-none whitespace-nowrap flex-nowrap">
             <li>
               <button
                 onClick={() => handleFilterChange("all")}
-                className={`py-2 px-5 border rounded-full text-[0.8rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
                   filterType === "all" 
                     ? "bg-primary/10 text-primary border-primary/30" 
                     : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
@@ -412,7 +411,7 @@ function ExploreContent() {
             <li>
               <button
                 onClick={() => handleFilterChange("backpacking")}
-                className={`py-2 px-5 border rounded-full text-[0.8rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
                   filterType === "backpacking" 
                     ? "bg-primary/10 text-primary border-primary/30" 
                     : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
@@ -424,7 +423,7 @@ function ExploreContent() {
             <li>
               <button
                 onClick={() => handleFilterChange("trekking")}
-                className={`py-2 px-5 border rounded-full text-[0.8rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
                   filterType === "trekking" 
                     ? "bg-primary/10 text-primary border-primary/30" 
                     : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
@@ -436,7 +435,7 @@ function ExploreContent() {
             <li>
               <button
                 onClick={() => handleFilterChange("camping")}
-                className={`py-2 px-5 border rounded-full text-[0.8rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
                   filterType === "camping" 
                     ? "bg-primary/10 text-primary border-primary/30" 
                     : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
@@ -449,9 +448,9 @@ function ExploreContent() {
         </nav>
 
         {/* Sort Controls */}
-        <div className="flex items-center gap-2 text-xs">
-          <span className="text-text-muted">정렬 기준:</span>
-          <div className="flex border border-card-border rounded-lg overflow-hidden bg-white/2">
+        <div className="flex items-center gap-2 text-xs w-full md:w-auto overflow-hidden">
+          <span className="text-text-muted shrink-0">정렬 기준:</span>
+          <div className="flex border border-card-border rounded-lg overflow-x-auto flex-nowrap whitespace-nowrap bg-white/2 w-full md:w-auto scrollbar-none">
             <button
               onClick={() => handleSortChange("default")}
               className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
@@ -474,7 +473,7 @@ function ExploreContent() {
                 sortBy === "fare" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
               }`}
             >
-              💵 운임비 저렴한순
+              💵 왕복운임 저렴한순
             </button>
             <button
               onClick={() => handleSortChange("lodge")}

@@ -95,26 +95,24 @@ export default function HomePage() {
       <div className="absolute top-[45%] right-[10%] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(6,182,212,0.06)_0%,transparent_70%)] -z-10 pointer-events-none blur-[50px]"></div>
 
       {/* Hero Section */}
-      <section className="relative flex flex-col justify-center items-center text-center min-h-[80vh] py-28 px-6 overflow-hidden">
-        <span className="bg-primary/10 text-primary border border-primary/20 py-1.5 px-4 rounded-full text-xs font-bold mb-6 tracking-wide uppercase shadow-[0_0_15px_rgba(14,165,233,0.1)]">
+      <section className="relative flex flex-col justify-center items-center text-center min-h-[75vh] py-16 md:py-28 px-4 sm:px-6 overflow-hidden">
+        <span className="bg-primary/10 text-primary border border-primary/20 py-1.5 px-4 rounded-full text-[0.65rem] sm:text-xs font-bold mb-5 tracking-wide uppercase shadow-[0_0_15px_rgba(14,165,233,0.1)]">
           인천 섬 정보의 모든 조각을 하나로
         </span>
-        <h1 className="text-[clamp(2.4rem,5.5vw,4.5rem)] font-extrabold leading-[1.15] mb-8 tracking-[-1.5px]">
+        <h1 className="text-[clamp(1.7rem,5.5vw,4.5rem)] font-extrabold leading-[1.2] mb-6 tracking-[-1.5px] whitespace-pre-line sm:whitespace-normal">
           따로따로 찾지 말고,<br />
           <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent glow-text-primary">
             한눈에 쉽고 빠르게, 한눈섬길
           </span>
         </h1>
-        <p className="text-[clamp(0.95rem,1.8vw,1.15rem)] text-text-secondary max-w-[720px] leading-relaxed mb-12">
-          여객선 요금은 항만공사에서, 백패킹 가능 규제는 최근 블로그 리뷰에서,<br />
-          정말 밥 먹을 식당이 영업 중인지는 지자체 인허가 대장에서...<br />
-          <span className="text-text-primary font-medium">따로 헤매지 마세요!</span> 한눈섬길이 이 모든 핵심 정보를 한 대시보드에 모아 검증해 드립니다.
+        <p className="text-[0.78rem] sm:text-[0.9rem] md:text-[1.05rem] text-text-secondary max-w-[720px] leading-relaxed mb-10 px-2">
+          여객선 요금은 항만공사에서, 백패킹 가능 규제는 최근 블로그 리뷰에서, 정말 밥 먹을 식당이 영업 중인지는 지자체 인허가 대장에서... <span className="text-text-primary font-semibold block sm:inline">따로 헤매지 마세요!</span> 한눈섬길이 이 모든 핵심 정보를 한 대시보드에 모아 검증해 드립니다.
         </p>
 
-        <div className="flex gap-4 flex-wrap justify-center">
+        <div className="flex gap-4 flex-wrap justify-center w-full max-w-xs sm:max-w-none px-4">
           <Link 
             href="/explore" 
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white py-4 px-9 rounded-full font-bold text-base shadow-[0_4px_24px_rgba(14,165,233,0.3)] hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(14,165,233,0.5)] transition-all duration-300"
+            className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white py-3.5 px-8 rounded-full font-bold text-sm sm:text-base shadow-[0_4px_24px_rgba(14,165,233,0.3)] hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(14,165,233,0.5)] transition-all duration-300"
           >
             🏝️ 인천 16개 섬 탐색하기
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>

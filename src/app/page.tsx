@@ -184,7 +184,7 @@ export default function HomePage() {
                           <span className="text-text-primary font-bold">{island.ferries[0]?.time || "확인중"}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <span>💵 편도운임:</span>
+                          <span>💵 왕복운임:</span>
                           <span className="text-text-primary font-bold">{island.ferries[0]?.fare || "확인중"}</span>
                         </div>
                         <div className="flex items-center gap-1">

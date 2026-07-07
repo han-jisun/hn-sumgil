@@ -76,6 +76,57 @@ const matchRules: Record<string, (addr: string) => boolean> = {
   "소야도": (addr) => addr.includes("소야")
 };
 
+// Returns 4 unique coastal/island sample photos based on name seeding
+const getGalleryPhotos = (islandName: string): string[] => {
+  const basePhotos: Record<string, string[]> = {
+    "굴업도": [
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1473116763269-25544899376c?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=500&auto=format&fit=crop&q=80"
+    ],
+    "대이작도": [
+      "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?w=500&auto=format&fit=crop&q=80"
+    ],
+    "덕적도": [
+      "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=500&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1469620790379-48bc1fc8d99f?w=500&auto=format&fit=crop&q=80"
+    ]
+  };
+
+  if (basePhotos[islandName]) {
+    return basePhotos[islandName];
+  }
+
+  const hashes = [
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    "https://images.unsplash.com/photo-1519046904884-53103b34b206",
+    "https://images.unsplash.com/photo-1473116763269-25544899376c",
+    "https://images.unsplash.com/photo-1506929562872-bb421503ef21",
+    "https://images.unsplash.com/photo-1505118380757-91f5f5632de0",
+    "https://images.unsplash.com/photo-1520121401995-928cd50d4e27",
+    "https://images.unsplash.com/photo-1545569341-9eb8b30979d9",
+    "https://images.unsplash.com/photo-1471922694854-ff1b63b20054",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    "https://images.unsplash.com/photo-1468413253725-0d5181091126",
+    "https://images.unsplash.com/photo-1469620790379-48bc1fc8d99f",
+    "https://images.unsplash.com/photo-1534447677768-be436bb09401"
+  ];
+
+  const seed = islandName.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const picked = [];
+  for (let i = 0; i < 4; i++) {
+    const idx = (seed + i * 3) % hashes.length;
+    picked.push(`${hashes[idx]}?w=500&auto=format&fit=crop&q=80`);
+  }
+  return picked;
+};
+
 interface IslandDetailClientProps {
   islandName: string;
 }
@@ -83,16 +134,18 @@ interface IslandDetailClientProps {
 export default function IslandDetailClient({ islandName }: IslandDetailClientProps) {
   const island = (islandsData as IslandData[]).find(i => i.island === islandName);
   const meta = islandMeta[islandName] || { backpacking: false, trekking: false, desc: "아름다운 인천의 섬" };
-  const image = islandImages[islandName] || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80";
+  const photos = getGalleryPhotos(islandName);
 
   const [lodges, setLodges] = useState<any[]>([]);
   const [restaurants, setRestaurants] = useState<any[]>([]);
-  const [spots, setSpots] = useState<any[]>([]);
   const [campsites, setCampsites] = useState<any[]>([]);
   const [tides, setTides] = useState<any[]>([]);
+  const [spots, setSpots] = useState<any[]>([]);
   const [blogs, setBlogs] = useState<any[]>([]);
   const [videos, setVideos] = useState<any[]>([]);
-  
+  const [trekBlogs, setTrekBlogs] = useState<any[]>([]);
+  const [backpackBlogs, setBackpackBlogs] = useState<any[]>([]);
+
   const [spotOverviews, setSpotOverviews] = useState<Record<string, { overview: string; homepage: string; tel: string; loading: boolean }>>({});
   const [expandedSpotId, setExpandedSpotId] = useState<string | null>(null);
 
@@ -101,11 +154,13 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     ferry: true,
-    tide: true,
-    camping: false,
-    lodge: false,
     restaurant: false,
-    spot: true,
+    lodge: false,
+    camping: false,
+    trek: false,
+    backpack: false,
+    tide: true,
+    spot: false,
     blog: false,
     youtube: false
   });
@@ -169,18 +224,19 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Run all API fetches in parallel
-        const [lodgeRes, restRes, spotRes, campRes, tideRes, blogRes, youtubeRes] = await Promise.all([
+        const [lodgeRes, restRes, spotRes, campRes, tideRes, blogRes, youtubeRes, trekBlogRes, backpackBlogRes] = await Promise.all([
           fetch("/api/lodge").then(r => r.json()).catch(() => ({ success: false, items: [] })),
           fetch("/api/restaurant").then(r => r.json()).catch(() => ({ success: false, items: [] })),
           fetch("/api/spot").then(r => r.json()).catch(() => ({ success: false, items: [] })),
           fetch(`/api/camping?query=${encodeURIComponent(islandName)}`).then(r => r.json()).catch(() => ({ success: false, items: [] })),
           fetch(`/api/tide?island=${encodeURIComponent(islandName)}`).then(r => r.json()).catch(() => ({ success: false, tides: [] })),
           fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}`).then(r => r.json()).catch(() => ({ success: false, items: [] })),
-          fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}`).then(r => r.json()).catch(() => ({ success: false, videos: [] }))
+          fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}`).then(r => r.json()).catch(() => ({ success: false, videos: [] })),
+          meta.trekking ? fetch(`/api/blog?query=${encodeURIComponent(islandName + " 트레킹")}&display=50`).then(r => r.json()).catch(() => ({ success: false, items: [] })) : Promise.resolve({ success: false, items: [] }),
+          meta.backpacking ? fetch(`/api/blog?query=${encodeURIComponent(islandName + " 백패킹")}&display=50`).then(r => r.json()).catch(() => ({ success: false, items: [] })) : Promise.resolve({ success: false, items: [] })
         ]);
 
-        // 1. Filter Lodges using matchRules
+        // 1. Lodges
         if (lodgeRes.success && Array.isArray(lodgeRes.items)) {
           const rule = matchRules[islandName];
           const matched = lodgeRes.items.filter((item: any) => 
@@ -189,7 +245,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           setLodges(matched);
         }
 
-        // 2. Filter Restaurants using matchRules
+        // 2. Restaurants
         if (restRes.success && Array.isArray(restRes.items)) {
           const rule = matchRules[islandName];
           const matched = restRes.items.filter((item: any) => 
@@ -198,7 +254,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           setRestaurants(matched);
         }
 
-        // 3. Filter Spots using matchRules
+        // 3. Spots
         if (spotRes.success && Array.isArray(spotRes.items)) {
           const rule = matchRules[islandName];
           const matched = spotRes.items.filter((item: any) => 
@@ -207,24 +263,36 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           setSpots(matched);
         }
 
-        // 4. Set Campsites
+        // 4. Campsites
         if (campRes.success && Array.isArray(campRes.items)) {
           setCampsites(campRes.items);
         }
 
-        // 5. Set Tides
+        // 5. Tides
         if (tideRes.success && Array.isArray(tideRes.tides)) {
           setTides(tideRes.tides);
         }
 
-        // 6. Set Blogs (up to 5)
+        // 6. Blog reviews (Top 4)
         if (blogRes.items && Array.isArray(blogRes.items)) {
-          setBlogs(blogRes.items.slice(0, 5));
+          setBlogs(blogRes.items.slice(0, 4));
         }
 
-        // 7. Set Videos (up to 3)
+        // 7. Youtube (Top 3)
         if (youtubeRes.videos && Array.isArray(youtubeRes.videos)) {
           setVideos(youtubeRes.videos.slice(0, 3));
+        }
+
+        // 8. Trekking blogs (Top 3 recent)
+        if (trekBlogRes.items && Array.isArray(trekBlogRes.items)) {
+          const sorted = [...trekBlogRes.items].sort((a: any, b: any) => b.postdate.localeCompare(a.postdate));
+          setTrekBlogs(sorted.slice(0, 3));
+        }
+
+        // 9. Backpacking blogs (Top 3 recent)
+        if (backpackBlogRes.items && Array.isArray(backpackBlogRes.items)) {
+          const sorted = [...backpackBlogRes.items].sort((a: any, b: any) => b.postdate.localeCompare(a.postdate));
+          setBackpackBlogs(sorted.slice(0, 3));
         }
 
       } catch (err: any) {
@@ -251,27 +319,20 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
 
   if (loading) {
     return (
-      <div className="container m-auto py-16 px-6 max-w-[1200px]">
-        {/* Skeleton Header */}
+      <div className="container m-auto py-16 px-6 max-w-[900px]">
         <div className="w-full h-[350px] rounded-[24px] bg-white/5 animate-pulse mb-8"></div>
-        {/* Skeleton Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 flex flex-col gap-8">
-            <div className="h-[200px] rounded-[16px] bg-white/5 animate-pulse"></div>
-            <div className="h-[200px] rounded-[16px] bg-white/5 animate-pulse"></div>
-            <div className="h-[250px] rounded-[16px] bg-white/5 animate-pulse"></div>
-          </div>
-          <div className="flex flex-col gap-8">
-            <div className="h-[300px] rounded-[16px] bg-white/5 animate-pulse"></div>
-            <div className="h-[250px] rounded-[16px] bg-white/5 animate-pulse"></div>
-          </div>
+        <div className="flex flex-col gap-6">
+          <div className="h-[80px] rounded-[16px] bg-white/5 animate-pulse"></div>
+          <div className="h-[80px] rounded-[16px] bg-white/5 animate-pulse"></div>
+          <div className="h-[80px] rounded-[16px] bg-white/5 animate-pulse"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="py-10 pb-[100px] container m-auto px-6 max-w-[1200px]">
+    <div className="py-10 pb-[100px] container m-auto px-6 max-w-[900px]">
+      
       {/* Back Button */}
       <Link 
         href="/explore" 
@@ -284,46 +345,62 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
         목록으로 돌아가기
       </Link>
 
-      {/* Hero Header Section */}
-      <section className="relative w-full h-[360px] md:h-[420px] rounded-[24px] overflow-hidden mb-10 border border-card-border shadow-2xl">
-        <Image 
-          src={image} 
-          alt={islandName} 
-          fill 
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute bottom-0 left-0 w-full h-[80%] bg-gradient-to-t from-[#030307] via-[#030307]/50 to-transparent flex flex-col justify-end p-8 md:p-12">
+      {/* 1) 섬정보 Card (Intro block with address, desc, 4 photos) */}
+      <section className="p-6 md:p-8 rounded-[24px] border border-card-border bg-[#0a0a0f]/80 glass-panel shadow-2xl mb-8 flex flex-col gap-6">
+        <div>
           <div className="flex flex-wrap gap-2 mb-3">
-            <span className={`py-1 px-3 rounded-full text-[0.65rem] font-bold border ${
-              meta.backpacking 
-                ? "bg-primary/10 text-primary border-primary/20" 
-                : "bg-red-500/10 text-red-400 border-red-500/20"
-            }`}>
-              🎒 백패킹 {meta.backpacking ? "가능" : "불가"}
-            </span>
-            <span className="py-1 px-3 rounded-full text-[0.65rem] font-bold bg-[#0ea5e9]/10 text-[#0ea5e9] border border-[#0ea5e9]/20">
-              🥾 트레킹 {meta.trekking ? "가능" : "불가"}
-            </span>
+            {meta.backpacking && (
+              <span className="py-1 px-3 rounded-full text-[0.65rem] font-bold bg-primary/10 text-primary border border-primary/20">
+                🎒 백패킹 가능
+              </span>
+            )}
+            {meta.trekking && (
+              <span className="py-1 px-3 rounded-full text-[0.65rem] font-bold bg-[#0ea5e9]/10 text-[#0ea5e9] border border-[#0ea5e9]/20">
+                🥾 트레킹 가능
+              </span>
+            )}
           </div>
-          <h1 className="text-[2.2rem] md:text-[3rem] font-bold mb-2 tracking-tight text-white">{islandName}</h1>
-          <p className="text-[0.9rem] md:text-[1.05rem] text-text-secondary max-w-[800px] leading-relaxed mb-1">{meta.desc}</p>
-          <span className="text-[0.75rem] text-text-muted">📍 주소: {island?.address}</span>
+          <h1 className="text-[2.2rem] md:text-[2.8rem] font-bold mb-2 tracking-tight text-white">{islandName}</h1>
+          <p className="text-[0.9rem] md:text-[1rem] text-text-secondary leading-relaxed mb-4">{meta.desc}</p>
+          <a 
+            href={`https://map.naver.com/index.naver?query=${encodeURIComponent(island?.address || "")}`} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[0.75rem] text-text-muted flex items-center gap-1 hover:text-primary hover:underline transition-colors duration-200"
+          >
+            📍 주소: {island?.address} ↗
+          </a>
+        </div>
+
+        {/* 4 Sample Photos Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+          {photos.map((url, index) => (
+            <div 
+              key={index} 
+              className="relative aspect-square w-full rounded-xl overflow-hidden border border-white/5 bg-[#12121e] group"
+            >
+              <img 
+                src={url} 
+                alt={`${islandName} 갤러리 이미지 ${index + 1}`} 
+                className="object-cover w-full h-full transition duration-500 group-hover:scale-108"
+              />
+              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Collapsible Sections (Vertical Layout) */}
-      <div className="flex flex-col gap-6 max-w-[950px] m-auto w-full">
+      {/* Collapsible Sections (Structured Vertical Layout) */}
+      <div className="flex flex-col gap-6 w-full">
 
-        {/* 1. 여객선 운항 정보 */}
+        {/* 2) 여객 운임 정보 */}
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("ferry")}
             className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              ⚓ 여객선 운항 노선 정보
+              ⚓ 여객선 운항 및 운임 정보
             </h3>
             <span className={`text-text-muted transition-transform duration-300 ${openSections.ferry ? "rotate-180" : ""}`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -331,13 +408,13 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           </button>
           
           {openSections.ferry && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn flex flex-col gap-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {island?.ferries.map((ferry, idx) => (
                   <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2">
                     <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                      <span className="text-xs text-text-primary font-bold">{idx + 1}번 항로</span>
-                      <span className="text-[0.65rem] text-text-muted">편도 기준</span>
+                      <span className="text-xs text-text-primary font-bold">{idx + 1}번 노선</span>
+                      <span className="text-[0.65rem] text-text-muted">왕복 기준</span>
                     </div>
                     <div className="flex justify-between text-xs mt-1">
                       <span className="text-text-secondary">⏱️ 소요 시간</span>
@@ -350,18 +427,278 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
                   </div>
                 ))}
               </div>
+              <div className="flex justify-center pt-2">
+                <a 
+                  href="https://island.theksa.co.kr/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-full sm:w-auto text-center px-8 py-3 rounded-xl bg-primary text-black font-extrabold text-xs transition duration-300 hover:bg-primary/90 hover:scale-[1.02] shadow-[0_4px_16px_rgba(14,165,233,0.3)]"
+                >
+                  🚢 여객 실시간 예매하러 가기 ➔
+                </a>
+              </div>
             </div>
           )}
         </div>
 
-        {/* 2. 실시간 물때 정보 */}
+        {/* 3) 식당 정보 (식당이 있을 때만 탭 생성) */}
+        {restaurants.length > 0 && (
+          <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
+            <button 
+              onClick={() => toggleSection("restaurant")}
+              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            >
+              <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
+                🍽️ 주변 식당 정보 ({restaurants.length}개)
+              </h3>
+              <span className={`text-text-muted transition-transform duration-300 ${openSections.restaurant ? "rotate-180" : ""}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            {openSections.restaurant && (
+              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
+                  {restaurants.map((rest: any, idx: number) => (
+                    <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2 text-xs">
+                      <div className="flex justify-between items-start">
+                        <span className="font-bold text-text-primary text-[0.8rem] truncate max-w-[70%]">{rest.bsshNm}</span>
+                        <span className="text-[0.6rem] bg-primary/10 text-primary px-2 py-0.5 rounded shrink-0">
+                          {rest.type || "일반음식점"}
+                        </span>
+                      </div>
+                      <div className="flex flex-col gap-0.5 text-[0.65rem] text-text-secondary">
+                        <a 
+                          href={`https://map.naver.com/index.naver?query=${encodeURIComponent(rest.addr)}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="hover:text-primary hover:underline transition-colors duration-200"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          📍 주소: {rest.addr} ↗
+                        </a>
+                        {rest.tel && <span>📞 전화번호: {rest.tel}</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 4) 숙박 정보 (숙박이 있을 때만 탭 생성) */}
+        {lodges.length > 0 && (
+          <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
+            <button 
+              onClick={() => toggleSection("lodge")}
+              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            >
+              <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
+                🏡 주변 숙박업소 현황 ({lodges.length}개)
+              </h3>
+              <span className={`text-text-muted transition-transform duration-300 ${openSections.lodge ? "rotate-180" : ""}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            {openSections.lodge && (
+              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
+                  {lodges.map((lodge: any, idx: number) => (
+                    <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2 text-xs">
+                      <div className="flex justify-between items-start">
+                        <span className="font-bold text-text-primary text-[0.8rem]">{lodge.bsshNm}</span>
+                      </div>
+                      <div className="flex flex-col gap-0.5 text-[0.65rem] text-text-secondary">
+                        <a 
+                          href={`https://map.naver.com/index.naver?query=${encodeURIComponent(lodge.addr)}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="hover:text-primary hover:underline transition-colors duration-200"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          📍 주소: {lodge.addr} ↗
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 5) 야영장 정보 (야영장 정보가 있을 때만 탭 생성) */}
+        {campsites.length > 0 && (
+          <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
+            <button 
+              onClick={() => toggleSection("camping")}
+              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            >
+              <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
+                ⛺ 야영장 정보 ({campsites.length}개)
+              </h3>
+              <span className={`text-text-muted transition-transform duration-300 ${openSections.camping ? "rotate-180" : ""}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            {openSections.camping && (
+              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {campsites.map((camp: any, idx: number) => (
+                    <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 text-xs">
+                      <div className="flex justify-between items-start">
+                        <span className="font-bold text-primary">{camp.facltNm}</span>
+                        <span className="text-[0.6rem] bg-white/5 text-text-muted px-2 py-0.5 rounded border border-white/5">
+                          {camp.induty || "일반야영장"}
+                        </span>
+                      </div>
+                      {camp.addr1 && (
+                        <a 
+                          href={`https://map.naver.com/index.naver?query=${encodeURIComponent(camp.addr1)}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-text-muted text-[0.65rem] truncate hover:text-primary hover:underline transition-colors duration-200"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          📍 {camp.addr1} ↗
+                        </a>
+                      )}
+                      {camp.sbrsCl && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {camp.sbrsCl.split(",").slice(0, 3).map((tag: string, i: number) => (
+                            <span key={i} className="text-[0.55rem] bg-white/3 text-text-secondary px-1.5 py-0.5 rounded">
+                              {tag.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 6) 트레킹 정보 (트레킹 유무가 "유" 일때만 탭 생성, 최근 3건 여행기) */}
+        {meta.trekking && (
+          <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
+            <button 
+              onClick={() => toggleSection("trek")}
+              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            >
+              <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
+                🥾 트레킹 정보
+              </h3>
+              <span className={`text-text-muted transition-transform duration-300 ${openSections.trek ? "rotate-180" : ""}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            {openSections.trek && (
+              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+                {trekBlogs.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {trekBlogs.map((blog, idx) => (
+                      <a 
+                        key={idx} 
+                        href={blog.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-xl border border-white/5 bg-[#12121e]/60 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between gap-3 group cursor-pointer"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start gap-2 mb-1.5">
+                            <h4 
+                              className="text-[0.725rem] font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-2 leading-snug"
+                              dangerouslySetInnerHTML={{ __html: blog.title }}
+                            />
+                          </div>
+                          <p 
+                            className="text-[0.65rem] text-text-secondary line-clamp-3 leading-relaxed"
+                            dangerouslySetInnerHTML={{ __html: blog.description }}
+                          />
+                        </div>
+                        <div className="flex justify-between items-center text-[0.6rem] text-text-muted mt-2 pt-2 border-t border-white/5 gap-2 min-w-0">
+                          <span className="truncate">👤 {blog.bloggername}</span>
+                          <span className="shrink-0">{blog.postdate.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-xs text-text-muted">최근 트레킹 여행기 정보가 없습니다.</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 7) 백패킹 정보 (백패킹 유무가 "유" 일때만 탭 생성, 최근 3건 여행기) */}
+        {meta.backpacking && (
+          <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
+            <button 
+              onClick={() => toggleSection("backpack")}
+              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            >
+              <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
+                🎒 백패킹 정보
+              </h3>
+              <span className={`text-text-muted transition-transform duration-300 ${openSections.backpack ? "rotate-180" : ""}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            {openSections.backpack && (
+              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
+                {backpackBlogs.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {backpackBlogs.map((blog, idx) => (
+                      <a 
+                        key={idx} 
+                        href={blog.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-xl border border-white/5 bg-[#12121e]/60 hover:border-primary/30 transition-all duration-300 flex flex-col justify-between gap-3 group cursor-pointer"
+                      >
+                        <div>
+                          <div className="flex justify-between items-start gap-2 mb-1.5">
+                            <h4 
+                              className="text-[0.725rem] font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-2 leading-snug"
+                              dangerouslySetInnerHTML={{ __html: blog.title }}
+                            />
+                          </div>
+                          <p 
+                            className="text-[0.65rem] text-text-secondary line-clamp-3 leading-relaxed"
+                            dangerouslySetInnerHTML={{ __html: blog.description }}
+                          />
+                        </div>
+                        <div className="flex justify-between items-center text-[0.6rem] text-text-muted mt-2 pt-2 border-t border-white/5 gap-2 min-w-0">
+                          <span className="truncate">👤 {blog.bloggername}</span>
+                          <span className="shrink-0">{blog.postdate.replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3")}</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-xs text-text-muted">최근 백패킹 여행기 정보가 없습니다.</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 8) 물때 정보 (항상 표시) */}
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("tide")}
             className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              🌊 3일 조석(물때) 예보
+              🌊 실시간 3일 조석(물때) 정보
             </h3>
             <span className={`text-text-muted transition-transform duration-300 ${openSections.tide ? "rotate-180" : ""}`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -371,7 +708,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           {openSections.tide && (
             <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
               <p className="text-[0.7rem] text-text-muted mb-4">
-                * 조석 예보 데이터는 천문학적 주기에 근거하여 실시간 예측 계산된 시뮬레이션 정보입니다.
+                * 본 데이터는 천문학적 주기에 근거하여 시뮬레이션 계산된 정보입니다. 갯벌체험 및 해안 탐방 시 간조(물 빠짐) 시간을 반드시 참고하세요.
               </p>
               {tides.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -407,167 +744,23 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           )}
         </div>
 
-        {/* 3. 야영장 및 트레킹 정보 */}
-        <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
-          <button 
-            onClick={() => toggleSection("camping")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
-          >
-            <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              ⛺ 야영장 및 트레킹 정보
-            </h3>
-            <span className={`text-text-muted transition-transform duration-300 ${openSections.camping ? "rotate-180" : ""}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </button>
-          
-          {openSections.camping && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
-              <div className="flex flex-col gap-4">
-                <div className="text-xs leading-relaxed text-text-secondary bg-[#12121e]/50 border border-white/5 p-4 rounded-xl">
-                  <p className="font-semibold text-text-primary mb-1">🥾 섬 내 도보(트레킹) 환경</p>
-                  <p>{meta.desc}. 해안가 산책로 및 내부 숲길을 따라 도보 이동이 가능하며 식수 및 방한 장비를 잘 갖추어야 합니다.</p>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <span className="text-xs font-bold text-text-primary">🏕️ 등록 야영장 목록 ({campsites.length}개)</span>
-                  {campsites.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {campsites.map((camp: any, idx: number) => (
-                        <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-1.5 text-xs">
-                          <div className="flex justify-between items-start">
-                            <span className="font-bold text-primary">{camp.facltNm}</span>
-                            <span className="text-[0.6rem] bg-white/5 text-text-muted px-2 py-0.5 rounded border border-white/5">
-                              {camp.induty || "일반야영장"}
-                            </span>
-                          </div>
-                          {camp.addr1 && <span className="text-text-muted text-[0.65rem] truncate">📍 {camp.addr1}</span>}
-                          {camp.sbrsCl && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {camp.sbrsCl.split(",").slice(0, 3).map((tag: string, i: number) => (
-                                <span key={i} className="text-[0.55rem] bg-white/3 text-text-secondary px-1.5 py-0.5 rounded">
-                                  {tag.trim()}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-xs text-text-muted italic py-3 bg-[#12121e]/20 rounded-xl px-4 border border-dashed border-white/5">
-                      {meta.backpacking 
-                        ? "등록된 공식 야영장은 없으나, 백패커들이 주로 찾는 노지 야영(백패킹) 스폿이 존재합니다. 방문 시 화기 사용 및 쓰레기 회수에 주의하십시오." 
-                        : "이 섬은 공식 야영시설이 등록되어 있지 않으며 백패킹이 제한될 수 있습니다."}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* 4. 숙박업소 현황 */}
-        <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
-          <button 
-            onClick={() => toggleSection("lodge")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
-          >
-            <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              🏡 주변 숙박업소 현황 ({lodges.length}개)
-            </h3>
-            <span className={`text-text-muted transition-transform duration-300 ${openSections.lodge ? "rotate-180" : ""}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </button>
-          
-          {openSections.lodge && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
-              {lodges.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
-                  {lodges.map((lodge: any, idx: number) => (
-                    <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2 text-xs">
-                      <div className="flex justify-between items-start">
-                        <span className="font-bold text-text-primary text-[0.8rem]">{lodge.bsshNm}</span>
-                        <span className="text-[0.6rem] bg-secondary/10 text-secondary px-2 py-0.5 rounded">
-                          객실수: {lodge.rooms}개
-                        </span>
-                      </div>
-                      <div className="flex flex-col gap-0.5 text-[0.65rem] text-text-secondary">
-                        <span>📍 주소: {lodge.addr}</span>
-                        {lodge.ceo && <span>대표자: {lodge.ceo}</span>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-10 rounded-xl border border-dashed border-white/5 text-xs text-text-muted bg-[#12121e]/10">
-                  등록된 공식 숙박시설(민박) 정보가 없습니다. 당일치기 투어이거나 백패킹 환경을 확인해 보세요.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* 5. 주변 식당 정보 */}
-        <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
-          <button 
-            onClick={() => toggleSection("restaurant")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
-          >
-            <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              🍽️ 주변 식당 정보 ({restaurants.length}개)
-            </h3>
-            <span className={`text-text-muted transition-transform duration-300 ${openSections.restaurant ? "rotate-180" : ""}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </button>
-          
-          {openSections.restaurant && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
-              {restaurants.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-2">
-                  {restaurants.map((rest: any, idx: number) => (
-                    <div key={idx} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-4 flex flex-col gap-2 text-xs">
-                      <div className="flex justify-between items-start">
-                        <span className="font-bold text-text-primary text-[0.8rem] truncate max-w-[70%]">{rest.bsshNm}</span>
-                        <span className="text-[0.6rem] bg-primary/10 text-primary px-2 py-0.5 rounded shrink-0">
-                          {rest.type || "일반음식점"}
-                        </span>
-                      </div>
-                      <div className="flex flex-col gap-0.5 text-[0.65rem] text-text-secondary">
-                        <span>📍 주소: {rest.addr}</span>
-                        {rest.tel && <span>📞 전화번호: {rest.tel}</span>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-10 rounded-xl border border-dashed border-white/5 text-xs text-text-muted bg-[#12121e]/10">
-                  등록된 음식점 정보가 없습니다. 섬에 진입하기 전에 비상 식량을 준비하는 것을 권장합니다.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* 6. 섬내 가볼만한 관광지 */}
-        <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
-          <button 
-            onClick={() => toggleSection("spot")}
-            className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
-          >
-            <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              📸 섬내 가볼만한 관광지 ({spots.length}개)
-            </h3>
-            <span className={`text-text-muted transition-transform duration-300 ${openSections.spot ? "rotate-180" : ""}`}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </button>
-          
-          {openSections.spot && (
-            <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
-              {spots.length > 0 ? (
+        {/* 9) 섬내 가볼만한 관광지 (관광지가 있을때만 탭 생성, 설명/주소/사진 포함) */}
+        {spots.length > 0 && (
+          <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
+            <button 
+              onClick={() => toggleSection("spot")}
+              className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
+            >
+              <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
+                📸 섬내 추천 관광 명소 ({spots.length}개)
+              </h3>
+              <span className={`text-text-muted transition-transform duration-300 ${openSections.spot ? "rotate-180" : ""}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            {openSections.spot && (
+              <div className="px-6 pb-6 md:px-8 md:pb-8 border-t border-white/5 pt-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {spots.map((spot: any) => {
                     const isExpanded = expandedSpotId === spot.contentId;
@@ -582,7 +775,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
                       >
                         <div className="flex gap-4 p-4 items-center">
                           {spot.firstImage ? (
-                            <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
+                            <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-white/5">
                               <img 
                                 src={spot.firstImage} 
                                 alt={spot.title} 
@@ -596,7 +789,15 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
                           )}
                           <div className="flex flex-col gap-1.5 flex-1 min-w-0">
                             <span className="font-bold text-text-primary text-[0.8rem] truncate">{spot.title}</span>
-                            <span className="text-[0.65rem] text-text-muted truncate">📍 {spot.addr}</span>
+                            <a 
+                              href={`https://map.naver.com/index.naver?query=${encodeURIComponent(spot.addr)}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-[0.65rem] text-text-muted truncate hover:text-primary hover:underline transition-colors duration-200"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              📍 {spot.addr} ↗
+                            </a>
                           </div>
                           <span className={`text-text-muted transition-transform duration-200 shrink-0 ${isExpanded ? "rotate-180" : ""}`}>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -608,7 +809,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
                             {details?.loading ? (
                               <div className="flex items-center gap-2 text-text-muted py-2">
                                 <span className="w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin"></span>
-                                상세 정보를 불러오는 중...
+                                상세 설명 정보 불러오는 중...
                               </div>
                             ) : (
                               <div className="flex flex-col gap-2.5">
@@ -633,23 +834,19 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
                     );
                   })}
                 </div>
-              ) : (
-                <div className="text-center py-10 rounded-xl border border-dashed border-white/5 text-xs text-text-muted bg-[#12121e]/10">
-                  등록된 관광지 정보가 없습니다. 자연 환경을 둘러보며 나만의 비경을 발견해 보세요.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
+        )}
 
-        {/* 7. 네이버 인기 블로그 리뷰 */}
+        {/* 10) 블로그 리뷰 (정확도/인기순 4건) */}
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("blog")}
             className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              📚 네이버 인기 블로그 리뷰 ({blogs.length}개)
+              📚 네이버 블로그 리뷰
             </h3>
             <span className={`text-text-muted transition-transform duration-300 ${openSections.blog ? "rotate-180" : ""}`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -681,7 +878,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
                         className="text-[0.65rem] text-text-secondary line-clamp-2 leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: blog.description }}
                       />
-                      <span className="text-[0.6rem] text-text-muted font-semibold">
+                      <span className="text-[0.6rem] text-text-muted font-semibold truncate block">
                         👤 {blog.bloggername}
                       </span>
                     </a>
@@ -694,14 +891,14 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
           )}
         </div>
 
-        {/* 7. 생생 유튜브 영상 가이드 */}
+        {/* 11) 유튜브 영상 (정확도/인기순 3건) */}
         <div className="rounded-2xl border border-card-border bg-[#0a0a0f]/60 glass-panel overflow-hidden transition-all duration-300">
           <button 
             onClick={() => toggleSection("youtube")}
             className="w-full p-6 md:p-8 flex justify-between items-center text-left hover:bg-white/2 transition duration-200 cursor-pointer outline-none border-none"
           >
             <h3 className="text-[1.1rem] font-bold text-text-primary flex items-center gap-2">
-              📺 생생 유튜브 영상 가이드 ({videos.length}개)
+              📺 생생 유튜브 인기 영상 (3건)
             </h3>
             <span className={`text-text-muted transition-transform duration-300 ${openSections.youtube ? "rotate-180" : ""}`}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -751,7 +948,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailClientPro
             </div>
           )}
         </div>
+
       </div>
+
     </div>
   );
 }

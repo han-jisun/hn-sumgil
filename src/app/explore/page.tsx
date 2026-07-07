@@ -38,6 +38,25 @@ const islandImages: Record<string, string> = {
   "소야도": "https://images.unsplash.com/photo-1469620790379-48bc1fc8d99f?w=600&auto=format&fit=crop&q=80"
 };
 
+const islandIdMap: Record<string, string> = {
+  "굴업도": "gureopdo",
+  "대연평": "daeyeonpyeong",
+  "대이작도": "daeijakdo",
+  "대청도": "daecheongdo",
+  "덕적도": "deokjeokdo",
+  "문갑도": "mungapdo",
+  "백령도": "baengnyeongdo",
+  "백아도": "baegado",
+  "소연평": "soyeonpyeong",
+  "소이작도": "soijakdo",
+  "소청도": "socheongdo",
+  "승봉도": "seungbongdo",
+  "울도": "uldo",
+  "자월도": "jawoldo",
+  "지도": "jido",
+  "소야도": "soyado"
+};
+
 const islandMeta: Record<string, { backpacking: boolean; trekking: boolean; desc: string }> = {
   "굴업도": { backpacking: true, trekking: true, desc: "한국의 갈라파고스라 불리는 백패킹의 성지 개머리언덕과 해안 절벽" },
   "대연평": { backpacking: false, trekking: true, desc: "평화기념관과 조기역사관이 있는 서해 최북단의 평화로운 섬" },
@@ -105,14 +124,16 @@ function ExploreContent() {
   const router = useRouter();
   
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState<"all" | "backpacking" | "trekking">("all");
-  const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "clicks">("default");
+  const [filterType, setFilterType] = useState<"all" | "backpacking" | "trekking" | "camping">("all");
+  const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "lodge" | "restaurant" | "clicks">("default");
   const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
   const [clicks, setClicks] = useState<Record<string, number>>({});
   
   // Real-time API States
   const [restaurants, setRestaurants] = useState<any[]>([]);
   const [loadingRestaurants, setLoadingRestaurants] = useState(true);
+  const [lodges, setLodges] = useState<any[]>([]);
+  const [loadingLodges, setLoadingLodges] = useState(true);
   const [campsites, setCampsites] = useState<Record<string, any[]>>({});
   const [loadingCampsites, setLoadingCampsites] = useState(true);
 
@@ -156,6 +177,26 @@ function ExploreContent() {
     fetchRestaurants();
   }, []);
 
+  // Fetch lodge list
+  useEffect(() => {
+    const fetchLodges = async () => {
+      try {
+        const res = await fetch("/api/lodge");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.items) {
+            setLodges(data.items);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch lodges:", err);
+      } finally {
+        setLoadingLodges(false);
+      }
+    };
+    fetchLodges();
+  }, []);
+
   // Fetch campsites for all islands
   useEffect(() => {
     const fetchCampsites = async () => {
@@ -192,13 +233,13 @@ function ExploreContent() {
     const filterParam = searchParams.get("filter");
     const sortParam = searchParams.get("sort");
     
-    if (filterParam === "backpacking" || filterParam === "trekking") {
+    if (filterParam === "backpacking" || filterParam === "trekking" || filterParam === "camping") {
       setFilterType(filterParam);
     } else {
       setFilterType("all");
     }
 
-    if (sortParam === "time" || sortParam === "fare" || sortParam === "clicks") {
+    if (sortParam === "time" || sortParam === "fare" || sortParam === "lodge" || sortParam === "restaurant" || sortParam === "clicks") {
       setSortBy(sortParam as any);
     } else {
       setSortBy("default");
@@ -224,12 +265,12 @@ function ExploreContent() {
     router.push(`/explore?${params.toString()}`);
   };
 
-  const handleFilterChange = (filter: "all" | "backpacking" | "trekking") => {
+  const handleFilterChange = (filter: "all" | "backpacking" | "trekking" | "camping") => {
     setFilterType(filter);
     updateParams(filter, sortBy);
   };
 
-  const handleSortChange = (sort: "default" | "time" | "fare" | "clicks") => {
+  const handleSortChange = (sort: "default" | "time" | "fare" | "lodge" | "restaurant" | "clicks") => {
     setSortBy(sort);
     updateParams(filterType, sort);
   };
@@ -260,7 +301,23 @@ function ExploreContent() {
 
   const handleIslandClick = (islandName: string) => {
     incrementClick(islandName);
-    router.push(`/explore/${encodeURIComponent(islandName)}`);
+    const safeId = islandIdMap[islandName] || encodeURIComponent(islandName);
+    router.push(`/explore/${safeId}`);
+  };
+
+  // Helper helpers to retrieve counts
+  const getRestaurantCount = (islandName: string): number => {
+    const rule = matchRules[islandName];
+    return restaurants.filter((item: any) => 
+      rule ? rule(item.addr) : item.addr.includes(islandName)
+    ).length;
+  };
+
+  const getLodgeCount = (islandName: string): number => {
+    const rule = matchRules[islandName];
+    return lodges.filter((item: any) => 
+      rule ? rule(item.addr) : item.addr.includes(islandName)
+    ).length;
   };
 
   // Filter & Search Islands
@@ -274,6 +331,10 @@ function ExploreContent() {
     }
     if (filterType === "trekking") {
       return matchesSearch && meta.trekking;
+    }
+    if (filterType === "camping") {
+      const campList = campsites[item.island] || [];
+      return matchesSearch && campList.length > 0;
     }
     return matchesSearch;
   });
@@ -290,8 +351,17 @@ function ExploreContent() {
       const fareB = parseFareToNumber(b.ferries[0]?.fare || "999,999원");
       return fareA - fareB;
     }
+    if (sortBy === "lodge") {
+      const lodgeA = getLodgeCount(a.island);
+      const lodgeB = getLodgeCount(b.island);
+      return lodgeB - lodgeA;
+    }
+    if (sortBy === "restaurant") {
+      const restA = getRestaurantCount(a.island);
+      const restB = getRestaurantCount(b.island);
+      return restB - restA;
+    }
     if (sortBy === "clicks") {
-      // Keep click sort in memory if queried via code, but disabled in main UI controls
       const clicksA = clicks[a.island] || 0;
       const clicksB = clicks[b.island] || 0;
       return clicksB - clicksA;
@@ -363,6 +433,18 @@ function ExploreContent() {
                 🥾 트레킹 가능 ({islands.filter(i => islandMeta[i.island]?.trekking).length})
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => handleFilterChange("camping")}
+                className={`py-2 px-5 border rounded-full text-[0.8rem] font-semibold transition-all duration-300 ${
+                  filterType === "camping" 
+                    ? "bg-primary/10 text-primary border-primary/30" 
+                    : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
+                }`}
+              >
+                ⛺ 야영장 있음 ({islands.filter(i => (campsites[i.island] || []).length > 0).length})
+              </button>
+            </li>
           </ul>
         </nav>
 
@@ -388,11 +470,27 @@ function ExploreContent() {
             </button>
             <button
               onClick={() => handleSortChange("fare")}
-              className={`px-3 py-1.5 font-medium transition-colors duration-200 ${
+              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
                 sortBy === "fare" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
               }`}
             >
               💵 운임비 저렴한순
+            </button>
+            <button
+              onClick={() => handleSortChange("lodge")}
+              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
+                sortBy === "lodge" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              }`}
+            >
+              🏡 숙박 수
+            </button>
+            <button
+              onClick={() => handleSortChange("restaurant")}
+              className={`px-3 py-1.5 font-medium transition-colors duration-200 ${
+                sortBy === "restaurant" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              }`}
+            >
+              🍽️ 식당 수
             </button>
           </div>
         </div>
@@ -449,40 +547,39 @@ function ExploreContent() {
                           <span className="text-text-primary font-bold">{item.ferries[0]?.time}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">💵 운임</span>
+                          <span className="text-text-muted">💵 왕복운임</span>
                           <span className="text-text-primary font-bold">{item.ferries[0]?.fare}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-text-muted">🍽️ 식당 수</span>
                           <span className="text-text-primary font-bold">
-                            {loadingRestaurants ? "로딩중..." : `${restaurants.filter(r => {
-                              const rule = matchRules[item.island];
-                              return rule ? rule(r.addr) : r.addr.includes(item.island);
-                            }).length}개`}
+                            {loadingRestaurants ? "로딩중..." : `${getRestaurantCount(item.island)}개`}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-text-muted">🏡 숙박 수</span>
+                          <span className="text-text-primary font-bold">
+                            {loadingLodges ? "로딩중..." : `${getLodgeCount(item.island)}개`}
                           </span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span className="text-text-muted">⛺ 야영장</span>
                           <span className="text-text-primary font-bold">
                             {loadingCampsites ? "로딩중..." : (
-                              (campsites[item.island]?.length > 0) ? "있음" : (meta.backpacking ? "노지야영" : "없음")
+                              (campsites[item.island]?.length > 0) ? `있음 (${campsites[item.island].length}개)` : (meta.backpacking ? "노지야영" : "없음")
                             )}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">🎒 백패킹</span>
+                        <div className="flex items-center gap-1.5 col-span-2 mt-1 border-t border-white/5 pt-2 flex-wrap gap-2">
                           <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold border ${
                             meta.backpacking 
                               ? "bg-primary/10 text-primary border-primary/20" 
                               : "bg-red-500/5 text-red-400 border-red-500/10"
                           }`}>
-                            {meta.backpacking ? "가능" : "불가"}
+                            🎒 백패킹 {meta.backpacking ? "가능" : "불가"}
                           </span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">🥾 트레킹</span>
                           <span className="bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded text-[0.6rem] font-bold">
-                            {meta.trekking ? "가능" : "불가"}
+                            🥾 트레킹 {meta.trekking ? "가능" : "불가"}
                           </span>
                         </div>
                       </div>

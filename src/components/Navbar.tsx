@@ -10,86 +10,75 @@ export default function Navbar() {
     <>
       <header className="sticky top-0 left-0 w-full z-[100] bg-nav-bg backdrop-blur-md border-b border-card-border transition-all duration-300">
         <div className="flex justify-between items-center h-[60px] md:h-[72px] container m-auto px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2 text-[1.15rem] md:text-[1.4rem] font-bold text-text-primary tracking-tight">
-            <span className="w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_#0ea5e9]"></span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-1.5 text-[0.95rem] sm:text-[1.1rem] md:text-[1.4rem] font-bold text-text-primary tracking-tight shrink-0">
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-primary rounded-full shadow-[0_0_10px_#0ea5e9]"></span>
             인천 한눈섬길
           </Link>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden md:block">
-            <ul className="flex gap-8 items-center list-none">
+          {/* Header Navigation (Highly responsive, compact on mobile to prevent overflow) */}
+          <nav>
+            <ul className="flex gap-3 sm:gap-4 md:gap-8 items-center list-none m-0 p-0">
               <li>
                 <Link 
                   href="/" 
-                  className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
-                    pathname === "/" ? "text-primary font-semibold" : "text-text-secondary"
+                  className={`text-[0.78rem] md:text-[0.95rem] font-bold py-1.5 relative hover:text-text-primary transition-all duration-300 ${
+                    pathname === "/" ? "text-primary" : "text-text-secondary"
                   }`}
                 >
                   홈
                   {pathname === "/" && (
-                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
+                    <span className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
                   )}
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/explore" 
-                  className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
-                    pathname.startsWith("/explore") ? "text-primary font-semibold" : "text-text-secondary"
+                  className={`text-[0.78rem] md:text-[0.95rem] font-bold py-1.5 relative hover:text-text-primary transition-all duration-300 ${
+                    pathname.startsWith("/explore") ? "text-primary" : "text-text-secondary"
                   }`}
                 >
-                  탐색하기
+                  <span className="sm:hidden">탐색</span>
+                  <span className="hidden sm:inline">탐색하기</span>
                   {pathname.startsWith("/explore") && (
-                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
+                    <span className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
                   )}
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/checklist" 
-                  className={`text-[0.95rem] font-medium py-2 relative hover:text-text-primary transition-colors duration-300 ${
-                    pathname.startsWith("/checklist") ? "text-primary font-semibold" : "text-text-secondary"
+                  className={`text-[0.78rem] md:text-[0.95rem] font-bold py-1.5 relative hover:text-text-primary transition-all duration-300 ${
+                    pathname.startsWith("/checklist") ? "text-primary" : "text-text-secondary"
                   }`}
                 >
                   체크리스트
                   {pathname.startsWith("/checklist") && (
-                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
+                    <span className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-primary rounded-[2px] shadow-[0_0_6px_#0ea5e9]"></span>
                   )}
                 </Link>
               </li>
-              <li className="ml-2">
+              <li className="ml-1 sm:ml-2">
                 <Link 
                   href="/data" 
-                  className={`text-[0.8rem] font-medium py-1.5 px-3 rounded-lg border transition-all duration-300 ${
+                  className={`text-[0.72rem] md:text-[0.8rem] font-semibold py-1 px-2 md:py-1.5 md:px-3 rounded-lg border transition-all duration-300 shrink-0 ${
                     pathname.startsWith("/data") 
-                      ? "bg-white/5 border-white/10 text-text-secondary font-semibold" 
+                      ? "bg-white/10 border-white/20 text-text-secondary font-bold" 
                       : "border-transparent text-text-muted hover:text-text-secondary opacity-50 hover:opacity-90"
                   }`}
+                  title="데이터 확인 (관리자)"
                 >
-                  데이터 확인 ⚙️
+                  <span className="hidden md:inline">데이터 확인 ⚙️</span>
+                  <span className="md:hidden">⚙️</span>
                 </Link>
               </li>
             </ul>
           </nav>
-
-          {/* Mobile Admin Link */}
-          <div className="md:hidden flex items-center">
-            <Link 
-              href="/data" 
-              className={`text-xs p-2 rounded-lg border transition-all duration-300 ${
-                pathname.startsWith("/data") 
-                  ? "bg-white/10 border-white/20 text-text-secondary" 
-                  : "border-transparent text-text-muted opacity-50 hover:opacity-90"
-              }`}
-              title="데이터 확인 (관리자)"
-            >
-              ⚙️
-            </Link>
-          </div>
         </div>
       </header>
 
-      {/* Mobile Bottom Navigation Bar (Sticky bottom for true app feel) */}
+      {/* Mobile Bottom Navigation Bar (Keep for premium native mobile feel, synced with top nav) */}
       <div className="fixed bottom-0 left-0 w-full z-[99] md:hidden bg-nav-bg/95 backdrop-blur-lg border-t border-white/5 py-3 px-6 flex justify-around items-center shadow-[0_-5px_25px_rgba(0,0,0,0.5)]">
         <Link 
           href="/" 

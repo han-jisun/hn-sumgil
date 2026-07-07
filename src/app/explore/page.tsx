@@ -259,13 +259,8 @@ function ExploreContent() {
   };
 
   const handleIslandClick = (islandName: string) => {
-    const isExpanded = expandedIsland === islandName;
-    if (!isExpanded) {
-      setExpandedIsland(islandName);
-      incrementClick(islandName);
-    } else {
-      setExpandedIsland(null);
-    }
+    incrementClick(islandName);
+    router.push(`/explore/${encodeURIComponent(islandName)}`);
   };
 
   // Filter & Search Islands
@@ -416,16 +411,10 @@ function ExploreContent() {
                 <div 
                   key={item.island} 
                   onClick={() => handleIslandClick(item.island)}
-                  className={`flex flex-col rounded-[20px] overflow-hidden border transition-all duration-300 bg-card-bg cursor-pointer group ${
-                    isExpanded 
-                      ? "border-primary/40 shadow-[0_12px_36px_rgba(14,165,233,0.15)] md:col-span-2 row-span-1" 
-                      : "border-card-border hover:-translate-y-1.5 hover:border-card-hover-border hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)]"
-                  }`}
+                  className="flex flex-col rounded-[20px] overflow-hidden border border-card-border hover:-translate-y-1.5 hover:border-card-hover-border hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] transition-all duration-300 bg-card-bg cursor-pointer group"
                 >
                   {/* Card Thumbnail */}
-                  <div className={`relative w-full overflow-hidden transition-all duration-300 shrink-0 ${
-                    isExpanded ? "h-[180px] md:h-[220px]" : "h-[160px]"
-                  }`}>
+                  <div className="relative w-full h-[160px] overflow-hidden shrink-0">
                     <Image 
                       src={image} 
                       alt={item.island} 
@@ -499,110 +488,10 @@ function ExploreContent() {
                       </div>
                     </div>
 
-                    {/* Detailed info expand drawer */}
-                    {isExpanded && (
-                      <div 
-                        className="mt-2 pt-4 border-t border-white/5 flex flex-col gap-4 animate-fadeIn text-[0.75rem]"
-                        onClick={(e) => e.stopPropagation()} // Stop propagation to keep card open
-                      >
-                        <div className="flex flex-col gap-2">
-                          <span className="font-bold text-primary">⚓ 여객선 운항 노선 상세</span>
-                          <div className="flex flex-col gap-1.5">
-                            {item.ferries.map((ferry, idx) => (
-                              <div key={idx} className="bg-white/2 border border-white/5 rounded-lg p-2.5 flex justify-between items-center">
-                                <span className="text-text-secondary font-medium">{idx + 1}번 항로</span>
-                                <div className="flex gap-4">
-                                  <span className="text-text-primary">⏱️ {ferry.time}</span>
-                                  <span className="text-primary font-bold">💵 {ferry.fare}</span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1">
-                          <span className="font-bold text-primary">📍 상세 주소</span>
-                          <span className="text-text-secondary">{item.address}</span>
-                        </div>
-
-                        {/* Restaurants List */}
-                        <div className="flex flex-col gap-2">
-                          <span className="font-bold text-primary">🍽️ 주요 식당 정보 ({
-                            restaurants.filter(r => {
-                              const rule = matchRules[item.island];
-                              return rule ? rule(r.addr) : r.addr.includes(item.island);
-                            }).length
-                          }개)</span>
-                          <div className="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1">
-                            {restaurants.filter(r => {
-                              const rule = matchRules[item.island];
-                              return rule ? rule(r.addr) : r.addr.includes(item.island);
-                            }).slice(0, 5).map((rest, idx) => (
-                              <div key={idx} className="bg-white/2 border border-white/5 rounded-lg p-2.5 flex justify-between items-center text-[0.7rem]">
-                                <div>
-                                  <span className="text-text-primary font-bold">{rest.bsshNm}</span>
-                                  <span className="text-text-muted ml-1.5">({rest.type})</span>
-                                </div>
-                                <span className="text-text-secondary text-[0.65rem]">{rest.tel || "전화번호 없음"}</span>
-                              </div>
-                            ))}
-                            {restaurants.filter(r => {
-                              const rule = matchRules[item.island];
-                              return rule ? rule(r.addr) : r.addr.includes(item.island);
-                            }).length === 0 && (
-                              <span className="text-text-muted text-[0.7rem] italic py-1">등록된 식당 정보가 없습니다.</span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Campsites List */}
-                        <div className="flex flex-col gap-2">
-                          <span className="font-bold text-primary">⛺ 야영장 및 캠핑장 정보 ({
-                            campsites[item.island]?.length || 0
-                          }개)</span>
-                          <div className="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1">
-                            {campsites[item.island]?.slice(0, 5).map((camp, idx) => (
-                              <div key={idx} className="bg-white/2 border border-white/5 rounded-lg p-2.5 flex flex-col gap-1 text-[0.7rem]">
-                                <div className="flex justify-between items-center">
-                                  <span className="text-text-primary font-bold">{camp.facltNm}</span>
-                                  <span className="text-primary font-medium text-[0.65rem]">{camp.induty || "일반야영장"}</span>
-                                </div>
-                                {camp.addr1 && <span className="text-text-muted text-[0.65rem]">📍 {camp.addr1}</span>}
-                              </div>
-                            ))}
-                            {(campsites[item.island]?.length || 0) === 0 && (
-                              <span className="text-text-muted text-[0.7rem] italic py-1">
-                                {meta.backpacking 
-                                  ? "공식 캠핑장은 없으나 백패킹(노지야영)이 가능합니다." 
-                                  : "등록된 공식 야영장 정보가 없습니다."}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="flex justify-end gap-2.5 pt-2">
-                          <Link 
-                            href="/data" 
-                            className="bg-primary hover:bg-primary/95 text-white font-bold py-2 px-4 rounded-xl text-[0.65rem] transition shadow-[0_4px_12px_rgba(14,165,233,0.2)]"
-                          >
-                            실시간 검증 정보 보러가기 ➔
-                          </Link>
-                          <button 
-                            onClick={() => setExpandedIsland(null)}
-                            className="bg-white/5 hover:bg-white/10 text-text-primary font-semibold py-2 px-3.5 rounded-xl text-[0.65rem] border border-white/10 transition"
-                          >
-                            닫기 ▴
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Card Footer toggle helper */}
-                    {!isExpanded && (
-                      <div className="text-[0.65rem] text-text-muted text-right group-hover:text-text-secondary transition duration-300">
-                        클릭하여 노선 상세 정보 보기 ▾
-                      </div>
-                    )}
+                    {/* Card Footer navigate helper */}
+                    <div className="text-[0.65rem] text-text-muted text-right group-hover:text-primary font-bold transition duration-300">
+                      상세 정보 보러가기 ➔
+                    </div>
                   </div>
                 </div>
               );

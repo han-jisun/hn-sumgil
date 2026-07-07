@@ -33,6 +33,17 @@ export async function GET() {
       bizArea: item["주소"] ? item["주소"].split(" ").slice(2, 4).join(" ") : ""
     }));
 
+    // Self-diagnostic check to detect silent API schema changes
+    if (items.length > 0) {
+      const invalidCount = items.filter((item: any) => !item.bsshNm || !item.addr).length;
+      if (invalidCount / items.length > 0.8) {
+        console.error(
+          `🚨 [ODCloud Lodge API Alert] High mapping failure rate (${((invalidCount / items.length) * 100).toFixed(1)}%). Schema might have changed. Sample item:`,
+          data.data[0]
+        );
+      }
+    }
+
     return NextResponse.json({
       success: true,
       items: items

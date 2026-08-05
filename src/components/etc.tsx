@@ -212,20 +212,17 @@ export default function EtcList() {
                                 key={spot.contentId}
                                 className="bg-white border border-[#D4D4D4] rounded-lg p-3 flex gap-3 items-center"
                               >
-                                {spot.firstImage ? (
-                                  <div className="w-12 h-12 rounded overflow-hidden shrink-0 border border-[#D4D4D4] bg-[#EDEDED]">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                      src={spot.firstImage}
-                                      alt={spot.title}
-                                      className="object-cover w-full h-full"
-                                    />
-                                  </div>
-                                ) : (
-                                  <div className="w-12 h-12 rounded bg-[#F6F6F6] flex items-center justify-center shrink-0 border border-[#D4D4D4] text-base">
-                                    🏞️
-                                  </div>
-                                )}
+                                <div className="w-12 h-12 rounded overflow-hidden shrink-0 border border-[#D4D4D4] bg-[#EDEDED]">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    src={spot.firstImage || "/images/default_island.png"}
+                                    alt={spot.title}
+                                    className="object-cover w-full h-full"
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = "/images/default_island.png";
+                                    }}
+                                  />
+                                </div>
                                 <div className="flex flex-col gap-0.5 flex-1 min-w-0">
                                   <span className="font-bold text-[#282828] text-xs truncate">
                                     {spot.title}

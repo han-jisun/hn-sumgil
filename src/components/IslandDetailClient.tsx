@@ -612,7 +612,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
             >
               <h3 className="text-lg font-bold text-[#282828] flex items-center gap-2">
-                📸 섬내 추천 관광 명소 ({spots.length}개)
+                📸 섬내 추천 관광 명소
               </h3>
               <span className={`text-[#848484] transition-transform duration-300 ${openSections.spot ? "rotate-180" : ""}`}>
                 ▼
@@ -637,6 +637,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                             src={spotImage} 
                             alt={spot.title} 
                             className="object-cover w-full h-full"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "/images/default_island.png";
+                            }}
                           />
                         </div>
                         <div className="flex flex-col gap-1 flex-1 min-w-0">

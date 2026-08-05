@@ -86,6 +86,24 @@ const getGalleryPhotos = (islandName: string): string[] => {
   ];
 };
 
+const cleanText = (text: string) => {
+  if (!text) return "";
+  return text
+    .replace(/<[^>]*>?/gm, "")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&apos;/g, "'");
+};
+
+const formatDate = (dateStr: string) => {
+  if (dateStr && dateStr.length === 8) {
+    return `${dateStr.substring(0, 4)}.${dateStr.substring(4, 6)}.${dateStr.substring(6, 8)}`;
+  }
+  return dateStr;
+};
+
 interface IslandDetailProps {
   islandName: string;
 }
@@ -97,6 +115,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
   const [campsites, setCampsites] = useState<any[]>([]);
   const [spots, setSpots] = useState<any[]>([]);
   const [tides, setTides] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [videos, setVideos] = useState<any[]>([]);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [expandedSpotId, setExpandedSpotId] = useState<string | null>(null);
@@ -174,6 +195,22 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           const data = await tideRes.json();
           if (data.success && data.tides) {
             setTides(data.tides);
+          }
+        }
+
+        const blogRes = await fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=5`);
+        if (blogRes.ok) {
+          const data = await blogRes.json();
+          if (data.success && data.items) {
+            setBlogs(data.items.slice(0, 5));
+          }
+        }
+
+        const youtubeRes = await fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}&display=3`);
+        if (youtubeRes.ok) {
+          const data = await youtubeRes.json();
+          if (data.success && data.items) {
+            setVideos(data.items.slice(0, 3));
           }
         }
       } catch (err) {
@@ -624,6 +661,134 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Blog Reviews Section (5건) */}
+        <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+          <button 
+            type="button"
+            onClick={() => toggleSection("blog")}
+            className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
+          >
+            <h3 className="text-lg font-bold text-[#282828] flex items-center gap-2">
+              📚 네이버 블로그 최신 후기 ({blogs.length}건)
+            </h3>
+            <span className={`text-[#848484] transition-transform duration-300 ${openSections.blog ? "rotate-180" : ""}`}>
+              ▼
+            </span>
+          </button>
+          
+          {openSections.blog && (
+            <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+              {blogs.length > 0 ? (
+                <div className="flex flex-col gap-3">
+                  {blogs.map((blog: any, bIdx: number) => (
+                    <a
+                      key={bIdx}
+                      href={blog.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-4 rounded-xl border border-[#D4D4D4] bg-[#F6F6F6] hover:bg-[#E6FDE5]/40 hover:border-[#0F3E17] transition-all flex flex-col gap-1.5"
+                    >
+                      <h4 className="text-sm font-bold text-[#282828] hover:text-[#0F3E17] line-clamp-1">
+                        {cleanText(blog.title)}
+                      </h4>
+                      <p className="text-xs text-[#6A6A6A] line-clamp-2 leading-relaxed">
+                        {cleanText(blog.description)}
+                      </p>
+                      <div className="flex justify-between items-center text-[11px] text-[#848484] pt-1">
+                        <span>✍️ {cleanText(blog.bloggername)}</span>
+                        <span>{formatDate(blog.postdate)}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-6 text-xs text-[#848484]">불러올 블로그 글이 없습니다.</div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* YouTube Video Section (3건) */}
+        <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+          <button 
+            type="button"
+            onClick={() => toggleSection("youtube")}
+            className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
+          >
+            <h3 className="text-lg font-bold text-[#282828] flex items-center gap-2">
+              📺 생생 유튜브 영상 가이드 ({videos.length}건)
+            </h3>
+            <span className={`text-[#848484] transition-transform duration-300 ${openSections.youtube ? "rotate-180" : ""}`}>
+              ▼
+            </span>
+          </button>
+          
+          {openSections.youtube && (
+            <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+              {videos.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {videos.map((video: any, vIdx: number) => (
+                    <div
+                      key={video.id || vIdx}
+                      onClick={() => setActiveVideo(video.embedUrl || video.url)}
+                      className="group cursor-pointer border border-[#D4D4D4] rounded-xl overflow-hidden bg-[#F6F6F6] hover:border-[#0F3E17] hover:shadow-md transition-all flex flex-col justify-between"
+                    >
+                      <div className="relative aspect-video w-full overflow-hidden bg-black/10">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={video.img || video.thumbnail}
+                          alt={video.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-[#0F3E17]/90 text-white flex items-center justify-center text-sm shadow-md group-hover:scale-110 transition-transform">
+                            ▶
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-3 flex flex-col gap-1">
+                        <h4 className="text-xs font-bold text-[#282828] group-hover:text-[#0F3E17] line-clamp-2 leading-snug">
+                          {cleanText(video.title)}
+                        </h4>
+                        <span className="text-[11px] text-[#848484]">{video.channelName || video.meta}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-6 text-xs text-[#848484]">불러올 유튜브 영상이 없습니다.</div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* YouTube Video Modal */}
+        {activeVideo && (
+          <div
+            className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setActiveVideo(null)}
+          >
+            <div
+              className="relative w-full max-w-4xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveVideo(null)}
+                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors"
+              >
+                ✕
+              </button>
+              <iframe
+                src={activeVideo}
+                className="w-full h-full border-none"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
         )}
 

@@ -663,67 +663,39 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             {openSections.spot && (
               <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {spots.map((spot: any) => {
-                    const isExpanded = expandedSpotId === spot.contentId;
-                    const details = spotOverviews[spot.contentId];
+                  {spots.map((spot: any, idx: number) => {
+                    const spotImage = spot.firstImage || "/images/default_island.png";
+                    const rawOverview = spot.overview || spotOverviews[spot.contentId]?.overview || "인천 섬의 대표적인 가볼 만한 추천 명소입니다.";
+                    const summary = cleanText(rawOverview);
                     return (
                       <div 
-                        key={spot.contentId} 
-                        onClick={() => handleSpotClick(spot.contentId)}
-                        className={`border rounded-lg overflow-hidden bg-[#F6F6F6] cursor-pointer hover:border-[#0F3E17] transition-all flex flex-col ${
-                          isExpanded ? "border-[#0F3E17] bg-white shadow-md col-span-1 sm:col-span-2" : "border-[#D4D4D4]"
-                        }`}
+                        key={spot.contentId || idx}
+                        className="p-4 rounded-xl border border-[#D4D4D4] bg-[#F6F6F6] hover:border-[#0F3E17] hover:bg-white hover:shadow-sm transition-all flex gap-4 items-center"
                       >
-                        <div className="flex gap-4 p-4 items-center">
-                          {spot.firstImage ? (
-                            <div className="relative w-16 h-16 rounded overflow-hidden shrink-0 border border-[#D4D4D4]">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img 
-                                src={spot.firstImage} 
-                                alt={spot.title} 
-                                className="object-cover w-full h-full"
-                              />
-                            </div>
-                          ) : (
-                            <div className="w-16 h-16 rounded bg-white flex items-center justify-center shrink-0 border border-[#D4D4D4] text-xl">
-                              🏞️
-                            </div>
-                          )}
-                          <div className="flex flex-col gap-1 flex-1 min-w-0">
-                            <span className="font-bold text-[#282828] text-sm truncate">{spot.title}</span>
+                        <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-[#D4D4D4] bg-white">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img 
+                            src={spotImage} 
+                            alt={spot.title} 
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1 flex-1 min-w-0">
+                          <span className="font-bold text-[#282828] text-sm truncate">{spot.title}</span>
+                          <p className="text-xs text-[#6A6A6A] line-clamp-1 leading-snug">
+                            {summary}
+                          </p>
+                          {spot.addr && (
                             <a 
                               href={`https://map.naver.com/index.naver?query=${encodeURIComponent(spot.addr)}`} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="text-xs text-[#848484] truncate hover:text-[#0F3E17] hover:underline"
-                              onClick={(e) => e.stopPropagation()}
+                              className="text-[11px] text-[#848484] hover:text-[#0F3E17] hover:underline truncate mt-0.5 inline-block"
                             >
                               📍 {spot.addr} ↗
                             </a>
-                          </div>
-                          <span className={`text-[#848484] transition-transform duration-200 shrink-0 ${isExpanded ? "rotate-180" : ""}`}>
-                            ▼
-                          </span>
+                          )}
                         </div>
-                        
-                        {isExpanded && (
-                          <div className="px-4 pb-4 border-t border-[#EDEDED] pt-3 bg-white text-xs text-[#525252] leading-relaxed">
-                            {details?.loading ? (
-                              <div className="flex items-center gap-2 text-[#848484] py-2">
-                                상세 설명 정보 불러오는 중...
-                              </div>
-                            ) : (
-                              <div className="flex flex-col gap-2.5">
-                                <p className="whitespace-pre-line text-xs">{details?.overview}</p>
-                                {(details?.homepage || details?.tel) && (
-                                  <div className="flex flex-wrap gap-x-4 gap-y-1.5 pt-2 border-t border-[#EDEDED] text-xs text-[#848484]">
-                                    {details.tel && <span>📞 문의: {details.tel}</span>}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )}
                       </div>
                     );
                   })}

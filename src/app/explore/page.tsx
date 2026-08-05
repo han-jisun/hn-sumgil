@@ -359,10 +359,10 @@ function ExploreContent() {
           INCHEON ISLAND EXPLORE
         </span>
         <h1 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-[#282828]">
-          아름다운 섬 탐색하기
+          나에게 딱 맞는 인천 섬 찾기
         </h1>
         <p className="text-base text-[#6A6A6A] leading-relaxed mb-8">
-          인천 옹진군의 매력적인 16개 섬의 정보를 한눈에 비교해보세요. 이동 시간, 여객운임비, 아웃도어 가능 여부별 필터 및 정렬을 지원합니다.
+          뱃길 시간부터 백패킹·물때 조건까지 — 16개 섬을 조건별로 명쾌하게 탐색하세요.
         </p>
 
         {/* Search Bar */}

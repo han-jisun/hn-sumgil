@@ -641,7 +641,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                         </div>
                         <div className="flex flex-col gap-1 flex-1 min-w-0">
                           <span className="font-bold text-[#282828] text-sm truncate">{spot.title}</span>
-                          <p className="text-xs text-[#6A6A6A] line-clamp-1 leading-snug">
+                          <p className="text-xs text-[#6A6A6A] leading-relaxed">
                             {summary}
                           </p>
                           {spot.addr && (

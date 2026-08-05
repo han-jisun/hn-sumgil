@@ -439,12 +439,15 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* SECTION 2: 배편 최저가 & 최단시간 Top 3 */}
       {/* ========================================================================= */}
-      <section data-screen-label="SCR_000 배편 최저가" className="w-full bg-[#F4F8F5] py-24 sm:py-32">
+      <section 
+        data-screen-label="SCR_000 배편 최저가" 
+        className="w-full bg-[#F4F8F5] bg-[url('/contour.svg')] bg-no-repeat bg-center bg-cover py-24 sm:py-32"
+      >
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
           {/* Header & Departure Tabs */}
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-10">
             <div className="flex flex-col gap-3">
-              <span className="text-xs font-medium tracking-wider text-[#626E71] uppercase">
+              <span className="text-xs font-medium tracking-wider text-[#8B9DA2] uppercase">
                 SCR_000 · 홈 큐레이션 02
               </span>
               <h2 className="m-0 text-3xl sm:text-4xl font-bold tracking-tight text-[#282828] leading-tight">

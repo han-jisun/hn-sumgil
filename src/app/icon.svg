@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!-- Island Hill -->
+  <path d="M10 44 C 18 24, 34 20, 46 36 C 50 40, 53 44, 55 44 Z" fill="#0F3E17" stroke="#0F3E17" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Trail / Path on Island -->
+  <path d="M16 43 C 24 36, 28 30, 36 31 C 40 32, 44 36, 48 40" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Sailboat -->
+  <path d="M22 22 L22 8 L30 18 Z" fill="#0F3E17"/>
+  <path d="M19 24 C 23 27, 27 27, 31 24" stroke="#0F3E17" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Waves -->
+  <path d="M6 47 C 15 43, 23 51, 32 47 C 41 43, 49 51, 58 47" stroke="#0F3E17" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M12 53 C 19 50, 25 56, 32 53 C 39 50, 45 56, 52 53" stroke="#0F3E17" stroke-width="2.5" stroke-linecap="round" opacity="0.6" fill="none"/>
+</svg>

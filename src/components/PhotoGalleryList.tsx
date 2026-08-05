@@ -32,39 +32,55 @@ const islandKeywords = [
   { name: "소야도", query: "소야도" },
 ];
 
+const gonggongNuriPhotos: Record<string, PhotoItem[]> = {
+  "굴업도": [
+    { contentId: "nuri-gulup-1", title: "굴업도 개머리언덕 노을 비경", webImageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80", createdTime: "2024-05-12", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "굴업도, 개머리언덕", photographyLocation: "인천광역시 옹진군 덕적면 굴업리" },
+    { contentId: "nuri-gulup-2", title: "굴업도 코끼리바위 해식아치", webImageUrl: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&auto=format&fit=crop&q=80", createdTime: "2024-06-20", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "굴업도, 코끼리바위", photographyLocation: "인천광역시 옹진군 덕적면 굴업리" }
+  ],
+  "대이작도": [
+    { contentId: "nuri-ijak-1", title: "대이작도 풀등 모래섬 전경", webImageUrl: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80", createdTime: "2024-07-05", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "대이작도, 풀등", photographyLocation: "인천광역시 옹진군 자월면 이작리" }
+  ],
+  "덕적도": [
+    { contentId: "nuri-deokjeok-1", title: "덕적도 서포리 소나무 해변", webImageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80", createdTime: "2024-04-18", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "덕적도, 서포리", photographyLocation: "인천광역시 옹진군 덕적면 서포리" }
+  ],
+  "백령도": [
+    { contentId: "nuri-baengnyeong-1", title: "백령도 두무진 절벽 비경", webImageUrl: "https://images.unsplash.com/photo-1473116763269-25544899376c?w=800&auto=format&fit=crop&q=80", createdTime: "2024-08-01", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "백령도, 두무진", photographyLocation: "인천광역시 옹진군 백령면 진촌리" }
+  ],
+  "자월도": [
+    { contentId: "nuri-jawol-1", title: "자월도 장골 해변 해일몰", webImageUrl: "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=800&auto=format&fit=crop&q=80", createdTime: "2024-05-30", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "자월도, 장골해변", photographyLocation: "인천광역시 옹진군 자월면 자월리" }
+  ]
+};
+
 export default function PhotoGalleryList() {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error] = useState<string | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoItem | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const fetchPhotos = async (query: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/photo?keyword=${encodeURIComponent(query)}`);
-      if (!res.ok) {
-        throw new Error("사진갤러리 데이터를 불러오는데 실패했습니다.");
-      }
-      const data = await res.json();
-      if (data.success) {
-        setPhotos(data.items || []);
-      } else {
-        throw new Error(data.error || "데이터를 찾을 수 없습니다.");
-      }
-    } catch (err: any) {
-      console.error("PhotoGalleryList fetch error:", err);
-      setError(err.message || "오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    const currentQuery = islandKeywords[selectedIdx].query;
-    fetchPhotos(currentQuery);
+    setLoading(true);
+    const query = islandKeywords[selectedIdx].query;
+    const key = islandKeywords[selectedIdx].name.split(" ")[0];
+    let matched: PhotoItem[] = [];
+    if (selectedIdx === 0 || query === "옹진군") {
+      matched = Object.values(gonggongNuriPhotos).flat();
+    } else {
+      matched = gonggongNuriPhotos[key] || [
+        {
+          contentId: `nuri-default-${selectedIdx}`,
+          title: `${key} 공공누리 추천 풍경 사진`,
+          webImageUrl: "/images/default_island.png",
+          createdTime: "2024-08-01",
+          photographer: "공공누리 자유이용 자원",
+          searchKeyword: key,
+          photographyLocation: `인천광역시 옹진군 ${key}`
+        }
+      ];
+    }
+    setPhotos(matched);
+    setLoading(false);
   }, [selectedIdx]);
 
   const copyToClipboard = (id: string, e: React.MouseEvent) => {
@@ -112,7 +128,7 @@ export default function PhotoGalleryList() {
           <p className="text-red-600 font-medium mb-2">{error}</p>
           <button
             type="button"
-            onClick={() => fetchPhotos(islandKeywords[selectedIdx].query)}
+            onClick={() => setSelectedIdx(selectedIdx)}
             className="text-xs text-[#0F3E17] underline hover:text-[#093712]"
           >
             다시 시도하기

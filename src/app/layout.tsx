@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   title: "한눈섬길 | 복잡한 섬 여행 준비, 한눈에 명쾌하게",
   description: "인천 섬 트레킹 — 배 시간, 물때, 일몰까지 겹쳐 계산해 오늘 갈 수 있는지부터 알려드립니다.",
   keywords: ["한눈섬길", "인천섬", "굴업도", "승봉도", "무의도", "대이작도", "섬트레킹", "백패킹"],
+  icons: {
+    icon: "/icon.svg?v=5",
+    shortcut: "/icon.svg?v=5",
+    apple: "/icon.svg?v=5",
+  },
   openGraph: {
     title: "한눈섬길 | 복잡한 섬 여행 준비, 한눈에 명쾌하게",
     description: "인천 섬 트레킹 — 배 시간, 물때, 일몰까지 겹쳐 계산해 오늘 갈 수 있는지부터 알려드립니다.",
@@ -21,6 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <link rel="icon" href="/icon.svg?v=5" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/icon.svg?v=5" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/icon.svg?v=5" />
+      </head>
       <body className="bg-white text-[#282828] font-sans antialiased min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">

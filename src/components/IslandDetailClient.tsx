@@ -86,6 +86,51 @@ const getGalleryPhotos = (islandName: string): string[] => {
   ];
 };
 
+const presetIslandSpots: Record<string, any[]> = {
+  "굴업도": [
+    { contentId: "preset-gulup-1", title: "개머리언덕", addr: "인천 옹진군 덕적면 굴업리", overview: "백패커들의 성지이자 붉은 일몰과 드넓은 수평선, 사슴들이 노니는 굴업도 최고의 언덕입니다.", firstImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=80" },
+    { contentId: "preset-gulup-2", title: "코끼리바위", addr: "인천 옹진군 덕적면 굴업리", overview: "오랜 세월 파도와 바람에 깎여 코끼리 형상을 한 거대한 웅장한 해식아치 바위입니다.", firstImage: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&auto=format&fit=crop&q=80" },
+    { contentId: "preset-gulup-3", title: "목기해변", addr: "인천 옹진군 덕적면 굴업리", overview: "덕물도와 굴업도를 잇는 고요하고 맑은 백사장이 인상적인 모래 해변입니다.", firstImage: "https://images.unsplash.com/photo-1473116763269-25544899376c?w=500&auto=format&fit=crop&q=80" }
+  ],
+  "대연평": [
+    { contentId: "preset-yeonpyeong-1", title: "연평평화안보수련원", addr: "인천 옹진군 연평면 연평리", overview: "서해 최북단 연평도의 평화와 안보의 중요성을 느끼고 안보 체험을 할 수 있는 공간입니다.", firstImage: "" },
+    { contentId: "preset-yeonpyeong-2", title: "조기역사관", addr: "인천 옹진군 연평면 연평리", overview: "과거 조기 파시로 성황을 이루었던 연평도의 화려한 역사와 전망을 함께 품은 곳입니다.", firstImage: "" },
+    { contentId: "preset-yeonpyeong-3", title: "망향전망대", addr: "인천 옹진군 연평면 연평리", overview: "황해도 땅이 시원하게 바라다보이는 연평도 북단의 아련하고 평화로운 조망 스팟입니다.", firstImage: "" }
+  ],
+  "대이작도": [
+    { contentId: "preset-ijak-1", title: "풀등 (신비의 모래섬)", addr: "인천 옹진군 자월면 이작리", overview: "썰물 때만 바다 한가운데에 3~4시간 맑은 모래섬으로 솟아오르는 동양 유일의 신비로운 해상 모래사구입니다.", firstImage: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&auto=format&fit=crop&q=80" },
+    { contentId: "preset-ijak-2", title: "부아산 구름다리", addr: "인천 옹진군 자월면 이작리", overview: "정상 부아산에서 붉은 아치형 구름다리를 건너며 이작도 다도해 전경을 한눈에 담을 수 있습니다.", firstImage: "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=500&auto=format&fit=crop&q=80" },
+    { contentId: "preset-ijak-3", title: "작은풀안 해수욕장", addr: "인천 옹진군 자월면 이작리", overview: "수심이 얕고 백사장이 고와 가족 단위 피서객과 백패커들이 휴식을 취하기 최적인 대표 해변입니다.", firstImage: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=500&auto=format&fit=crop&q=80" }
+  ],
+  "자월도": [
+    { contentId: "preset-jawol-1", title: "장골 해수욕장", addr: "인천 옹진군 자월면 자월리", overview: "완만한 백사장과 붉은 달빛 정취가 아름다운 자월도의 으뜸 대표 해수욕장입니다.", firstImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=80" },
+    { contentId: "preset-jawol-2", title: "국사봉 전망대", addr: "인천 옹진군 자월면 자월리", overview: "봄철 벚꽃길과 함께 자월도 전체 해안선과 주변 섬 풍경이 한눈에 내려다보이는 시원한 정황입니다.", firstImage: "" },
+    { contentId: "preset-jawol-3", title: "목섬 구름다리", addr: "인천 옹진군 자월면 자월리", overview: "푸른 바다 위를 가로질러 자월도 본섬과 아담한 목섬을 이어주는 빨간 아치형 구름다리입니다.", firstImage: "" }
+  ],
+  "문갑도": [
+    { contentId: "preset-mungap-1", title: "깃대봉 등산 코스", addr: "인천 옹진군 덕적면 문갑리", overview: "사람의 손길이 많이 닿지 않아 때 묻지 않은 원시 숲길과 아기자기한 다도해 조망을 선사합니다.", firstImage: "" },
+    { contentId: "preset-mungap-2", title: "한월리 해수욕장", addr: "인천 옹진군 덕적면 문갑리", overview: "고요한 자갈과 맑은 바닷물이 인상적인 고즈넉하고 순수한 청정 해변입니다.", firstImage: "" }
+  ],
+  "백아도": [
+    { contentId: "preset-baega-1", title: "남조봉 기차바위", addr: "인천 옹진군 덕적면 백아리", overview: "공룡의 등뼈를 닮은 날카로운 암릉 구역으로 만과 섬 풍경이 360도로 터지는 명품 능선입니다.", firstImage: "" },
+    { contentId: "preset-baega-2", title: "발전소 마을 선착장", addr: "인천 옹진군 덕적면 백아리", overview: "고요한 어촌 마을 정취와 백패커, 낚시꾼들이 사랑하는 호젓한 바다 조망 스팟입니다.", firstImage: "" }
+  ],
+  "소연평": [
+    { contentId: "preset-soyeon-1", title: "얼굴바위", addr: "인천 옹진군 연평면 소연평리", overview: "사람의 오똑한 옆얼굴 형상을 정교하게 닮은 신비로운 서해의 대표 해식 기암입니다.", firstImage: "" },
+    { contentId: "preset-soyeon-2", title: "소연평도 등대길", addr: "인천 옹진군 연평면 소연평리", overview: "어촌 마을 포구와 등대를 따라 한적하게 걸을 수 있는 호젓한 섬 산책로입니다.", firstImage: "" }
+  ],
+  "소이작도": [
+    { contentId: "preset-soijak-1", title: "손가락바위", addr: "인천 옹진군 자월면 이작리", overview: "하늘을 향해 세 번째 손가락을 우뚝 찌르고 있는 듯한 소이작도의 신기하고 유쾌한 기암입니다.", firstImage: "" },
+    { contentId: "preset-soijak-2", title: "갯티길 데크 산책로", addr: "인천 옹진군 자월면 이작리", overview: "바다 냄새를 물씬 맡으며 소이작도 해안 절경을 따라 안전하게 걸을 수 있는 해안 데크길입니다.", firstImage: "" }
+  ],
+  "울도": [
+    { contentId: "preset-uldo-1", title: "울도 해안 절벽 탐방로", addr: "인천 옹진군 덕적면 울도리", overview: "덕적군도 최서단 외딴 섬으로 기암절벽과 깊고 푸른 서해 해양 생태계를 마주할 수 있습니다.", firstImage: "" }
+  ],
+  "지도": [
+    { contentId: "preset-jido-1", title: "지도리 청정 어촌 정취", addr: "인천 옹진군 덕적면 지도리", overview: "인공적인 개발이 되지 않아 아늑하고 순수한 자연 그대로의 섬 정취를 느낄 수 있습니다.", firstImage: "" }
+  ]
+};
+
 const cleanText = (text: string) => {
   if (!text) return "";
   return text
@@ -180,15 +225,31 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         }
 
         const spotRes = await fetch("/api/spot");
+        let fetchedSpots: any[] = [];
         if (spotRes.ok) {
           const data = await spotRes.json();
           if (data.success && data.items) {
-            const filtered = data.items.filter((item: any) => 
+            fetchedSpots = data.items.filter((item: any) => 
               rule ? rule(item.addr) : item.addr.includes(islandName)
             );
-            setSpots(filtered);
           }
         }
+
+        if (fetchedSpots.length === 0 && presetIslandSpots[islandName]) {
+          fetchedSpots = presetIslandSpots[islandName];
+          const presetOverviews: Record<string, any> = {};
+          for (const s of fetchedSpots) {
+            presetOverviews[s.contentId] = {
+              overview: s.overview,
+              homepage: "",
+              tel: "",
+              loading: false
+            };
+          }
+          setSpotOverviews(prev => ({ ...prev, ...presetOverviews }));
+        }
+
+        setSpots(fetchedSpots);
 
         const tideRes = await fetch(`/api/tide?island=${encodeURIComponent(islandName)}`);
         if (tideRes.ok) {

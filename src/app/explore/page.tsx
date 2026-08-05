@@ -3,7 +3,6 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import islandsData from "@/app/data/islands.json";
 
 interface IslandFerry {
@@ -96,7 +95,6 @@ const matchRules: Record<string, (addr: string) => boolean> = {
   "소야도": (addr) => addr.includes("소야")
 };
 
-// Convert "2시간 30분", "1시간" etc. to total minutes
 const parseTimeToMinutes = (timeStr: string): number => {
   let minutes = 0;
   const hourMatch = timeStr.match(/(\d+)시간/);
@@ -113,7 +111,6 @@ const parseTimeToMinutes = (timeStr: string): number => {
   return minutes;
 };
 
-// Convert "59,500원" to integer
 const parseFareToNumber = (fareStr: string): number => {
   const clean = fareStr.replace(/[^0-9]/g, "");
   return parseInt(clean) || 0;
@@ -126,20 +123,16 @@ function ExploreContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<"all" | "backpacking" | "trekking" | "camping">("all");
   const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "lodge" | "restaurant" | "clicks">("default");
-  const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
   const [clicks, setClicks] = useState<Record<string, number>>({});
   
-  // Real-time API States
   const [restaurants, setRestaurants] = useState<any[]>([]);
   const [loadingRestaurants, setLoadingRestaurants] = useState(true);
   const [lodges, setLodges] = useState<any[]>([]);
   const [loadingLodges, setLoadingLodges] = useState(true);
   const [campsites, setCampsites] = useState<Record<string, any[]>>({});
-  const [loadingCampsites, setLoadingCampsites] = useState(true);
 
   const islands: IslandData[] = islandsData as IslandData[];
 
-  // Fetch click counts from API on load
   useEffect(() => {
     const fetchClicks = async () => {
       try {
@@ -157,7 +150,6 @@ function ExploreContent() {
     fetchClicks();
   }, []);
 
-  // Fetch restaurant list
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
@@ -177,7 +169,6 @@ function ExploreContent() {
     fetchRestaurants();
   }, []);
 
-  // Fetch lodge list
   useEffect(() => {
     const fetchLodges = async () => {
       try {
@@ -197,7 +188,6 @@ function ExploreContent() {
     fetchLodges();
   }, []);
 
-  // Fetch campsites for all islands
   useEffect(() => {
     const fetchCampsites = async () => {
       const results: Record<string, any[]> = {};
@@ -221,14 +211,11 @@ function ExploreContent() {
         setCampsites(results);
       } catch (err) {
         console.error("Failed to load campsites:", err);
-      } finally {
-        setLoadingCampsites(false);
       }
     };
     fetchCampsites();
-  }, []);
+  }, [islands]);
 
-  // Read URL parameters on load
   useEffect(() => {
     const filterParam = searchParams.get("filter");
     const sortParam = searchParams.get("sort");
@@ -246,7 +233,6 @@ function ExploreContent() {
     }
   }, [searchParams]);
 
-  // Update URL parameters
   const updateParams = (newFilter: string, newSort: string) => {
     const params = new URLSearchParams(searchParams.toString());
     
@@ -276,7 +262,6 @@ function ExploreContent() {
   };
 
   const incrementClick = async (islandName: string) => {
-    // Optimistically update client state immediately for responsiveness
     setClicks((prev) => ({
       ...prev,
       [islandName]: (prev[islandName] || 0) + 1,
@@ -305,7 +290,6 @@ function ExploreContent() {
     router.push(`/explore/${safeId}`);
   };
 
-  // Helper helpers to retrieve counts
   const getRestaurantCount = (islandName: string): number => {
     const rule = matchRules[islandName];
     return restaurants.filter((item: any) => 
@@ -320,11 +304,10 @@ function ExploreContent() {
     ).length;
   };
 
-  // Filter & Search Islands
   const filteredIslands = islands.filter((item) => {
     const meta = islandMeta[item.island] || { backpacking: false, trekking: false };
     const matchesSearch = item.island.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         item.address.toLowerCase().includes(searchQuery.toLowerCase());
+                          item.address.toLowerCase().includes(searchQuery.toLowerCase());
     
     if (filterType === "backpacking") {
       return matchesSearch && meta.backpacking;
@@ -339,7 +322,6 @@ function ExploreContent() {
     return matchesSearch;
   });
 
-  // Sort Islands
   const sortedIslands = [...filteredIslands].sort((a, b) => {
     if (sortBy === "time") {
       const timeA = parseTimeToMinutes(a.ferries[0]?.time || "99시간");
@@ -366,43 +348,52 @@ function ExploreContent() {
       const clicksB = clicks[b.island] || 0;
       return clicksB - clicksA;
     }
-    return 0; // Default order
+    return 0;
   });
 
   return (
-    <div className="container m-auto px-4 sm:px-6">
+    <div className="max-w-[1440px] m-auto px-6 sm:px-10 text-[#282828]">
       {/* Exploration Header & Search */}
-      <section className="pt-10 md:pt-[60px] pb-8 md:pb-[40px] text-center">
-        <h1 className="text-[1.7rem] sm:text-[2.2rem] font-bold mb-3 tracking-tight">아름다운 섬 탐색하기</h1>
-        <p className="text-xs sm:text-sm md:text-base text-text-secondary max-w-[550px] mx-auto mb-6 leading-normal px-2">
+      <section className="pt-12 pb-10 text-center max-w-[800px] m-auto">
+        <span className="text-xs font-medium tracking-wider text-[#626E71] uppercase mb-2 block">
+          INCHEON ISLAND EXPLORE
+        </span>
+        <h1 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-[#282828]">
+          아름다운 섬 탐색하기
+        </h1>
+        <p className="text-base text-[#6A6A6A] leading-relaxed mb-8">
           인천 옹진군의 매력적인 16개 섬의 정보를 한눈에 비교해보세요. 이동 시간, 여객운임비, 아웃도어 가능 여부별 필터 및 정렬을 지원합니다.
         </p>
 
         {/* Search Bar */}
-        <div className="max-w-[600px] mx-auto relative flex items-center w-full px-2 sm:px-0">
+        <div className="max-w-[640px] mx-auto relative flex items-center w-full">
           <input 
             type="text" 
-            placeholder="섬 이름 또는 면/리 주소로 검색해보세요... (예: 굴업도, 대청면)" 
+            placeholder="섬 이름 또는 주소로 검색해보세요... (예: 굴업도, 대청면)" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="peer w-full py-3.5 pl-12 pr-4 text-xs sm:text-sm bg-card-bg border border-card-border text-text-primary rounded-full font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_15px_rgba(14,165,233,0.15)] focus:bg-[#121826]/80"
+            className="w-full py-4 pl-12 pr-6 text-sm bg-white border border-[#D4D4D4] text-[#282828] rounded-full shadow-sm font-sans transition-all focus:outline-none focus:border-[#0F3E17] focus:ring-2 focus:ring-[#0F3E17]/20"
           />
-          <svg className="absolute left-6 sm:left-5 text-text-muted pointer-events-none transition-colors duration-300 peer-focus:text-primary" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <svg className="absolute left-4 text-[#848484] pointer-events-none" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
         </div>
       </section>
 
       {/* Filters & Ordering Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/5 w-full">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-4 border-b border-[#EDEDED] w-full">
         {/* Filter Type Tabs */}
         <nav aria-label="Island filter" className="w-full md:w-auto overflow-hidden">
-          <ul className="flex gap-2 list-none overflow-x-auto py-1 w-full scrollbar-none whitespace-nowrap flex-nowrap">
+          <ul className="flex gap-2.5 list-none overflow-x-auto py-1 w-full scrollbar-none whitespace-nowrap flex-nowrap">
             <li>
               <button
+                type="button"
                 onClick={() => handleFilterChange("all")}
-                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
                   filterType === "all" 
-                    ? "bg-primary/10 text-primary border-primary/30" 
-                    : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 🏝️ 전체 섬 ({islands.length})
@@ -410,11 +401,12 @@ function ExploreContent() {
             </li>
             <li>
               <button
+                type="button"
                 onClick={() => handleFilterChange("backpacking")}
-                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
                   filterType === "backpacking" 
-                    ? "bg-primary/10 text-primary border-primary/30" 
-                    : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 🎒 백패킹 가능 ({islands.filter(i => islandMeta[i.island]?.backpacking).length})
@@ -422,11 +414,12 @@ function ExploreContent() {
             </li>
             <li>
               <button
+                type="button"
                 onClick={() => handleFilterChange("trekking")}
-                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
                   filterType === "trekking" 
-                    ? "bg-primary/10 text-primary border-primary/30" 
-                    : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 🥾 트레킹 가능 ({islands.filter(i => islandMeta[i.island]?.trekking).length})
@@ -434,11 +427,12 @@ function ExploreContent() {
             </li>
             <li>
               <button
+                type="button"
                 onClick={() => handleFilterChange("camping")}
-                className={`py-2 px-4 border rounded-full text-[0.75rem] font-semibold transition-all duration-300 ${
+                className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
                   filterType === "camping" 
-                    ? "bg-primary/10 text-primary border-primary/30" 
-                    : "bg-white/3 border-card-border text-text-secondary hover:bg-white/8 hover:text-text-primary"
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 ⛺ 야영장 있음 ({islands.filter(i => (campsites[i.island] || []).length > 0).length})
@@ -449,44 +443,49 @@ function ExploreContent() {
 
         {/* Sort Controls */}
         <div className="flex items-center gap-2 text-xs w-full md:w-auto overflow-hidden">
-          <span className="text-text-muted shrink-0">정렬 기준:</span>
-          <div className="flex border border-card-border rounded-lg overflow-x-auto flex-nowrap whitespace-nowrap bg-white/2 w-full md:w-auto scrollbar-none">
+          <span className="text-[#848484] shrink-0 font-medium">정렬:</span>
+          <div className="flex border border-[#D4D4D4] rounded-lg overflow-hidden whitespace-nowrap bg-white">
             <button
+              type="button"
               onClick={() => handleSortChange("default")}
-              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
-                sortBy === "default" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
+                sortBy === "default" ? "bg-[#E6FDE5] text-[#0F3E17]" : "text-[#525252] hover:bg-[#F6F6F6]"
               }`}
             >
               기본순
             </button>
             <button
+              type="button"
               onClick={() => handleSortChange("time")}
-              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
-                sortBy === "time" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
+                sortBy === "time" ? "bg-[#E6FDE5] text-[#0F3E17]" : "text-[#525252] hover:bg-[#F6F6F6]"
               }`}
             >
               ⏱️ 시간 짧은순
             </button>
             <button
+              type="button"
               onClick={() => handleSortChange("fare")}
-              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
-                sortBy === "fare" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
+                sortBy === "fare" ? "bg-[#E6FDE5] text-[#0F3E17]" : "text-[#525252] hover:bg-[#F6F6F6]"
               }`}
             >
               💵 왕복운임 저렴한순
             </button>
             <button
+              type="button"
               onClick={() => handleSortChange("lodge")}
-              className={`px-3 py-1.5 font-medium border-r border-card-border transition-colors duration-200 ${
-                sortBy === "lodge" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
+                sortBy === "lodge" ? "bg-[#E6FDE5] text-[#0F3E17]" : "text-[#525252] hover:bg-[#F6F6F6]"
               }`}
             >
               🏡 숙박 수
             </button>
             <button
+              type="button"
               onClick={() => handleSortChange("restaurant")}
-              className={`px-3 py-1.5 font-medium transition-colors duration-200 ${
-                sortBy === "restaurant" ? "bg-primary/15 text-primary" : "text-text-secondary hover:bg-white/5"
+              className={`px-3 py-1.5 font-medium transition-colors ${
+                sortBy === "restaurant" ? "bg-[#E6FDE5] text-[#0F3E17]" : "text-[#525252] hover:bg-[#F6F6F6]"
               }`}
             >
               🍽️ 식당 수
@@ -496,31 +495,30 @@ function ExploreContent() {
       </div>
 
       {/* Islands Grid Listing */}
-      <section className="pb-[100px]">
+      <section className="pb-24">
         {sortedIslands.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {sortedIslands.map((item) => {
               const meta = islandMeta[item.island] || { backpacking: false, trekking: false, desc: "아름다운 섬 정보" };
               const image = islandImages[item.island] || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80";
-              const isExpanded = expandedIsland === item.island;
               
               return (
                 <div 
                   key={item.island} 
                   onClick={() => handleIslandClick(item.island)}
-                  className="flex flex-col rounded-[20px] overflow-hidden border border-card-border hover:-translate-y-1.5 hover:border-card-hover-border hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] transition-all duration-300 bg-card-bg cursor-pointer group"
+                  className="flex flex-col rounded-lg overflow-hidden border border-[#D4D4D4] bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all duration-300 cursor-pointer group"
                 >
                   {/* Card Thumbnail */}
-                  <div className="relative w-full h-[160px] overflow-hidden shrink-0">
+                  <div className="relative w-full h-44 overflow-hidden shrink-0 bg-[#EDEDED]">
                     <Image 
                       src={image} 
                       alt={item.island} 
                       fill 
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Floating Island Badge */}
-                    <span className="absolute top-3.5 left-3.5 bg-[#030712]/75 backdrop-blur-[4px] py-1 px-2.5 rounded-full text-[0.65rem] font-bold text-primary border border-primary/20">
+                    <span className="absolute top-3 left-3 bg-[#0F3E17] text-white py-1 px-3 rounded-full text-xs font-medium shadow">
                       🏝️ {item.island}
                     </span>
                   </div>
@@ -528,64 +526,55 @@ function ExploreContent() {
                   {/* Card Content */}
                   <div className="p-5 flex flex-col flex-1 justify-between gap-4">
                     <div>
-                      {/* Subtitle / Description */}
-                      <p className="text-[0.7rem] text-text-muted font-semibold tracking-wide uppercase mb-1">
+                      <p className="text-xs text-[#848484] font-medium mb-1">
                         {item.address.split(" ").slice(0, 3).join(" ")}
                       </p>
-                      <h3 className="text-[1.05rem] font-bold text-text-primary mb-2 tracking-tight group-hover:text-primary transition-colors duration-200">
+                      <h3 className="text-xl font-bold text-[#282828] mb-2 tracking-tight group-hover:text-[#0F3E17] transition-colors">
                         {item.island}
                       </h3>
-                      <p className="text-[0.75rem] text-text-secondary leading-relaxed line-clamp-2 mb-3">
+                      <p className="text-sm text-[#6A6A6A] leading-relaxed line-clamp-2 mb-4">
                         {meta.desc}
                       </p>
 
                       {/* Brief Stats Row */}
-                      <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 pt-3 border-t border-white/5 text-[0.7rem]">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">⏱️ 시간</span>
-                          <span className="text-text-primary font-bold">{item.ferries[0]?.time}</span>
+                      <div className="grid grid-cols-2 gap-x-3 gap-y-2 pt-3 border-t border-[#EDEDED] text-xs">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[#848484]">⏱️ 시간</span>
+                          <span className="text-[#282828] font-semibold">{item.ferries[0]?.time}</span>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">💵 왕복운임</span>
-                          <span className="text-text-primary font-bold">{item.ferries[0]?.fare}</span>
+                        <div className="flex items-center gap-1">
+                          <span className="text-[#848484]">💵 왕복</span>
+                          <span className="text-[#282828] font-semibold">{item.ferries[0]?.fare}</span>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">🍽️ 식당 수</span>
-                          <span className="text-text-primary font-bold">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[#848484]">🍽️ 식당</span>
+                          <span className="text-[#282828] font-semibold">
                             {loadingRestaurants ? "로딩중..." : `${getRestaurantCount(item.island)}개`}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">🏡 숙박 수</span>
-                          <span className="text-text-primary font-bold">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[#848484]">🏡 숙박</span>
+                          <span className="text-[#282828] font-semibold">
                             {loadingLodges ? "로딩중..." : `${getLodgeCount(item.island)}개`}
                           </span>
                         </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-text-muted">⛺ 야영장</span>
-                          <span className="text-text-primary font-bold">
-                            {loadingCampsites ? "로딩중..." : (
-                              (campsites[item.island]?.length > 0) ? `있음 (${campsites[item.island].length}개)` : (meta.backpacking ? "노지야영" : "없음")
-                            )}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1.5 col-span-2 mt-1 border-t border-white/5 pt-2 flex-wrap gap-2">
-                          <span className={`px-2 py-0.5 rounded text-[0.6rem] font-bold border ${
+                        <div className="flex items-center gap-1.5 col-span-2 mt-2 pt-2 border-t border-[#EDEDED] flex-wrap">
+                          <span className={`px-2 py-0.5 rounded text-[11px] font-medium ${
                             meta.backpacking 
-                              ? "bg-primary/10 text-primary border-primary/20" 
-                              : "bg-red-500/5 text-red-400 border-red-500/10"
+                              ? "bg-[#E6FDE5] text-[#0F3E17]" 
+                              : "bg-[#FFF1F0] text-[#E5484D]"
                           }`}>
                             🎒 백패킹 {meta.backpacking ? "가능" : "불가"}
                           </span>
-                          <span className="bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded text-[0.6rem] font-bold">
+                          <span className="bg-[#E6FDE5] text-[#0F3E17] px-2 py-0.5 rounded text-[11px] font-medium">
                             🥾 트레킹 {meta.trekking ? "가능" : "불가"}
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Card Footer navigate helper */}
-                    <div className="text-[0.65rem] text-text-muted text-right group-hover:text-primary font-bold transition duration-300">
+                    {/* Card Footer */}
+                    <div className="text-xs text-[#0F3E17] text-right font-medium group-hover:underline pt-1">
                       상세 정보 보러가기 ➔
                     </div>
                   </div>
@@ -594,10 +583,10 @@ function ExploreContent() {
             })}
           </div>
         ) : (
-          <div className="text-center py-20 px-5 rounded-[20px] border border-dashed border-card-border text-text-secondary">
+          <div className="text-center py-20 px-5 rounded-lg border border-dashed border-[#D4D4D4] bg-white text-[#6A6A6A]">
             <span className="text-5xl mb-4 block">🔍</span>
-            <h3 className="text-sm font-bold mb-1">검색 결과가 없습니다</h3>
-            <p className="text-xs text-text-muted">다른 섬 이름 또는 카테고리를 검색해 보세요.</p>
+            <h3 className="text-base font-bold text-[#282828] mb-1">검색 결과가 없습니다</h3>
+            <p className="text-xs text-[#848484]">다른 섬 이름 또는 카테고리를 검색해 보세요.</p>
           </div>
         )}
       </section>
@@ -608,7 +597,7 @@ function ExploreContent() {
 export default function ExplorePage() {
   return (
     <Suspense fallback={
-      <div className="container m-auto flex justify-center items-center min-h-[50vh] text-text-secondary text-sm">
+      <div className="max-w-[1440px] m-auto flex justify-center items-center min-h-[50vh] text-[#6A6A6A] text-sm">
         로딩 중...
       </div>
     }>

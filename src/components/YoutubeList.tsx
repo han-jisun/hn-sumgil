@@ -1,72 +1,85 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import islandsData from "@/app/data/islands.json";
 
 interface IslandData {
   island: string;
 }
 
-interface YouTubeVideo {
+interface YoutubeVideo {
   videoId: string;
+  url: string;
   title: string;
   thumbnail: string;
+  ownerText: string;
   viewCountText: string;
   publishedTimeText: string;
   lengthText: string;
-  ownerText: string;
-  url: string;
 }
 
-interface IslandYouTubeStatus {
+interface IslandYoutubeStatus {
   island: string;
-  videos: YouTubeVideo[];
+  videos: YoutubeVideo[];
+  count: number;
 }
+
+const islands: IslandData[] = islandsData as IslandData[];
 
 export default function YoutubeList() {
-  const [youtubeStatuses, setYoutubeStatuses] = useState<IslandYouTubeStatus[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [youtubeStatuses, setYoutubeStatuses] = useState<IslandYoutubeStatus[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [progress, setProgress] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
-  const [activePlayerId, setActivePlayerId] = useState<string | null>(null);
 
-  const islands: IslandData[] = islandsData as IslandData[];
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [expandedIsland, setExpandedIsland] = useState<string | null>(null);
+  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null);
 
   const fetchYoutubeForAll = async () => {
     setLoading(true);
     setError(null);
     setProgress(0);
-    const statuses: IslandYouTubeStatus[] = [];
+
+    const statuses: IslandYoutubeStatus[] = [];
 
     try {
       for (let i = 0; i < islands.length; i++) {
         const item = islands[i];
-        
+
         try {
-          // Staggered delay to avoid rate limit blocks
-          await new Promise((resolve) => setTimeout(resolve, 80));
-
-          const response = await fetch(`/api/youtube?query=${encodeURIComponent(item.island)}`);
-          if (!response.ok) {
-            throw new Error(`API fetch failed for ${item.island}`);
+          const res = await fetch(`/api/youtube?query=${encodeURIComponent(item.island + " 여행")}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success && data.videos) {
+              statuses.push({
+                island: item.island,
+                videos: data.videos,
+                count: data.videos.length,
+              });
+            } else {
+              statuses.push({
+                island: item.island,
+                videos: [],
+                count: 0,
+              });
+            }
+          } else {
+            statuses.push({
+              island: item.island,
+              videos: [],
+              count: 0,
+            });
           }
-          const data = await response.json();
-          const videos = data.videos || [];
-
+        } catch (e) {
+          console.error(`Error fetching YouTube videos for ${item.island}:`, e);
           statuses.push({
             island: item.island,
-            videos: videos.slice(0, 3) // Ensure exactly up to 3 videos
-          });
-        } catch (err) {
-          console.error(`Error fetching YouTube videos for ${item.island}:`, err);
-          statuses.push({
-            island: item.island,
-            videos: []
+            videos: [],
+            count: 0,
           });
         }
-        
+
         setProgress(i + 1);
       }
       setYoutubeStatuses(statuses);
@@ -81,89 +94,86 @@ export default function YoutubeList() {
     fetchYoutubeForAll();
   }, []);
 
-  const filteredStatuses = youtubeStatuses.filter((item) =>
-    item.island.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.videos.some(v => v.title.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const filteredStatuses = youtubeStatuses.filter((item) => {
+    const islandMatch = item.island.toLowerCase().includes(searchQuery.toLowerCase());
+    const videoMatch = item.videos.some((v) =>
+      v.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    return islandMatch || videoMatch;
+  });
+
+  const totalVideosCount = youtubeStatuses.reduce((acc, curr) => acc + curr.count, 0);
 
   return (
     <div className="w-full">
-      {/* Loading progress bar */}
       {loading && (
-        <div className="flex flex-col items-center justify-center py-16 bg-[#0a0a0f]/40 border border-card-border rounded-2xl p-8">
-          <div className="w-10 h-10 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin mb-4"></div>
-          <p className="text-sm font-semibold text-text-primary mb-2">
-            섬 별 유튜브 인기 영상 검색 중... ({progress} / {islands.length})
+        <div className="flex flex-col items-center justify-center py-16 bg-[#F6F6F6] border border-[#D4D4D4] rounded-2xl p-8">
+          <div className="w-10 h-10 border-4 border-[#0F3E17]/20 border-t-[#0F3E17] rounded-full animate-spin mb-4"></div>
+          <p className="text-sm font-semibold text-[#282828] mb-2">
+            섬 별 실시간 인기 유튜브 영상 탐색 중... ({progress} / {islands.length})
           </p>
-          <div className="w-full max-w-xs bg-white/5 h-2 rounded-full overflow-hidden border border-white/5">
+          <div className="w-full max-w-xs bg-[#D4D4D4] h-2 rounded-full overflow-hidden">
             <div 
-              className="bg-gradient-to-r from-red-600 to-amber-500 h-full transition-all duration-300"
+              className="bg-[#0F3E17] h-full transition-all duration-300"
               style={{ width: `${(progress / islands.length) * 100}%` }}
-            ></div>
+            />
           </div>
-          <p className="text-[0.7rem] text-text-muted mt-2">
-            유튜브 웹 검색을 통해 관련이 깊은 인기 동영상을 추출 중입니다.
+          <p className="text-xs text-[#848484] mt-2">
+            유튜브 검색 메타 데이터를 통해 조회수 상위 3건의 리뷰 영상을 연동하고 있습니다.
           </p>
         </div>
       )}
 
-      {/* Error state */}
       {error && !loading && (
-        <div className="max-w-[500px] m-auto p-5 rounded-[12px] border border-red-500/20 bg-red-500/5 text-center mb-6">
+        <div className="max-w-[500px] m-auto p-5 rounded-lg border border-red-200 bg-red-50 text-center mb-6">
           <span className="text-xl mb-1 block">⚠️</span>
-          <h4 className="text-sm font-semibold text-red-400 mb-1">검색 오류</h4>
-          <p className="text-[0.75rem] text-text-secondary leading-normal mb-3">{error}</p>
+          <h4 className="text-sm font-semibold text-red-600 mb-1">검증 오류</h4>
+          <p className="text-xs text-[#6A6A6A] leading-normal mb-3">{error}</p>
           <button
+            type="button"
             onClick={fetchYoutubeForAll}
-            className="text-xs font-semibold text-red-400 hover:underline cursor-pointer"
+            className="text-xs font-semibold text-[#0F3E17] hover:underline"
           >
             다시 시도
           </button>
         </div>
       )}
 
-      {/* YouTube Listing */}
       {!loading && !error && youtubeStatuses.length > 0 && (
         <div className="flex flex-col gap-4">
-          {/* Controls */}
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between pb-2">
-            {/* Search */}
             <div className="relative flex-1 max-w-md">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted text-sm">🔍</span>
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#848484] text-sm">🔍</span>
               <input
                 type="text"
-                placeholder="섬 이름 또는 비디오 제목을 검색해 보세요..."
+                placeholder="섬 또는 영상 제목을 검색해 보세요..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#0d0d18]/60 border border-card-border hover:border-white/15 focus:border-red-500 focus:ring-1 focus:ring-red-500/30 outline-none rounded-full py-2.5 pl-9 pr-4 text-xs text-text-primary placeholder:text-text-muted transition-all duration-300"
+                className="w-full bg-[#F6F6F6] border border-[#D4D4D4] focus:border-[#0F3E17] focus:ring-1 focus:ring-[#0F3E17]/20 outline-none rounded-full py-2.5 pl-9 pr-4 text-xs text-[#282828] placeholder:text-[#848484] transition-all"
               />
             </div>
 
-            {/* Stats */}
-            <div className="flex gap-4 text-[0.7rem] text-text-muted justify-end">
+            <div className="flex gap-4 text-xs text-[#848484] justify-end">
               <div>
-                총 영상 수:{" "}
-                <span className="text-red-500 font-bold">
-                  {youtubeStatuses.reduce((acc, curr) => acc + curr.videos.length, 0)}
+                영상 수집 섬:{" "}
+                <span className="text-[#0F3E17] font-bold">
+                  {youtubeStatuses.filter((s) => s.count > 0).length}
                 </span>{" "}
-                개
+                / {youtubeStatuses.length}
               </div>
               <div>
-                영상 보유 섬:{" "}
-                <span className="text-red-500 font-bold">
-                  {youtubeStatuses.filter((s) => s.videos.length > 0).length}
-                </span>{" "}
-                / {islands.length}
+                총 추천 영상:{" "}
+                <span className="text-[#0F3E17] font-bold">{totalVideosCount}개</span>
               </div>
             </div>
           </div>
 
-          {/* Grid list of islands */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {filteredStatuses.length > 0 ? (
               filteredStatuses.map((status) => {
                 const isExpanded = expandedIsland === status.island;
-                const hasVideos = status.videos.length > 0;
+                const hasVideos = status.count > 0;
+
                 return (
                   <div
                     key={status.island}
@@ -172,121 +182,64 @@ export default function YoutubeList() {
                         setExpandedIsland(isExpanded ? null : status.island);
                       }
                     }}
-                    className={`p-5 rounded-2xl border transition-all duration-300 bg-[#0a0a0f]/60 group flex flex-col justify-between ${
+                    className={`p-5 rounded-xl border transition-all bg-[#F6F6F6] flex flex-col justify-between ${
                       hasVideos ? "cursor-pointer" : "opacity-80"
                     } ${
                       isExpanded 
-                        ? "border-red-500/40 shadow-[0_4px_20px_rgba(239,68,68,0.15)] col-span-1 md:col-span-2 row-span-1" 
-                        : "border-card-border hover:border-card-hover-border hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
+                        ? "border-[#0F3E17] bg-white shadow-md col-span-1 md:col-span-2" 
+                        : "border-[#D4D4D4] hover:border-[#0F3E17]"
                     }`}
                   >
                     <div>
-                      {/* Title & Badge */}
                       <div className="flex justify-between items-center mb-3">
-                        <h4 className="text-sm font-bold text-text-primary">
-                          🏝️ {status.island}
+                        <h4 className="text-sm font-bold text-[#282828]">
+                          📺 {status.island}
                         </h4>
                         <span
-                          className={`px-2 py-0.5 rounded-full text-[0.6rem] font-semibold tracking-wide border ${
+                          className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
                             hasVideos
-                              ? "bg-red-500/10 text-red-400 border-red-500/20"
-                              : "bg-white/2 text-text-muted border-white/5"
+                              ? "bg-[#E6FDE5] text-[#0F3E17] border-[#0F3E17]"
+                              : "bg-[#F6F6F6] text-[#848484] border-[#D4D4D4]"
                           }`}
                         >
-                          {hasVideos ? `인기 영상 ${status.videos.length}개` : "영상 정보 없음"}
+                          {hasVideos ? `추천 영상 ${status.count}개` : "영상 없음"}
                         </span>
                       </div>
 
-                      {/* Snippet list (collapsed) */}
-                      {hasVideos && !isExpanded && (
-                        <div className="text-[0.7rem] text-text-secondary flex flex-col gap-2.5 mt-3">
-                          {status.videos.slice(0, 2).map((video, idx) => (
-                            <div key={idx} className="flex gap-2 items-center">
-                              <div className="relative w-12 h-8 rounded overflow-hidden border border-white/5 shrink-0">
-                                <img src={video.thumbnail} alt={video.title} className="object-cover w-full h-full" />
-                              </div>
-                              <div className="truncate flex-1">
-                                <p className="truncate text-text-primary text-[0.7rem] font-medium">{video.title}</p>
-                                <p className="text-[0.6rem] text-text-muted">{video.ownerText} • {video.viewCountText}</p>
-                              </div>
-                            </div>
-                          ))}
-                          {status.videos.length > 2 && (
-                            <div className="text-[0.65rem] text-red-400 font-semibold mt-1">
-                              외 {status.videos.length - 2}개 영상 더보기...
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Expanded video list */}
-                      {isExpanded && hasVideos && (
-                        <div 
-                          className="mt-4 pt-3 border-t border-white/5 flex flex-col gap-4 animate-fadeIn"
-                          onClick={(e) => e.stopPropagation()} // Stop propagation to prevent closing the island card
-                        >
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {status.videos.map((video) => (
-                              <div key={video.videoId} className="bg-[#12121e]/80 border border-white/5 rounded-xl p-3 flex flex-col gap-3.5 hover:border-white/10 transition-all duration-300">
-                                {/* Video Thumbnail / Player */}
-                                {activePlayerId === video.videoId ? (
-                                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/5">
-                                    <iframe
-                                      width="100%"
-                                      height="100%"
-                                      src={`https://www.youtube.com/embed/${video.videoId}?autoplay=1`}
-                                      title={video.title}
-                                      frameBorder="0"
-                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                      allowFullScreen
-                                      className="absolute inset-0 w-full h-full"
-                                    ></iframe>
+                      {hasVideos && isExpanded && (
+                        <div className="mt-4 pt-3 border-t border-[#EDEDED] flex flex-col gap-3">
+                          <span className="text-xs text-[#0F3E17] font-semibold block">
+                            인기 리뷰 영상 (상위 3건)
+                          </span>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            {status.videos.map((vid) => (
+                              <div
+                                key={vid.videoId}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveVideoUrl(`https://www.youtube.com/embed/${vid.videoId}?autoplay=1`);
+                                }}
+                                className="group flex flex-col rounded-lg overflow-hidden border border-[#D4D4D4] bg-white hover:border-[#0F3E17] transition-all cursor-pointer"
+                              >
+                                <div className="relative aspect-video w-full overflow-hidden bg-[#EDEDED]">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img 
+                                    src={vid.thumbnail} 
+                                    alt={vid.title} 
+                                    className="object-cover w-full h-full group-hover:scale-105 transition-transform"
+                                  />
+                                  <span className="absolute bottom-1.5 right-1.5 bg-black/80 px-1.5 py-0.5 rounded text-[10px] text-white">
+                                    {vid.lengthText}
+                                  </span>
+                                </div>
+                                <div className="p-3 flex flex-col gap-1">
+                                  <h5 className="text-xs font-bold text-[#282828] group-hover:text-[#0F3E17] line-clamp-2 leading-snug">
+                                    {vid.title}
+                                  </h5>
+                                  <div className="flex justify-between items-center text-[10px] text-[#848484] mt-1">
+                                    <span className="truncate">{vid.ownerText}</span>
+                                    <span>{vid.viewCountText}</span>
                                   </div>
-                                ) : (
-                                  <div 
-                                    onClick={() => setActivePlayerId(video.videoId)}
-                                    className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/5 cursor-pointer group/video"
-                                  >
-                                    <img 
-                                      src={video.thumbnail} 
-                                      alt={video.title} 
-                                      className="object-cover w-full h-full group-hover/video:scale-105 transition-transform duration-500"
-                                    />
-                                    {/* Video duration badge */}
-                                    <span className="absolute bottom-1.5 right-1.5 bg-black/80 text-[0.55rem] font-bold px-1.5 py-0.5 rounded text-white tracking-wide">
-                                      {video.lengthText}
-                                    </span>
-                                    {/* Play icon overlay */}
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover/video:bg-black/20 transition-all duration-300">
-                                      <div className="w-10 h-10 bg-red-600 hover:bg-red-700 rounded-full flex items-center justify-center text-white text-sm shadow-lg group-hover/video:scale-110 transition-transform duration-300">
-                                        ▶
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-
-                                {/* Video Info */}
-                                <div className="flex flex-col flex-1 justify-between gap-2">
-                                  <div>
-                                    <h5 className="text-[0.75rem] font-bold text-text-primary line-clamp-2 leading-snug group-hover:text-primary transition duration-300">
-                                      {video.title}
-                                    </h5>
-                                    <p className="text-[0.65rem] text-text-muted mt-1 font-medium">{video.ownerText}</p>
-                                  </div>
-
-                                  <div className="flex items-center justify-between pt-2 border-t border-white/5 text-[0.6rem] text-text-muted mt-auto">
-                                    <span>{video.viewCountText}</span>
-                                    <span>{video.publishedTimeText}</span>
-                                  </div>
-                                  
-                                  <a 
-                                    href={video.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="mt-2 text-center text-[0.65rem] font-semibold bg-red-600/10 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/20 hover:border-red-600 rounded-lg py-1.5 transition-all duration-300"
-                                  >
-                                    YouTube에서 보기 ↗
-                                  </a>
                                 </div>
                               </div>
                             ))}
@@ -295,14 +248,13 @@ export default function YoutubeList() {
                       )}
                     </div>
 
-                    {/* Expand helper */}
-                    {hasVideos && !isExpanded && (
-                      <div className="mt-4 text-[0.6rem] text-text-muted text-right group-hover:text-text-secondary transition duration-300">
-                        클릭하여 인기 영상 보기 ▾
+                    {!isExpanded && hasVideos && (
+                      <div className="mt-2 text-[11px] text-[#848484] text-right hover:text-[#0F3E17]">
+                        클릭하여 영상 목록 보기 ▾
                       </div>
                     )}
-                    {isExpanded && (
-                      <div className="mt-4 text-[0.6rem] text-text-muted text-right transition duration-300">
+                    {isExpanded && hasVideos && (
+                      <div className="mt-4 text-[11px] text-[#848484] text-right">
                         클릭하여 접기 ▴
                       </div>
                     )}
@@ -310,10 +262,38 @@ export default function YoutubeList() {
                 );
               })
             ) : (
-              <div className="col-span-full text-center py-10 bg-white/1 border border-card-border rounded-xl text-text-muted text-xs">
-                검색 조건에 맞는 유튜브 영상이 없습니다.
+              <div className="col-span-full text-center py-10 bg-[#F6F6F6] border border-dashed border-[#D4D4D4] rounded-xl text-[#848484] text-xs">
+                검색 조건에 맞는 섬 또는 영상이 없습니다.
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Video Modal Player */}
+      {activeVideoUrl && (
+        <div
+          className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setActiveVideoUrl(null)}
+        >
+          <div
+            className="relative w-full max-w-4xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setActiveVideoUrl(null)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white font-bold flex items-center justify-center hover:bg-black transition-colors"
+            >
+              ✕
+            </button>
+            <iframe
+              src={activeVideoUrl}
+              title="YouTube video player"
+              className="w-full h-full border-none"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       )}

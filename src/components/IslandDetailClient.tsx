@@ -165,7 +165,6 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [expandedSpotId, setExpandedSpotId] = useState<string | null>(null);
   const [spotOverviews, setSpotOverviews] = useState<Record<string, { overview: string; homepage: string; tel: string; loading: boolean }>>({});
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
@@ -291,46 +290,6 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
     fetchAllData();
   }, [islandName]);
-
-  const handleSpotClick = async (contentId: string) => {
-    if (expandedSpotId === contentId) {
-      setExpandedSpotId(null);
-      return;
-    }
-
-    setExpandedSpotId(contentId);
-
-    if (!spotOverviews[contentId]) {
-      setSpotOverviews(prev => ({
-        ...prev,
-        [contentId]: { overview: "", homepage: "", tel: "", loading: true }
-      }));
-
-      try {
-        const res = await fetch(`/api/spot?contentId=${contentId}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && data.detail) {
-            setSpotOverviews(prev => ({
-              ...prev,
-              [contentId]: {
-                overview: data.detail.overview,
-                homepage: data.detail.homepage,
-                tel: data.detail.tel,
-                loading: false
-              }
-            }));
-          }
-        }
-      } catch (err) {
-        console.error(`Failed to fetch spot detail for ${contentId}:`, err);
-        setSpotOverviews(prev => ({
-          ...prev,
-          [contentId]: { overview: "상세 정보를 가져오는데 실패했습니다.", homepage: "", tel: "", loading: false }
-        }));
-      }
-    }
-  };
 
   const meta = islandMeta[islandName] || { backpacking: false, trekking: false, desc: "아름다운 인천 서해의 섬" };
   const photos = getGalleryPhotos(islandName);

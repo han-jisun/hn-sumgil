@@ -206,11 +206,19 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           }
         }
 
-        const youtubeRes = await fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}&display=3`);
+        const youtubeRes = await fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}`);
         if (youtubeRes.ok) {
           const data = await youtubeRes.json();
-          if (data.success && data.items) {
-            setVideos(data.items.slice(0, 3));
+          const rawVideos = data.videos || data.items || [];
+          if (data.success && rawVideos.length > 0) {
+            const formatted = rawVideos.map((v: any) => ({
+              id: v.videoId,
+              title: v.title,
+              thumbnail: v.thumbnail,
+              channelName: `${v.ownerText || ""} · ${v.viewCountText || ""}`,
+              embedUrl: `https://www.youtube.com/embed/${v.videoId}`
+            }));
+            setVideos(formatted.slice(0, 3));
           }
         }
       } catch (err) {

@@ -198,11 +198,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           }
         }
 
-        const blogRes = await fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=5`);
+        const blogRes = await fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=3`);
         if (blogRes.ok) {
           const data = await blogRes.json();
           if (data.success && data.items) {
-            setBlogs(data.items.slice(0, 5));
+            setBlogs(data.items.slice(0, 3));
           }
         }
 

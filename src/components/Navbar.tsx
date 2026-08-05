@@ -39,17 +39,7 @@ export default function Navbar() {
         </Link>
 
         {/* Header Navigation */}
-        <nav className="flex items-center gap-3 sm:gap-8 shrink-0">
-          <Link
-            href="/data"
-            className={`text-xs sm:text-base font-medium sm:font-normal transition-colors ${
-              isHome
-                ? pathname.startsWith("/data") ? "text-[#E6FDE5] font-semibold" : "text-white hover:text-[#B6CED5]"
-                : pathname.startsWith("/data") ? "text-[#0F3E17] font-semibold" : "text-[#282828] hover:text-[#0F3E17]"
-            }`}
-          >
-            데이터
-          </Link>
+        <nav className="flex items-center gap-4 sm:gap-8 shrink-0">
           <Link
             href="/explore"
             className={`text-xs sm:text-base font-medium sm:font-normal transition-colors ${

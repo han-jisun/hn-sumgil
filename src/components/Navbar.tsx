@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`w-full z-[100] transition-all duration-300 ${
+      className={`w-full z-[100] transition-colors duration-200 ${
         isHome
           ? "absolute top-0 left-0 right-0 h-[96px] bg-transparent border-none"
           : "sticky top-0 left-0 h-[72px] bg-white/90 backdrop-blur-md border-b border-[#E8E8E8]"

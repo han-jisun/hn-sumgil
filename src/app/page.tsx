@@ -131,7 +131,7 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* HERO SECTION */}
       {/* ========================================================================= */}
-      <section data-screen-label="Hero" className="relative w-full h-[900px] overflow-hidden bg-[#022100]">
+      <section data-screen-label="Hero" className="relative w-full h-[100dvh] min-h-[600px] sm:h-[900px] overflow-hidden bg-[#022100]">
         {/* Background Slide Images with Ken Burns & Fade */}
         <div className="absolute inset-0 z-0">
           {heroSlides.map((slide, idx) => {
@@ -173,7 +173,7 @@ export default function HomePage() {
         />
 
         {/* Hero Content */}
-        <div className="relative z-10 w-full h-full max-w-[1440px] mx-auto px-6 sm:px-10 pt-24 flex flex-col justify-center">
+        <div className="relative z-10 w-full h-full max-w-[1440px] mx-auto px-6 sm:px-10 pt-16 sm:pt-24 flex flex-col justify-center">
           <div className="max-w-[900px]">
 
             {/* Title */}

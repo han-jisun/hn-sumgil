@@ -27,7 +27,9 @@ export default async function ThemeDetailPage({ params }: PageProps) {
   try {
     const filePath = path.join(process.cwd(), "src", "magazine", content.file_name);
     if (fs.existsSync(filePath)) {
-      htmlContent = fs.readFileSync(filePath, "utf-8");
+      const raw = fs.readFileSync(filePath, "utf-8");
+      const match = raw.match(/<article[\s\S]*<\/article>/i);
+      htmlContent = match ? match[0] : raw;
     }
   } catch (err) {
     console.error("Failed to read magazine file:", err);

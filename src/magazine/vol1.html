@@ -1,138 +1,570 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vol.1 - 여름 섬의 낭만: 대청도 비경부터 힐링 해변과 플레이리스트 | 섬길 매거진</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Pretendard Web Font -->
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <style>
-    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
-  </style>
-</head>
-<body class="bg-[#F6F6F6]/60 min-h-screen py-8 sm:py-12 px-4 sm:px-8 text-[#282828] flex justify-center">
-  <div class="max-w-[900px] w-full bg-white border border-[#D4D4D4] rounded-2xl p-6 sm:p-10 shadow-sm">
-    <article class="theme-article flex flex-col gap-10 font-sans antialiased text-[#282828]">
+<article class="theme-article flex flex-col gap-10 font-sans antialiased text-[#282828] relative">
 
   <!-- ========================================================================= -->
-  <!-- Section 1: 대청도 트레킹 코스 소개 -->
+  <!-- 1. Hero Header Section -->
   <!-- ========================================================================= -->
-  <section class="flex flex-col gap-6 pb-8 border-b border-[#EDEDED]">
-    <div class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#0F3E17]/20">
-      <span class="w-2 h-2 rounded-full bg-[#0F3E17]"></span>
-      <span class="text-xs font-bold text-[#0F3E17] uppercase tracking-wider">SECTION 01 · TRAIL & TREKKING</span>
+  <header class="flex flex-col gap-4 pb-8 border-b border-[#EDEDED]">
+    <div class="flex items-center gap-3">
+      <span class="px-3.5 py-1.5 rounded-full bg-[#1B4D3E] text-white text-xs font-bold tracking-wide shadow-sm">
+        대청도 낭만 트레킹
+      </span>
+      <span class="text-xs text-[#0F3E17] font-bold uppercase tracking-wider">HAN-NUN ISLAND TRAIL · MARKETER
+        PICK</span>
     </div>
 
-    <h2 class="text-2xl sm:text-3xl font-bold text-[#282828] leading-tight tracking-tight">
-      <span class="text-[#0F3E17] block text-base sm:text-lg font-semibold mb-1">서해의 숨겨진 비경</span>
-      대청도 명품 트레킹 코스 가이드
-    </h2>
+    <div class="flex flex-col gap-2">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#282828] leading-tight tracking-tight">
+        "여기가 한국 맞아?" 서해의 알프스, 대청도로 떠나는 낭만 트레킹
+      </h1>
+      <p class="text-base sm:text-lg text-[#525252] font-medium leading-relaxed">
+        웅장한 해안 절벽과 사막이 선사하는 일정별(당일치기·1박2일·2박3일) 명품 힐링 가이드
+      </p>
+    </div>
+  </header>
 
-    <!-- Hero / Lead Cover Image Placeholder -->
-    <div class="relative w-full h-[260px] sm:h-[360px] rounded-2xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] shadow-sm">
-      <img 
-        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80" 
-        alt="대청도 능선 트레킹 전경"
-        class="w-full h-full object-cover"
-      />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-5">
-        <p class="text-xs sm:text-sm text-white/90 font-medium drop-shadow">
-          📷 [사진 위치] 대청도 삼각산 능선과 웅장한 해안 절벽 전경
-        </p>
+  <!-- ========================================================================= -->
+  <!-- 2. Main Article Section (Top Area) & 3 Iconic Spots -->
+  <!-- ========================================================================= -->
+  <section class="flex flex-col gap-6">
+
+    <!-- Hero Banner Image (규암절벽2.jpg) -->
+    <div
+      class="relative w-full h-[300px] sm:h-[420px] rounded-2xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] shadow-sm">
+      <img src="/images/vol1/규암절벽2.jpg" alt="대청도 서풍받이 수직 절벽 파노라마 전경" class="w-full h-full object-cover" />
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex items-end p-5 sm:p-8">
+        <div class="flex flex-col gap-1.5 text-white">
+          <span class="text-xs font-bold text-[#E6FDE5] tracking-wider uppercase">📷 서풍받이 수직 해안절벽</span>
+          <p class="text-sm sm:text-base md:text-lg font-semibold drop-shadow">
+            수억 년의 거센 파도가 깎아낸 압도적 스케일! 서해의 알프스 대청도 대표 비경
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- Intro Text Box -->
-    <div class="bg-[#F6F6F6] rounded-xl p-5 sm:p-6 border-l-4 border-[#0F3E17] text-sm sm:text-base text-[#424242] leading-relaxed flex flex-col gap-2">
-      <p class="font-bold text-[#0F3E17] text-base sm:text-lg">
-        "옥죽동 사구부터 서풍받이 아찔한 절벽까지, 서해 북단의 천혜 비경"
+    <!-- Intro Marketing Pitch Box (Soft Sand & Green Accent) -->
+    <div
+      class="bg-[#F6F6F6] rounded-2xl p-6 border-l-4 border-[#1B4D3E] text-[#424242] leading-relaxed flex flex-col gap-3 shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">✈️</span>
+        <h3 class="font-bold text-[#1B4D3E] text-base sm:text-lg">한눈섬길 에디터의 강력 추천 포인트</h3>
+      </div>
+      <p class="font-extrabold text-[#282828] text-base sm:text-lg leading-snug">
+        "비행기 타고 해외 갈 필요 없어요! 웅장한 수직 해안 절벽과 사막, 옥빛 바다가 한 섬에 모여 있습니다."
       </p>
-      <p>
-        대청도는 울창한 소나무 숲과 드넓은 모래사막, 그리고 기암괴석이 조화를 이루는 명품 트레킹 섬입니다.
-        상세 트레킹 코스 및 볼거리 컨텐츠가 이곳에 채워질 예정입니다.
+      <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
+        인천항 연안여객터미널에서 쾌속선(코리아프라이드호 등)을 타고 떠나는 서해 북단의 천혜 비경. 초보 트레커의 당일치기 힐링부터 마니아를 위한 2박 3일 종주까지 완벽한 동선을 안내합니다.
       </p>
+    </div>
+
+    <!-- Article Highlights (3 Iconic Spots) -->
+    <div class="flex flex-col gap-3 pt-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#1B4D3E]"></span>
+        <span class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">3 ICONIC SPOTS</span>
+        <h3 class="text-xl font-bold text-[#282828]">대청도 3대 대표 비경 명소</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- Card 1: 서풍받이 & 마당바위 -->
+        <div class="bg-white border border-[#D4D4D4] rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+          <div class="h-44 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
+            <img src="/images/vol1/규암절벽.jpeg" alt="서풍받이 & 마당바위" class="w-full h-full object-cover" />
+            <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">📷 서풍받이 &
+              마당바위</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">SPOT 01</span>
+            <h4 class="font-bold text-base text-[#282828]">서풍받이 & 마당바위</h4>
+            <p class="text-xs text-[#525252] leading-relaxed">
+              수직 절벽과 웅장한 바다를 품은 대청도 대표 절경. 붉게 물드는 석양 멍의 성지.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: 옥죽동 해안사구 -->
+        <div class="bg-white border border-[#D4D4D4] rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+          <div class="h-44 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
+            <img src="/images/vol1/옥죽동 모래사막.jpg" alt="옥죽동 해안사구" class="w-full h-full object-cover" />
+            <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">📷 옥죽동
+              해안사구</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">SPOT 02</span>
+            <h4 class="font-bold text-base text-[#282828]">옥죽동 해안사구 (모래사막)</h4>
+            <p class="text-xs text-[#525252] leading-relaxed">
+              낙타 조형물이 반기는 '한국의 사하라 사막'. 부드러운 고운 모래 위 맨발 산책.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: 농여해변 고목나무 바위 -->
+        <div class="bg-white border border-[#D4D4D4] rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+          <div class="h-44 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
+            <img src="/images/vol1/농여해변 풀등_출처 한국일보.jpg" alt="농여해변 고목나무 바위" class="w-full h-full object-cover" />
+            <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">📷 농여해변 &
+              풀등</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">SPOT 03</span>
+            <h4 class="font-bold text-base text-[#282828]">농여해변 고목나무 바위</h4>
+            <p class="text-xs text-[#525252] leading-relaxed">
+              20억 년 수직 나이테 지층의 기암괴석과 썰물 시 끝없이 드러나는 광활한 모래섬(풀등).
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION DIVIDER -->
+  <!-- ========================================================================= -->
+  <div class="pt-6 border-t-2 border-[#1B4D3E]/25"></div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. Interactive Itinerary Section (당일치기 / 1박 2일 / 2박 3일) -->
+  <!-- ========================================================================= -->
+  <section class="flex flex-col gap-6">
+    <div class="flex flex-col gap-4 pb-6 border-b border-[#EDEDED]">
+      <div
+        class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#1B4D3E]/20">
+        <span class="w-2 h-2 rounded-full bg-[#1B4D3E]"></span>
+        <span class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">CUSTOM ITINERARY · 맞춤 여행 코스</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#282828]">
+          일정별 맞춤 대청도 탐방 가이드
+        </h2>
+        <span
+          class="text-xs font-bold text-[#1B4D3E] bg-[#E6FDE5] px-3.5 py-1.5 rounded-full self-start sm:self-auto shadow-sm">
+          🥾 버튼을 클릭하면 세부 스케줄이 전환됩니다
+        </span>
+      </div>
+      <p class="text-xs sm:text-sm text-[#525252]">
+        여행할 수 있는 체류 기간에 맞추어 가장 효율적이고 감동적인 코스를 선택해 보세요.
+      </p>
+    </div>
+
+    <!-- Interactive Tabs Header -->
+    <div class="flex items-center gap-2 border-b border-[#EDEDED] pb-1 overflow-x-auto">
+      <button onclick="switchItineraryTab('day1')" id="tab-btn-day1"
+        class="tab-btn px-4 py-2.5 rounded-t-xl font-bold text-xs sm:text-sm transition-all bg-[#1B4D3E] text-white shadow-sm">
+        ⏱️ 1. 당일치기 (4~5시간 스퍼트)
+      </button>
+      <button onclick="switchItineraryTab('day2')" id="tab-btn-day2"
+        class="tab-btn px-4 py-2.5 rounded-t-xl font-bold text-xs sm:text-sm transition-all bg-[#F6F6F6] text-[#525252] hover:bg-[#EDEDED]">
+        🏕️ 2. 1박 2일 (여유 & 노을 힐링)
+      </button>
+      <button onclick="switchItineraryTab('day3')" id="tab-btn-day3"
+        class="tab-btn px-4 py-2.5 rounded-t-xl font-bold text-xs sm:text-sm transition-all bg-[#F6F6F6] text-[#525252] hover:bg-[#EDEDED]">
+        🗺️ 3. 2박 3일 (종주 & 소청도 연계)
+      </button>
+    </div>
+
+    <!-- Tab 1 Content: 당일치기 -->
+    <div id="tab-content-day1"
+      class="itinerary-content bg-white border border-[#D4D4D4] rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EDEDED] pb-3">
+        <div class="flex flex-col gap-1">
+          <span class="text-xs font-bold text-[#1B4D3E]">EXPRESS TOUR</span>
+          <h3 class="text-lg font-bold text-[#282828]">당일치기 코스: 대청도 핵심 비경 숏폼 투어</h3>
+        </div>
+        <span
+          class="px-3.5 py-1 bg-[#FEF9E7] border border-[#F9E79F] text-[#7D6608] text-xs font-bold rounded-full self-start sm:self-auto">
+          💡 컨셉: 배 시간 맞춤! 대청도 핵심 비경만 빠르게 도는 알짜배기 코스
+        </span>
+      </div>
+
+      <!-- Recommendation Course -->
+      <div class="flex flex-col gap-2">
+        <h4 class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">🚩 추천 탐방 동선</h4>
+        <p
+          class="text-xs sm:text-sm text-[#282828] bg-[#F6F6F6] p-3.5 rounded-xl border border-[#EDEDED] font-semibold leading-relaxed">
+          답동항(선진포항) 도착 ➔ 서풍받이 & 마당바위 트레킹 (2시간) ➔ 옥죽동 모래사막 (1시간) ➔ 항구 근처 제철 해산물 점심 ➔ 출항
+        </p>
+      </div>
+
+      <!-- Key Activities Grid -->
+      <div class="flex flex-col gap-2">
+        <h4 class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">✨ 당일치기 핵심 즐길거리</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 01</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">서풍받이 대표 포토존 스냅 촬영</h5>
+            <p class="text-[11px] text-[#6A6A6A]">수직 해안절벽과 옥빛 수평선을 배경으로 찍는 아찔한 최강 인생샷</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 02</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">옥죽동 사막 모래 걷기</h5>
+            <p class="text-[11px] text-[#6A6A6A]">낙타 조형물이 반기는 사구에서 맨발로 부드러운 고운 모래 밟기</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2 Content: 1박 2일 -->
+    <div id="tab-content-day2"
+      class="itinerary-content bg-white border border-[#D4D4D4] rounded-2xl p-6 shadow-sm flex flex-col gap-5 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EDEDED] pb-3">
+        <div class="flex flex-col gap-1">
+          <span class="text-xs font-bold text-[#1B4D3E]">HEALING & SUNSET</span>
+          <h3 class="text-lg font-bold text-[#282828]">1박 2일 코스: 여유로운 섬 탐방 & 서해 노을 힐링</h3>
+        </div>
+        <span
+          class="px-3.5 py-1 bg-[#FEF9E7] border border-[#F9E79F] text-[#7D6608] text-xs font-bold rounded-full self-start sm:self-auto">
+          💡 컨셉: 낮에는 트레킹, 저녁에는 섬 마을 미식과 서해 노을 감상
+        </span>
+      </div>
+
+      <!-- Schedule Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2.5">
+          <span class="text-xs font-bold text-[#1B4D3E]">DAY 1 · 정상 등반 & 노을 감상</span>
+          <p class="text-xs text-[#282828] leading-relaxed">
+            입항 ➔ 삼각산 정상 등반 (대청도 최고봉 343m) ➔ 서풍받이 트레킹 & 마당바위 노을 감상 ➔ 숙소 입실 & 제철 홍어/성게알 저녁 식사
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2.5">
+          <span class="text-xs font-bold text-[#1B4D3E]">DAY 2 · 모래사막 & 해변 산책</span>
+          <p class="text-xs text-[#282828] leading-relaxed">
+            옥죽동 모래사막 산책 ➔ 농여해변 고목나무 바위 탐방 ➔ 답동해변 산책 및 파도 소리 명상 ➔ 출항
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Activities Grid -->
+      <div class="flex flex-col gap-2">
+        <h4 class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">✨ 1박 2일 핵심 즐길거리</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 01</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">삼각산 정상 파노라마 뷰</h5>
+            <p class="text-[11px] text-[#6A6A6A]">대청도 다도해 전경이 360도로 한눈에 들어오는 탁 트인 조망</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 02</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">답동해변 밤하늘 은하수 관측</h5>
+            <p class="text-[11px] text-[#6A6A6A]">빛 공해 없는 청정 칠흑 밤바다 위로 쏟아지는 별빛 은하수 감상</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3 Content: 2박 3일 -->
+    <div id="tab-content-day3"
+      class="itinerary-content bg-white border border-[#D4D4D4] rounded-2xl p-6 shadow-sm flex flex-col gap-5 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EDEDED] pb-3">
+        <div class="flex flex-col gap-1">
+          <span class="text-xs font-bold text-[#1B4D3E]">GRAND TRAVERSE & SOCHEONGDO</span>
+          <h3 class="text-lg font-bold text-[#282828]">2박 3일 코스: 대청도 종주 & 소청도 분바위 연계 투어</h3>
+        </div>
+        <span
+          class="px-3.5 py-1 bg-[#FEF9E7] border border-[#F9E79F] text-[#7D6608] text-xs font-bold rounded-full self-start sm:self-auto">
+          💡 컨셉: 대청도 구석구석 완주 및 인근 소청도(분바위) 연계 완전 정복
+        </span>
+      </div>
+
+      <!-- Schedule Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2">
+          <span class="text-xs font-bold text-[#1B4D3E]">DAY 1 · 남부 코스 & 해변 힐링</span>
+          <p class="text-xs text-[#282828] leading-relaxed">
+            입항 ➔ 서풍받이 & 광난두 정자 코스 ➔ 지두리해변 힐링 물멍
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2">
+          <span class="text-xs font-bold text-[#1B4D3E]">DAY 2 · 풀코스 종주 & 해루질</span>
+          <p class="text-xs text-[#282828] leading-relaxed">
+            삼각산 ~ 덕중동 해안길 완주 ➔ 옥죽동 모래사막 & 농여해변 갯벌 해루질 ➔ 해산물 파티
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2">
+          <span class="text-xs font-bold text-[#1B4D3E]">DAY 3 · 소청도 분바위 탐방</span>
+          <p class="text-xs text-[#282828] leading-relaxed">
+            소청도 이동 (배로 15분) ➔ 소청도 분바위 & 등대 탐방 ➔ 인천항 복귀
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Activities Grid -->
+      <div class="flex flex-col gap-2">
+        <h4 class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">✨ 2박 3일 핵심 즐길거리</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-3 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 01</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">해안사구 샌드보딩</h5>
+            <p class="text-[11px] text-[#6A6A6A]">모래언덕 미끄럼 이색 썰매 체험</p>
+          </div>
+          <div class="p-3 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 02</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">농여해변 갯벌 해루질</h5>
+            <p class="text-[11px] text-[#6A6A6A]">비단조개, 보라성게 줍는 손맛</p>
+          </div>
+          <div class="p-3 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-1">
+            <span class="text-xs font-bold text-[#1B4D3E]">KEY 03</span>
+            <h5 class="text-xs sm:text-sm font-bold text-[#282828]">소청도 분바위 기암 탐방</h5>
+            <p class="text-[11px] text-[#6A6A6A]">하얀 대리석 절벽 분바위 연계 투어</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECTION DIVIDER -->
+  <!-- ========================================================================= -->
+  <div class="pt-6 border-t-2 border-[#1B4D3E]/25"></div>
+
+  <!-- ========================================================================= -->
+  <!-- 4. Food & Local Delicacy Section (Interactive Cards + Modal Popup) -->
+  <!-- ========================================================================= -->
+  <section class="flex flex-col gap-6">
+    <div class="flex flex-col gap-4 pb-6 border-b border-[#EDEDED]">
+      <div
+        class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#1B4D3E]/20">
+        <span class="w-2 h-2 rounded-full bg-[#1B4D3E]"></span>
+        <span class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">SECTION 03 · LOCAL DELICACY</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#282828]">
+          대청도 트레킹 미식 가이드 4선
+        </h2>
+        <span class="text-xs font-bold text-[#1B4D3E] bg-[#E6FDE5] px-3 py-1 rounded-full self-start sm:self-auto">
+          💡 카드를 클릭하여 '추천 맛집 & 상세 가이드' 확인
+        </span>
+      </div>
+      <p class="text-xs sm:text-sm text-[#525252]">
+        트레킹 후 땀을 식히며 에너지를 채워줄 대청도 청정 현지 해산물 요리.
+      </p>
+    </div>
+
+    <!-- 4 Food Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <!-- Food Card 1 -->
+      <div onclick="openGourmetModal('skate')"
+        class="group cursor-pointer bg-white border border-[#D4D4D4] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
+        <div class="h-44 relative overflow-hidden bg-[#EDEDED]">
+          <img src="/images/vol1/대청도 생홍어회 & 홍어회무침.png" alt="대청도 생홍어회 & 홍어회무침"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <div
+            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3.5 py-1.5 bg-[#1B4D3E] text-white text-xs font-bold rounded-full shadow">📖 맛집 & 상세
+              보기</span>
+          </div>
+          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">🐟 솔밭나루터</span>
+        </div>
+        <div class="p-4 flex flex-col gap-1">
+          <h4 class="font-bold text-sm sm:text-base text-[#282828] group-hover:text-[#1B4D3E] transition-colors">대청도
+            생홍어회 & 홍어회무침</h4>
+          <p class="text-xs text-[#6A6A6A] font-semibold">솔밭나루터</p>
+          <p class="text-[11px] text-[#848484] line-clamp-2">갓 잡은 신선한 생홍어회 전문 펜션 겸 식당</p>
+        </div>
+      </div>
+
+      <!-- Food Card 2 -->
+      <div onclick="openGourmetModal('uni')"
+        class="group cursor-pointer bg-white border border-[#D4D4D4] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
+        <div class="h-44 relative overflow-hidden bg-[#EDEDED]">
+          <img src="/images/vol1/성게알 비빔밥 & 백반 및 해산물.avif" alt="바다 향 가득 성게알 비빔밥 & 해산물 백반"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <div
+            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3.5 py-1.5 bg-[#1B4D3E] text-white text-xs font-bold rounded-full shadow">📖 맛집 & 상세
+              보기</span>
+          </div>
+          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">🍲 바다식당</span>
+        </div>
+        <div class="p-4 flex flex-col gap-1">
+          <h4 class="font-bold text-sm sm:text-base text-[#282828] group-hover:text-[#1B4D3E] transition-colors">성게알 비빔밥
+            & 해산물 백반</h4>
+          <p class="text-xs text-[#6A6A6A] font-semibold">바다식당 (선진포구)</p>
+          <p class="text-[11px] text-[#848484] line-clamp-2">선진포항 바로 앞 싱싱한 성게 비빔밥 대표 맛집</p>
+        </div>
+      </div>
+
+      <!-- Food Card 3 -->
+      <div onclick="openGourmetModal('mussel')"
+        class="group cursor-pointer bg-white border border-[#D4D4D4] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
+        <div class="h-44 relative overflow-hidden bg-[#EDEDED]">
+          <img src="/images/vol1/자연산 섭(홍합)탕 & 해물 요리.webp" alt="자연산 섭(홍합)탕 & 해물탕"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <div
+            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3.5 py-1.5 bg-[#1B4D3E] text-white text-xs font-bold rounded-full shadow">📖 맛집 & 상세
+              보기</span>
+          </div>
+          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">🍜 고리식당</span>
+        </div>
+        <div class="p-4 flex flex-col gap-1">
+          <h4 class="font-bold text-sm sm:text-base text-[#282828] group-hover:text-[#1B4D3E] transition-colors">자연산
+            섭(홍합)탕 & 해물탕</h4>
+          <p class="text-xs text-[#6A6A6A] font-semibold">고리식당 / 선진어촌계</p>
+          <p class="text-[11px] text-[#848484] line-clamp-2">통통한 자연산 섭탕과 시원한 칼국수 로컬 맛집</p>
+        </div>
+      </div>
+
+      <!-- Food Card 4 -->
+      <div onclick="openGourmetModal('squid')"
+        class="group cursor-pointer bg-white border border-[#D4D4D4] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col">
+        <div class="h-44 relative overflow-hidden bg-[#EDEDED]">
+          <img src="/images/vol1/갑오징어 탕수육.webp" alt="대청도 갑오징어 탕수육 & 해물짬뽕"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <div
+            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3.5 py-1.5 bg-[#1B4D3E] text-white text-xs font-bold rounded-full shadow">📖 맛집 & 상세
+              보기</span>
+          </div>
+          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">🦑 섬중화요리</span>
+        </div>
+        <div class="p-4 flex flex-col gap-1">
+          <h4 class="font-bold text-sm sm:text-base text-[#282828] group-hover:text-[#1B4D3E] transition-colors">갑오징어
+            탕수육 & 해물짬뽕</h4>
+          <p class="text-xs text-[#6A6A6A] font-semibold">섬중화요리 / 솔중화요리</p>
+          <p class="text-[11px] text-[#848484] line-clamp-2">쫄깃한 통갑오징어 탕수육과 칼칼한 해물짬뽕 이색 맛집</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- ========================================================================= -->
   <!-- SECTION DIVIDER -->
   <!-- ========================================================================= -->
-  <div class="pt-8 border-t-2 border-[#0F3E17]/25"></div>
+  <div class="pt-6 border-t-2 border-[#1B4D3E]/25"></div>
 
   <!-- ========================================================================= -->
-  <!-- Section 2: 가족이 함께 즐기기 좋은 인천 섬 해수욕장 3선 -->
+  <!-- 5. Trekking Playlist Section (Interactive YouTube Embed) -->
   <!-- ========================================================================= -->
-  <section class="flex flex-col gap-10">
-    <div class="flex flex-col gap-6 pb-8 border-b border-[#EDEDED]">
-      <div class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#0F3E17]/20">
-        <span class="w-2 h-2 rounded-full bg-[#0F3E17]"></span>
-        <span class="text-xs font-bold text-[#0F3E17] uppercase tracking-wider">SECTION 02 · FAMILY & BEACH</span>
+  <section class="flex flex-col gap-6">
+    <div class="flex flex-col gap-4 pb-6 border-b border-[#EDEDED]">
+      <div
+        class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#1B4D3E]/20">
+        <span class="w-2 h-2 rounded-full bg-[#1B4D3E]"></span>
+        <span class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">SECTION 04 · TREKKING BGM</span>
       </div>
 
-      <h2 class="text-2xl sm:text-3xl font-bold text-[#282828] leading-tight tracking-tight">
-        <span class="text-[#0F3E17] block text-base sm:text-lg font-semibold mb-1">여름 휴가 추천 코스</span>
-        가족이 함께 즐기기 좋은 인천 섬 해수욕장 3선
-      </h2>
-
-      <!-- Intro Text Box -->
-      <div class="bg-[#F6F6F6] rounded-xl p-5 sm:p-6 border-l-4 border-[#0F3E17] text-sm sm:text-base text-[#424242] leading-relaxed flex flex-col gap-2">
-        <p class="font-bold text-[#0F3E17] text-base sm:text-lg">
-          "수심이 얕고 백사장이 넓어 아이들과 함께 떠나기 좋은 서해 청정 해변"
-        </p>
-        <p>
-          수려한 송림 숲과 부드러운 백사장이 어우러져 피서와 힐링을 동시에 만끽할 수 있는 대표 해수욕장 3곳을 소개합니다.
-        </p>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#282828]">
+          트레킹 BGM 플레이리스트
+        </h2>
+        <span class="text-xs font-bold text-[#1B4D3E] bg-[#E6FDE5] px-3 py-1 rounded-full self-start sm:self-auto">
+          ▶ 곡 카드를 클릭하면 하단 플레이어에서 바로 재생됩니다
+        </span>
       </div>
+      <p class="text-xs sm:text-sm text-[#525252]">
+        대청도 능선 길을 걸을 때 분위기를 돋워줄 3가지 테마 추천 플레이리스트.
+      </p>
     </div>
 
-    <!-- 3 Beach Cards List -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <!-- Beach 1: 자월도 장골 해수욕장 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-        <div class="flex flex-col gap-1">
-          <span class="text-xs font-bold text-[#0F3E17] uppercase tracking-wider">자월도</span>
-          <h3 class="text-xl font-bold text-[#282828]">1) 자월도 장골 해수욕장</h3>
+    <!-- 3 Theme Category Track Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+      <!-- Theme 1 -->
+      <div class="bg-white border border-[#D4D4D4] rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+        <div class="flex items-center justify-between border-b border-[#EDEDED] pb-2">
+          <span class="text-xs font-bold text-[#1B4D3E]">THEME 01</span>
+          <span class="text-[11px] font-semibold text-[#6A6A6A]">청량한 밴드 사운드</span>
         </div>
-        <div class="h-40 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" alt="장골 해수욕장" class="w-full h-full object-cover" />
-          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">📷 장골 해수욕장 전경</span>
+        <h4 class="font-bold text-base text-[#282828]">트레킹 시원한 바람 세션</h4>
+
+        <div class="flex flex-col gap-2 pt-1">
+          <div onclick="playYouTubeTrack('_Lql_VDJnpU', '등산할때 듣기 좋은 노래 / 몸과 마음을 힐링시켜주는 노래')"
+            class="group cursor-pointer p-2.5 rounded-xl bg-[#F6F6F6] hover:bg-[#E6FDE5] border border-[#EDEDED] transition-all flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#282828] group-hover:text-[#1B4D3E]">등산할때 듣기 좋은 노래 / 몸과 마음을 힐링시켜주는
+                노래</span>
+              <span class="text-[10px] text-[#6A6A6A]">벅차오르는 출발 BGM</span>
+            </div>
+            <span
+              class="w-7 h-7 rounded-full bg-[#1B4D3E] text-white flex items-center justify-center text-xs shrink-0 shadow">▶</span>
+          </div>
+
+          <div onclick="playYouTubeTrack('Sbl44wI4yGk', '2026 최신 산길을 걷는 힐링 트레킹 플레이리스트')"
+            class="group cursor-pointer p-2.5 rounded-xl bg-[#F6F6F6] hover:bg-[#E6FDE5] border border-[#EDEDED] transition-all flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#282828] group-hover:text-[#1B4D3E]">2026 최신 산길을 걷는 힐링 트레킹
+                플레이리스트</span>
+              <span class="text-[10px] text-[#6A6A6A]">바람과 어우러지는 바이올린</span>
+            </div>
+            <span
+              class="w-7 h-7 rounded-full bg-[#1B4D3E] text-white flex items-center justify-center text-xs shrink-0 shadow">▶</span>
+          </div>
         </div>
-        <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
-          완만한 수심과 송림 숲 캠핑장이 정비되어 있어 가족 단위 휴양객에게 최적의 장소입니다.
-        </p>
       </div>
 
-      <!-- Beach 2: 승봉도 이일레 해수욕장 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-        <div class="flex flex-col gap-1">
-          <span class="text-xs font-bold text-[#0F3E17] uppercase tracking-wider">승봉도</span>
-          <h3 class="text-xl font-bold text-[#282828]">2) 승봉도 이일레 해수욕장</h3>
+      <!-- Theme 2 -->
+      <div class="bg-white border border-[#D4D4D4] rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+        <div class="flex items-center justify-between border-b border-[#EDEDED] pb-2">
+          <span class="text-xs font-bold text-[#1B4D3E]">THEME 02</span>
+          <span class="text-[11px] font-semibold text-[#6A6A6A]">잔잔한 인디 포크</span>
         </div>
-        <div class="h-40 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-          <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80" alt="이일레 해수욕장" class="w-full h-full object-cover" />
-          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">📷 이일레 해수욕장 전경</span>
+        <h4 class="font-bold text-base text-[#282828]">해안길 걷기 어쿠스틱</h4>
+
+        <div class="flex flex-col gap-2 pt-1">
+          <div onclick="playYouTubeTrack('GpQ222I1ULc', '잔나비 - 주저하는 연인들을 위해')"
+            class="group cursor-pointer p-2.5 rounded-xl bg-[#F6F6F6] hover:bg-[#E6FDE5] border border-[#EDEDED] transition-all flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#282828] group-hover:text-[#1B4D3E]">잔나비 - 주저하는 연인들을 위해</span>
+              <span class="text-[10px] text-[#6A6A6A]">해질녘 해안길 걸을 때 추천</span>
+            </div>
+            <span
+              class="w-7 h-7 rounded-full bg-[#1B4D3E] text-white flex items-center justify-center text-xs shrink-0 shadow">▶</span>
+          </div>
+
+          <div onclick="playYouTubeTrack('swyE5aN2Ykc', '감성 어쿠스틱에 hip 한 스푼')"
+            class="group cursor-pointer p-2.5 rounded-xl bg-[#F6F6F6] hover:bg-[#E6FDE5] border border-[#EDEDED] transition-all flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#282828] group-hover:text-[#1B4D3E]">감성 어쿠스틱에 hip 한 스푼</span>
+              <span class="text-[10px] text-[#6A6A6A]">설레는 통기타 선율</span>
+            </div>
+            <span
+              class="w-7 h-7 rounded-full bg-[#1B4D3E] text-white flex items-center justify-center text-xs shrink-0 shadow">▶</span>
+          </div>
         </div>
-        <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
-          곱디고운 모래사장과 깨끗한 수질을 자랑하며 갯벌 체험과 해수욕을 동시에 즐길 수 있습니다.
-        </p>
       </div>
 
-      <!-- Beach 3: 소야도 떼뿌루 해수욕장 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-        <div class="flex flex-col gap-1">
-          <span class="text-xs font-bold text-[#0F3E17] uppercase tracking-wider">소야도</span>
-          <h3 class="text-xl font-bold text-[#282828]">3) 소야도 떼뿌루 해수욕장</h3>
+      <!-- Theme 3 -->
+      <div class="bg-white border border-[#D4D4D4] rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+        <div class="flex items-center justify-between border-b border-[#EDEDED] pb-2">
+          <span class="text-xs font-bold text-[#1B4D3E]">THEME 03</span>
+          <span class="text-[11px] font-semibold text-[#6A6A6A]">감성 Lo-Fi & 칠아웃</span>
         </div>
-        <div class="h-40 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-          <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80" alt="떼뿌루 해수욕장" class="w-full h-full object-cover" />
-          <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">📷 떼뿌루 해수욕장 전경</span>
+        <h4 class="font-bold text-base text-[#282828]">섬 노을 & 은하수 Chill BGM</h4>
+
+        <div class="flex flex-col gap-2 pt-1">
+          <div onclick="playYouTubeTrack('0obxm6JqN5Q', '𝗣𝗟𝗔𝗬𝗟𝗜𝗦𝗧 밤바다 보러 가기 좋은 날')"
+            class="group cursor-pointer p-2.5 rounded-xl bg-[#F6F6F6] hover:bg-[#E6FDE5] border border-[#EDEDED] transition-all flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#282828] group-hover:text-[#1B4D3E]">𝗣𝗟𝗔𝗬𝗟𝗜𝗦𝗧 밤바다 보러 가기 좋은
+                날</span>
+              <span class="text-[10px] text-[#6A6A6A]">밤바다 은하수 아래 휴식</span>
+            </div>
+            <span
+              class="w-7 h-7 rounded-full bg-[#1B4D3E] text-white flex items-center justify-center text-xs shrink-0 shadow">▶</span>
+          </div>
+
+          <div onclick="playYouTubeTrack('cqf0Ni3Jo_I', '[Playlist] 가을 노을빛으로 물들어가는 밤')"
+            class="group cursor-pointer p-2.5 rounded-xl bg-[#F6F6F6] hover:bg-[#E6FDE5] border border-[#EDEDED] transition-all flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="text-xs font-bold text-[#282828] group-hover:text-[#1B4D3E]">[Playlist] 가을 노을빛으로 물들어가는
+                밤</span>
+              <span class="text-[10px] text-[#6A6A6A]">잔잔한 물멍 파도 소리</span>
+            </div>
+            <span
+              class="w-7 h-7 rounded-full bg-[#1B4D3E] text-white flex items-center justify-center text-xs shrink-0 shadow">▶</span>
+          </div>
         </div>
-        <p class="text-xs sm:text-sm text-[#525252] leading-relaxed">
-          잔잔한 서해의 낭만과 함께 잔디 야영장 및 울창한 소나무가 펼쳐진 서해의 은둔형 휴양지입니다.
-        </p>
       </div>
 
     </div>
@@ -141,111 +573,344 @@
   <!-- ========================================================================= -->
   <!-- SECTION DIVIDER -->
   <!-- ========================================================================= -->
-  <div class="pt-8 border-t-2 border-[#0F3E17]/25"></div>
+  <div class="pt-6 border-t-2 border-[#1B4D3E]/25"></div>
 
   <!-- ========================================================================= -->
-  <!-- Section 3: 청량한 파도 소리와 함께, 여름 섬 휴가 플레이리스트 (유튜브 임베드 5개) -->
+  <!-- 6. Travel Tip & Ferry Info Banner (Logistics) -->
   <!-- ========================================================================= -->
-  <section class="flex flex-col gap-10">
+  <section class="flex flex-col gap-8">
     <div class="flex flex-col gap-6 pb-8 border-b border-[#EDEDED]">
-      <div class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#0F3E17]/20">
-        <span class="w-2 h-2 rounded-full bg-[#0F3E17]"></span>
-        <span class="text-xs font-bold text-[#0F3E17] uppercase tracking-wider">SECTION 03 · MUSIC & RELAX</span>
+      <div
+        class="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full bg-[#E6FDE5] border border-[#1B4D3E]/20">
+        <span class="w-2 h-2 rounded-full bg-[#1B4D3E]"></span>
+        <span class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">SECTION 05 · LOGISTICS & GUIDE</span>
       </div>
 
       <h2 class="text-2xl sm:text-3xl font-bold text-[#282828] leading-tight tracking-tight">
-        <span class="text-[#0F3E17] block text-base sm:text-lg font-semibold mb-1">감성 드라이브 & 캠핑 음악</span>
-        청량한 파도 소리와 함께, 여름 섬 휴가 플레이리스트
+        <span class="text-[#1B4D3E] block text-base sm:text-lg font-semibold mb-1">배편 혜택 받고 떠나자!</span>
+        대청도 입출항 & 물류 교통 가이드
       </h2>
 
+      <!-- Feature Cover Image -->
+      <div
+        class="relative w-full h-[260px] sm:h-[360px] rounded-2xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] shadow-sm">
+        <img src="/images/vol1/코리아프라이드호.jpg" alt="인천 연안 여객선 및 대청도행 쾌속선 코리아프라이드호" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-5">
+          <p class="text-xs sm:text-sm text-white/90 font-medium drop-shadow">
+            🚢 인천 연안 여객선 및 대청도행 쾌속선 (코리아프라이드호 / 코리아프린세스호)
+          </p>
+        </div>
+      </div>
+
       <!-- Intro Text Box -->
-      <div class="bg-[#F6F6F6] rounded-xl p-5 sm:p-6 border-l-4 border-[#0F3E17] text-sm sm:text-base text-[#424242] leading-relaxed flex flex-col gap-2">
-        <p class="font-bold text-[#0F3E17] text-base sm:text-lg">
-          "배 타고 떠나는 길부터 바닷가 텐트 안에서 듣는 최고의 섬 뮤직"
+      <div
+        class="bg-[#F6F6F6] rounded-xl p-5 sm:p-6 border-l-4 border-[#1B4D3E] text-sm sm:text-base text-[#424242] leading-relaxed flex flex-col gap-2">
+        <p class="font-bold text-[#1B4D3E] text-base sm:text-lg">
+          "섬 여행의 가장 큰 진입장벽이었던 배편 운임료, 이제 부담 없이 할인 혜택으로 떠나보세요."
         </p>
         <p>
-          여름 섬 여행의 흥과 낭만을 더해주는 추천 플레이리스트 유튜브 영상 5선을 감상해보세요.
+          인천시민은 시내버스 요금(1,500원) 수준으로, 일반 타 지역 내국인도 70% 운임 지원 혜택을 받아 알뜰하게 예매할 수 있습니다.
         </p>
       </div>
     </div>
 
-    <!-- YouTube Embed Grid (5 Items in 1 Row) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-      
-      <!-- Video 1 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-xl p-3 shadow-sm flex flex-col gap-2.5">
-        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-          <iframe 
-            class="w-full h-full"
-            src="https://www.youtube.com/embed/5qap5aO4i9A" 
-            title="여름 섬 드라이브 음악" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-          ></iframe>
-        </div>
-        <h3 class="text-xs font-bold text-[#282828] line-clamp-2 leading-snug">1. 여름 바다 감성 드라이브</h3>
+    <!-- Core Benefits Section -->
+    <div class="bg-white border border-[#D4D4D4] rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col gap-6">
+      <div class="flex items-center gap-2 border-b border-[#EDEDED] pb-4">
+        <span class="text-2xl">💡</span>
+        <h3 class="text-xl font-bold text-[#282828]">
+          한눈에 보는 핵심 혜택
+        </h3>
       </div>
 
-      <!-- Video 2 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-xl p-3 shadow-sm flex flex-col gap-2.5">
-        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-          <iframe 
-            class="w-full h-full"
-            src="https://www.youtube.com/embed/DWcjA5a0VnI" 
-            title="파도 소리 힐링 음악" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-          ></iframe>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2.5">
+          <span class="px-2.5 py-1 rounded bg-[#1B4D3E] text-white text-xs font-bold self-start">인천시민</span>
+          <h4 class="font-bold text-base text-[#282828]">시내버스 요금(1,500원)으로 섬 방문</h4>
+          <p class="text-xs sm:text-sm text-[#6A6A6A] leading-relaxed">
+            인천시민이라면 누구나 대청도 방문 시 <strong>시내버스 기본요금 수준(1,500원)</strong>으로 여객선을 이용할 수 있습니다.
+          </p>
         </div>
-        <h3 class="text-xs font-bold text-[#282828] line-clamp-2 leading-snug">2. 파도 소리 힐링 Lofi</h3>
+
+        <div class="p-5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2.5">
+          <span class="px-2.5 py-1 rounded bg-[#1B4D3E] text-white text-xs font-bold self-start">타 지역 주민(일반 국민)</span>
+          <h4 class="font-bold text-base text-[#282828]">여객선 운임 70% 지원</h4>
+          <p class="text-xs sm:text-sm text-[#6A6A6A] leading-relaxed">
+            인천에 거주하지 않는 타 지역 관광객도 <strong>정규 운임의 70%를 지원</strong>받아 정가의 30% 수준으로 알뜰하게 배편을 예매합니다.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl bg-[#F6F6F6] border border-[#EDEDED] flex flex-col gap-2.5">
+          <span class="px-2.5 py-1 rounded bg-[#1B4D3E] text-white text-xs font-bold self-start">간편 자동 적용</span>
+          <h4 class="font-bold text-base text-[#282828]">별도 복잡한 절차 없이 간편 할인</h4>
+          <p class="text-xs sm:text-sm text-[#6A6A6A] leading-relaxed">
+            '가고 싶은 섬' 앱 이용 시 승선자 주민등록번호 입력만으로 현장에서 자동으로 할인이 적용됩니다.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Tips Section -->
+    <div class="bg-white border border-[#D4D4D4] rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col gap-6">
+      <div class="flex items-center gap-2 border-b border-[#EDEDED] pb-4">
+        <span class="text-2xl">🧭</span>
+        <h3 class="text-xl font-bold text-[#282828]">
+          대청도 여행 팁 & 안전 수칙
+        </h3>
       </div>
 
-      <!-- Video 3 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-xl p-3 shadow-sm flex flex-col gap-2.5">
-        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-          <iframe 
-            class="w-full h-full"
-            src="https://www.youtube.com/embed/jfKfPfyJRdk" 
-            title="해변 밤캠핑 음악" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-          ></iframe>
+      <div class="flex flex-col gap-4">
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-4 rounded-xl bg-[#F6F6F6] border border-[#EDEDED]">
+          <span class="px-3 py-1 rounded-md bg-[#1B4D3E]/10 text-[#1B4D3E] text-xs font-bold shrink-0">배시간표</span>
+          <p class="text-xs sm:text-sm text-[#424242]">
+            인천항 출발 07:50 / 08:30 | 대청도 출발 12:30 / 13:30 (기상 상황에 따라 일정이 변동될 수 있습니다.)
+          </p>
         </div>
-        <h3 class="text-xs font-bold text-[#282828] line-clamp-2 leading-snug">3. 노을빛 해변 밤캠핑</h3>
+
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-4 rounded-xl bg-[#F6F6F6] border border-[#EDEDED]">
+          <span class="px-3 py-1 rounded-md bg-[#1B4D3E]/10 text-[#1B4D3E] text-xs font-bold shrink-0">섬 공영버스</span>
+          <p class="text-xs sm:text-sm text-[#424242]">
+            여객선 입출항 시간에 맞추어 답동항/선진포항에서 주요 트레킹 들머리(서풍받이/삼각산)로 공영버스가 운행됩니다.
+          </p>
+        </div>
+
+        <div
+          class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-4 rounded-xl bg-[#FEF9E7] border border-[#F9E79F]">
+          <span class="px-3 py-1 rounded-md bg-[#7D6608]/15 text-[#7D6608] text-xs font-bold shrink-0">필수 수칙</span>
+          <p class="text-xs sm:text-sm text-[#7D6608] font-medium">
+            승선을 위한 <strong>실물 신분증</strong> 지참 필수! 야간 입산 금지 및 LNT(Leave No Trace) 클린 트레킹 준수.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Direct Links Card -->
+    <div class="bg-[#F6F6F6] border border-[#D4D4D4] rounded-2xl p-6 sm:p-8 flex flex-col gap-5">
+      <div class="flex flex-col gap-1.5 border-b border-[#EDEDED] pb-4">
+        <h4 class="text-base font-bold text-[#282828] flex items-center gap-2">
+          🔗 공식 출처 및 배편 예매 연동
+        </h4>
+        <p class="text-xs text-[#848484]">
+          출처: 인천광역시청 공식 여객선 운임 지원 사업 안내 (공공누리 제1유형 적용)
+        </p>
       </div>
 
-      <!-- Video 4 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-xl p-3 shadow-sm flex flex-col gap-2.5">
-        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-          <iframe 
-            class="w-full h-full"
-            src="https://www.youtube.com/embed/2g811KOcl1E" 
-            title="서머 팝 믹스" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-          ></iframe>
-        </div>
-        <h3 class="text-xs font-bold text-[#282828] line-clamp-2 leading-snug">4. 서머 트로피컬 팝 믹스</h3>
+      <div class="flex flex-col lg:flex-row items-center gap-3">
+        <a href="https://island.theksa.co.kr/" target="_blank" rel="noopener noreferrer"
+          class="w-full lg:w-1/2 inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-[#1B4D3E] text-white text-xs sm:text-sm font-bold hover:bg-[#12362B] transition-colors whitespace-nowrap shrink-0 shadow-sm">
+          <span class="whitespace-nowrap">🔗 가고 싶은 섬 여객선 예매 사이트 ↗</span>
+        </a>
+
+        <a href="/explore"
+          class="w-full lg:w-1/2 inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-white border border-[#1B4D3E] text-[#1B4D3E] text-xs sm:text-sm font-bold hover:bg-[#E6FDE5] transition-colors whitespace-nowrap shrink-0 shadow-sm">
+          <span class="whitespace-nowrap flex items-center gap-1.5">
+            <span>🚢 한눈 탐색 - 인천 섬별 배시간표 및 요금 보러가기</span>
+            <span class="font-bold">➔</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 7. Footer Section -->
+  <!-- ========================================================================= -->
+  <footer class="flex flex-col gap-6 pt-4 pb-6">
+    <div class="flex flex-col items-center gap-2 border-t border-[#EDEDED] pt-6 text-center">
+      <p class="text-xs text-[#848484]">
+        © 한눈섬길 (Han-nun Island Trail). All rights reserved. 서해 5도 섬 명품 트레킹 정보 서비스.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: Interactive Gourmet Modal -->
+  <!-- ========================================================================= -->
+  <div id="gourmet-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]">
+
+      <!-- Modal Header / Image -->
+      <div class="h-48 relative overflow-hidden bg-[#EDEDED] shrink-0">
+        <img id="modal-food-img" src="" alt="음식 이미지" class="w-full h-full object-cover" />
+        <button onclick="closeGourmetModal()"
+          class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white font-bold flex items-center justify-center hover:bg-black transition-colors">
+          ✕
+        </button>
       </div>
 
-      <!-- Video 5 -->
-      <div class="bg-white border border-[#D4D4D4] rounded-xl p-3 shadow-sm flex flex-col gap-2.5">
-        <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-          <iframe 
-            class="w-full h-full"
-            src="https://www.youtube.com/embed/fJ9rUzIMcZQ" 
-            title="어쿠스틱 팝 믹스" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-          ></iframe>
+      <!-- Modal Content -->
+      <div class="p-6 overflow-y-auto flex flex-col gap-4">
+        <div>
+          <span class="text-xs font-bold text-[#1B4D3E] uppercase tracking-wider">대청도 트레킹 현지 미식</span>
+          <h3 id="modal-food-title" class="text-xl font-bold text-[#282828]"></h3>
         </div>
-        <h3 class="text-xs font-bold text-[#282828] line-clamp-2 leading-snug">5. 여객선 어쿠스틱 팝</h3>
+
+        <div class="bg-[#F6F6F6] rounded-xl p-4 border border-[#EDEDED] flex flex-col gap-2">
+          <div class="flex flex-col gap-0.5">
+            <h4 class="text-xs font-bold text-[#1B4D3E] flex items-center gap-1">
+              <span>📍</span> 추천 현지 맛집
+            </h4>
+            <p id="modal-food-restaurant" class="text-xs text-[#282828] font-bold"></p>
+          </div>
+          <div class="flex flex-col gap-0.5 pt-1 border-t border-[#EDEDED]">
+            <h4 class="text-[11px] font-bold text-[#6A6A6A] flex items-center gap-1">
+              <span>🏢</span> 도로명 주소
+            </h4>
+            <p id="modal-food-address" class="text-xs text-[#424242] font-medium"></p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <h4 class="text-xs font-bold text-[#282828] flex items-center gap-1">
+            <span>😋</span> 트레커를 위한 맛 기행 팁
+          </h4>
+          <p id="modal-food-tips" class="text-xs text-[#525252] leading-relaxed font-medium"></p>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-[#EDEDED] bg-[#F6F6F6] flex justify-end">
+        <button onclick="closeGourmetModal()"
+          class="px-5 py-2 rounded-xl bg-[#1B4D3E] text-white text-xs font-bold hover:bg-[#12362B] transition-colors">
+          확인 / 닫기
+        </button>
       </div>
 
     </div>
-  </section>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: Fixed Bottom Floating YouTube Music Player -->
+  <!-- ========================================================================= -->
+  <div id="youtube-player-bar"
+    class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:w-[420px] z-50 bg-[#1B4D3E] text-white rounded-2xl p-4 shadow-2xl border border-white/20 hidden transition-all">
+    <div class="flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#E6FDE5] animate-pulse"></span>
+          <span id="player-title" class="text-xs font-bold line-clamp-1 text-[#E6FDE5]">재생 중인 음악</span>
+        </div>
+        <button onclick="closeYouTubePlayer()"
+          class="text-xs text-white/70 hover:text-white px-2 py-0.5 rounded bg-black/30">
+          닫기 ✕
+        </button>
+      </div>
+
+      <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-inner">
+        <iframe id="youtube-iframe" class="w-full h-full" src="" title="YouTube Player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 
 </article>
-  </div>
-</body>
-</html>
+
+<!-- Vanilla JavaScript for Itinerary Tabs, Gourmet Modal & YouTube Player -->
+<script>
+  (function () {
+    // 1. Itinerary Tabs Switcher (Explicit Window Binding)
+    window.switchItineraryTab = function (tabId) {
+      document.querySelectorAll('.itinerary-content').forEach(function (content) {
+        content.classList.add('hidden');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(function (btn) {
+        btn.classList.remove('bg-[#1B4D3E]', 'text-white');
+        btn.classList.add('bg-[#F6F6F6]', 'text-[#525252]');
+      });
+
+      var targetContent = document.getElementById('tab-content-' + tabId);
+      if (targetContent) {
+        targetContent.classList.remove('hidden');
+      }
+
+      var targetBtn = document.getElementById('tab-btn-' + tabId);
+      if (targetBtn) {
+        targetBtn.classList.remove('bg-[#F6F6F6]', 'text-[#525252]');
+        targetBtn.classList.add('bg-[#1B4D3E]', 'text-white');
+      }
+    };
+
+    // 2. Gourmet Food Modal Data Store (Official Daecheongdo Local Restaurants)
+    var gourmetData = {
+      'skate': {
+        title: '대청도 생홍어회 & 홍어회무침',
+        image: '/images/vol1/대청도 생홍어회 & 홍어회무침.png',
+        restaurant: '솔밭나루터 (Solbat Naruteo)',
+        address: '인천 옹진군 대청면 대청로19번길 116-4',
+        tips: '대청도에서 갓 잡은 삭히지 않은 신선한 생홍어회 전문 펜션 겸 식당. 쫄깃한 식감과 알싸한 야채 무침이 트레킹 후 입맛을 최고로 돋워줍니다.'
+      },
+      'uni': {
+        title: '바다 향 가득 성게알 비빔밥 & 해산물 백반',
+        image: '/images/vol1/성게알 비빔밥 & 백반 및 해산물.avif',
+        restaurant: '바다식당 (Bada Restaurant)',
+        address: '인천 옹진군 대청면 대청로 13 (선진포구)',
+        tips: '선진포항 바로 앞에 위치하여 접성이 뛰어납니다. 해녀들이 직접 채취한 싱싱하고 고소한 보라성게알 비빔밥과 갓 잡은 해산물을 즐길 수 있는 대표 식당.'
+      },
+      'mussel': {
+        title: '자연산 섭(홍합)탕 & 해물탕',
+        image: '/images/vol1/자연산 섭(홍합)탕 & 해물 요리.webp',
+        restaurant: '고리식당 / 선진어촌계',
+        address: '인천 옹진군 대청면 대청로233번길 50',
+        tips: '알이 통통하게 오른 대청도 청정 자연산 섭탕과 시원하고 진한 칼국수가 트레킹 피로를 말끔히 풀어주는 로컬 대표 맛집입니다.'
+      },
+      'squid': {
+        title: '대청도 갑오징어 탕수육 & 해물짬뽕',
+        image: '/images/vol1/갑오징어 탕수육.webp',
+        restaurant: '섬중화요리 / 솔중화요리',
+        address: '인천 옹진군 대청면 대청로7번길 4-7',
+        tips: '현지 주민과 트레커들이 즐겨찾는 대청도 이색 로컬 맛집. 쫄깃하고 두툼한 대청도 통갑오징어 탕수육과 칼칼하고 진한 해물짬뽕을 맛보세요.'
+      }
+    };
+
+    window.openGourmetModal = function (foodId) {
+      var item = gourmetData[foodId];
+      if (!item) return;
+
+      var titleEl = document.getElementById('modal-food-title');
+      var imgEl = document.getElementById('modal-food-img');
+      var restEl = document.getElementById('modal-food-restaurant');
+      var addrEl = document.getElementById('modal-food-address');
+      var tipsEl = document.getElementById('modal-food-tips');
+
+      if (titleEl) titleEl.innerText = item.title;
+      if (imgEl) imgEl.src = item.image;
+      if (restEl) restEl.innerText = item.restaurant;
+      if (addrEl) addrEl.innerText = item.address;
+      if (tipsEl) tipsEl.innerText = item.tips;
+
+      var modal = document.getElementById('gourmet-modal');
+      if (modal) modal.classList.remove('hidden');
+    };
+
+    window.closeGourmetModal = function () {
+      var modal = document.getElementById('gourmet-modal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    // 3. YouTube Player Logic
+    window.playYouTubeTrack = function (videoId, title) {
+      var playerBar = document.getElementById('youtube-player-bar');
+      var iframe = document.getElementById('youtube-iframe');
+      var titleSpan = document.getElementById('player-title');
+
+      if (playerBar && iframe && titleSpan) {
+        titleSpan.innerText = '♪ 재생 중: ' + title;
+        iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+        playerBar.classList.remove('hidden');
+      }
+    };
+
+    window.closeYouTubePlayer = function () {
+      var playerBar = document.getElementById('youtube-player-bar');
+      var iframe = document.getElementById('youtube-iframe');
+      if (playerBar && iframe) {
+        iframe.src = '';
+        playerBar.classList.add('hidden');
+      }
+    };
+  })();
+</script>

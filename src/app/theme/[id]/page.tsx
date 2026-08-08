@@ -5,6 +5,8 @@ import path from "path";
 import { themeContents } from "@/magazine/data";
 import { notFound } from "next/navigation";
 
+import MagazineViewer from "@/components/MagazineViewer";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
@@ -68,10 +70,7 @@ export default async function ThemeDetailPage({ params }: PageProps) {
         {/* HTML Article Content / Fallback */}
         <div className="bg-white border border-[#D4D4D4] rounded-2xl p-6 sm:p-10 shadow-sm leading-relaxed">
           {htmlContent ? (
-            <div
-              className="prose max-w-none text-sm sm:text-base text-[#282828]"
-              dangerouslySetInnerHTML={{ __html: htmlContent }}
-            />
+            <MagazineViewer html={htmlContent} />
           ) : (
             <div className="py-12 text-center text-[#848484] flex flex-col gap-2">
               <span className="text-3xl">📖</span>

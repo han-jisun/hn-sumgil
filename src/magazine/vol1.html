@@ -806,111 +806,110 @@
     </div>
   </div>
 
+  <!-- Vanilla JavaScript for Itinerary Tabs, Gourmet Modal & YouTube Player -->
+  <script>
+    (function () {
+      // 1. Itinerary Tabs Switcher (Explicit Window Binding)
+      window.switchItineraryTab = function (tabId) {
+        document.querySelectorAll('.itinerary-content').forEach(function (content) {
+          content.classList.add('hidden');
+        });
+
+        document.querySelectorAll('.tab-btn').forEach(function (btn) {
+          btn.classList.remove('bg-[#1B4D3E]', 'text-white');
+          btn.classList.add('bg-[#F6F6F6]', 'text-[#525252]');
+        });
+
+        var targetContent = document.getElementById('tab-content-' + tabId);
+        if (targetContent) {
+          targetContent.classList.remove('hidden');
+        }
+
+        var targetBtn = document.getElementById('tab-btn-' + tabId);
+        if (targetBtn) {
+          targetBtn.classList.remove('bg-[#F6F6F6]', 'text-[#525252]');
+          targetBtn.classList.add('bg-[#1B4D3E]', 'text-white');
+        }
+      };
+
+      // 2. Gourmet Food Modal Data Store (Official Daecheongdo Local Restaurants)
+      var gourmetData = {
+        'skate': {
+          title: '대청도 생홍어회 & 홍어회무침',
+          image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&auto=format&fit=crop&q=80',
+          restaurant: '솔밭나루터 (Solbat Naruteo)',
+          address: '인천 옹진군 대청면 대청로19번길 116-4',
+          tips: '대청도에서 갓 잡은 삭히지 않은 신선한 생홍어회 전문 펜션 겸 식당. 쫄깃한 식감과 알싸한 야채 무침이 트레킹 후 입맛을 최고로 돋워줍니다.'
+        },
+        'uni': {
+          title: '바다 향 가득 성게알 비빔밥 & 해산물 백반',
+          image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=80',
+          restaurant: '바다식당 (Bada Restaurant)',
+          address: '인천 옹진군 대청면 대청로 13 (선진포구)',
+          tips: '선진포항 바로 앞에 위치하여 접성이 뛰어납니다. 해녀들이 직접 채취한 싱싱하고 고소한 보라성게알 비빔밥과 갓 잡은 해산물을 즐길 수 있는 대표 식당.'
+        },
+        'mussel': {
+          title: '자연산 섭(홍합)탕 & 해물탕',
+          image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop&q=80',
+          restaurant: '고리식당 / 선진어촌계',
+          address: '인천 옹진군 대청면 대청로233번길 50',
+          tips: '알이 통통하게 오른 대청도 청정 자연산 섭탕과 시원하고 진한 칼국수가 트레킹 피로를 말끔히 풀어주는 로컬 대표 맛집입니다.'
+        },
+        'squid': {
+          title: '대청도 갑오징어 탕수육 & 해물짬뽕',
+          image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&auto=format&fit=crop&q=80',
+          restaurant: '섬중화요리 / 솔중화요리',
+          address: '인천 옹진군 대청면 대청로7번길 4-7',
+          tips: '현지 주민과 트레커들이 즐겨찾는 대청도 이색 로컬 맛집. 쫄깃하고 두툼한 대청도 통갑오징어 탕수육과 칼칼하고 진한 해물짬뽕을 맛보세요.'
+        }
+      };
+
+      window.openGourmetModal = function (foodId) {
+        var item = gourmetData[foodId];
+        if (!item) return;
+
+        var titleEl = document.getElementById('modal-food-title');
+        var imgEl = document.getElementById('modal-food-img');
+        var restEl = document.getElementById('modal-food-restaurant');
+        var addrEl = document.getElementById('modal-food-address');
+        var tipsEl = document.getElementById('modal-food-tips');
+
+        if (titleEl) titleEl.innerText = item.title;
+        if (imgEl) imgEl.src = item.image;
+        if (restEl) restEl.innerText = item.restaurant;
+        if (addrEl) addrEl.innerText = item.address;
+        if (tipsEl) tipsEl.innerText = item.tips;
+
+        var modal = document.getElementById('gourmet-modal');
+        if (modal) modal.classList.remove('hidden');
+      };
+
+      window.closeGourmetModal = function () {
+        var modal = document.getElementById('gourmet-modal');
+        if (modal) modal.classList.add('hidden');
+      };
+
+      // 3. YouTube Player Logic
+      window.playYouTubeTrack = function (videoId, title) {
+        var playerBar = document.getElementById('youtube-player-bar');
+        var iframe = document.getElementById('youtube-iframe');
+        var titleSpan = document.getElementById('player-title');
+
+        if (playerBar && iframe && titleSpan) {
+          titleSpan.innerText = '♪ 재생 중: ' + title;
+          iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+          playerBar.classList.remove('hidden');
+        }
+      };
+
+      window.closeYouTubePlayer = function () {
+        var playerBar = document.getElementById('youtube-player-bar');
+        var iframe = document.getElementById('youtube-iframe');
+        if (playerBar && iframe) {
+          iframe.src = '';
+          playerBar.classList.add('hidden');
+        }
+      };
+    })();
+  </script>
 </article>
-
-<!-- Vanilla JavaScript for Itinerary Tabs, Gourmet Modal & YouTube Player -->
-<script>
-  (function () {
-    // 1. Itinerary Tabs Switcher (Explicit Window Binding)
-    window.switchItineraryTab = function (tabId) {
-      document.querySelectorAll('.itinerary-content').forEach(function (content) {
-        content.classList.add('hidden');
-      });
-
-      document.querySelectorAll('.tab-btn').forEach(function (btn) {
-        btn.classList.remove('bg-[#1B4D3E]', 'text-white');
-        btn.classList.add('bg-[#F6F6F6]', 'text-[#525252]');
-      });
-
-      var targetContent = document.getElementById('tab-content-' + tabId);
-      if (targetContent) {
-        targetContent.classList.remove('hidden');
-      }
-
-      var targetBtn = document.getElementById('tab-btn-' + tabId);
-      if (targetBtn) {
-        targetBtn.classList.remove('bg-[#F6F6F6]', 'text-[#525252]');
-        targetBtn.classList.add('bg-[#1B4D3E]', 'text-white');
-      }
-    };
-
-    // 2. Gourmet Food Modal Data Store (Official Daecheongdo Local Restaurants)
-    var gourmetData = {
-      'skate': {
-        title: '대청도 생홍어회 & 홍어회무침',
-        image: '/images/vol1/대청도 생홍어회 & 홍어회무침.png',
-        restaurant: '솔밭나루터 (Solbat Naruteo)',
-        address: '인천 옹진군 대청면 대청로19번길 116-4',
-        tips: '대청도에서 갓 잡은 삭히지 않은 신선한 생홍어회 전문 펜션 겸 식당. 쫄깃한 식감과 알싸한 야채 무침이 트레킹 후 입맛을 최고로 돋워줍니다.'
-      },
-      'uni': {
-        title: '바다 향 가득 성게알 비빔밥 & 해산물 백반',
-        image: '/images/vol1/성게알 비빔밥 & 백반 및 해산물.avif',
-        restaurant: '바다식당 (Bada Restaurant)',
-        address: '인천 옹진군 대청면 대청로 13 (선진포구)',
-        tips: '선진포항 바로 앞에 위치하여 접성이 뛰어납니다. 해녀들이 직접 채취한 싱싱하고 고소한 보라성게알 비빔밥과 갓 잡은 해산물을 즐길 수 있는 대표 식당.'
-      },
-      'mussel': {
-        title: '자연산 섭(홍합)탕 & 해물탕',
-        image: '/images/vol1/자연산 섭(홍합)탕 & 해물 요리.webp',
-        restaurant: '고리식당 / 선진어촌계',
-        address: '인천 옹진군 대청면 대청로233번길 50',
-        tips: '알이 통통하게 오른 대청도 청정 자연산 섭탕과 시원하고 진한 칼국수가 트레킹 피로를 말끔히 풀어주는 로컬 대표 맛집입니다.'
-      },
-      'squid': {
-        title: '대청도 갑오징어 탕수육 & 해물짬뽕',
-        image: '/images/vol1/갑오징어 탕수육.webp',
-        restaurant: '섬중화요리 / 솔중화요리',
-        address: '인천 옹진군 대청면 대청로7번길 4-7',
-        tips: '현지 주민과 트레커들이 즐겨찾는 대청도 이색 로컬 맛집. 쫄깃하고 두툼한 대청도 통갑오징어 탕수육과 칼칼하고 진한 해물짬뽕을 맛보세요.'
-      }
-    };
-
-    window.openGourmetModal = function (foodId) {
-      var item = gourmetData[foodId];
-      if (!item) return;
-
-      var titleEl = document.getElementById('modal-food-title');
-      var imgEl = document.getElementById('modal-food-img');
-      var restEl = document.getElementById('modal-food-restaurant');
-      var addrEl = document.getElementById('modal-food-address');
-      var tipsEl = document.getElementById('modal-food-tips');
-
-      if (titleEl) titleEl.innerText = item.title;
-      if (imgEl) imgEl.src = item.image;
-      if (restEl) restEl.innerText = item.restaurant;
-      if (addrEl) addrEl.innerText = item.address;
-      if (tipsEl) tipsEl.innerText = item.tips;
-
-      var modal = document.getElementById('gourmet-modal');
-      if (modal) modal.classList.remove('hidden');
-    };
-
-    window.closeGourmetModal = function () {
-      var modal = document.getElementById('gourmet-modal');
-      if (modal) modal.classList.add('hidden');
-    };
-
-    // 3. YouTube Player Logic
-    window.playYouTubeTrack = function (videoId, title) {
-      var playerBar = document.getElementById('youtube-player-bar');
-      var iframe = document.getElementById('youtube-iframe');
-      var titleSpan = document.getElementById('player-title');
-
-      if (playerBar && iframe && titleSpan) {
-        titleSpan.innerText = '♪ 재생 중: ' + title;
-        iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
-        playerBar.classList.remove('hidden');
-      }
-    };
-
-    window.closeYouTubePlayer = function () {
-      var playerBar = document.getElementById('youtube-player-bar');
-      var iframe = document.getElementById('youtube-iframe');
-      if (playerBar && iframe) {
-        iframe.src = '';
-        playerBar.classList.add('hidden');
-      }
-    };
-  })();
-</script>

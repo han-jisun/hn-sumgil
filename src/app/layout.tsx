@@ -33,10 +33,10 @@ export default function RootLayout({
       </head>
       <body className="bg-white text-[#282828] font-sans antialiased min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-1">
+        <main id="main-content" className="flex-1">
           {children}
         </main>
-        <footer className="w-full border-t border-[#EDEDED] bg-white py-8 mt-auto">
+        <footer id="main-footer" className="w-full border-t border-[#EDEDED] bg-white py-8 mt-auto">
           <div className="max-w-[1440px] m-auto px-6 sm:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="font-bold text-[#0F3E17]">한눈섬길</span>

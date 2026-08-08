@@ -9,6 +9,7 @@ export default function Navbar() {
 
   return (
     <header
+      id="main-navbar"
       className={`w-full z-[100] transition-colors duration-200 ${
         isHome
           ? "absolute top-0 left-0 right-0 h-[96px] bg-transparent border-none"
@@ -21,7 +22,7 @@ export default function Navbar() {
         }`}
       >
         {/* Logo with Subtitle */}
-        <Link href="/" className="flex items-baseline gap-1.5 sm:gap-2 shrink-0 group">
+        <Link id="nav-logo-link" href="/" className="flex items-baseline gap-1.5 sm:gap-2 shrink-0 group">
           <span
             className={`text-xl sm:text-2xl font-bold tracking-tight transition-colors ${
               isHome ? "text-white group-hover:text-[#B6CED5]" : "text-[#0F3E17] group-hover:text-[#093712]"
@@ -39,8 +40,9 @@ export default function Navbar() {
         </Link>
 
         {/* Header Navigation */}
-        <nav className="flex items-center gap-4 sm:gap-8 shrink-0">
+        <nav id="nav-menu" className="flex items-center gap-4 sm:gap-8 shrink-0">
           <Link
+            id="nav-link-explore"
             href="/explore"
             className={`text-xs sm:text-base font-medium sm:font-normal transition-colors ${
               isHome
@@ -51,6 +53,7 @@ export default function Navbar() {
             한눈 탐색
           </Link>
           <Link
+            id="nav-link-theme"
             href="/theme"
             className={`text-xs sm:text-base font-medium sm:font-normal transition-colors ${
               isHome

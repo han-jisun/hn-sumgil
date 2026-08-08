@@ -127,18 +127,19 @@ export default function HomePage() {
   const oriLabels = ["인천 연안여객", "대부도 방아머리", "삼목선착장"];
 
   return (
-    <div className="w-full bg-white text-[#282828] font-sans antialiased">
+    <div id="main-page-container" className="w-full bg-white text-[#282828] font-sans antialiased">
       {/* ========================================================================= */}
       {/* HERO SECTION */}
       {/* ========================================================================= */}
-      <section data-screen-label="Hero" className="relative w-full h-[100dvh] min-h-[600px] sm:h-[900px] overflow-hidden bg-[#022100]">
+      <section id="hero-section" data-screen-label="Hero" className="relative w-full h-[100dvh] min-h-[600px] sm:h-[900px] overflow-hidden bg-[#022100]">
         {/* Background Slide Images with Ken Burns & Fade */}
-        <div className="absolute inset-0 z-0">
+        <div id="hero-bg-slider" className="absolute inset-0 z-0">
           {heroSlides.map((slide, idx) => {
             const isActive = idx === heroIdx;
             return (
               <div
                 key={slide.name}
+                id={`hero-slide-${idx}`}
                 className={`absolute inset-0 transition-opacity duration-1400 ease-in-out ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"
                   }`}
               >
@@ -173,11 +174,11 @@ export default function HomePage() {
         />
 
         {/* Hero Content */}
-        <div className="relative z-10 w-full h-full max-w-[1440px] mx-auto px-6 sm:px-10 pt-16 sm:pt-24 flex flex-col justify-center">
+        <div id="hero-content" className="relative z-10 w-full h-full max-w-[1440px] mx-auto px-6 sm:px-10 pt-16 sm:pt-24 flex flex-col justify-center">
           <div className="max-w-[900px]">
 
             {/* Title */}
-            <h1 className="m-0 text-white font-normal leading-none flex flex-col items-start">
+            <h1 id="hero-main-title" className="m-0 text-white font-normal leading-none flex flex-col items-start">
               <span className="flex items-center gap-5 text-2xl sm:text-[36px] text-white/88 font-light mb-2">
                 <span className="w-[72px] h-[1px] bg-white/55 shrink-0" />
                 복잡한 인천 섬 여행 준비,
@@ -192,7 +193,7 @@ export default function HomePage() {
             </h1>
 
             {/* Rolling Subtitles (Smooth Vertical Slot Ticker) */}
-            <div className="mt-6 h-[56px] sm:h-[40px] overflow-hidden relative max-w-[800px]">
+            <div id="hero-subtitle-ticker" className="mt-6 h-[56px] sm:h-[40px] overflow-hidden relative max-w-[800px]">
               {rollingSubtitles.map((text, idx) => {
                 const isActive = idx === subIdx;
                 const prevIdx = (subIdx - 1 + rollingSubtitles.length) % rollingSubtitles.length;
@@ -208,6 +209,7 @@ export default function HomePage() {
                 return (
                   <p
                     key={text}
+                    id={`hero-subtitle-${idx}`}
                     className={`absolute top-0 left-0 m-0 text-[#F6F6F6] text-lg sm:text-[20px] leading-[1.5] font-normal transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${stateClass}`}
                   >
                     {text}
@@ -219,6 +221,7 @@ export default function HomePage() {
             {/* CTA Buttons */}
             <div className="flex items-center gap-4 mt-6 sm:mt-10">
               <Link
+                id="hero-cta-explore-btn"
                 href="/explore"
                 className="inline-flex items-center justify-center gap-2 sm:gap-3 h-12 sm:h-16 px-5 sm:px-8 rounded-lg border border-white/40 bg-white/5 hover:bg-white/12 backdrop-blur-sm text-white font-medium text-base sm:text-xl transition-all"
               >
@@ -233,26 +236,27 @@ export default function HomePage() {
         </div>
 
         {/* Hero Bottom Bar */}
-        <div className="absolute left-0 right-0 bottom-10 z-10">
+        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-10 z-10">
           <div className="max-w-[1440px] mx-auto px-6 sm:px-10 grid grid-cols-12 gap-4 items-end">
             {/* Active Slide Name (Stacked vertically above indicators on mobile) */}
             <div className="col-span-12 sm:col-span-4 flex items-center gap-2 sm:gap-3 mb-3 sm:mb-0">
               <span className="w-4 sm:w-6 h-[1px] bg-white/60 shrink-0" />
               <span className="text-xs font-medium tracking-wider text-[#B6CED5] uppercase shrink-0">지금 보이는 곳</span>
-              <span className="text-sm sm:text-base font-medium text-white truncate">
+              <span id="hero-current-slide-label" className="text-sm sm:text-base font-medium text-white truncate">
                 {heroSlides[heroIdx].name}
               </span>
             </div>
 
             {/* Slide Progress & Controls */}
-            <div className="col-span-12 sm:col-start-9 sm:col-span-4 flex items-center justify-end gap-3 sm:gap-4">
-              <span className="text-white text-xs font-medium tracking-wider">
+            <div id="hero-slide-controls" className="col-span-12 sm:col-start-9 sm:col-span-4 flex items-center justify-end gap-3 sm:gap-4">
+              <span id="hero-slide-counter" className="text-white text-xs font-medium tracking-wider">
                 0{heroIdx + 1} / 0{heroSlides.length}
               </span>
-              <div className="flex items-center gap-2">
+              <div id="hero-slide-indicators" className="flex items-center gap-2">
                 {heroSlides.map((_, i) => (
                   <button
                     key={i}
+                    id={`hero-slide-btn-${i}`}
                     type="button"
                     onClick={() => setHeroIdx(i)}
                     className="w-12 sm:w-16 h-1 p-0 border-none rounded-full overflow-hidden bg-white/30 cursor-pointer"
@@ -266,6 +270,7 @@ export default function HomePage() {
                 ))}
               </div>
               <button
+                id="hero-pause-play-btn"
                 type="button"
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 bg-transparent text-white text-xs font-medium hover:bg-white/10 transition-colors"
@@ -281,11 +286,11 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* SECTION 1: 백패킹 인증 성지 컬렉션 */}
       {/* ========================================================================= */}
-      <section data-screen-label="SCR_000 성지 컬렉션" className="w-full bg-white py-24 sm:py-32">
+      <section id="curation-section" data-screen-label="SCR_000 성지 컬렉션" className="w-full bg-white py-24 sm:py-32">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
             {/* Left Header */}
-            <div className="lg:col-span-3 flex flex-col gap-4">
+            <div id="curation-section-header" className="lg:col-span-3 flex flex-col gap-4">
               <span className="text-xs font-medium tracking-wider text-[#626E71] uppercase">
                 SCR_000 · 홈 큐레이션 01
               </span>
@@ -297,8 +302,9 @@ export default function HomePage() {
               </p>
 
               {/* Filter Tabs */}
-              <div className="flex flex-col gap-2.5 mt-2">
+              <div id="curation-filter-tabs" className="flex flex-col gap-2.5 mt-2">
                 <button
+                  id="curation-tab-popular"
                   type="button"
                   onClick={() => setActiveCurationTab("popular")}
                   className={`h-12 rounded-lg font-medium text-base transition-colors ${activeCurationTab === "popular"
@@ -309,6 +315,7 @@ export default function HomePage() {
                   후기 많은 섬
                 </button>
                 <button
+                  id="curation-tab-recent"
                   type="button"
                   onClick={() => setActiveCurationTab("recent")}
                   className={`h-12 rounded-lg font-medium text-base transition-colors ${activeCurationTab === "recent"
@@ -323,9 +330,9 @@ export default function HomePage() {
             </div>
 
             {/* Right 3 Cards Grid */}
-            <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="curation-cards-grid" className="lg:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Card 1: 굴업도 */}
-              <div className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
+              <div id="curation-card-gureopdo" className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
                 <div className="relative h-52 bg-[#EDEDED] shrink-0 overflow-hidden">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -356,14 +363,14 @@ export default function HomePage() {
                   <span className="flex items-center text-xs text-[#848484]">
                     <span className="font-medium text-[#282828] mr-1">인증</span> +409개
                   </span>
-                  <Link href="/explore/굴업도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
+                  <Link id="curation-link-gureopdo" href="/explore/굴업도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
                     자세히
                   </Link>
                 </div>
               </div>
 
               {/* Card 2: 무의도 */}
-              <div className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
+              <div id="curation-card-muuido" className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
                 <div className="relative h-52 bg-[#EDEDED] shrink-0 overflow-hidden">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -391,14 +398,14 @@ export default function HomePage() {
                   <span className="flex items-center text-xs text-[#848484]">
                     <span className="font-medium text-[#282828] mr-1">인증</span> +284개
                   </span>
-                  <Link href="/explore/무의도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
+                  <Link id="curation-link-muuido" href="/explore/무의도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
                     자세히
                   </Link>
                 </div>
               </div>
 
               {/* Card 3: 대이작도 */}
-              <div className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
+              <div id="curation-card-daeijakdo" className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
                 <div className="relative h-52 bg-[#EDEDED] shrink-0 overflow-hidden">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -426,7 +433,7 @@ export default function HomePage() {
                   <span className="flex items-center text-xs text-[#848484]">
                     <span className="font-medium text-[#282828] mr-1">인증</span> +193개
                   </span>
-                  <Link href="/explore/대이작도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
+                  <Link id="curation-link-daeijakdo" href="/explore/대이작도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
                     자세히
                   </Link>
                 </div>
@@ -440,12 +447,13 @@ export default function HomePage() {
       {/* SECTION 2: 배편 최저가 & 최단시간 Top 3 */}
       {/* ========================================================================= */}
       <section 
+        id="ferry-comparison-section"
         data-screen-label="SCR_000 배편 최저가" 
         className="w-full bg-[#F4F8F5] bg-[url('/contour.svg')] bg-no-repeat bg-center bg-cover py-24 sm:py-32"
       >
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
           {/* Header & Departure Tabs */}
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-10">
+          <div id="ferry-comparison-header" className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-10">
             <div className="flex flex-col gap-3">
               <span className="text-xs font-medium tracking-wider text-[#8B9DA2] uppercase">
                 SCR_000 · 홈 큐레이션 02
@@ -461,12 +469,13 @@ export default function HomePage() {
             {/* Departure Pills */}
             <div className="flex flex-col items-start md:items-end gap-2.5">
               <span className="text-xs font-medium tracking-wider text-[#848484]">출발지 선택</span>
-              <div className="flex flex-wrap items-center gap-2.5">
+              <div id="departure-filter-tabs" className="flex flex-wrap items-center gap-2.5">
                 {oriLabels.map((label, idx) => {
                   const isActive = selectedOri === idx;
                   return (
                     <button
                       key={label}
+                      id={`departure-btn-${idx}`}
                       type="button"
                       onClick={() => setSelectedOri(idx)}
                       className={`h-9 px-5 rounded-full text-sm font-medium border transition-colors ${isActive
@@ -483,17 +492,18 @@ export default function HomePage() {
           </div>
 
           {/* 2 Column Comparison Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div id="ferry-comparison-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Left Column: 가장 저렴한 배편 */}
-            <div className="flex flex-col gap-5">
+            <div id="cheap-ferry-routes-column" className="flex flex-col gap-5">
               <div className="flex items-baseline justify-between">
                 <span className="text-2xl font-bold tracking-tight text-[#282828]">가장 저렴한 배편</span>
                 <span className="text-xs text-[#848484]">왕복 · 성인 기준</span>
               </div>
-              <div className="flex flex-col gap-4">
-                {cheapRoutes.map((r) => (
+              <div id="cheap-ferry-routes-list" className="flex flex-col gap-4">
+                {cheapRoutes.map((r, i) => (
                   <div
                     key={r.island + r.pier}
+                    id={`cheap-route-card-${i}`}
                     className="grid grid-cols-1 sm:grid-cols-[76px_1fr_160px] items-center gap-4 p-6 border border-[#D4D4D4] rounded-lg bg-white hover:border-[#0F3E17] hover:shadow-md transition-all"
                   >
                     <span
@@ -520,16 +530,17 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: 1시간 이내 도착 섬 */}
-            <div className="flex flex-col gap-5">
+            <div id="fast-ferry-routes-column" className="flex flex-col gap-5">
               <div className="flex items-baseline justify-between">
                 <span className="text-2xl font-bold tracking-tight text-[#282828]">1시간 이내 도착 섬</span>
                 <span className="text-xs text-[#848484]">왕복 · 성인 기준</span>
               </div>
-              <div className="flex flex-col gap-4">
+              <div id="fast-ferry-routes-list" className="flex flex-col gap-4">
                 {fastRoutes.length > 0 ? (
-                  fastRoutes.map((r) => (
+                  fastRoutes.map((r, i) => (
                     <div
                       key={r.island + r.pier}
+                      id={`fast-route-card-${i}`}
                       className="grid grid-cols-1 sm:grid-cols-[76px_1fr_160px] items-center gap-4 p-6 border border-[#D4D4D4] rounded-lg bg-white hover:border-[#0F3E17] hover:shadow-md transition-all"
                     >
                       <span
@@ -553,7 +564,7 @@ export default function HomePage() {
                     </div>
                   ))
                 ) : (
-                  <div className="flex flex-col justify-center gap-2 p-8 border border-dashed border-[#D4D4D4] rounded-lg bg-white min-h-[160px]">
+                  <div id="fast-ferry-empty-box" className="flex flex-col justify-center gap-2 p-8 border border-dashed border-[#D4D4D4] rounded-lg bg-white min-h-[160px]">
                     <span className="text-base font-medium text-[#282828]">
                       이 출발지에는 1시간 이내 항로가 없습니다
                     </span>
@@ -571,9 +582,9 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* SECTION 3: 영상으로 보는 섬 백패킹 후기 */}
       {/* ========================================================================= */}
-      <section data-screen-label="SCR_000 유튜브 리뷰" className="w-full bg-white py-24 sm:py-32">
+      <section id="youtube-reviews-section" data-screen-label="SCR_000 유튜브 리뷰" className="w-full bg-white py-24 sm:py-32">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-10">
+          <div id="youtube-reviews-header" className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-10">
             <div className="flex flex-col gap-3">
               <span className="text-xs font-medium tracking-wider text-[#626E71] uppercase">
                 SCR_000 · 홈 큐레이션 03
@@ -586,6 +597,7 @@ export default function HomePage() {
               </span>
             </div>
             <Link
+              id="link-more-reviews"
               href="/explore"
               className="inline-flex items-center h-12 px-6 border border-[#0F3E17] rounded-lg text-[#0F3E17] font-medium text-base hover:bg-[#E6FDE5] transition-colors whitespace-nowrap"
             >
@@ -594,9 +606,9 @@ export default function HomePage() {
           </div>
 
           {/* 3 Video Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div id="youtube-cards-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {youtubeVideos.map((vid) => (
-              <div key={vid.id} className="flex flex-col gap-4 group">
+              <div key={vid.id} id={`youtube-card-${vid.id}`} className="flex flex-col gap-4 group">
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-[#EDEDED] shadow-sm group-hover:shadow-md transition-shadow">
                   <div
                     className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
@@ -623,6 +635,7 @@ export default function HomePage() {
 
                   {/* Play Button Overlay */}
                   <button
+                    id={`youtube-play-btn-${vid.id}`}
                     type="button"
                     onClick={() => setActiveVideo(vid.embedUrl)}
                     className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/95 hover:bg-white hover:scale-110 transition-all shadow-lg cursor-pointer"
@@ -647,6 +660,7 @@ export default function HomePage() {
       {/* Video Modal Overlay */}
       {activeVideo && (
         <div
+          id="youtube-video-modal"
           className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setActiveVideo(null)}
         >
@@ -655,6 +669,7 @@ export default function HomePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              id="youtube-modal-close-btn"
               type="button"
               onClick={() => setActiveVideo(null)}
               className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 text-white text-xl font-bold flex items-center justify-center hover:bg-black transition-colors"

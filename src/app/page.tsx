@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { heroSlidesData, rollingSubtitles } from "@/data/main";
 
 interface FerryRoute {
@@ -78,6 +79,52 @@ export default function HomePage() {
   const [activeCurationTab, setActiveCurationTab] = useState<"popular" | "recent">("popular");
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [subIdx, setSubIdx] = useState(0);
+  const [activeThemeIdx, setActiveThemeIdx] = useState(0);
+
+  const curationThemes = [
+    {
+      id: "gourmet",
+      badge: "🍽️ 미식 & 낚시",
+      badgeBg: "bg-[#FFF8E7] text-[#B45309] border-[#FCD34D]",
+      title: "해산물 식당가와 선상 낚시 스팟",
+      primaryHref: "/explore/jawoldo",
+      islands: [
+        { name: "자월도", href: "/explore/jawoldo" },
+        { name: "승봉도", href: "/explore/seungbongdo" },
+      ],
+      tags: ["#1박4식 미식", "#선상 낚시"],
+      desc: "삼시세끼 해산물 차림을 제공하는 민박과 당일 선상 낚시 포인트가 있는 섬",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+      id: "tidal",
+      badge: "🦀 갯벌 & 트레킹",
+      badgeBg: "bg-[#E7FAFF] text-[#0284C7] border-[#93C5FD]",
+      title: "썰물 때 열리는 모래섬과 갯벌 체험장",
+      primaryHref: "/explore/daeijakdo",
+      islands: [
+        { name: "대이작도", href: "/explore/daeijakdo" },
+        { name: "소이작도", href: "/explore/soijakdo" },
+      ],
+      tags: ["#갯벌체험", "#해안 데크길"],
+      desc: "하루 두 번 열리는 풀등 모래섬과 경사가 완만해 걷기 쉬운 해안 산책로",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+      id: "backpacking",
+      badge: "🏕️ 백패킹",
+      badgeBg: "bg-[#E6FDE5] text-[#0F3E17] border-[#86EFAC]",
+      title: "야영장이 갖춰진 백패킹과 일몰 스팟",
+      primaryHref: "/explore/gureopdo",
+      islands: [
+        { name: "굴업도", href: "/explore/gureopdo" },
+        { name: "덕적도", href: "/explore/deokjeokdo" },
+      ],
+      tags: ["#백패킹", "#일몰 명소"],
+      desc: "개머리언덕 능선과 서해 해안 절벽을 따라 걷는 대표 백패킹 코스",
+      image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    },
+  ];
 
   // Hero auto rolling
   useEffect(() => {
@@ -284,171 +331,103 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 1: 백패킹 인증 성지 컬렉션 */}
+      {/* SECTION 1: 나에게 맞는 첫 번째 인천 섬 찾기 (와이드 매거진 커버 3-카드) */}
       {/* ========================================================================= */}
-      <section id="curation-section" data-screen-label="SCR_000 성지 컬렉션" className="w-full bg-white py-24 sm:py-32">
+      <section id="curation-section" className="w-full bg-white py-16 sm:py-24">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-            {/* Left Header */}
-            <div id="curation-section-header" className="lg:col-span-3 flex flex-col gap-4">
-              <span className="text-xs font-medium tracking-wider text-[#626E71] uppercase">
-                SCR_000 · 홈 큐레이션 01
-              </span>
-              <h2 className="m-0 text-3xl sm:text-4xl font-bold tracking-tight text-[#282828] leading-tight">
-                백패킹 인증<br className="hidden sm:inline" /> 성지 컬렉션
-              </h2>
-              <p className="text-base text-[#6A6A6A] leading-relaxed">
-                네이버·유튜브·인스타그램 후기 집계 · 최근 3년 10건 이상 코스만
-              </p>
 
-              {/* Filter Tabs */}
-              <div id="curation-filter-tabs" className="flex flex-col gap-2.5 mt-2">
-                <button
-                  id="curation-tab-popular"
-                  type="button"
-                  onClick={() => setActiveCurationTab("popular")}
-                  className={`h-12 rounded-lg font-medium text-base transition-colors ${activeCurationTab === "popular"
-                    ? "bg-[#0F3E17] text-white"
-                    : "bg-[#F6F6F6] text-[#848484] hover:bg-[#EDEDED] hover:text-[#525252]"
-                    }`}
-                >
-                  후기 많은 섬
-                </button>
-                <button
-                  id="curation-tab-recent"
-                  type="button"
-                  onClick={() => setActiveCurationTab("recent")}
-                  className={`h-12 rounded-lg font-medium text-base transition-colors ${activeCurationTab === "recent"
-                    ? "bg-[#0F3E17] text-white"
-                    : "bg-[#F6F6F6] text-[#848484] hover:bg-[#EDEDED] hover:text-[#525252]"
-                    }`}
-                >
-                  최근 인증 섬
-                </button>
-              </div>
-              <span className="text-xs text-[#848484] mt-2">2026.07.28 갱신</span>
-            </div>
-
-            {/* Right 3 Cards Grid */}
-            <div id="curation-cards-grid" className="lg:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Card 1: 굴업도 */}
-              <div id="curation-card-gureopdo" className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
-                <div className="relative h-52 bg-[#EDEDED] shrink-0 overflow-hidden">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?fm=jpg&q=80&w=1000&auto=format&fit=crop')",
-                    }}
-                  />
-                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#151D1F]/70 via-[#151D1F]/30 to-transparent" />
-                  <span className="absolute top-5 right-5 z-10 inline-flex items-center h-7 px-3 rounded-full bg-[#E6FDE5] text-xs font-medium text-[#0F3E17]">
-                    후기 최다
-                  </span>
-                  <div className="absolute left-5 right-5 top-5 flex flex-col gap-1 text-white">
-                    <span className="text-2xl font-bold tracking-tight">굴업도</span>
-                    <span className="text-xs text-white/95 drop-shadow">개머리언덕 ~ 큰말해변</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3 p-5 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-[#525252]">★★★★★</span>
-                    <span className="text-sm font-medium text-[#282828]">4.8</span>
-                  </div>
-                  <p className="text-base text-[#525252] leading-relaxed line-clamp-2">
-                    “개머리언덕 일몰 하나로 다 잊혀요.”
-                  </p>
-                </div>
-                <div className="flex items-center justify-between px-5 py-4 border-t border-[#F6F6F6]">
-                  <span className="flex items-center text-xs text-[#848484]">
-                    <span className="font-medium text-[#282828] mr-1">인증</span> +409개
-                  </span>
-                  <Link id="curation-link-gureopdo" href="/explore/굴업도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
-                    자세히
-                  </Link>
-                </div>
-              </div>
-
-              {/* Card 2: 무의도 */}
-              <div id="curation-card-muuido" className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
-                <div className="relative h-52 bg-[#EDEDED] shrink-0 overflow-hidden">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1517824806704-9040b037703b?fm=jpg&q=80&w=1000&auto=format&fit=crop')",
-                    }}
-                  />
-                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#151D1F]/70 via-[#151D1F]/30 to-transparent" />
-                  <div className="absolute left-5 right-5 top-5 flex flex-col gap-1 text-white">
-                    <span className="text-2xl font-bold tracking-tight">무의도</span>
-                    <span className="text-xs text-white/95 drop-shadow">호룡곡산 ~ 하나개해변</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3 p-5 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-[#525252]">★★★★★</span>
-                    <span className="text-sm font-medium text-[#282828]">4.5</span>
-                  </div>
-                  <p className="text-base text-[#525252] leading-relaxed line-clamp-2">
-                    “정상 두 시간, 하산길엔 서해 낙조.”
-                  </p>
-                </div>
-                <div className="flex items-center justify-between px-5 py-4 border-t border-[#F6F6F6]">
-                  <span className="flex items-center text-xs text-[#848484]">
-                    <span className="font-medium text-[#282828] mr-1">인증</span> +284개
-                  </span>
-                  <Link id="curation-link-muuido" href="/explore/무의도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
-                    자세히
-                  </Link>
-                </div>
-              </div>
-
-              {/* Card 3: 대이작도 */}
-              <div id="curation-card-daeijakdo" className="flex flex-col border border-[#D4D4D4] rounded-lg overflow-hidden bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all">
-                <div className="relative h-52 bg-[#EDEDED] shrink-0 overflow-hidden">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{
-                      backgroundImage:
-                        "url('https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?fm=jpg&q=80&w=1000&auto=format&fit=crop')",
-                    }}
-                  />
-                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#151D1F]/70 via-[#151D1F]/30 to-transparent" />
-                  <div className="absolute left-5 right-5 top-5 flex flex-col gap-1 text-white">
-                    <span className="text-2xl font-bold tracking-tight">대이작도</span>
-                    <span className="text-xs text-white/95 drop-shadow">부아산 능선 ~ 풀등</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3 p-5 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-[#525252]">★★★★☆</span>
-                    <span className="text-sm font-medium text-[#282828]">4.4</span>
-                  </div>
-                  <p className="text-base text-[#525252] leading-relaxed line-clamp-2">
-                    “풀등 다음 능선, 하루가 알차요.”
-                  </p>
-                </div>
-                <div className="flex items-center justify-between px-5 py-4 border-t border-[#F6F6F6]">
-                  <span className="flex items-center text-xs text-[#848484]">
-                    <span className="font-medium text-[#282828] mr-1">인증</span> +193개
-                  </span>
-                  <Link id="curation-link-daeijakdo" href="/explore/대이작도" className="text-sm font-medium text-[#282828] hover:text-[#0F3E17]">
-                    자세히
-                  </Link>
-                </div>
-              </div>
-            </div>
+          {/* Header */}
+          <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-12 sm:mb-16">
+            <span className="text-xs font-semibold tracking-wider text-[#0F3E17] uppercase mb-2 block">
+              ISLAND THEME CURATION
+            </span>
+            <h2 id="curation-main-title" className="m-0 text-2xl sm:text-4xl font-bold tracking-tight text-[#282828] mb-3">
+              나에게 맞는 첫 번째 여행 섬 찾기
+            </h2>
+            <p id="curation-subtitle" className="text-sm sm:text-base text-[#6A6A6A] leading-relaxed m-0">
+              어떤 여행을 꿈꾸시나요? 목적에 맞는 섬을 추천해 드립니다.
+            </p>
           </div>
+
+          {/* 3 Magazine Cover Style Cards (Height reduced to half) */}
+          <div id="curation-cards-grid" className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {curationThemes.map((theme, idx) => (
+              <Link
+                key={theme.id}
+                id={`curation-card-${idx + 1}`}
+                href={theme.primaryHref}
+                className="relative h-[220px] sm:h-[240px] rounded-2xl overflow-hidden shadow-md border border-[#D4D4D4] hover:border-[#0F3E17] hover:shadow-xl transition-all duration-300 group flex flex-col justify-between p-4 sm:p-5 bg-[#151D1F] cursor-pointer"
+              >
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <Image
+                    src={theme.image}
+                    alt={theme.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Subtle Dark Gradient Backdrop */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/30 transition-opacity duration-300 group-hover:opacity-95" />
+                </div>
+
+                {/* Top: Badge & Hash Tags */}
+                <div className="relative z-10 flex flex-wrap items-center justify-between gap-1.5">
+                  <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow border ${theme.badgeBg}`}>
+                    {theme.badge}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    {theme.tags.map((tag) => (
+                      <span key={tag} className="text-[10px] bg-white/20 backdrop-blur-md text-white px-2 py-0.5 rounded-full font-medium">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom: Title, Description & Island Link Chips */}
+                <div className="relative z-10 flex flex-col gap-1.5 text-white">
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight text-white leading-snug group-hover:text-[#E6FDE5] transition-colors line-clamp-1">
+                    {theme.title}
+                  </h3>
+
+                  <p className="text-[11px] sm:text-xs text-white/85 leading-tight line-clamp-2">
+                    {theme.desc}
+                  </p>
+
+                  {/* Recommended Island Chips (Direct Detail Routing) */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1.5 border-t border-white/20">
+                    <span className="text-[10px] text-white/75 font-medium">📍 추천 섬:</span>
+                    {theme.islands.map((island) => (
+                      <span
+                        key={island.name}
+                        id={`curation-island-link-${theme.id}-${island.name}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.location.href = island.href;
+                        }}
+                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-white/90 hover:bg-white text-[#0F3E17] text-[11px] font-bold transition-all shadow hover:scale-105"
+                      >
+                        <span>{island.name}</span>
+                        <span className="text-[9px]">➔</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
         </div>
       </section>
 
       {/* ========================================================================= */}
       {/* SECTION 2: 배편 최저가 & 최단시간 Top 3 */}
       {/* ========================================================================= */}
-      <section 
+      <section
         id="ferry-comparison-section"
-        data-screen-label="SCR_000 배편 최저가" 
+        data-screen-label="SCR_000 배편 최저가"
         className="w-full bg-[#F4F8F5] bg-[url('/contour.svg')] bg-no-repeat bg-center bg-cover py-24 sm:py-32"
       >
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10">
@@ -578,6 +557,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+
 
       {/* ========================================================================= */}
       {/* SECTION 3: 영상으로 보는 섬 백패킹 후기 */}

@@ -22,16 +22,16 @@ export default function Navbar() {
         }`}
       >
         {/* Logo with Subtitle */}
-        <Link id="nav-logo-link" href="/" className="flex items-baseline gap-1.5 sm:gap-2 shrink-0 group">
+        <Link id="nav-logo-link" href="/" className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2.5 shrink-0 group">
           <span
-            className={`text-xl sm:text-2xl font-bold tracking-tight transition-colors ${
+            className={`text-xl sm:text-2xl font-bold tracking-tight leading-none transition-colors ${
               isHome ? "text-white group-hover:text-[#B6CED5]" : "text-[#0F3E17] group-hover:text-[#093712]"
             }`}
           >
             한눈섬길
           </span>
           <span
-            className={`text-[10px] sm:text-[12px] font-medium tracking-[0.05em] inline-block ${
+            className={`text-[9px] sm:text-[12px] font-medium tracking-[0.05em] leading-none inline-block mt-0.5 sm:mt-0 ${
               isHome ? "text-[#B6CED5]" : "text-[#626E71]"
             }`}
           >
@@ -44,7 +44,7 @@ export default function Navbar() {
           <Link
             id="nav-link-explore"
             href="/explore"
-            className={`text-xs sm:text-base font-medium sm:font-normal transition-colors ${
+            className={`text-xs sm:text-base font-medium sm:font-normal leading-none transition-colors ${
               isHome
                 ? pathname.startsWith("/explore") ? "text-[#E6FDE5] font-semibold" : "text-white hover:text-[#B6CED5]"
                 : pathname.startsWith("/explore") ? "text-[#0F3E17] font-semibold" : "text-[#282828] hover:text-[#0F3E17]"
@@ -55,7 +55,7 @@ export default function Navbar() {
           <Link
             id="nav-link-theme"
             href="/theme"
-            className={`text-xs sm:text-base font-medium sm:font-normal transition-colors ${
+            className={`text-xs sm:text-base font-medium sm:font-normal leading-none transition-colors ${
               isHome
                 ? pathname.startsWith("/theme") ? "text-[#E6FDE5] font-semibold" : "text-white hover:text-[#B6CED5]"
                 : pathname.startsWith("/theme") ? "text-[#0F3E17] font-semibold" : "text-[#282828] hover:text-[#0F3E17]"

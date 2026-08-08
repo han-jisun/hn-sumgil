@@ -308,10 +308,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
   }
 
   return (
-    <div className="py-10 pb-24 max-w-[900px] m-auto px-4 sm:px-6 text-[#282828]">
+    <div id="island-detail-container" className="py-10 pb-24 max-w-[900px] m-auto px-4 sm:px-6 text-[#282828]">
       
       {/* Back Button */}
       <Link 
+        id="island-back-link"
         href="/explore" 
         className="inline-flex items-center gap-2 text-[#525252] text-xs mb-6 py-2 px-4 bg-white border border-[#D4D4D4] rounded-full hover:text-[#0F3E17] hover:border-[#0F3E17] transition-all"
       >
@@ -323,7 +324,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
       </Link>
 
       {/* Intro Header Card */}
-      <section className="p-6 sm:p-8 rounded-2xl border border-[#D4D4D4] bg-white shadow-sm mb-8 flex flex-col gap-6">
+      <section id="island-intro-card" className="p-6 sm:p-8 rounded-2xl border border-[#D4D4D4] bg-white shadow-sm mb-8 flex flex-col gap-6">
         <div>
           <div className="flex flex-wrap gap-2 mb-3">
             {meta.backpacking && (
@@ -337,7 +338,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               </span>
             )}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2 tracking-tight text-[#282828]">{islandName}</h1>
+          <h1 id="island-title" className="text-3xl sm:text-4xl font-bold mb-2 tracking-tight text-[#282828]">{islandName}</h1>
           <p className="text-base text-[#6A6A6A] leading-relaxed mb-4">{meta.desc}</p>
           <a 
             href={`https://map.naver.com/index.naver?query=${encodeURIComponent(island?.address || "")}`} 
@@ -350,10 +351,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         </div>
 
         {/* 4 Sample Photos Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+        <div id="island-gallery-grid" className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
           {photos.map((url, index) => (
             <div 
               key={index} 
+              id={`island-gallery-item-${index}`}
               className="relative aspect-square w-full rounded-lg overflow-hidden border border-[#D4D4D4] bg-[#EDEDED] group"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -368,11 +370,12 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
       </section>
 
       {/* Collapsible Sections */}
-      <div className="flex flex-col gap-6 w-full">
+      <div id="island-sections-container" className="flex flex-col gap-6 w-full">
 
         {/* Ferry Route Info */}
-        <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+        <div id="section-ferry" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
           <button 
+            id="section-toggle-ferry"
             type="button"
             onClick={() => toggleSection("ferry")}
             className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -386,10 +389,10 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           </button>
           
           {openSections.ferry && (
-            <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6 flex flex-col gap-6">
+            <div id="section-content-ferry" className="px-6 pb-6 border-t border-[#EDEDED] pt-6 flex flex-col gap-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {island?.ferries.map((ferry, idx) => (
-                  <div key={idx} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-2">
+                  <div key={idx} id={`ferry-route-item-${idx}`} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-2">
                     <div className="flex justify-between items-center border-b border-[#D4D4D4] pb-2">
                       <span className="text-xs text-[#282828] font-bold">{idx + 1}번 노선</span>
                       <span className="text-[11px] text-[#848484]">왕복 기준</span>
@@ -407,6 +410,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               </div>
               <div className="flex justify-center pt-2">
                 <a 
+                  id="ferry-booking-link"
                   href="https://island.theksa.co.kr/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
@@ -421,8 +425,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
         {/* Restaurants Info */}
         {restaurants.length > 0 && (
-          <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+          <div id="section-restaurant" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
             <button 
+              id="section-toggle-restaurant"
               type="button"
               onClick={() => toggleSection("restaurant")}
               className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -436,10 +441,10 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             </button>
             
             {openSections.restaurant && (
-              <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+              <div id="section-content-restaurant" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[360px] overflow-y-auto pr-2">
                   {restaurants.map((rest: any, idx: number) => (
-                    <div key={idx} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-1.5 text-xs">
+                    <div key={idx} id={`restaurant-item-${idx}`} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-1.5 text-xs">
                       <div className="flex justify-between items-start">
                         <span className="font-bold text-[#282828] text-sm truncate max-w-[70%]">{rest.bsshNm}</span>
                         <span className="text-[11px] bg-[#E6FDE5] text-[#0F3E17] px-2 py-0.5 rounded font-medium">
@@ -466,8 +471,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
         {/* Lodges Info */}
         {lodges.length > 0 && (
-          <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+          <div id="section-lodge" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
             <button 
+              id="section-toggle-lodge"
               type="button"
               onClick={() => toggleSection("lodge")}
               className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -481,10 +487,10 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             </button>
             
             {openSections.lodge && (
-              <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+              <div id="section-content-lodge" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[360px] overflow-y-auto pr-2">
                   {lodges.map((lodge: any, idx: number) => (
-                    <div key={idx} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-1 text-xs">
+                    <div key={idx} id={`lodge-item-${idx}`} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-1 text-xs">
                       <span className="font-bold text-[#282828] text-sm">{lodge.bsshNm}</span>
                       <a 
                         href={`https://map.naver.com/index.naver?query=${encodeURIComponent(lodge.addr)}`} 
@@ -505,8 +511,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
         {/* Campsites Info */}
         {campsites.length > 0 && (
-          <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+          <div id="section-camping" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
             <button 
+              id="section-toggle-camping"
               type="button"
               onClick={() => toggleSection("camping")}
               className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -520,10 +527,10 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             </button>
             
             {openSections.camping && (
-              <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+              <div id="section-content-camping" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {campsites.map((camp: any, idx: number) => (
-                    <div key={idx} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-2 text-xs">
+                    <div key={idx} id={`camping-item-${idx}`} className="bg-[#F6F6F6] border border-[#D4D4D4] rounded-lg p-4 flex flex-col gap-2 text-xs">
                       <div className="flex justify-between items-start">
                         <span className="font-bold text-[#0F3E17] text-sm">{camp.facltNm}</span>
                         <span className="text-[11px] bg-white text-[#525252] px-2 py-0.5 rounded border border-[#D4D4D4]">
@@ -550,8 +557,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         )}
 
         {/* Tide Info */}
-        <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+        <div id="section-tide" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
           <button 
+            id="section-toggle-tide"
             type="button"
             onClick={() => toggleSection("tide")}
             className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -565,14 +573,14 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           </button>
           
           {openSections.tide && (
-            <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+            <div id="section-content-tide" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
               <p className="text-xs text-[#848484] mb-4">
                 * 갯벌체험 및 해안 탐방 시 간조(물 빠짐) 시간을 반드시 참고하세요.
               </p>
               {tides.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {tides.map((tide, index) => (
-                    <div key={index} className="p-4 rounded-lg border border-[#D4D4D4] bg-[#F6F6F6] flex flex-col justify-between">
+                    <div key={index} id={`tide-item-${index}`} className="p-4 rounded-lg border border-[#D4D4D4] bg-[#F6F6F6] flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-center mb-2 pb-2 border-b border-[#D4D4D4]">
                           <span className="text-xs font-bold text-[#282828]">{tide.date}</span>
@@ -605,8 +613,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
         {/* Spots Info */}
         {spots.length > 0 && (
-          <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+          <div id="section-spot" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
             <button 
+              id="section-toggle-spot"
               type="button"
               onClick={() => toggleSection("spot")}
               className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -620,7 +629,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             </button>
             
             {openSections.spot && (
-              <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+              <div id="section-content-spot" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {spots.map((spot: any, idx: number) => {
                     const spotImage = spot.firstImage || "/images/default_island.png";
@@ -629,6 +638,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                     return (
                       <div 
                         key={spot.contentId || idx}
+                        id={`spot-item-${idx}`}
                         className="p-4 rounded-xl border border-[#D4D4D4] bg-[#F6F6F6] hover:border-[#0F3E17] hover:bg-white hover:shadow-sm transition-all flex gap-4 items-center"
                       >
                         <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-[#D4D4D4] bg-white">
@@ -668,8 +678,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         )}
 
         {/* Blog Reviews Section (5건) */}
-        <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+        <div id="section-blog" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
           <button 
+            id="section-toggle-blog"
             type="button"
             onClick={() => toggleSection("blog")}
             className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -683,12 +694,13 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           </button>
           
           {openSections.blog && (
-            <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+            <div id="section-content-blog" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
               {blogs.length > 0 ? (
                 <div className="flex flex-col gap-3">
                   {blogs.map((blog: any, bIdx: number) => (
                     <a
                       key={bIdx}
+                      id={`blog-item-${bIdx}`}
                       href={blog.link}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -715,8 +727,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         </div>
 
         {/* YouTube Video Section (3건) */}
-        <div className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
+        <div id="section-youtube" className="rounded-2xl border border-[#D4D4D4] bg-white shadow-sm overflow-hidden">
           <button 
+            id="section-toggle-youtube"
             type="button"
             onClick={() => toggleSection("youtube")}
             className="w-full p-6 flex justify-between items-center text-left hover:bg-[#F6F6F6] transition-colors"
@@ -730,12 +743,13 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           </button>
           
           {openSections.youtube && (
-            <div className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
+            <div id="section-content-youtube" className="px-6 pb-6 border-t border-[#EDEDED] pt-6">
               {videos.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {videos.map((video: any, vIdx: number) => (
                     <div
                       key={video.id || vIdx}
+                      id={`youtube-video-item-${vIdx}`}
                       onClick={() => setActiveVideo(video.embedUrl || video.url)}
                       className="group cursor-pointer border border-[#D4D4D4] rounded-xl overflow-hidden bg-[#F6F6F6] hover:border-[#0F3E17] hover:shadow-md transition-all flex flex-col justify-between"
                     >
@@ -771,6 +785,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         {/* YouTube Video Modal */}
         {activeVideo && (
           <div
+            id="island-youtube-modal"
             className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
             onClick={() => setActiveVideo(null)}
           >
@@ -779,6 +794,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <button
+                id="island-youtube-modal-close-btn"
                 type="button"
                 onClick={() => setActiveVideo(null)}
                 className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors"

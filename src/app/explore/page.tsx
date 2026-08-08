@@ -352,13 +352,13 @@ function ExploreContent() {
   });
 
   return (
-    <div className="max-w-[1440px] m-auto px-6 sm:px-10 text-[#282828]">
+    <div id="explore-page-container" className="max-w-[1440px] m-auto px-6 sm:px-10 text-[#282828]">
       {/* Exploration Header & Search */}
-      <section className="pt-12 pb-10 text-center max-w-[800px] m-auto">
+      <section id="explore-header-section" className="pt-12 pb-10 text-center max-w-[800px] m-auto">
         <span className="text-xs font-medium tracking-wider text-[#626E71] uppercase mb-2 block">
           INCHEON ISLAND EXPLORE
         </span>
-        <h1 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-[#282828]">
+        <h1 id="explore-header-title" className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-[#282828]">
           나에게 딱 맞는 인천 섬 찾기
         </h1>
         <p className="text-base text-[#6A6A6A] leading-relaxed mb-8">
@@ -366,8 +366,9 @@ function ExploreContent() {
         </p>
 
         {/* Search Bar */}
-        <div className="max-w-[640px] mx-auto relative flex items-center w-full">
+        <div id="explore-search-bar" className="max-w-[640px] mx-auto relative flex items-center w-full">
           <input 
+            id="explore-search-input"
             type="text" 
             placeholder="섬 이름 또는 주소로 검색해보세요... (예: 굴업도, 대청면)" 
             value={searchQuery}
@@ -382,12 +383,13 @@ function ExploreContent() {
       </section>
 
       {/* Filters & Ordering Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-4 border-b border-[#EDEDED] w-full">
+      <div id="explore-controls-container" className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-4 border-b border-[#EDEDED] w-full">
         {/* Filter Type Tabs */}
-        <nav aria-label="Island filter" className="w-full md:w-auto overflow-hidden">
+        <nav id="explore-filter-nav" aria-label="Island filter" className="w-full md:w-auto overflow-hidden">
           <ul className="flex gap-2.5 list-none overflow-x-auto py-1 w-full scrollbar-none whitespace-nowrap flex-nowrap">
             <li>
               <button
+                id="explore-filter-all"
                 type="button"
                 onClick={() => handleFilterChange("all")}
                 className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
@@ -401,6 +403,7 @@ function ExploreContent() {
             </li>
             <li>
               <button
+                id="explore-filter-backpacking"
                 type="button"
                 onClick={() => handleFilterChange("backpacking")}
                 className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
@@ -414,6 +417,7 @@ function ExploreContent() {
             </li>
             <li>
               <button
+                id="explore-filter-trekking"
                 type="button"
                 onClick={() => handleFilterChange("trekking")}
                 className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
@@ -427,6 +431,7 @@ function ExploreContent() {
             </li>
             <li>
               <button
+                id="explore-filter-camping"
                 type="button"
                 onClick={() => handleFilterChange("camping")}
                 className={`py-2 px-4 rounded-full text-sm font-medium border transition-colors ${
@@ -442,10 +447,11 @@ function ExploreContent() {
         </nav>
 
         {/* Sort Controls */}
-        <div className="flex items-center gap-2 text-xs w-full md:w-auto overflow-hidden">
+        <div id="explore-sort-container" className="flex items-center gap-2 text-xs w-full md:w-auto overflow-hidden">
           <span className="text-[#848484] shrink-0 font-medium">정렬:</span>
-          <div className="flex border border-[#D4D4D4] rounded-lg overflow-hidden whitespace-nowrap bg-white">
+          <div id="explore-sort-controls" className="flex border border-[#D4D4D4] rounded-lg overflow-hidden whitespace-nowrap bg-white">
             <button
+              id="explore-sort-default"
               type="button"
               onClick={() => handleSortChange("default")}
               className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
@@ -455,6 +461,7 @@ function ExploreContent() {
               기본순
             </button>
             <button
+              id="explore-sort-time"
               type="button"
               onClick={() => handleSortChange("time")}
               className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
@@ -464,6 +471,7 @@ function ExploreContent() {
               ⏱️ 시간 짧은순
             </button>
             <button
+              id="explore-sort-fare"
               type="button"
               onClick={() => handleSortChange("fare")}
               className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
@@ -473,6 +481,7 @@ function ExploreContent() {
               💵 왕복운임 저렴한순
             </button>
             <button
+              id="explore-sort-lodge"
               type="button"
               onClick={() => handleSortChange("lodge")}
               className={`px-3 py-1.5 font-medium border-r border-[#D4D4D4] transition-colors ${
@@ -482,6 +491,7 @@ function ExploreContent() {
               🏡 숙박 수
             </button>
             <button
+              id="explore-sort-restaurant"
               type="button"
               onClick={() => handleSortChange("restaurant")}
               className={`px-3 py-1.5 font-medium transition-colors ${
@@ -495,16 +505,18 @@ function ExploreContent() {
       </div>
 
       {/* Islands Grid Listing */}
-      <section className="pb-24">
+      <section id="explore-islands-section" className="pb-24">
         {sortedIslands.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div id="explore-islands-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {sortedIslands.map((item) => {
               const meta = islandMeta[item.island] || { backpacking: false, trekking: false, desc: "아름다운 섬 정보" };
               const image = islandImages[item.island] || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80";
+              const safeId = islandIdMap[item.island] || encodeURIComponent(item.island);
               
               return (
                 <div 
                   key={item.island} 
+                  id={`explore-island-card-${safeId}`}
                   onClick={() => handleIslandClick(item.island)}
                   className="flex flex-col rounded-lg overflow-hidden border border-[#D4D4D4] bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all duration-300 cursor-pointer group"
                 >
@@ -583,7 +595,7 @@ function ExploreContent() {
             })}
           </div>
         ) : (
-          <div className="text-center py-20 px-5 rounded-lg border border-dashed border-[#D4D4D4] bg-white text-[#6A6A6A]">
+          <div id="explore-no-results-box" className="text-center py-20 px-5 rounded-lg border border-dashed border-[#D4D4D4] bg-white text-[#6A6A6A]">
             <span className="text-5xl mb-4 block">🔍</span>
             <h3 className="text-base font-bold text-[#282828] mb-1">검색 결과가 없습니다</h3>
             <p className="text-xs text-[#848484]">다른 섬 이름 또는 카테고리를 검색해 보세요.</p>

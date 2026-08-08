@@ -179,8 +179,8 @@ export default function HomePage() {
 
             {/* Title */}
             <h1 id="hero-main-title" className="m-0 text-white font-normal leading-none flex flex-col items-start">
-              <span className="flex items-center gap-5 text-2xl sm:text-[36px] text-white/88 font-light mb-2">
-                <span className="w-[72px] h-[1px] bg-white/55 shrink-0" />
+              <span className="flex items-center gap-2.5 sm:gap-3.5 text-base sm:text-2xl text-white/88 font-light mb-2">
+                <span className="w-8 sm:w-12 h-[1px] bg-white/55 shrink-0" />
                 복잡한 인천 섬 여행 준비,
               </span>
               <span className="block text-4xl sm:text-[88px] font-bold tracking-[-0.035em] text-white mt-1 leading-[1.12]">

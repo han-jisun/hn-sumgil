@@ -301,39 +301,39 @@
 
         <!-- Photo Placeholders (8 Photos) -->
         <div class="flex flex-col gap-2">
-          <h4 class="text-xs font-bold text-[#6A6A6A] uppercase tracking-wider">📷 현정이네 제철 패키지 갤러리</h4>
+          <h4 class="text-xs font-bold text-[#6A6A6A] uppercase tracking-wider">📷 현정이네 제철 패키지 갤러리 (사진을 클릭하면 확대됩니다)</h4>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="해신탕 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">1. 해신탕</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80', '현정이네 - 1. 해신탕')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="해신탕 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">1. 해신탕 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80" alt="광어회 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">2. 광어회</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200&auto=format&fit=crop&q=80', '현정이네 - 2. 광어회')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80" alt="광어회 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">2. 광어회 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&auto=format&fit=crop&q=80" alt="매운탕 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">3. 매운탕</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1547592166-23ac45744acd?w=1200&auto=format&fit=crop&q=80', '현정이네 - 3. 매운탕')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&auto=format&fit=crop&q=80" alt="매운탕 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">3. 매운탕 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80" alt="꽃게탕 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">4. 꽃게탕</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1200&auto=format&fit=crop&q=80', '현정이네 - 4. 꽃게탕')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80" alt="꽃게탕 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">4. 꽃게탕 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&auto=format&fit=crop&q=80" alt="국수 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">5. 국수</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=1200&auto=format&fit=crop&q=80', '현정이네 - 5. 국수')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&auto=format&fit=crop&q=80" alt="국수 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">5. 국수 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&auto=format&fit=crop&q=80" alt="민박 객실 전경" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">6. 민박 전경</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&auto=format&fit=crop&q=80', '현정이네 - 6. 민박 전경')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&auto=format&fit=crop&q=80" alt="민박 객실 전경" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">6. 민박 전경 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80" alt="대이작도 섬 투어" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">7. 섬 투어</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80', '현정이네 - 7. 섬 투어')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80" alt="대이작도 섬 투어" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">7. 섬 투어 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80" alt="픽업 차량" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">8. 픽업 차량</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&auto=format&fit=crop&q=80', '현정이네 - 8. 픽업 차량')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80" alt="픽업 차량" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">8. 픽업 차량 🔍</span>
             </div>
           </div>
         </div>
@@ -395,23 +395,23 @@
 
         <!-- Photo Placeholders (4 Photos) -->
         <div class="flex flex-col gap-2">
-          <h4 class="text-xs font-bold text-[#6A6A6A] uppercase tracking-wider">📷 로뎀하우스 제철 패키지 갤러리</h4>
+          <h4 class="text-xs font-bold text-[#6A6A6A] uppercase tracking-wider">📷 로뎀하우스 제철 패키지 갤러리 (사진을 클릭하면 확대됩니다)</h4>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="닭백숙 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">1. 닭백숙</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80', '로뎀하우스 - 1. 닭백숙')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="닭백숙 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">1. 닭백숙 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" alt="삼겹살 회 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">2. 삼겹살&회</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&auto=format&fit=crop&q=80', '로뎀하우스 - 2. 삼겹살&회')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" alt="삼겹살 회 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">2. 삼겹살&회 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&auto=format&fit=crop&q=80" alt="생선구이 정식" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">3. 생선구이</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=1200&auto=format&fit=crop&q=80', '로뎀하우스 - 3. 생선구이')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&auto=format&fit=crop&q=80" alt="생선구이 정식" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">3. 생선구이 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80" alt="간장게장 정식" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">4. 간장게장</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1200&auto=format&fit=crop&q=80', '로뎀하우스 - 4. 간장게장')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80" alt="간장게장 정식" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">4. 간장게장 🔍</span>
             </div>
           </div>
         </div>
@@ -480,31 +480,31 @@
 
         <!-- Photo Placeholders (6 Photos) -->
         <div class="flex flex-col gap-2">
-          <h4 class="text-xs font-bold text-[#6A6A6A] uppercase tracking-wider">📷 바다풍경 펜션 제철 패키지 갤러리</h4>
+          <h4 class="text-xs font-bold text-[#6A6A6A] uppercase tracking-wider">📷 바다풍경 펜션 제철 패키지 갤러리 (사진을 클릭하면 확대됩니다)</h4>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="닭볶음탕 사진" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">1. 닭볶음탕</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80', '바다풍경 펜션 - 1. 닭볶음탕')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80" alt="닭볶음탕 사진" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">1. 닭볶음탕 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80" alt="제철 회 매운탕" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">2. 제철회&매운탕</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200&auto=format&fit=crop&q=80', '바다풍경 펜션 - 2. 제철회&매운탕')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&auto=format&fit=crop&q=80" alt="제철 회 매운탕" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">2. 제철회&매운탕 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80" alt="게장 정식" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">3. 게장정식</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1200&auto=format&fit=crop&q=80', '바다풍경 펜션 - 3. 게장정식')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80" alt="게장 정식" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">3. 게장정식 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&auto=format&fit=crop&q=80" alt="바지락 칼국수" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">4. 바지락칼국수</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=1200&auto=format&fit=crop&q=80', '바다풍경 펜션 - 4. 바지락칼국수')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=600&auto=format&fit=crop&q=80" alt="바지락 칼국수" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">4. 바지락칼국수 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80" alt="이일레 해변" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">5. 이일레 해변</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80', '바다풍경 펜션 - 5. 이일레 해변')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80" alt="이일레 해변" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">5. 이일레 해변 🔍</span>
             </div>
-            <div class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative">
-              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80" alt="갯벌 체험 모습" class="w-full h-full object-cover" />
-              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">6. 갯벌 체험</span>
+            <div onclick="openImageModal('https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&auto=format&fit=crop&q=80', '바다풍경 펜션 - 6. 갯벌 체험')" class="h-32 rounded-xl overflow-hidden bg-[#EDEDED] border border-[#D4D4D4] relative cursor-pointer group hover:opacity-90 transition-opacity">
+              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80" alt="갯벌 체험 모습" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">6. 갯벌 체험 🔍</span>
             </div>
           </div>
         </div>
@@ -668,7 +668,48 @@
         </a>
       </div>
     </div>
-  </section>
+  <!-- ========================================================================= -->
+  <!-- MODAL: Photo Lightbox Modal -->
+  <!-- ========================================================================= -->
+  <div id="image-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl flex flex-col relative">
+      <div class="h-[320px] sm:h-[420px] relative overflow-hidden bg-black flex items-center justify-center">
+        <img id="modal-img-target" src="" alt="확대 이미지" class="w-full h-full object-contain" />
+        <button onclick="closeImageModal()"
+          class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white font-bold flex items-center justify-center hover:bg-black transition-colors">
+          ✕
+        </button>
+      </div>
+      <div class="p-4 bg-[#F6F6F6] border-t border-[#EDEDED] flex items-center justify-between">
+        <span id="modal-img-caption" class="text-sm font-bold text-[#282828]"></span>
+        <button onclick="closeImageModal()"
+          class="px-4 py-1.5 rounded-xl bg-[#0F3E17] text-white text-xs font-bold hover:bg-[#093712] transition-colors">
+          확인 / 닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vanilla JavaScript for Image Modal -->
+  <script>
+    (function () {
+      window.openImageModal = function (src, title) {
+        var modal = document.getElementById('image-modal');
+        var imgTarget = document.getElementById('modal-img-target');
+        var caption = document.getElementById('modal-img-caption');
+        if (modal && imgTarget && caption) {
+          imgTarget.src = src.replace('w=600', 'w=1200');
+          caption.innerText = title || '이미지 확대보기';
+          modal.classList.remove('hidden');
+        }
+      };
+
+      window.closeImageModal = function () {
+        var modal = document.getElementById('image-modal');
+        if (modal) modal.classList.add('hidden');
+      };
+    })();
+  </script>
 
 </article>
   </div>

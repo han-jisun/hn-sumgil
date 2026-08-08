@@ -174,18 +174,18 @@ export default function HomePage() {
         />
 
         {/* Hero Content */}
-        <div id="hero-content" className="relative z-10 w-full h-full max-w-[1440px] mx-auto px-6 sm:px-10 pt-16 sm:pt-24 flex flex-col justify-center">
+        <div id="hero-content" className="relative z-10 w-full h-full max-w-[1440px] mx-auto px-5 sm:px-10 pt-12 sm:pt-20 flex flex-col justify-center">
           <div className="max-w-[900px]">
 
             {/* Title */}
             <h1 id="hero-main-title" className="m-0 text-white font-normal leading-none flex flex-col items-start">
-              <span className="flex items-center gap-2.5 sm:gap-3.5 text-base sm:text-2xl text-white/88 font-light mb-2">
-                <span className="w-8 sm:w-12 h-[1px] bg-white/55 shrink-0" />
+              <span className="flex items-center gap-2 sm:gap-3 text-sm sm:text-xl md:text-2xl text-white/88 font-light mb-1.5 sm:mb-2">
+                <span className="w-6 sm:w-10 h-[1px] bg-white/55 shrink-0" />
                 복잡한 인천 섬 여행 준비,
               </span>
-              <span className="block text-4xl sm:text-[88px] font-bold tracking-[-0.035em] text-white mt-1 leading-[1.12]">
+              <span className="block text-[32px] sm:text-6xl md:text-[76px] font-bold tracking-[-0.035em] text-white mt-1 leading-[1.15]">
                 <span className="relative inline-block text-[#E6FDE5] mr-2">
-                  <span className="absolute left-[-6px] right-[-6px] bottom-2.5 h-[14px] rounded-full bg-[#E6FDE5]/22 -z-10" />
+                  <span className="absolute left-[-4px] right-[-4px] bottom-1.5 sm:bottom-2.5 h-[10px] sm:h-[14px] rounded-full bg-[#E6FDE5]/22 -z-10" />
                   한눈섬길
                 </span>
                 로 명쾌하게
@@ -193,7 +193,7 @@ export default function HomePage() {
             </h1>
 
             {/* Rolling Subtitles (Smooth Vertical Slot Ticker) */}
-            <div id="hero-subtitle-ticker" className="mt-6 h-[56px] sm:h-[40px] overflow-hidden relative max-w-[800px]">
+            <div id="hero-subtitle-ticker" className="mt-4 sm:mt-6 h-[48px] sm:h-[36px] overflow-hidden relative max-w-[800px]">
               {rollingSubtitles.map((text, idx) => {
                 const isActive = idx === subIdx;
                 const prevIdx = (subIdx - 1 + rollingSubtitles.length) % rollingSubtitles.length;
@@ -210,7 +210,7 @@ export default function HomePage() {
                   <p
                     key={text}
                     id={`hero-subtitle-${idx}`}
-                    className={`absolute top-0 left-0 m-0 text-[#F6F6F6] text-lg sm:text-[20px] leading-[1.5] font-normal transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${stateClass}`}
+                    className={`absolute top-0 left-0 m-0 text-[#F6F6F6] text-sm sm:text-lg md:text-xl leading-[1.4] font-normal transition-all duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${stateClass}`}
                   >
                     {text}
                   </p>
@@ -219,11 +219,11 @@ export default function HomePage() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex items-center gap-4 mt-6 sm:mt-10">
+            <div className="flex items-center gap-4 mt-6 sm:mt-8">
               <Link
                 id="hero-cta-explore-btn"
                 href="/explore"
-                className="inline-flex items-center justify-center gap-2 sm:gap-3 h-12 sm:h-16 px-5 sm:px-8 rounded-lg border border-white/40 bg-white/5 hover:bg-white/12 backdrop-blur-sm text-white font-medium text-base sm:text-xl transition-all"
+                className="inline-flex items-center justify-center gap-2 sm:gap-3 h-11 sm:h-14 px-6 sm:px-8 rounded-lg border border-white/40 bg-white/5 hover:bg-white/12 backdrop-blur-sm text-white font-medium text-sm sm:text-lg transition-all"
               >
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
                   <path d="M2 13.2C4.4 8.2 6.9 5.4 9.1 5.4c2.3 0 4.9 2.8 7.3 7.8" />

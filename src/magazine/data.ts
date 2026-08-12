@@ -11,7 +11,7 @@ export const themeContents: ThemeContent[] = [
     date: "2026-07-25",
     writer: "한지선",
     id: "vol1",
-    title: "여름 섬의 낭만: 대청도 비경부터 힐링 해변과 플레이리스트",
+    title: "서해의 알프스, 대청도로 떠나는 낭만 트레킹(테스트)",
     file_name: "vol1.html"
   },
   {

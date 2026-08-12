@@ -1,0 +1,314 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+
+interface PhotoItem {
+  contentId: string;
+  title: string;
+  webImageUrl: string;
+  createdTime: string;
+  photographer: string;
+  searchKeyword: string;
+  photographyLocation: string;
+}
+
+const islandKeywords = [
+  { name: "전체 (인천/옹진 섬)", query: "옹진군" },
+  { name: "굴업도", query: "굴업도" },
+  { name: "대연평 (연평도)", query: "연평도" },
+  { name: "대이작도", query: "이작도" },
+  { name: "대청도", query: "대청도" },
+  { name: "덕적도", query: "덕적도" },
+  { name: "문갑도", query: "문갑도" },
+  { name: "백령도", query: "백령도" },
+  { name: "백아도", query: "백아도" },
+  { name: "소연평", query: "소연평" },
+  { name: "소이작도", query: "소이작도" },
+  { name: "소청도", query: "소청도" },
+  { name: "승봉도", query: "승봉도" },
+  { name: "울도", query: "울도" },
+  { name: "자월도", query: "자월도" },
+  { name: "지도", query: "지도" },
+  { name: "소야도", query: "소야도" },
+];
+
+const gonggongNuriPhotos: Record<string, PhotoItem[]> = {
+  "굴업도": [
+    { contentId: "nuri-gulup-1", title: "굴업도 개머리언덕 노을 비경", webImageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80", createdTime: "2024-05-12", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "굴업도, 개머리언덕", photographyLocation: "인천광역시 옹진군 덕적면 굴업리" },
+    { contentId: "nuri-gulup-2", title: "굴업도 코끼리바위 해식아치", webImageUrl: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&auto=format&fit=crop&q=80", createdTime: "2024-06-20", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "굴업도, 코끼리바위", photographyLocation: "인천광역시 옹진군 덕적면 굴업리" }
+  ],
+  "대이작도": [
+    { contentId: "nuri-ijak-1", title: "대이작도 풀등 모래섬 전경", webImageUrl: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80", createdTime: "2024-07-05", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "대이작도, 풀등", photographyLocation: "인천광역시 옹진군 자월면 이작리" }
+  ],
+  "덕적도": [
+    { contentId: "nuri-deokjeok-1", title: "덕적도 서포리 소나무 해변", webImageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80", createdTime: "2024-04-18", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "덕적도, 서포리", photographyLocation: "인천광역시 옹진군 덕적면 서포리" }
+  ],
+  "백령도": [
+    { contentId: "nuri-baengnyeong-1", title: "백령도 두무진 절벽 비경", webImageUrl: "https://images.unsplash.com/photo-1473116763269-25544899376c?w=800&auto=format&fit=crop&q=80", createdTime: "2024-08-01", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "백령도, 두무진", photographyLocation: "인천광역시 옹진군 백령면 진촌리" }
+  ],
+  "자월도": [
+    { contentId: "nuri-jawol-1", title: "자월도 장골 해변 해일몰", webImageUrl: "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=800&auto=format&fit=crop&q=80", createdTime: "2024-05-30", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "자월도, 장골해변", photographyLocation: "인천광역시 옹진군 자월면 자월리" }
+  ]
+};
+
+export default function PhotoGalleryList() {
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error] = useState<string | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<PhotoItem | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    const query = islandKeywords[selectedIdx].query;
+    const key = islandKeywords[selectedIdx].name.split(" ")[0];
+    let matched: PhotoItem[] = [];
+    if (selectedIdx === 0 || query === "옹진군") {
+      matched = Object.values(gonggongNuriPhotos).flat();
+    } else {
+      matched = gonggongNuriPhotos[key] || [
+        {
+          contentId: `nuri-default-${selectedIdx}`,
+          title: `${key} 공공누리 추천 풍경 사진`,
+          webImageUrl: "/images/default_island.png",
+          createdTime: "2024-08-01",
+          photographer: "공공누리 자유이용 자원",
+          searchKeyword: key,
+          photographyLocation: `인천광역시 옹진군 ${key}`
+        }
+      ];
+    }
+    setPhotos(matched);
+    setLoading(false);
+  }, [selectedIdx]);
+
+  const copyToClipboard = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Island Filter Pills */}
+      <div className="flex flex-wrap gap-2.5 items-center">
+        {islandKeywords.map((item, idx) => {
+          const isActive = selectedIdx === idx;
+          return (
+            <button
+              key={item.name}
+              type="button"
+              onClick={() => setSelectedIdx(idx)}
+              className={`h-9 px-4 rounded-full text-sm font-medium border transition-colors ${
+                isActive
+                  ? "border-[#0F3E17] bg-[#0F3E17] text-white"
+                  : "border-[#D4D4D4] bg-white text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+              }`}
+            >
+              {item.name}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Loading State */}
+      {loading && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-8">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="aspect-square bg-slate-100 rounded-lg animate-pulse" />
+          ))}
+        </div>
+      )}
+
+      {/* Error State */}
+      {!loading && error && (
+        <div className="p-8 text-center border border-dashed border-[#D4D4D4] rounded-lg bg-white">
+          <p className="text-red-600 font-medium mb-2">{error}</p>
+          <button
+            type="button"
+            onClick={() => setSelectedIdx(selectedIdx)}
+            className="text-xs text-[#0F3E17] underline hover:text-[#093712]"
+          >
+            다시 시도하기
+          </button>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!loading && !error && photos.length === 0 && (
+        <div className="p-12 text-center border border-dashed border-[#D4D4D4] rounded-lg bg-white">
+          <p className="text-base font-medium text-[#282828] mb-1">
+            해당 섬의 등록된 공식 사진갤러리가 없습니다.
+          </p>
+          <p className="text-xs text-[#848484]">
+            다른 섬 카테고리를 선택하거나 전체(인천/옹진 섬) 탭을 확인해 보세요.
+          </p>
+        </div>
+      )}
+
+      {/* Photos Grid */}
+      {!loading && !error && photos.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {photos.map((photo) => (
+            <div
+              key={photo.contentId + photo.title}
+              onClick={() => setSelectedPhoto(photo)}
+              className="group relative aspect-square rounded-lg overflow-hidden border border-[#D4D4D4] bg-slate-100 cursor-pointer hover:shadow-xl transition-all"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                style={{ backgroundImage: `url('${photo.webImageUrl}')` }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-85 group-hover:opacity-95 transition-opacity" />
+
+              {/* ID Badge on Top Left */}
+              <div className="absolute top-2.5 left-2.5 z-10">
+                <button
+                  type="button"
+                  onClick={(e) => copyToClipboard(photo.contentId, e)}
+                  className="bg-black/75 hover:bg-[#0F3E17] text-white text-[11px] font-mono font-bold px-2.5 py-1 rounded-md border border-white/20 transition-all flex items-center gap-1 backdrop-blur-sm"
+                  title="클릭하여 ID 복사"
+                >
+                  <span>🆔 {photo.contentId}</span>
+                  {copiedId === photo.contentId ? (
+                    <span className="text-[#E6FDE5] text-[10px]">✓ 복사됨</span>
+                  ) : (
+                    <span className="opacity-60 text-[10px]">📋</span>
+                  )}
+                </button>
+              </div>
+
+              {/* Content Info at Bottom */}
+              <div className="absolute inset-0 p-4 flex flex-col justify-end text-white pointer-events-none">
+                <span className="text-xs font-semibold text-[#E6FDE5] drop-shadow mb-0.5">
+                  📷 {photo.photographer}
+                </span>
+                <h4 className="text-base font-bold leading-tight line-clamp-2 drop-shadow">
+                  {photo.title}
+                </h4>
+                {photo.searchKeyword && (
+                  <p className="text-[11px] text-white/80 line-clamp-1 mt-1">
+                    #{photo.searchKeyword.split(",").join(" #")}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Lightbox Photo Modal */}
+      {selectedPhoto && (
+        <div
+          className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setSelectedPhoto(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full bg-[#151D1F] text-white rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedPhoto(null)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white font-bold flex items-center justify-center hover:bg-black transition-colors"
+            >
+              ✕
+            </button>
+
+            {/* Photo View */}
+            <div className="md:w-2/3 bg-black flex items-center justify-center min-h-[300px] max-h-[60vh] md:max-h-[80vh]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selectedPhoto.webImageUrl}
+                alt={selectedPhoto.title}
+                className="w-full h-full object-contain max-h-[80vh]"
+              />
+            </div>
+
+            {/* Info View */}
+            <div className="md:w-1/3 p-6 flex flex-col justify-between gap-4 overflow-y-auto">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center h-6 px-3 rounded-full bg-[#E6FDE5] text-[#0F3E17] text-xs font-semibold">
+                    한국관광공사 사진갤러리
+                  </span>
+                  
+                  {/* Copy ID Button in Modal */}
+                  <button
+                    type="button"
+                    onClick={(e) => copyToClipboard(selectedPhoto.contentId, e)}
+                    className="px-2.5 py-1 rounded bg-white/10 hover:bg-[#0F3E17] text-xs font-mono font-bold text-white border border-white/20 transition-all flex items-center gap-1"
+                  >
+                    <span>🆔 ID: {selectedPhoto.contentId}</span>
+                    {copiedId === selectedPhoto.contentId ? (
+                      <span className="text-[#E6FDE5] text-[10px]">✓</span>
+                    ) : (
+                      <span className="opacity-70 text-[10px]">📋</span>
+                    )}
+                  </button>
+                </div>
+
+                <h3 className="text-xl font-bold text-white leading-snug">
+                  {selectedPhoto.title}
+                </h3>
+
+                <div className="flex flex-col gap-2 pt-3 border-t border-white/10 text-xs text-[#B6CED5]">
+                  <p className="flex justify-between">
+                    <span className="text-white/60">콘텐츠 ID:</span>
+                    <span className="font-mono font-bold text-[#E6FDE5]">{selectedPhoto.contentId}</span>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="text-white/60">촬영자:</span>
+                    <span className="font-medium text-white">{selectedPhoto.photographer}</span>
+                  </p>
+                  {selectedPhoto.photographyLocation && (
+                    <p className="flex justify-between">
+                      <span className="text-white/60">촬영 장소:</span>
+                      <span className="font-medium text-white">{selectedPhoto.photographyLocation}</span>
+                    </p>
+                  )}
+                  {selectedPhoto.createdTime && (
+                    <p className="flex justify-between">
+                      <span className="text-white/60">촬영일자:</span>
+                      <span className="font-medium text-white">{selectedPhoto.createdTime}</span>
+                    </p>
+                  )}
+                </div>
+
+                {selectedPhoto.searchKeyword && (
+                  <div className="mt-2">
+                    <span className="text-xs text-white/60 block mb-1">연관 키워드:</span>
+                    <div className="flex flex-wrap gap-1">
+                      {selectedPhoto.searchKeyword.split(",").map((kw, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-0.5 rounded bg-white/10 text-[11px] text-[#E6FDE5]"
+                        >
+                          #{kw.trim()}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-white/50">
+                <span>Data Source: KTO PhotoGalleryService1</span>
+                <a
+                  href={selectedPhoto.webImageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#E6FDE5] hover:underline"
+                >
+                  원본 사진 보기 ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

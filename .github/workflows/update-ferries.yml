@@ -1,0 +1,29 @@
+name: Monthly Ferry Data Update
+
+on:
+  schedule:
+    # Run at 00:00 on the 1st of every month
+    - cron: '0 0 1 * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Scraper Script
+        run: node scripts/update-islands.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/app/data/islands.json
+          git diff-index --quiet HEAD || (git commit -m "chore: auto-update ferry schedule and fares" && git push)

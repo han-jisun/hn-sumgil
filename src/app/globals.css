@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Base */
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* Main */
+  --main-50:  #E6FDE5;
+  --main-100: #BCD2BC;
+  --main-200: #94A994;
+  --main-300: #688468;
+  --main-400: #3C603E;
+  --main-500: #0F3E17;
+  --main-600: #093712;
+  --main-700: #04300C;
+  --main-800: #022904;
+  --main-900: #022100;
+
+  /* Sub */
+  --sub-50:  #E7FAFF;
+  --sub-100: #DCF1F7;
+  --sub-200: #D3E8EE;
+  --sub-300: #C9DFE6;
+  --sub-400: #C0D7DD;
+  --sub-500: #B6CED5;
+  --sub-600: #8B9DA2;
+  --sub-700: #626E71;
+  --sub-800: #3A4346;
+  --sub-900: #151D1F;
+
+  /* Gray */
+  --gray-50:  #F6F6F6;
+  --gray-100: #E8E8E8;
+  --gray-200: #D4D4D4;
+  --gray-300: #BBBBBB;
+  --gray-400: #A0A0A0;
+  --gray-500: #848484;
+  --gray-600: #6A6A6A;
+  --gray-700: #525252;
+  --gray-800: #3B3B3B;
+  --gray-900: #282828;
+
+  /* Typography */
+  --font-family: 'Noto Sans KR', 'Noto Sans', sans-serif;
+
+  --font-display: 64px;   --lh-display: 120%;
+  --font-h1: 48px;        --lh-h1: 125%;
+  --font-h2: 40px;        --lh-h2: 130%;
+  --font-h3: 32px;        --lh-h3: 135%;
+  --font-h4: 24px;        --lh-h4: 140%;
+  --font-h5: 20px;        --lh-h5: 145%;
+  --font-body-lg: 20px;   --lh-body-lg: 160%;
+  --font-body: 16px;      --lh-body: 160%;
+  --font-caption: 12px;   --lh-caption: 150%;
+  --font-label: 12px;     --lh-label: 100%;
+  --font-data-lg: 40px;   --lh-data-lg: 100%;
+  --font-data: 20px;      --lh-data: 100%;
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* Spacing */
+  --space-1: 4px;    --space-2: 8px;    --space-3: 12px;
+  --space-4: 16px;   --space-5: 24px;   --space-6: 32px;
+  --space-7: 40px;   --space-8: 48px;   --space-9: 64px;
+  --space-10: 80px;  --space-11: 96px;  --space-12: 128px;
+
+  /* Radius */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+
+  /* Border */
+  --border-thin: 1px;
+  --border-base: 2px;
+  --border-color: var(--gray-200);
+  --border-color-strong: var(--gray-400);
+
+  /* Legacy Compat Variables */
+  --color-primary: #0F3E17;
+  --color-secondary: #B6CED5;
+  --color-background: #FFFFFF;
+  --color-foreground: #282828;
+  --color-card-bg: #FFFFFF;
+  --color-card-border: #D4D4D4;
+  --color-text-primary: #282828;
+  --color-text-secondary: #6A6A6A;
+  --color-text-muted: #848484;
+  --color-nav-bg: rgba(255, 255, 255, 0.95);
+}
+
+@theme {
+  --color-main-50: #E6FDE5;
+  --color-main-100: #BCD2BC;
+  --color-main-200: #94A994;
+  --color-main-300: #688468;
+  --color-main-400: #3C603E;
+  --color-main-500: #0F3E17;
+  --color-main-600: #093712;
+  --color-main-700: #04300C;
+  --color-main-800: #022904;
+  --color-main-900: #022100;
+
+  --color-sub-50: #E7FAFF;
+  --color-sub-100: #DCF1F7;
+  --color-sub-200: #D3E8EE;
+  --color-sub-300: #C9DFE6;
+  --color-sub-400: #C0D7DD;
+  --color-sub-500: #B6CED5;
+  --color-sub-600: #8B9DA2;
+  --color-sub-700: #626E71;
+  --color-sub-800: #3A4346;
+  --color-sub-900: #151D1F;
+
+  --color-gray-50: #F6F6F6;
+  --color-gray-100: #E8E8E8;
+  --color-gray-200: #D4D4D4;
+  --color-gray-300: #BBBBBB;
+  --color-gray-400: #A0A0A0;
+  --color-gray-500: #848484;
+  --color-gray-600: #6A6A6A;
+  --color-gray-700: #525252;
+  --color-gray-800: #3B3B3B;
+  --color-gray-900: #282828;
+
+  --font-sans: 'Noto Sans KR', 'Noto Sans', sans-serif;
+}
+
+@keyframes hn-cue {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+
+/* Base styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html,
+  body {
+    max-width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    background-color: var(--white);
+    color: var(--gray-900);
+    font-family: var(--font-family);
+    font-feature-settings: 'tnum' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    color: var(--main-500);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  a:hover {
+    color: var(--main-600);
+  }
+
+  button {
+    font-family: var(--font-family);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+/* Button Components based on Design System Section 6 */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-500);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--main-600);
+  color: var(--white);
+}
+
+.btn-primary:disabled {
+  background-color: var(--gray-200);
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  color: var(--main-500);
+  border: 1px solid var(--main-500);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--main-50);
+  color: var(--main-500);
+  border-color: var(--main-500);
+}
+
+.btn-secondary:disabled {
+  background-color: var(--white);
+  color: var(--gray-400);
+  border-color: var(--gray-200);
+  cursor: not-allowed;
+}
+
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--main-500);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.btn-tertiary:hover {
+  background-color: var(--gray-50);
+  color: var(--main-500);
+}
+
+.btn-tertiary:disabled {
+  background-color: transparent;
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+/* Button Sizes */
+.btn-lg {
+  height: 64px;
+  padding: 16px 32px;
+  font-size: 20px;
+}
+
+.btn-md {
+  height: 48px;
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.btn-sm {
+  height: 32px;
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+/* Custom Scrollbar (Sleek Modern Mac-style Floating Scrollbar) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 200ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0F3E17;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}

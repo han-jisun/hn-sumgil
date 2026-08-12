@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
+</head>
+
+<body>
+  <x-dc>
+    <helmet>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap"
+        rel="stylesheet">
+      <script src="./image-slot.js"></script>
+      <style>
+        body {
+          margin: 0;
+          background: #FFFFFF;
+          font-family: 'Noto Sans KR', 'Noto Sans', sans-serif;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+          color: #0F3E17;
+          text-decoration: none;
+        }
+
+        a:hover {
+          color: #093712;
+        }
+
+        @keyframes hn-cue {
+
+          0%,
+          100% {
+            transform: translateY(0);
+            opacity: .5
+          }
+
+          50% {
+            transform: translateY(6px);
+            opacity: 1
+          }
+        }
+      </style>
+    </helmet>
+
+    <div
+      style="width: 1920px; margin: 0 auto; background: #FFFFFF; color: #282828; font-family: 'Noto Sans KR', 'Noto Sans', sans-serif; font-feature-settings: 'tnum' 1;">
+
+      <div id="hn-hero-pin" style="position: relative; width: 100%; height: 2000px;">
+        <section data-screen-label="Hero"
+          style="position: sticky; top: 0; width: 100%; height: 900px; overflow: hidden; background: #022100;">
+
+          <div style="position: absolute; inset: 0;">
+            <div style="position: absolute; inset: 0; transition: opacity 1400ms ease; opacity: {{ op0 }};">
+              <div style="position: absolute; inset: 0; transition: transform 9000ms ease-out; transform: {{ tf0 }};">
+                <image-slot id="hn-hero-1" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1760210107988-37c1d09e2cd9?fm=jpg&amp;q=80&amp;w=2400&amp;auto=format&amp;fit=crop"
+                  credit="Photo by Vincent Y @USA on Unsplash" credit-href="https://unsplash.com/@vincentyuan87"
+                  placeholder="히어로 1 — 승봉도 이일레해변"></image-slot>
+              </div>
+            </div>
+            <div style="position: absolute; inset: 0; transition: opacity 1400ms ease; opacity: {{ op1 }};">
+              <div style="position: absolute; inset: 0; transition: transform 9000ms ease-out; transform: {{ tf1 }};">
+                <image-slot id="hn-hero-3" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1600100315760-ac46b65f6fdd?fm=jpg&amp;q=80&amp;w=2400&amp;auto=format&amp;fit=crop"
+                  credit="Photo by Ali Kazal on Unsplash" credit-href="https://unsplash.com/@lureofadventure"
+                  placeholder="히어로 2 — 능선 바위 구간 (등산화)"></image-slot>
+              </div>
+            </div>
+            <div style="position: absolute; inset: 0; transition: opacity 1400ms ease; opacity: {{ op2 }};">
+              <div style="position: absolute; inset: 0; transition: transform 9000ms ease-out; transform: {{ tf2 }};">
+                <image-slot id="hn-hero-4" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1534779014291-924365f60b29?fm=jpg&amp;q=80&amp;w=2400&amp;auto=format&amp;fit=crop"
+                  credit="Photo by Jeremy Bishop on Unsplash" credit-href="https://unsplash.com/@jeremybishop"
+                  placeholder="히어로 4 — 굴업도 개머리언덕"></image-slot>
+              </div>
+            </div>
+            <div style="position: absolute; inset: 0; transition: opacity 1400ms ease; opacity: {{ op3 }};">
+              <div style="position: absolute; inset: 0; transition: transform 9000ms ease-out; transform: {{ tf3 }};">
+                <image-slot id="hn-hero-5" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1530792271526-7ddf516473b3?fm=jpg&amp;q=80&amp;w=2400&amp;auto=format&amp;fit=crop"
+                  credit="Photo by Wes Hicks on Unsplash" credit-href="https://unsplash.com/@sickhews"
+                  placeholder="히어로 5 — 트레킹 발끝 (등산화)"></image-slot>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg, rgba(21,29,31,0.82) 0%, rgba(21,29,31,0.58) 42%, rgba(21,29,31,0.12) 78%, rgba(21,29,31,0.28) 100%);">
+          </div>
+          <div
+            style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.5) 0%, rgba(21,29,31,0) 26%, rgba(21,29,31,0) 60%, rgba(21,29,31,0.45) 100%);">
+          </div>
+
+          <header style="position: absolute; top: 0; left: 0; right: 0; height: 96px; z-index: 3;">
+            <div
+              style="width: 1440px; margin: 0 auto; height: 96px; padding: 0 40px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: baseline; gap: 8px; flex-shrink: 0;">
+                <span style="font-size: 24px; line-height: 140%; font-weight: 700; color: #FFFFFF;">한눈섬길</span>
+                <span
+                  style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #B6CED5;">INCHEON
+                  ISLANDS | EXPLORE</span>
+              </div>
+              <nav style="display: flex; align-items: center; gap: 32px; flex-shrink: 0; white-space: nowrap;">
+                <a href="#" style="color: #FFFFFF; font-size: 16px; line-height: 160%; font-weight: 400;"
+                  style-hover="color: #B6CED5;">오늘의 바다</a>
+                <a href="#" style="color: #FFFFFF; font-size: 16px; line-height: 160%; font-weight: 400;"
+                  style-hover="color: #B6CED5;">코스 탐색</a>
+                <a href="#" style="color: #FFFFFF; font-size: 16px; line-height: 160%; font-weight: 400;"
+                  style-hover="color: #B6CED5;">왕복 타임라인</a>
+                <a href="#" style="color: #FFFFFF; font-size: 16px; line-height: 160%; font-weight: 400;"
+                  style-hover="color: #B6CED5;">섬 정보</a>
+                <a href="#" style="color: #FFFFFF; font-size: 16px; line-height: 160%; font-weight: 400;"
+                  style-hover="color: #B6CED5;">안전 안내</a>
+              </nav>
+              <a href="#"
+                style="display: flex; align-items: center; white-space: nowrap; flex-shrink: 0; height: 48px; padding: 0 24px; border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; color: #FFFFFF; font-size: 16px; font-weight: 500;"
+                style-hover="background: rgba(255,255,255,0.12); color: #FFFFFF;">내 기록</a>
+            </div>
+          </header>
+
+          <div
+            style="position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; pointer-events: none;">
+            <div
+              style="width: 1440px; margin: 0 auto; padding: 0 40px; box-sizing: border-box; display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px;">
+              <div style="grid-column: 1 / span 9; padding-top: 0px; height: 100%; transform: {{ shift }};">
+
+                <div
+                  style="display: inline-flex; align-items: center; gap: 12px; height: 48px; padding: 0 24px 0 16px; border-radius: 999px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.28); backdrop-filter: blur(6px); margin-bottom: 32px; opacity: {{ o0 }}; transform: {{ t0 }};">
+                  <span
+                    style="width: 8px; height: 8px; border-radius: 999px; background: #E6FDE5; box-shadow: 0 0 0 4px rgba(230,253,229,0.24);"></span>
+                  <span
+                    style="color: #FFFFFF; font-size: 16px; line-height: 100%; font-weight: 500; white-space: nowrap;">7월
+                    29일 오늘 · 전 항로 운항 정상 · 간조 10:38 / 만조 16:52</span>
+                </div>
+
+                <h1
+                  style="margin: 0; color: #FFFFFF; display: flex; flex-direction: column; align-items: flex-start; font-weight: 400; word-break: keep-all;">
+                  <span
+                    style="display: flex; align-items: center; gap: 20px; overflow: hidden; padding-bottom: 4px; opacity: {{ o1 }};">
+                    <span
+                      style="flex-shrink: 0; width: 72px; height: 1px; background: rgba(255,255,255,0.55); transform-origin: left center; transform: {{ ruleX }};"></span>
+                    <span
+                      style="display: inline-block; font-size: 36px; line-height: 130%; font-weight: 300; letter-spacing: 0.01em; color: rgba(255,255,255,0.88); white-space: nowrap; transform: {{ t1 }};">복잡한
+                      섬 여행 준비,</span>
+                  </span>
+                  <span
+                    style="display: block; overflow: hidden; margin-top: 10px; padding-bottom: 10px; opacity: {{ o1b }};">
+                    <span
+                      style="display: inline-block; font-size: 88px; line-height: 112%; font-weight: 700; letter-spacing: -0.035em; white-space: nowrap; transform: {{ t1b }};"><span
+                        style="position: relative; display: inline-block; color: #E6FDE5;"><span
+                          style="position: absolute; z-index: 0; left: -6px; right: -6px; bottom: 10px; height: 14px; border-radius: 999px; background: rgba(230,253,229,0.22); transform-origin: left center; transform: {{ hiX }};"></span><span
+                          style="position: relative; z-index: 1;">한눈섬길</span></span><span style="color: #FFFFFF;">로
+                        명쾌하게</span></span>
+                  </span>
+                </h1>
+
+                <p
+                  style="margin: 24px 0 0; color: #f6f6f6; font-size: 20px; line-height: 160%; font-weight: 400; max-width: 800px; opacity: {{ o2 }}; transform: {{ t2 }};">
+                  인천 섬 트레킹 — 배 시간, 물때, 일몰까지 겹쳐 계산해 오늘 갈 수 있는지부터 알려드립니다.</p>
+
+                <div
+                  style="display: flex; align-items: center; gap: 16px; margin-top: 48px; pointer-events: auto; opacity: {{ o3 }}; transform: {{ t3 }};">
+
+                  <a href="#"
+                    style="display: inline-flex; align-items: center; justify-content: center; height: 64px; padding: 0 32px; border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; color: #FFFFFF; gap: 12px; font-size: 20px; font-weight: 500;"
+                    style-hover="background: rgba(255,255,255,0.12); color: #FFFFFF;"><svg width="20" height="20"
+                      viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M2 13.2C4.4 8.2 6.9 5.4 9.1 5.4c2.3 0 4.9 2.8 7.3 7.8"></path>
+                      <path
+                        d="M2 16.6c1.4 0 1.4 1.2 2.9 1.2s1.5-1.2 3-1.2 1.5 1.2 3 1.2 1.4-1.2 2.9-1.2 1.4 1.2 2.9 1.2">
+                      </path>
+                    </svg>섬 찾기</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div style="position: absolute; left: 0; right: 0; bottom: 48px; z-index: 3;">
+            <div
+              style="width: 1440px; margin: 0 auto; padding: 0 40px; box-sizing: border-box; display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: end;">
+
+              <div style="grid-column: 1 / span 4; display: flex; align-items: center; gap: 12px;">
+                <span
+                  style="display: inline-block; width: 24px; height: 1px; background: rgba(255,255,255,0.6);"></span>
+                <span
+                  style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #B6CED5;">지금
+                  보이는 곳</span>
+                <span style="font-size: 16px; line-height: 100%; font-weight: 500; color: #FFFFFF;">{{ activeName
+                  }}</span>
+              </div>
+
+              <div
+                style="grid-column: 6 / span 2; display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.7);">
+                <span
+                  style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em;">SCROLL</span>
+                <span
+                  style="display: block; width: 1px; height: 32px; background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0)); animation: hn-cue 2400ms ease-in-out infinite;"></span>
+              </div>
+
+              <div
+                style="grid-column: 9 / span 4; display: flex; align-items: center; justify-content: flex-end; gap: 16px; pointer-events: auto;">
+                <span
+                  style="color: #FFFFFF; font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; min-width: 48px; text-align: right;">{{
+                  counter }}</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <button type="button" onClick="{{ go0 }}"
+                    style="width: 64px; height: 4px; padding: 0; border: none; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.32); cursor: pointer;"><span
+                      style="display: block; height: 4px; background: #FFFFFF; width: {{ w0 }}; transition: {{ wt0 }};"></span></button>
+                  <button type="button" onClick="{{ go1 }}"
+                    style="width: 64px; height: 4px; padding: 0; border: none; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.32); cursor: pointer;"><span
+                      style="display: block; height: 4px; background: #FFFFFF; width: {{ w1 }}; transition: {{ wt1 }};"></span></button>
+                  <button type="button" onClick="{{ go2 }}"
+                    style="width: 64px; height: 4px; padding: 0; border: none; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.32); cursor: pointer;"><span
+                      style="display: block; height: 4px; background: #FFFFFF; width: {{ w2 }}; transition: {{ wt2 }};"></span></button>
+                  <button type="button" onClick="{{ go3 }}"
+                    style="width: 64px; height: 4px; padding: 0; border: none; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.32); cursor: pointer;"><span
+                      style="display: block; height: 4px; background: #FFFFFF; width: {{ w3 }}; transition: {{ wt3 }};"></span></button>
+                </div>
+                <button type="button" onClick="{{ toggle }}"
+                  style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.4); background: transparent; color: #FFFFFF; font-size: 12px; font-weight: 500; cursor: pointer;"
+                  style-hover="background: rgba(255,255,255,0.12);">{{ playLabel }}</button>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section data-screen-label="SCR_000 성지 컬렉션" style="width: 100%; background: #FFFFFF;">
+        <div style="width: 1440px; margin: 0 auto; padding: 128px 40px; box-sizing: border-box;">
+          <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: stretch;">
+
+            <div style="grid-column: span 3; display: flex; flex-direction: column; gap: 16px;">
+              <span
+                style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #B6CED5">SCR_000
+                · 홈 큐레이션 01</span>
+              <h2
+                style="margin: 0; font-size: 40px; line-height: 130%; font-weight: 700; letter-spacing: -0.02em; color: #282828;">
+                백패킹 인증<br>성지 컬렉션</h2>
+              <span style="font-size: 16px; line-height: 160%; font-weight: 400; color: #6A6A6A;">네이버·유튜브·인스타그램 후기 집계 ·
+                최근 3년 10건 이상 코스만</span>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                <a href="#"
+                  style="display: inline-flex; align-items: center; justify-content: center; height: 48px; border-radius: 8px; background: #0F3E17; color: #FFFFFF; font-size: 16px; font-weight: 500;"
+                  style-hover="background: #093712; color: #FFFFFF;">후기 많은 섬</a>
+                <a href="#"
+                  style="display: inline-flex; align-items: center; justify-content: center; height: 48px; border-radius: 8px; background: #F6F6F6; color: #848484; font-size: 16px; font-weight: 500;"
+                  style-hover="background: #EDEDED; color: #525252;">최근 인증 섬</a>
+              </div>
+              <span
+                style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484; margin-top: 8px;">2026.07.28
+                갱신</span>
+            </div>
+
+            <div
+              style="grid-column: span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: stretch;">
+              <div
+                style="display: flex; flex-direction: column; border: 1px solid #D4D4D4; border-radius: 8px; overflow: hidden; background: #FFFFFF; transition: border-color 200ms ease, box-shadow 200ms ease;"
+                style-hover="border-color: #0F3E17; box-shadow: 0 8px 24px rgba(21,29,31,0.08);">
+                <div style="position: relative; height: 200px; flex-shrink: 0; background: #EDEDED;">
+                  <image-slot id="scr1-card-1" shape="rect" fit="cover"
+                    src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?fm=jpg&amp;q=80&amp;w=1000&amp;auto=format&amp;fit=crop"
+                    credit="Unsplash" credit-href="https://unsplash.com" placeholder="굴업도 개머리언덕 인증샷"></image-slot>
+                  <div
+                    style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.72) 0%, rgba(21,29,31,0.55) 30%, rgba(21,29,31,0.1) 62%, rgba(21,29,31,0) 78%);">
+                  </div>
+                  <span
+                    style="position: absolute; top: 20px; right: 20px; z-index: 1; display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: #E6FDE5; font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #0F3E17;">후기
+                    최다</span>
+                  <div
+                    style="position: absolute; left: 20px; right: 20px; top: 20px; display: flex; flex-direction: column; gap: 6px;">
+                    <span
+                      style="font-size: 24px; line-height: 130%; font-weight: 700; letter-spacing: -0.01em; color: #FFFFFF;">굴업도</span>
+                    <span
+                      style="font-size: 12px; line-height: 150%; font-weight: 400; color: rgba(255,255,255,0.95); text-shadow: 0 1px 2px rgba(21,29,31,0.45);">개머리언덕
+                      ~ 큰말해변</span>
+                  </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px; flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="display: flex; align-items: center; gap: 1px;"><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span></span>
+                    <span style="font-size: 14px; line-height: 100%; font-weight: 500; color: #282828;">4.8</span>
+
+                  </div>
+                  <span
+                    style="height: 48px; overflow: hidden; font-size: 16px; line-height: 150%; font-weight: 400; color: #525252; text-wrap: pretty">“개머리언덕
+                    일몰 하나로 다 잊혀요.”</span>
+                </div>
+                <div
+                  style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 16px;">
+                  <span style="display: flex; align-items: center; padding-left: 8px;"><img src="./avatars/face-1.png"
+                      alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><img
+                      src="./avatars/face-2.png" alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><img
+                      src="./avatars/face-3.png" alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><span
+                      style="display: inline-flex; align-items: center; justify-content: center; height: 28px; margin-left: 6px; font-size: 12px; line-height: 100%; font-weight: 400; color: #848484;">+409</span></span>
+                  <a href="#" style="font-size: 14px; line-height: 100%; font-weight: 400; color: #282828;"
+                    style-hover="color: #0F3E17;">자세히</a>
+                </div>
+              </div>
+              <div
+                style="display: flex; flex-direction: column; border: 1px solid #D4D4D4; border-radius: 8px; overflow: hidden; background: #FFFFFF; transition: border-color 200ms ease, box-shadow 200ms ease;"
+                style-hover="border-color: #0F3E17; box-shadow: 0 8px 24px rgba(21,29,31,0.08);">
+                <div style="position: relative; height: 200px; flex-shrink: 0; background: #EDEDED;">
+                  <image-slot id="scr1-card-2" shape="rect" fit="cover"
+                    src="https://images.unsplash.com/photo-1517824806704-9040b037703b?fm=jpg&amp;q=80&amp;w=1000&amp;auto=format&amp;fit=crop"
+                    credit="Unsplash" credit-href="https://unsplash.com" placeholder="무의도 호룡곡산 인증샷"></image-slot>
+                  <div
+                    style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.72) 0%, rgba(21,29,31,0.55) 30%, rgba(21,29,31,0.1) 62%, rgba(21,29,31,0) 78%);">
+                  </div>
+
+                  <div
+                    style="position: absolute; left: 20px; right: 20px; top: 20px; display: flex; flex-direction: column; gap: 6px;">
+                    <span
+                      style="font-size: 24px; line-height: 130%; font-weight: 700; letter-spacing: -0.01em; color: #FFFFFF;">무의도</span>
+                    <span
+                      style="font-size: 12px; line-height: 150%; font-weight: 400; color: rgba(255,255,255,0.95); text-shadow: 0 1px 2px rgba(21,29,31,0.45);">호룡곡산
+                      ~ 하나개해변</span>
+                  </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px; flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="display: flex; align-items: center; gap: 1px;"><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span></span>
+                    <span style="font-size: 14px; line-height: 100%; font-weight: 500; color: #282828;">4.5</span>
+
+                  </div>
+                  <span
+                    style="height: 48px; overflow: hidden; font-size: 16px; line-height: 150%; font-weight: 400; color: #525252; text-wrap: pretty">“정상
+                    두 시간, 하산길엔 서해 낙조.”</span>
+                </div>
+                <div
+                  style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 16px;">
+                  <span style="display: flex; align-items: center; padding-left: 8px;"><img src="./avatars/face-4.png"
+                      alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><img
+                      src="./avatars/face-5.png" alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><img
+                      src="./avatars/face-6.png" alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><span
+                      style="display: inline-flex; align-items: center; justify-content: center; height: 28px; margin-left: 6px; font-size: 12px; line-height: 100%; font-weight: 400; color: #848484;">+284</span></span>
+                  <a href="#" style="font-size: 14px; line-height: 100%; font-weight: 400; color: #282828;"
+                    style-hover="color: #0F3E17;">자세히</a>
+                </div>
+              </div>
+              <div
+                style="display: flex; flex-direction: column; border: 1px solid #D4D4D4; border-radius: 8px; overflow: hidden; background: #FFFFFF; transition: border-color 200ms ease, box-shadow 200ms ease;"
+                style-hover="border-color: #0F3E17; box-shadow: 0 8px 24px rgba(21,29,31,0.08);">
+                <div style="position: relative; height: 200px; flex-shrink: 0; background: #EDEDED;">
+                  <image-slot id="scr1-card-3" shape="rect" fit="cover"
+                    src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?fm=jpg&amp;q=80&amp;w=1000&amp;auto=format&amp;fit=crop"
+                    credit="Unsplash" credit-href="https://unsplash.com" placeholder="대이작도 야영 인증샷"></image-slot>
+                  <div
+                    style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.72) 0%, rgba(21,29,31,0.55) 30%, rgba(21,29,31,0.1) 62%, rgba(21,29,31,0) 78%);">
+                  </div>
+
+                  <div
+                    style="position: absolute; left: 20px; right: 20px; top: 20px; display: flex; flex-direction: column; gap: 6px;">
+                    <span
+                      style="font-size: 24px; line-height: 130%; font-weight: 700; letter-spacing: -0.01em; color: #FFFFFF;">대이작도</span>
+                    <span
+                      style="font-size: 12px; line-height: 150%; font-weight: 400; color: rgba(255,255,255,0.95); text-shadow: 0 1px 2px rgba(21,29,31,0.45);">부아산
+                      능선 ~ 풀등</span>
+                  </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px; flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="display: flex; align-items: center; gap: 1px;"><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #525252;">★</span><span
+                        style="font-size: 12px; line-height: 100%; color: #D4D4D4;">★</span></span>
+                    <span style="font-size: 14px; line-height: 100%; font-weight: 500; color: #282828;">4.4</span>
+
+                  </div>
+                  <span
+                    style="height: 48px; overflow: hidden; font-size: 16px; line-height: 150%; font-weight: 400; color: #525252; text-wrap: pretty">“풀등
+                    다음 능선, 하루가 알차요.”</span>
+                </div>
+                <div
+                  style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 16px;">
+                  <span style="display: flex; align-items: center; padding-left: 8px;"><img src="./avatars/face-7.png"
+                      alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><img
+                      src="./avatars/face-8.png" alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><img
+                      src="./avatars/face-9.png" alt="후기 작성자"
+                      style="width: 28px; height: 28px; margin-left: -8px; border-radius: 999px; border: 2px solid #FFFFFF; object-fit: cover; display: block; background: #EDEDED;"><span
+                      style="display: inline-flex; align-items: center; justify-content: center; height: 28px; margin-left: 6px; font-size: 12px; line-height: 100%; font-weight: 400; color: #848484;">+193</span></span>
+                  <a href="#" style="font-size: 14px; line-height: 100%; font-weight: 400; color: #282828;"
+                    style-hover="color: #0F3E17;">자세히</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section data-screen-label="SCR_000 배편 최저가"
+        style="width: 100%; background-color: #F4F8F5; background-image: url(./contour.svg); background-repeat: no-repeat; background-position: center; background-size: cover;">
+        <div style="width: 1440px; margin: 0 auto; padding: 128px 40px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 40px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <span
+                style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #B6CED5">SCR_000
+                · 홈 큐레이션 02</span>
+              <h2
+                style="margin: 0; font-size: 40px; line-height: 130%; font-weight: 700; letter-spacing: -0.02em; color: #282828; white-space: nowrap;">
+                가성비 백패킹 배편 요금 &amp; 시간 최저가 Top 3</h2>
+              <span style="font-size: 16px; line-height: 160%; font-weight: 400; color: #6A6A6A;">인천항만공사·선사 공시 운임 크롤링 ·
+                2026.07.01 갱신</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+              <span
+                style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #848484;">출발지</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button type="button" onClick="{{ setOri0 }}"
+                  style="display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 1px solid {{ ori0Bd }}; border-radius: 999px; background: {{ ori0Bg }}; color: {{ ori0Fg }}; font-size: 14px; line-height: 100%; font-weight: 500; cursor: pointer;">{{
+                  ori0Label }}</button>
+                <button type="button" onClick="{{ setOri1 }}"
+                  style="display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 1px solid {{ ori1Bd }}; border-radius: 999px; background: {{ ori1Bg }}; color: {{ ori1Fg }}; font-size: 14px; line-height: 100%; font-weight: 500; cursor: pointer;">{{
+                  ori1Label }}</button>
+                <button type="button" onClick="{{ setOri2 }}"
+                  style="display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border: 1px solid {{ ori2Bd }}; border-radius: 999px; background: {{ ori2Bg }}; color: {{ ori2Fg }}; font-size: 14px; line-height: 100%; font-weight: 500; cursor: pointer;">{{
+                  ori2Label }}</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: start;">
+            <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                <span
+                  style="font-size: 24px; line-height: 140%; font-weight: 700; letter-spacing: -0.01em; color: #282828;">가장
+                  저렴한 배편</span>
+                <span style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484;">왕복 · 성인 기준</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <sc-for list="{{ cheap }}" as="r" hint-placeholder-count="3">
+                  <div
+                    style="display: grid; grid-template-columns: 76px 1fr 180px; align-items: center; gap: 20px; padding: 24px; border: 1px solid #D4D4D4; border-radius: 8px; background: #FFFFFF; transition: border-color 200ms ease, box-shadow 200ms ease;"
+                    style-hover="border-color: #0F3E17; box-shadow: 0 8px 24px rgba(21,29,31,0.08);">
+                    <span
+                      style="display: inline-flex; align-items: center; justify-self: start; height: 28px; padding: 0 12px; border-radius: 999px; background: {{ r.badgeBg }}; font-size: 12px; line-height: 100%; font-weight: 500; color: {{ r.badgeFg }};">{{
+                      r.badge }}</span>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                      <span style="font-size: 20px; line-height: 130%; font-weight: 500; color: #282828;">{{ r.name
+                        }}</span>
+                      <span style="font-size: 14px; line-height: 150%; font-weight: 400; color: #6A6A6A;">{{ r.pier }} ·
+                        {{ r.dur }}</span>
+                    </div>
+                    <div style="display: flex; align-items: baseline; justify-content: flex-end; gap: 4px;">
+                      <span
+                        style="font-size: 32px; line-height: 100%; font-weight: 300; letter-spacing: -0.02em; color: #282828;">{{
+                        r.round }}</span>
+                      <span style="font-size: 14px; line-height: 100%; font-weight: 400; color: #282828;">원~</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="grid-column: span 6; display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                <span
+                  style="font-size: 24px; line-height: 140%; font-weight: 700; letter-spacing: -0.01em; color: #282828;">1시간
+                  이내 도착 섬</span>
+                <span style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484;">왕복 · 성인 기준</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <sc-for list="{{ fast }}" as="r" hint-placeholder-count="3">
+                  <div
+                    style="display: grid; grid-template-columns: 76px 1fr 180px; align-items: center; gap: 20px; padding: 24px; border: 1px solid #D4D4D4; border-radius: 8px; background: #FFFFFF; transition: border-color 200ms ease, box-shadow 200ms ease;"
+                    style-hover="border-color: #0F3E17; box-shadow: 0 8px 24px rgba(21,29,31,0.08);">
+                    <span
+                      style="display: inline-flex; align-items: center; justify-self: start; height: 28px; padding: 0 12px; border-radius: 999px; background: {{ r.badgeBg }}; font-size: 12px; line-height: 100%; font-weight: 500; color: {{ r.badgeFg }};">{{
+                      r.badge }}</span>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                      <span style="font-size: 20px; line-height: 130%; font-weight: 500; color: #282828;">{{ r.name
+                        }}</span>
+                      <span style="font-size: 14px; line-height: 150%; font-weight: 400; color: #6A6A6A;">{{ r.pier }} ·
+                        {{ r.dur }}</span>
+                    </div>
+                    <div style="display: flex; align-items: baseline; justify-content: flex-end; gap: 4px;">
+                      <span
+                        style="font-size: 32px; line-height: 100%; font-weight: 300; letter-spacing: -0.02em; color: #282828;">{{
+                        r.round }}</span>
+                      <span style="font-size: 14px; line-height: 100%; font-weight: 400; color: #282828;">원~</span>
+                    </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ noFast }}" hint-placeholder-val="{{ false }}">
+                  <div
+                    style="display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 24px; min-height: 96px; box-sizing: border-box; border: 1px dashed #D4D4D4; border-radius: 8px; background: #FFFFFF;">
+                    <span style="font-size: 16px; line-height: 160%; font-weight: 500; color: #282828;">이 출발지에는 1시간 이내
+                      항로가 없습니다</span>
+                    <span style="font-size: 14px; line-height: 150%; font-weight: 400; color: #6A6A6A;">대부도 방아머리 또는
+                      삼목선착장을 선택해 보세요</span>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-screen-label="SCR_000 유튜브 리뷰" style="width: 100%; background: #FFFFFF;">
+        <div style="width: 1440px; margin: 0 auto; padding: 128px 40px; box-sizing: border-box;">
+          <div
+            style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 40px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <span
+                style="font-size: 12px; line-height: 100%; font-weight: 500; letter-spacing: 0.05em; color: #B6CED5">SCR_000
+                · 홈 큐레이션 03</span>
+              <h2
+                style="margin: 0; font-size: 40px; line-height: 130%; font-weight: 700; letter-spacing: -0.02em; color: #282828; white-space: nowrap;">
+                영상으로 보는 섬 백패킹 후기</h2>
+              <span style="font-size: 16px; line-height: 160%; font-weight: 400; color: #6A6A6A;">유튜브 검색 파싱 데이터 · 옹진군 섬
+                조회수 상위 3개 · 카드에서 바로 재생</span>
+            </div>
+            <a href="#"
+              style="display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border: 1px solid #0F3E17; border-radius: 8px; color: #0F3E17; font-size: 16px; font-weight: 500; white-space: nowrap;"
+              style-hover="background: #E6FDE5; color: #0F3E17;">리뷰 더 보기</a>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px;">
+            <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 16px;">
+              <div
+                style="position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #EDEDED;">
+                <image-slot id="scr3-video-1" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop"
+                  credit="Unsplash" credit-href="https://unsplash.com" placeholder="굴업도 개머리언덕 영상 썸네일"></image-slot>
+                <div
+                  style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.18) 0%, rgba(21,29,31,0) 40%, rgba(21,29,31,0.42) 100%);">
+                </div>
+                <span
+                  style="position: absolute; left: 16px; top: 16px; display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,0.92); font-size: 12px; line-height: 100%; font-weight: 500; color: #282828;">인라인
+                  재생</span>
+                <div
+                  style="position: absolute; left: 16px; top: 56px; right: 96px; display: flex; flex-direction: column; gap: 2px; pointer-events: none;">
+                  <span
+                    style="font-size: 30px; line-height: 118%; font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-shadow: 0 2px 8px rgba(21,29,31,0.6);">굴업도
+                    1박 2일</span>
+                  <span
+                    style="font-size: 22px; line-height: 120%; font-weight: 700; letter-spacing: -0.02em; color: #E6FDE5; text-shadow: 0 2px 8px rgba(21,29,31,0.6);">개머리언덕
+                    일몰</span>
+                </div>
+                <span
+                  style="position: absolute; right: 16px; bottom: 16px; display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 4px; background: rgba(21,29,31,0.78); color: #FFFFFF; font-size: 12px; line-height: 100%; font-weight: 500;">18:42</span>
+                <button type="button"
+                  style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; padding: 0; border: none; border-radius: 999px; background: rgba(255,255,255,0.94); cursor: pointer;"
+                  style-hover="background: #FFFFFF;">
+                  <span
+                    style="display: block; width: 0; height: 0; margin-left: 4px; border-left: 16px solid #0F3E17; border-top: 10px solid transparent; border-bottom: 10px solid transparent;"></span>
+                </button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span
+                  style="font-size: 20px; line-height: 145%; font-weight: 500; color: #282828; text-wrap: pretty;">굴업도
+                  백패킹 1박 2일 | 개머리언덕 일몰까지 걸어서</span>
+                <span style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484;">섬생활 · 조회수 24만회 ·
+                  2026.06.14</span>
+              </div>
+            </div>
+            <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 16px;">
+              <div
+                style="position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #EDEDED;">
+                <image-slot id="scr3-video-2" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1487730116645-74489c95b41b?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop"
+                  credit="Unsplash" credit-href="https://unsplash.com" placeholder="무의도 호룡곡산 영상 썸네일"></image-slot>
+                <div
+                  style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.18) 0%, rgba(21,29,31,0) 40%, rgba(21,29,31,0.42) 100%);">
+                </div>
+                <span
+                  style="position: absolute; left: 16px; top: 16px; display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,0.92); font-size: 12px; line-height: 100%; font-weight: 500; color: #282828;">인라인
+                  재생</span>
+                <div
+                  style="position: absolute; left: 16px; top: 56px; right: 96px; display: flex; flex-direction: column; gap: 2px; pointer-events: none;">
+                  <span
+                    style="font-size: 30px; line-height: 118%; font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-shadow: 0 2px 8px rgba(21,29,31,0.6);">호룡곡산
+                    종주</span>
+                  <span
+                    style="font-size: 22px; line-height: 120%; font-weight: 700; letter-spacing: -0.02em; color: #E6FDE5; text-shadow: 0 2px 8px rgba(21,29,31,0.6);">하나개
+                    노지캠핑</span>
+                </div>
+                <span
+                  style="position: absolute; right: 16px; bottom: 16px; display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 4px; background: rgba(21,29,31,0.78); color: #FFFFFF; font-size: 12px; line-height: 100%; font-weight: 500;">12:07</span>
+                <button type="button"
+                  style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; padding: 0; border: none; border-radius: 999px; background: rgba(255,255,255,0.94); cursor: pointer;"
+                  style-hover="background: #FFFFFF;">
+                  <span
+                    style="display: block; width: 0; height: 0; margin-left: 4px; border-left: 16px solid #0F3E17; border-top: 10px solid transparent; border-bottom: 10px solid transparent;"></span>
+                </button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span
+                  style="font-size: 20px; line-height: 145%; font-weight: 500; color: #282828; text-wrap: pretty;">무의도
+                  호룡곡산 종주 후 하나개해변 노지 캠핑</span>
+                <span style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484;">주말섬로그 · 조회수 11만회 ·
+                  2026.05.30</span>
+              </div>
+            </div>
+            <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 16px;">
+              <div
+                style="position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: #EDEDED;">
+                <image-slot id="scr3-video-3" shape="rect" fit="cover"
+                  src="https://images.unsplash.com/photo-1445308394109-4ec2920981b1?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop"
+                  credit="Unsplash" credit-href="https://unsplash.com" placeholder="승봉도 이일레해변 영상 썸네일"></image-slot>
+                <div
+                  style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(21,29,31,0.18) 0%, rgba(21,29,31,0) 40%, rgba(21,29,31,0.42) 100%);">
+                </div>
+                <span
+                  style="position: absolute; left: 16px; top: 16px; display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,0.92); font-size: 12px; line-height: 100%; font-weight: 500; color: #282828;">인라인
+                  재생</span>
+                <div
+                  style="position: absolute; left: 16px; top: 56px; right: 96px; display: flex; flex-direction: column; gap: 2px; pointer-events: none;">
+                  <span
+                    style="font-size: 30px; line-height: 118%; font-weight: 700; letter-spacing: -0.02em; color: #FFFFFF; text-shadow: 0 2px 8px rgba(21,29,31,0.6);">초보
+                    섬백패킹</span>
+                  <span
+                    style="font-size: 22px; line-height: 120%; font-weight: 700; letter-spacing: -0.02em; color: #E6FDE5; text-shadow: 0 2px 8px rgba(21,29,31,0.6);">배시간·물때
+                    정리</span>
+                </div>
+                <span
+                  style="position: absolute; right: 16px; bottom: 16px; display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 4px; background: rgba(21,29,31,0.78); color: #FFFFFF; font-size: 12px; line-height: 100%; font-weight: 500;">09:51</span>
+                <button type="button"
+                  style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; padding: 0; border: none; border-radius: 999px; background: rgba(255,255,255,0.94); cursor: pointer;"
+                  style-hover="background: #FFFFFF;">
+                  <span
+                    style="display: block; width: 0; height: 0; margin-left: 4px; border-left: 16px solid #0F3E17; border-top: 10px solid transparent; border-bottom: 10px solid transparent;"></span>
+                </button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span
+                  style="font-size: 20px; line-height: 145%; font-weight: 500; color: #282828; text-wrap: pretty;">초보
+                  섬백패킹은 승봉도 | 배 시간·물때 정리</span>
+                <span style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484;">백패킹하는남자 · 조회수 8.7만회
+                  · 2026.07.05</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer style="width: 100%; border-top: 1px solid #EDEDED; background: #FFFFFF;">
+        <div style="width: 1440px; margin: 0 auto; padding: 32px 40px; box-sizing: border-box;">
+          <span style="font-size: 12px; line-height: 150%; font-weight: 400; color: #848484;">© 2026 한눈섬길. All rights
+            reserved.</span>
+        </div>
+      </footer>
+
+    </div>
+  </x-dc>
+  <script type="text/x-dc" data-dc-script
+    data-props="{&quot;$preview&quot;:{&quot;width&quot;:1920,&quot;height&quot;:1200},&quot;rollSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;min&quot;:3,&quot;max&quot;:12,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;히어로 롤링&quot;},&quot;autoRoll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;히어로 롤링&quot;},&quot;kenBurns&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;히어로 롤링&quot;}}">
+class Component extends DCLogic {
+  state = { idx: Math.floor(Math.random() * 4), t: 0, playing: true, p: 0, intro: 0, tab: 0, ori: 0 };
+
+  get ferryData() {
+    return [
+      [
+        { island: '덕적도', pier: '인천 연안여객터미널 → 진리항', line: '고려고속훼리', one: 23900, min: 70 },
+        { island: '자월도', pier: '인천 연안여객터미널 → 달바위선착장', line: '대부해운', one: 16500, min: 85 },
+        { island: '승봉도', pier: '인천 연안여객터미널 → 승봉선착장', line: '고려고속훼리', one: 22400, min: 100 },
+        { island: '연평도', pier: '인천 연안여객터미널 → 연평항', line: '에이치해운', one: 44500, min: 120 },
+      ],
+      [
+        { island: '자월도', pier: '대부도 방아머리 → 달바위선착장', line: '대부해운', one: 8500, min: 45 },
+        { island: '승봉도', pier: '대부도 방아머리 → 승봉선착장', line: '대부해운', one: 11000, min: 60 },
+        { island: '대이작도', pier: '대부도 방아머리 → 이작선착장', line: '대부해운', one: 12500, min: 75 },
+      ],
+      [
+        { island: '신도·시도·모도', pier: '삼목선착장 → 신도선착장', line: '세종해운', one: 3000, min: 10 },
+        { island: '장봉도', pier: '삼목선착장 → 옹암선착장', line: '세종해운', one: 4000, min: 40 },
+        { island: '신도(차량 동반)', pier: '삼목선착장 → 신도선착장', line: '세종해운', one: 6500, min: 10 },
+      ],
+    ][this.state.ori];
+  }
+
+  ferryRoutes(tab) {
+    const pool = tab === 0 ? this.ferryData.slice() : this.ferryData.filter(r => r.min <= 60);
+    const list = pool.sort((a, b) => tab === 0 ? a.one - b.one : a.min - b.min).slice(0, 3);
+    const badges = tab === 0 ? ['최저가', '2순위', '3순위'] : ['최단시간', '2순위', '3순위'];
+    return list.map((r, i) => ({
+      key: r.island + i,
+      rank: '0' + (i + 1),
+      badge: badges[i],
+      bd: i === 0 ? 'transparent' : '#EDEDED',
+      badgeBg: i === 0 ? '#E6FDE5' : '#FFFFFF',
+      badgeFg: i === 0 ? '#0F3E17' : '#525252',
+      name: r.island,
+      pier: r.pier,
+      line: r.line,
+      fareLabel: '왕복',
+      round: (r.one * 2).toLocaleString('ko-KR'),
+      one: '편도 ' + r.one.toLocaleString('ko-KR'),
+      dur: r.min >= 60 ? Math.floor(r.min / 60) + '시간' + (r.min % 60 ? ' ' + (r.min % 60) + '분' : '') : r.min + '분',
+    }));
+  }
+
+  get slides() {
+    return ['승봉도 이일레해변길', '대이작도 부아산 능선길', '굴업도 개머리언덕길', '무의도 호룡곡산길'];
+  }
+  get dur() { return (this.props.rollSeconds ?? 6) * 1000; }
+
+  get wrap() {
+    if (!this._wrap || !this._wrap.isConnected) this._wrap = document.getElementById('hn-hero-pin');
+    return this._wrap;
+  }
+
+  componentDidMount() {
+    this.start();
+    this.onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = null;
+        const el = this.wrap;
+        if (!el) return;
+        const total = el.offsetHeight - window.innerHeight;
+        const p = total > 0 ? Math.min(1, Math.max(0, -el.getBoundingClientRect().top / total)) : 0;
+        if (Math.abs(p - this.state.p) > 0.002) this.setState({ p });
+      });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
+    window.addEventListener('resize', this.onScroll, { passive: true });
+    this.onScroll();
+    const t0 = performance.now();
+    const step = () => {
+      const k = Math.min(1, (performance.now() - t0) / 1400);
+      this.setState({ intro: k });
+      if (k < 1) this.introRaf = requestAnimationFrame(step);
+    };
+    this.introRaf = requestAnimationFrame(step);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    window.removeEventListener('scroll', this.onScroll);
+    document.removeEventListener('scroll', this.onScroll, { capture: true });
+    window.removeEventListener('resize', this.onScroll);
+  }
+
+  start() {
+    clearInterval(this.timer);
+    this.timer = setInterval(() => {
+      if (!this.state.playing || this.props.autoRoll === false) return;
+      this.setState(s => ({ idx: (s.idx + 1) % this.slides.length }));
+    }, this.dur);
+  }
+
+  go(i) { this.setState({ idx: i, t: 0 }); }
+
+  renderVals() {
+    const { idx, t, playing } = this.state;
+    const kb = this.props.kenBurns !== false;
+    const p = Math.min(1, t / this.dur);
+    const v = {
+      activeName: this.slides[idx],
+      counter: '0' + (idx + 1) + ' / 0' + this.slides.length,
+      playLabel: playing ? '❙❙' : '▶',
+      toggle: () => this.setState(s => ({ playing: !s.playing })),
+    };
+    const sp = this.state.p;
+    const intro = this.state.intro;
+    const ease = x => 1 - Math.pow(1 - x, 3);
+    for (let b = 0; b < 4; b++) {
+      const inE = ease(Math.min(1, Math.max(0, (intro - b * 0.12) / 0.3)));
+      const outE = ease(Math.min(1, Math.max(0, (sp - b * 0.16) / 0.26)));
+      v['o' + b] = (inE * (1 - outE)).toFixed(3);
+      v['t' + b] = 'translateY(' + ((1 - inE) * 48 - outE * 120).toFixed(1) + 'px)';
+    }
+    const mk = d => {
+      const inE = ease(Math.min(1, Math.max(0, (intro - d * 0.12) / 0.3)));
+      const outE = ease(Math.min(1, Math.max(0, (sp - d * 0.16) / 0.26)));
+      return { inE, outE, o: (inE * (1 - outE)).toFixed(3) };
+    };
+    const l1 = mk(1), l2 = mk(1.55);
+    v.o1 = l1.o;
+    v.t1 = 'translateY(' + ((1 - l1.inE) * 115).toFixed(1) + '%) translateY(' + (-l1.outE * 120).toFixed(1) + 'px)';
+    v.ruleX = 'scaleX(' + l1.inE.toFixed(3) + ')';
+    v.o1b = l2.o;
+    v.t1b = 'translateY(' + ((1 - l2.inE) * 115).toFixed(1) + '%) translateY(' + (-l2.outE * 120).toFixed(1) + 'px)';
+    v.hiX = 'scaleX(' + Math.min(1, Math.max(0, (intro - 0.45) / 0.45)).toFixed(3) + ')';
+    v.shift = 'translateY(0px)';
+    for (let i = 0; i < this.slides.length; i++) {
+      v['op' + i] = idx === i ? 1 : 0;
+      v['tf' + i] = idx === i && kb ? 'scale(1.08)' : 'scale(1)';
+      v['w' + i] = i === idx ? '100%' : '0%';
+      v['wt' + i] = i === idx ? 'width ' + this.dur + 'ms linear' : 'none';
+      v['go' + i] = () => this.go(i);
+    }
+    v.cheap = this.ferryRoutes(0);
+    v.fast = this.ferryRoutes(1);
+    v.noFast = v.fast.length === 0;
+    const oriLabels = ['인천 연안여객', '대부도 방아머리', '삼목선착장'];
+    for (let i = 0; i < 3; i++) {
+      const on = this.state.ori === i;
+      v['ori' + i + 'Label'] = oriLabels[i];
+      v['ori' + i + 'Bd'] = on ? '#0F3E17' : '#D4D4D4';
+      v['ori' + i + 'Bg'] = on ? '#0F3E17' : '#FFFFFF';
+      v['ori' + i + 'Fg'] = on ? '#FFFFFF' : '#525252';
+      v['setOri' + i] = () => this.setState({ ori: i });
+    }
+    return v;
+  }
+}
+</script>
+</body>
+
+</html>

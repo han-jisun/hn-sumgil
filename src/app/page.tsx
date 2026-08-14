@@ -72,6 +72,28 @@ const youtubeVideos = [
 
 
 
+// 10 Color Palettes for Island Badges (Distinct Colorful Pastel BG + Text + Border, No White/Gray)
+const sampleBadgeColors = [
+  { bg: "bg-[#FFF8E7]", text: "text-[#B45309]", border: "border-[#FCD34D]" }, // 1. Warm Gold
+  { bg: "bg-[#E6FDE5]", text: "text-[#0F3E17]", border: "border-[#86EFAC]" }, // 2. Sage Green
+  { bg: "bg-[#E7FAFF]", text: "text-[#0284C7]", border: "border-[#93C5FD]" }, // 3. Ocean Blue
+  { bg: "bg-[#D1FAE5]", text: "text-[#065F46]", border: "border-[#6EE7B7]" }, // 4. Mint Green
+  { bg: "bg-[#FFE4E6]", text: "text-[#9F1239]", border: "border-[#FDA4AF]" }, // 5. Rose Coral
+  { bg: "bg-[#EDE9FE]", text: "text-[#5B21B6]", border: "border-[#C4B5FD]" }, // 6. Lavender Violet
+  { bg: "bg-[#E0E7FF]", text: "text-[#3730A3]", border: "border-[#A5B4FC]" }, // 7. Indigo Blue
+  { bg: "bg-[#FFEDD5]", text: "text-[#9A3412]", border: "border-[#FDBA74]" }, // 8. Peach Tangerine
+  { bg: "bg-[#CCFBF1]", text: "text-[#115E59]", border: "border-[#5EEAD4]" }, // 9. Turquoise Teal
+  { bg: "bg-[#FEF9C3]", text: "text-[#854D0E]", border: "border-[#FDE047]" }, // 10. Lemon Amber
+];
+
+function getIslandColor(name: string, index: number) {
+  let hash = index;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) % sampleBadgeColors.length;
+  }
+  return sampleBadgeColors[hash];
+}
+
 export default function HomePage() {
   const [heroIdx, setHeroIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -367,32 +389,32 @@ export default function HomePage() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  {/* Subtle Image Top Overlay */}
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, rgba(21,29,31,0.6) 0%, rgba(21,29,31,0.2) 40%, rgba(21,29,31,0) 100%)",
-                    }}
-                  />
-
-                  {/* Badges on Image */}
-                  <div className="absolute left-[16px] top-[16px] right-[16px] flex items-center justify-between gap-[8px]">
-                    <span className={`px-[10px] py-[3px] rounded-full text-[12px] font-bold shadow-sm border ${theme.badgeBg}`}>
-                      {theme.badge}
-                    </span>
-                    <div className="flex items-center gap-[4px]">
-                      {theme.tags.map((tag) => (
-                        <span key={tag} className="text-[11px] bg-black/40 backdrop-blur-sm text-white px-[8px] py-[2px] rounded-full font-medium">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
                 </div>
 
                 {/* Bottom Content Area (White Background) */}
                 <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[12px]">
+                  {/* Recommended Islands (Flat Capsule Badge Style, Above Title) */}
+                  <div className="flex items-center gap-[6px] flex-wrap">
+                    <span className="text-[12px] text-[#848484] font-medium mr-[2px]">추천 섬</span>
+                    {theme.islands.map((island, i) => {
+                      const color = getIslandColor(island.name, idx * 3 + i);
+                      return (
+                        <span
+                          key={island.name}
+                          id={`curation-island-badge-${theme.id}-${island.name}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.location.href = island.href;
+                          }}
+                          className={`h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-bold border ${color.bg} ${color.text} ${color.border} hover:opacity-85 transition-all cursor-pointer`}
+                        >
+                          {island.name}
+                        </span>
+                      );
+                    })}
+                  </div>
+
                   {/* Title */}
                   <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors">
                     {theme.title}
@@ -403,30 +425,16 @@ export default function HomePage() {
                     {theme.desc}
                   </p>
 
-                  {/* Recommended Island Chips */}
-                  <div className="pt-[16px] mt-[8px] border-t border-[#EDEDED] flex flex-wrap items-center justify-between gap-[8px]">
-                    <div className="flex flex-wrap items-center gap-[6px]">
-                      <span className="text-[12px] text-[#848484] font-medium mr-[2px]">추천 섬</span>
-                      {theme.islands.map((island) => (
-                        <span
-                          key={island.name}
-                          id={`curation-island-link-${theme.id}-${island.name}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.location.href = island.href;
-                          }}
-                          className="inline-flex items-center gap-[4px] px-[10px] py-[4px] rounded-[6px] bg-[#F6F6F6] hover:bg-[#E6FDE5] text-[#282828] hover:text-[#0F3E17] text-[12px] font-medium transition-colors"
-                        >
-                          <span>{island.name}</span>
-                          <span className="material-symbols-outlined text-[12px]">chevron_right</span>
-                        </span>
-                      ))}
-                    </div>
-                    <span className="text-[13px] font-medium text-[#0F3E17] group-hover:underline inline-flex items-center gap-[2px]">
-                      자세히
-                      <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                    </span>
+                  {/* Hashtags (At Bottom Divider Area) */}
+                  <div className="pt-[14px] mt-[4px] border-t border-[#EDEDED] flex items-center gap-[6px] flex-wrap">
+                    {theme.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-bold border border-[#E8E8E8] bg-[#F6F6F6] text-[#525252]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </Link>

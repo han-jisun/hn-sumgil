@@ -393,8 +393,30 @@ export default function HomePage() {
 
                 {/* Bottom Content Area (White Background) */}
                 <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[12px]">
-                  {/* Recommended Islands (Flat Capsule Badge Style, Above Title) */}
+                  {/* Hashtags (Above Title) */}
                   <div className="flex items-center gap-[6px] flex-wrap">
+                    {theme.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-normal border border-[#EDEDED] bg-[#FFFFFF] text-[#6A6A6A]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors">
+                    {theme.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-[14px] sm:text-[15px] text-[#6A6A6A] leading-[150%] m-0 flex-1">
+                    {theme.desc}
+                  </p>
+
+                  {/* Recommended Islands (Flat Capsule Badge Style, At Bottom Divider Area) */}
+                  <div className="pt-[14px] mt-[4px] border-t border-[#EDEDED] flex items-center gap-[6px] flex-wrap">
                     <span className="text-[12px] text-[#848484] font-medium mr-[2px]">추천 섬</span>
                     {theme.islands.map((island, i) => {
                       const color = getIslandColor(island.name, idx * 3 + i);
@@ -413,28 +435,6 @@ export default function HomePage() {
                         </span>
                       );
                     })}
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors">
-                    {theme.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[14px] sm:text-[15px] text-[#6A6A6A] leading-[150%] m-0 flex-1">
-                    {theme.desc}
-                  </p>
-
-                  {/* Hashtags (At Bottom Divider Area) */}
-                  <div className="pt-[14px] mt-[4px] border-t border-[#EDEDED] flex items-center gap-[6px] flex-wrap">
-                    {theme.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-bold border border-[#E8E8E8] bg-[#F6F6F6] text-[#525252]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
                   </div>
                 </div>
               </Link>

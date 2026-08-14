@@ -515,7 +515,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* 3 Video Cards with Identical Staggered Scroll Reveal & Card Structure */}
+          {/* 3 Video Cards with Staggered Scroll Reveal */}
           <div
             ref={youtubeGridRef}
             id="youtube-cards-grid"
@@ -528,15 +528,15 @@ export default function HomePage() {
                 style={{
                   transitionDelay: youtubeVisible ? `${idx * 180}ms` : "0ms",
                 }}
-                className={`flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-700 ease-out group cursor-pointer ${
+                className={`flex flex-col gap-[16px] group cursor-pointer transition-all duration-700 ease-out ${
                   youtubeVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-[48px]"
                 }`}
                 onClick={() => setActiveVideo(vid.embedUrl)}
               >
-                {/* Top Image Thumbnail Box */}
-                <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-[#EDEDED]">
+                {/* Video Thumbnail Box */}
+                <div className="relative aspect-video w-full rounded-[8px] sm:rounded-[12px] overflow-hidden bg-[#EDEDED] shadow-sm group-hover:shadow-md transition-shadow">
                   <div
                     className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
                     style={{ backgroundImage: `url('${vid.img}')` }}
@@ -578,8 +578,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Bottom Content Area (White Background) */}
-                <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[8px]">
+                {/* Text Info Below Thumbnail */}
+                <div className="flex flex-col gap-[6px]">
                   <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors m-0">
                     {vid.title}
                   </h3>

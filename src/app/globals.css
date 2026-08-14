@@ -319,3 +319,18 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
+
+/* Global Korean Typography: Word-level line breaking & pretty text wrap */
+h1, h2, h3, h4, h5, h6,
+p, span, a, label, li,
+.break-keep {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+/* 320px and below Horizontal Scroll Safety */
+html, body {
+  min-width: 320px;
+  overflow-x: auto;
+}

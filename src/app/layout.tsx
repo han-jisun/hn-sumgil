@@ -30,6 +30,7 @@ export default function RootLayout({
         <link rel="icon" href="/icon.svg?v=5" type="image/svg+xml" />
         <link rel="shortcut icon" href="/icon.svg?v=5" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.svg?v=5" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       </head>
       <body className="bg-white text-[#282828] font-sans antialiased min-h-screen flex flex-col">
         <Navbar />
@@ -40,7 +41,7 @@ export default function RootLayout({
           <div className="max-w-[1440px] m-auto px-6 sm:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="font-bold text-[#0F3E17]">한눈섬길</span>
-              <span className="text-xs text-[#848484]">INCHEON ISLANDS | EXPLORE</span>
+              <span className="hidden sm:inline-block text-xs text-[#848484]">INCHEON ISLANDS | EXPLORE</span>
             </div>
             <p className="text-xs text-[#848484]">
               &copy; {new Date().getFullYear()} 한눈섬길. All rights reserved.

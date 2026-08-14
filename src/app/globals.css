@@ -63,11 +63,27 @@
   --weight-medium: 500;
   --weight-bold: 700;
 
+  /* Fluid Typography */
+  --font-display-fluid: clamp(32px, 5vw, 64px);
+  --font-h1-fluid:      clamp(28px, 3.6vw, 48px);
+  --font-h4-fluid:      clamp(19px, 1.8vw, 22px);
+  --font-data-lg-fluid: clamp(28px, 3.2vw, 40px);
+
   /* Spacing */
   --space-1: 4px;    --space-2: 8px;    --space-3: 12px;
   --space-4: 16px;   --space-5: 24px;   --space-6: 32px;
   --space-7: 40px;   --space-8: 48px;   --space-9: 64px;
   --space-10: 80px;  --space-11: 96px;  --space-12: 128px;
+
+  /* Layout */
+  --container-max: 1440px;
+  --container-pad: clamp(16px, 4vw, 40px);
+  --grid-columns: 12;
+  --grid-gutter: clamp(16px, 2.2vw, 32px);
+  --grid-row-gap: clamp(24px, 3vw, 40px);
+  --section-pad-y: clamp(48px, 7vw, 104px);
+  --bp-wide: 1120px;
+  --bp-mid: 768px;
 
   /* Radius */
   --radius-none: 0;
@@ -84,15 +100,15 @@
   --border-color-strong: var(--gray-400);
 
   /* Legacy Compat Variables */
-  --color-primary: #0F3E17;
-  --color-secondary: #B6CED5;
-  --color-background: #FFFFFF;
-  --color-foreground: #282828;
-  --color-card-bg: #FFFFFF;
-  --color-card-border: #D4D4D4;
-  --color-text-primary: #282828;
-  --color-text-secondary: #6A6A6A;
-  --color-text-muted: #848484;
+  --color-primary: var(--main-500);
+  --color-secondary: var(--sub-500);
+  --color-background: var(--white);
+  --color-foreground: var(--gray-900);
+  --color-card-bg: var(--white);
+  --color-card-border: var(--gray-200);
+  --color-text-primary: var(--gray-900);
+  --color-text-secondary: var(--gray-600);
+  --color-text-muted: var(--gray-500);
   --color-nav-bg: rgba(255, 255, 255, 0.95);
 }
 
@@ -274,7 +290,7 @@
   font-size: 12px;
 }
 
-/* Custom Scrollbar (Sleek Modern Mac-style Floating Scrollbar) */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -299,7 +315,6 @@
   background-clip: content-box;
 }
 
-/* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;

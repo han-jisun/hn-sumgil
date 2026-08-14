@@ -104,6 +104,8 @@ export default function HomePage() {
   const [activeThemeIdx, setActiveThemeIdx] = useState(0);
   const [curationVisible, setCurationVisible] = useState(false);
   const curationGridRef = useRef<HTMLDivElement>(null);
+  const [youtubeVisible, setYoutubeVisible] = useState(false);
+  const youtubeGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = curationGridRef.current;
@@ -111,6 +113,19 @@ export default function HomePage() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setCurationVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = youtubeGridRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setYoutubeVisible(entry.isIntersecting);
       },
       { threshold: 0.15 }
     );
@@ -215,7 +230,7 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* HERO SECTION */}
       {/* ========================================================================= */}
-      <section id="hero-section" data-screen-label="Hero" className="relative w-full h-[100dvh] min-h-[600px] sm:h-[780px] overflow-hidden bg-main-900">
+      <section id="hero-section" data-screen-label="Hero" className="relative w-full h-[100dvh] min-h-[560px] md:h-[780px] overflow-hidden bg-main-900">
         {/* Background Slide Images (Contained Parallax Slide with Motion Blur & Zero Background Gap) */}
         <div id="hero-bg-slider" className="absolute inset-0 z-0 overflow-hidden">
           {heroSlides.map((slide, idx) => {
@@ -379,11 +394,11 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* SECTION 1: 나에게 맞는 첫 번째 인천 섬 찾기 (와이드 매거진 커버 3-카드) */}
       {/* ========================================================================= */}
-      <section id="curation-section" className="w-full bg-white py-16 sm:py-24">
+      <section id="curation-section" className="w-full bg-white mt-[64px] md:mt-[120px] mb-[64px] md:mb-[120px]">
         <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
 
           {/* Header */}
-          <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-12 sm:mb-16">
+          <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px]">
             <span className="text-xs font-semibold tracking-wider text-main-500 uppercase mb-2 block">
               ISLAND THEME CURATION
             </span>
@@ -486,9 +501,9 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* SECTION 3: 영상으로 보는 섬 백패킹 후기 */}
       {/* ========================================================================= */}
-      <section id="youtube-reviews-section" data-screen-label="SCR_000 유튜브 리뷰" className="w-full bg-white py-24 sm:py-32">
+      <section id="youtube-reviews-section" data-screen-label="SCR_000 유튜브 리뷰" className="w-full bg-white mb-[100px] md:mb-[200px]">
         <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-          <div id="youtube-reviews-header" className="text-center max-w-[700px] mx-auto mb-12 sm:mb-16 flex flex-col items-center">
+          <div id="youtube-reviews-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px] flex flex-col items-center">
             <span className="text-xs font-semibold tracking-wider text-sub-700 uppercase mb-2 block">
               SCR_000 · 홈 큐레이션 03
             </span>
@@ -500,22 +515,33 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* 3 Video Cards */}
-          <div id="youtube-cards-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {youtubeVideos.map((vid) => (
-              <div key={vid.id} id={`youtube-card-${vid.id}`} className="flex flex-col gap-4 group">
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100 shadow-sm group-hover:shadow-md transition-shadow">
+          {/* 3 Video Cards with Identical Staggered Scroll Reveal & Card Structure */}
+          <div
+            ref={youtubeGridRef}
+            id="youtube-cards-grid"
+            className="grid grid-cols-1 md:grid-cols-3 gap-[24px] sm:gap-[32px]"
+          >
+            {youtubeVideos.map((vid, idx) => (
+              <div
+                key={vid.id}
+                id={`youtube-card-${vid.id}`}
+                style={{
+                  transitionDelay: youtubeVisible ? `${idx * 180}ms` : "0ms",
+                }}
+                className={`flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-700 ease-out group cursor-pointer ${
+                  youtubeVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-[48px]"
+                }`}
+                onClick={() => setActiveVideo(vid.embedUrl)}
+              >
+                {/* Top Image Thumbnail Box */}
+                <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-[#EDEDED]">
                   <div
                     className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
                     style={{ backgroundImage: `url('${vid.img}')` }}
                   />
-                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-sub-900/20 via-transparent to-sub-900/60" />
-
-                  <span className="absolute left-4 top-4 inline-flex items-center h-7 px-3 rounded-full bg-white/90 text-xs font-medium text-gray-900">
-                    인라인 재생
-                  </span>
-
-                  <div className="absolute left-4 top-14 right-20 flex flex-col gap-0.5 pointer-events-none">
+                  <div className="absolute left-4 top-4 right-20 flex flex-col gap-0.5 pointer-events-none">
                     <span className="text-2xl font-bold tracking-tight text-white drop-shadow">
                       {vid.badgeTitle}
                     </span>
@@ -528,23 +554,36 @@ export default function HomePage() {
                     {vid.dur}
                   </span>
 
-                  {/* Play Button Overlay */}
-                  <button
+                  {/* White Circular Play Button with Transparent Triangle Cutout (Punched Hole) */}
+                  <div
                     id={`youtube-play-btn-${vid.id}`}
-                    type="button"
-                    onClick={() => setActiveVideo(vid.embedUrl)}
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/95 hover:bg-white hover:scale-110 transition-all shadow-lg cursor-pointer"
-                    aria-label={`Play ${vid.title}`}
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300 pointer-events-none"
                   >
-                    <span className="block w-0 h-0 ml-1 border-l-[16px] border-l-main-500 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent" />
-                  </button>
+                    <svg
+                      className="w-[56px] h-[56px] drop-shadow-[0_4px_16px_rgba(0,0,0,0.22)]"
+                      viewBox="0 0 56 56"
+                    >
+                      <mask id={`play-mask-${vid.id}`}>
+                        <rect width="56" height="56" rx="28" fill="white" />
+                        <polygon points="23,17 39,28 23,39" fill="black" />
+                      </mask>
+                      <rect
+                        width="56"
+                        height="56"
+                        rx="28"
+                        fill="rgba(255, 255, 255, 0.95)"
+                        mask={`url(#play-mask-${vid.id})`}
+                      />
+                    </svg>
+                  </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <span className="text-lg font-medium text-gray-900 leading-snug group-hover:text-main-500 transition-colors">
+                {/* Bottom Content Area (White Background) */}
+                <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[8px]">
+                  <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors m-0">
                     {vid.title}
-                  </span>
-                  <span className="text-xs text-gray-500">{vid.meta}</span>
+                  </h3>
+                  <span className="text-[13px] sm:text-[14px] text-[#6A6A6A] leading-[150%]">{vid.meta}</span>
                 </div>
               </div>
             ))}

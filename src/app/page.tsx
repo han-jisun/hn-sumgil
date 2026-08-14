@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { heroSlidesData, rollingSubtitles } from "@/data/main";
@@ -102,6 +102,21 @@ export default function HomePage() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [subIdx, setSubIdx] = useState(0);
   const [activeThemeIdx, setActiveThemeIdx] = useState(0);
+  const [curationVisible, setCurationVisible] = useState(false);
+  const curationGridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = curationGridRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setCurationVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const curationThemes = [
     {
@@ -201,24 +216,33 @@ export default function HomePage() {
       {/* HERO SECTION */}
       {/* ========================================================================= */}
       <section id="hero-section" data-screen-label="Hero" className="relative w-full h-[100dvh] min-h-[600px] sm:h-[780px] overflow-hidden bg-main-900">
-        {/* Background Slide Images with Ken Burns & Fade */}
-        <div id="hero-bg-slider" className="absolute inset-0 z-0">
+        {/* Background Slide Images (Contained Parallax Slide with Motion Blur & Zero Background Gap) */}
+        <div id="hero-bg-slider" className="absolute inset-0 z-0 overflow-hidden">
           {heroSlides.map((slide, idx) => {
             const isActive = idx === heroIdx;
             return (
               <div
                 key={slide.name}
                 id={`hero-slide-${idx}`}
-                className={`absolute inset-0 transition-opacity duration-1400 ease-in-out ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"
-                  }`}
+                className="absolute inset-0"
+                style={{
+                  opacity: isActive ? 1 : 0,
+                  zIndex: isActive ? 2 : 1,
+                  transition: "opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1)",
+                  pointerEvents: isActive ? "auto" : "none",
+                }}
               >
                 <div
-                  className={`absolute inset-0 transition-transform duration-[9000ms] ease-out ${isActive ? "scale-105" : "scale-100"
-                    }`}
+                  className="absolute inset-[-40px]"
                   style={{
                     backgroundImage: `url(${slide.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
+                    transform: isActive ? "scale(1.03) translateX(0%)" : "scale(1.12) translateX(40px)",
+                    filter: isActive ? "blur(0px)" : "blur(8px)",
+                    transition: isActive
+                      ? "transform 7000ms cubic-bezier(0.16, 1, 0.3, 1), filter 1200ms cubic-bezier(0.16, 1, 0.3, 1)"
+                      : "transform 1200ms ease-out, filter 1200ms ease-out",
                   }}
                 />
               </div>
@@ -372,13 +396,24 @@ export default function HomePage() {
           </div>
 
           {/* 3 White Card Type Theme Curation Cards */}
-          <div id="curation-cards-grid" className="grid grid-cols-1 md:grid-cols-3 gap-[24px] sm:gap-[32px]">
+          <div
+            ref={curationGridRef}
+            id="curation-cards-grid"
+            className="grid grid-cols-1 md:grid-cols-3 gap-[24px] sm:gap-[32px]"
+          >
             {curationThemes.map((theme, idx) => (
               <Link
                 key={theme.id}
                 id={`curation-card-${idx + 1}`}
                 href={theme.primaryHref}
-                className="flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-200 group cursor-pointer"
+                style={{
+                  transitionDelay: curationVisible ? `${idx * 180}ms` : "0ms",
+                }}
+                className={`flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-700 ease-out group cursor-pointer ${
+                  curationVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-[48px]"
+                }`}
               >
                 {/* Top Image Box */}
                 <div className="relative h-[200px] sm:h-[220px] w-full shrink-0 overflow-hidden bg-[#EDEDED]">
@@ -460,17 +495,9 @@ export default function HomePage() {
             <h2 className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-gray-900 mb-3">
               영상으로 보는 섬 백패킹 후기
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed m-0 mb-6">
+            <p className="text-[14px] sm:text-[16px] text-[#6A6A6A] leading-[160%] m-0">
               유튜브 검색 파싱 데이터 · 옹진군 섬 조회수 상위 3개 · 카드에서 바로 재생
             </p>
-            <Link
-              id="link-more-reviews"
-              href="/explore"
-              className="inline-flex items-center gap-2 text-main-500 font-medium text-base hover:text-main-700 transition-colors"
-            >
-              리뷰 더 보기
-              <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-            </Link>
           </div>
 
           {/* 3 Video Cards */}

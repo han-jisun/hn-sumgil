@@ -112,9 +112,12 @@ export default function HomePage() {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setCurationVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setCurationVisible(true);
+          observer.unobserve(el);
+        }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -125,9 +128,12 @@ export default function HomePage() {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setYoutubeVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setYoutubeVisible(true);
+          observer.unobserve(el);
+        }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();

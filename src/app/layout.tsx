@@ -32,7 +32,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon.svg?v=5" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       </head>
-      <body className="bg-white text-[#282828] font-sans antialiased min-h-screen min-w-[320px] overflow-x-auto flex flex-col">
+      <body className="bg-white text-[#282828] font-sans antialiased min-h-screen min-w-[320px] flex flex-col">
         <Navbar />
         <main id="main-content" className="flex-1">
           {children}

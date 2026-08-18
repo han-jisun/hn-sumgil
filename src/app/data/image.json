@@ -1,0 +1,118 @@
+{
+  "baegado": {
+    "name": "백아도",
+    "images": [
+      "/images/island/baegado/1.jpg",
+      "/images/island/baegado/2.jpg"
+    ]
+  },
+  "baengnyeongdo": {
+    "name": "백령도",
+    "images": [
+      "/images/island/baengnyeongdo/1.jpg",
+      "/images/island/baengnyeongdo/2.jpg",
+      "/images/island/baengnyeongdo/3.jpg",
+      "/images/island/baengnyeongdo/4.jpg"
+    ]
+  },
+  "daecheongdo": {
+    "name": "대청도",
+    "images": [
+      "/images/island/daecheongdo/1.jpg",
+      "/images/island/daecheongdo/2.jpg",
+      "/images/island/daecheongdo/3.jpg",
+      "/images/island/daecheongdo/4.jpg"
+    ]
+  },
+  "daeijakdo": {
+    "name": "대이작도",
+    "images": [
+      "/images/island/daeijakdo/1.jpg",
+      "/images/island/daeijakdo/2.jpg",
+      "/images/island/daeijakdo/3.jpg",
+      "/images/island/daeijakdo/4.jpg"
+    ]
+  },
+  "daeyeonpyeong": {
+    "name": "대연평",
+    "images": []
+  },
+  "deokjeokdo": {
+    "name": "덕적도",
+    "images": [
+      "/images/island/deokjeokdo/1.jpg",
+      "/images/island/deokjeokdo/2.jpg",
+      "/images/island/deokjeokdo/3.jpg",
+      "/images/island/deokjeokdo/4.jpg"
+    ]
+  },
+  "gureopdo": {
+    "name": "굴업도",
+    "images": [
+      "/images/island/gureopdo/1.jpg",
+      "/images/island/gureopdo/2.jpg",
+      "/images/island/gureopdo/3.jpg",
+      "/images/island/gureopdo/4.jpg"
+    ]
+  },
+  "jawoldo": {
+    "name": "자월도",
+    "images": [
+      "/images/island/jawoldo/1.jpg",
+      "/images/island/jawoldo/2.jpg",
+      "/images/island/jawoldo/3.jpg",
+      "/images/island/jawoldo/4.jpg"
+    ]
+  },
+  "jido": {
+    "name": "지도",
+    "images": []
+  },
+  "mungapdo": {
+    "name": "문갑도",
+    "images": [
+      "/images/island/mungapdo/1.jpg",
+      "/images/island/mungapdo/2.jpg",
+      "/images/island/mungapdo/3.jpg",
+      "/images/island/mungapdo/4.jpg"
+    ]
+  },
+  "seungbongdo": {
+    "name": "승봉도",
+    "images": [
+      "/images/island/seungbongdo/1.jpg",
+      "/images/island/seungbongdo/2.jpg",
+      "/images/island/seungbongdo/3.jpg",
+      "/images/island/seungbongdo/4.jpg"
+    ]
+  },
+  "socheongdo": {
+    "name": "소청도",
+    "images": [
+      "/images/island/socheongdo/1.jpg"
+    ]
+  },
+  "soijakdo": {
+    "name": "소이작도",
+    "images": [
+      "/images/island/soijakdo/1.jpg",
+      "/images/island/soijakdo/2.jpg",
+      "/images/island/soijakdo/3.jpg"
+    ]
+  },
+  "soyado": {
+    "name": "소야도",
+    "images": [
+      "/images/island/soyado/1.jpg",
+      "/images/island/soyado/2.jpg"
+    ]
+  },
+  "soyeonpyeong": {
+    "name": "소연평",
+    "images": []
+  },
+  "uldo": {
+    "name": "울도",
+    "images": []
+  }
+}

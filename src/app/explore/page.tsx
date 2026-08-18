@@ -4,6 +4,7 @@ import React, { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import islandsData from "@/app/data/islands.json";
+import imageData from "@/app/data/image.json";
 
 interface IslandFerry {
   time: string;
@@ -501,7 +502,11 @@ function ExploreContent() {
           <div id="explore-islands-grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
             {sortedIslands.map((item) => {
               const meta = islandMeta[item.island] || { backpacking: false, trekking: false, desc: "아름다운 섬 정보" };
-              const image = islandImages[item.island] || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80";
+              const key = islandIdMap[item.island];
+              const itemImgData = key ? (imageData as Record<string, { name: string; images: string[] }>)[key] : null;
+              const image = (itemImgData && itemImgData.images && itemImgData.images.length > 0) 
+                ? itemImgData.images[0] 
+                : "/images/default_island.png";
               const safeId = islandIdMap[item.island] || encodeURIComponent(item.island);
               
               return (

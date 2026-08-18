@@ -3,6 +3,26 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import islandsData from "@/app/data/islands.json";
+import imageData from "@/app/data/image.json";
+
+const islandIdMap: Record<string, string> = {
+  "굴업도": "gureopdo",
+  "대연평": "daeyeonpyeong",
+  "대이작도": "daeijakdo",
+  "대청도": "daecheongdo",
+  "덕적도": "deokjeokdo",
+  "문갑도": "mungapdo",
+  "백령도": "baengnyeongdo",
+  "백아도": "baegado",
+  "소연평": "soyeonpyeong",
+  "소이작도": "soijakdo",
+  "소청도": "socheongdo",
+  "승봉도": "seungbongdo",
+  "울도": "uldo",
+  "자월도": "jawoldo",
+  "지도": "jido",
+  "소야도": "soyado"
+};
 
 interface IslandFerry {
   time: string;
@@ -56,34 +76,34 @@ const matchRules: Record<string, (addr: string) => boolean> = {
   "소야도": (addr) => addr.includes("소야")
 };
 
-const getGalleryPhotos = (islandName: string): string[] => {
-  const basePhotos: Record<string, string[]> = {
-    "굴업도": [
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1473116763269-25544899376c?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=500&auto=format&fit=crop&q=80"
-    ],
-    "대이작도": [
-      "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?w=500&auto=format&fit=crop&q=80"
-    ],
-    "덕적도": [
-      "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=500&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1469620790379-48bc1fc8d99f?w=500&auto=format&fit=crop&q=80"
-    ]
-  };
+const defaultIslandImages: Record<string, string> = {
+  "굴업도": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80",
+  "대연평": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&auto=format&fit=crop&q=80",
+  "대이작도": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&auto=format&fit=crop&q=80",
+  "대청도": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80",
+  "덕적도": "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80",
+  "문갑도": "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=800&auto=format&fit=crop&q=80",
+  "백령도": "https://images.unsplash.com/photo-1473116763269-25544899376c?w=800&auto=format&fit=crop&q=80",
+  "백아도": "https://images.unsplash.com/photo-1516690561799-46d8f74f90f6?w=800&auto=format&fit=crop&q=80",
+  "소연평": "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=800&auto=format&fit=crop&q=80",
+  "소이작도": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&auto=format&fit=crop&q=80",
+  "소청도": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80",
+  "승봉도": "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?w=800&auto=format&fit=crop&q=80",
+  "울도": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&auto=format&fit=crop&q=80",
+  "자월도": "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=800&auto=format&fit=crop&q=80",
+  "지도": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop&q=80",
+  "소야도": "https://images.unsplash.com/photo-1469620790379-48bc1fc8d99f?w=800&auto=format&fit=crop&q=80"
+};
 
-  return basePhotos[islandName] || [
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=500&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=500&auto=format&fit=crop&q=80"
-  ];
+const getGalleryPhotos = (islandName: string): string[] => {
+  const key = islandIdMap[islandName];
+  const item = key ? (imageData as Record<string, { name: string; images: string[] }>)[key] : null;
+
+  if (item && item.images && item.images.length > 0) {
+    return item.images.slice(0, 4);
+  }
+
+  return [];
 };
 
 const presetIslandSpots: Record<string, any[]> = {
@@ -350,23 +370,25 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           </a>
         </div>
 
-        {/* 4 Sample Photos Grid */}
-        <div id="island-gallery-grid" className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-          {photos.map((url, index) => (
-            <div 
-              key={index} 
-              id={`island-gallery-item-${index}`}
-              className="relative aspect-square w-full rounded-lg overflow-hidden border border-[#D4D4D4] bg-[#EDEDED] group"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={url} 
-                alt={`${islandName} 이미지 ${index + 1}`} 
-                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-          ))}
-        </div>
+        {/* Sample Photos Grid */}
+        {photos.length > 0 && (
+          <div id="island-gallery-grid" className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+            {photos.map((url, index) => (
+              <div 
+                key={index} 
+                id={`island-gallery-item-${index}`}
+                className="relative aspect-square w-full rounded-lg overflow-hidden border border-[#D4D4D4] bg-[#EDEDED] group"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src={url} 
+                  alt={`${islandName} 이미지 ${index + 1}`} 
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Collapsible Sections */}

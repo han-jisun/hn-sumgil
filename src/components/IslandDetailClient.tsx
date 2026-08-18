@@ -390,11 +390,16 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               ))}
             </div>
             {/* 공공누리 제1유형 출처 표기 안내 */}
-            <div className="mt-3 pt-2.5 border-t border-[#EDEDED] flex flex-wrap items-center gap-2 text-[11px] text-[#6A6A6A]">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F0FDF4] text-[#166534] border border-[#BBF7D0] font-semibold text-[10px] shrink-0">
-                공공누리 제1유형
-              </span>
-              <span>인천광역시이(가) 보유한 본 저작물은 &quot;공공누리&quot; 제1유형:출처표시 조건에 따라 이용 할 수 있습니다.</span>
+            <div className="mt-3 pt-3 border-t border-[#EDEDED] flex flex-col gap-1.5 text-[11px] text-[#6A6A6A] leading-relaxed bg-[#FAFAFA] p-3 rounded-lg border border-[#F0F0F0]">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F0FDF4] text-[#166534] border border-[#BBF7D0] font-semibold text-[10px] shrink-0">
+                  공공누리 제1유형:출처표시
+                </span>
+                <span className="font-semibold text-[#282828] text-[11px]">출처 표시 | 변형 가능 | 상업적 이용 가능</span>
+              </div>
+              <p className="m-0 text-[#525252]">
+                본 저작물은 &apos;인천광역시&apos;에서 공공누리 제1유형으로 개방한 &apos;{islandName} 갤러리 저작물&apos;을 이용하였으며, 해당 저작물은 <a href="https://www.incheon.go.kr" target="_blank" rel="noopener noreferrer" className="text-[#0F3E17] font-semibold underline hover:text-[#093712]">인천광역시(www.incheon.go.kr)</a>에서 무료로 다운받으실 수 있습니다.
+              </p>
             </div>
           </div>
         )}

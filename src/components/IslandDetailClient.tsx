@@ -183,7 +183,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [videos, setVideos] = useState<any[]>([]);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [spotOverviews, setSpotOverviews] = useState<Record<string, { overview: string; homepage: string; tel: string; loading: boolean }>>({});
 
@@ -211,11 +211,20 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
     const rule = matchRules[islandName];
 
     const fetchAllData = async () => {
-      setLoading(true);
       try {
-        const restRes = await fetch("/api/restaurant");
-        if (restRes.ok) {
-          const data = await restRes.json();
+        const [restResult, lodgeResult, campResult, spotResult, tideResult, blogResult, youtubeResult] = 
+          await Promise.allSettled([
+            fetch("/api/restaurant"),
+            fetch("/api/lodge"),
+            fetch(`/api/camping?query=${encodeURIComponent(islandName)}`),
+            fetch("/api/spot"),
+            fetch(`/api/tide?island=${encodeURIComponent(islandName)}`),
+            fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=3`),
+            fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}`)
+          ]);
+
+        if (restResult.status === "fulfilled" && restResult.value.ok) {
+          const data = await restResult.value.json();
           if (data.success && data.items) {
             const filtered = data.items.filter((item: any) => 
               rule ? rule(item.addr) : item.addr.includes(islandName)
@@ -224,9 +233,8 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           }
         }
 
-        const lodgeRes = await fetch("/api/lodge");
-        if (lodgeRes.ok) {
-          const data = await lodgeRes.json();
+        if (lodgeResult.status === "fulfilled" && lodgeResult.value.ok) {
+          const data = await lodgeResult.value.json();
           if (data.success && data.items) {
             const filtered = data.items.filter((item: any) => 
               rule ? rule(item.addr) : item.addr.includes(islandName)
@@ -235,18 +243,16 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           }
         }
 
-        const campRes = await fetch(`/api/camping?query=${encodeURIComponent(islandName)}`);
-        if (campRes.ok) {
-          const data = await campRes.json();
+        if (campResult.status === "fulfilled" && campResult.value.ok) {
+          const data = await campResult.value.json();
           if (data.success && data.items) {
             setCampsites(data.items);
           }
         }
 
-        const spotRes = await fetch("/api/spot");
         let fetchedSpots: any[] = [];
-        if (spotRes.ok) {
-          const data = await spotRes.json();
+        if (spotResult.status === "fulfilled" && spotResult.value.ok) {
+          const data = await spotResult.value.json();
           if (data.success && data.items) {
             fetchedSpots = data.items.filter((item: any) => 
               rule ? rule(item.addr) : item.addr.includes(islandName)
@@ -267,28 +273,24 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           }
           setSpotOverviews(prev => ({ ...prev, ...presetOverviews }));
         }
-
         setSpots(fetchedSpots);
 
-        const tideRes = await fetch(`/api/tide?island=${encodeURIComponent(islandName)}`);
-        if (tideRes.ok) {
-          const data = await tideRes.json();
+        if (tideResult.status === "fulfilled" && tideResult.value.ok) {
+          const data = await tideResult.value.json();
           if (data.success && data.tides) {
             setTides(data.tides);
           }
         }
 
-        const blogRes = await fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=3`);
-        if (blogRes.ok) {
-          const data = await blogRes.json();
+        if (blogResult.status === "fulfilled" && blogResult.value.ok) {
+          const data = await blogResult.value.json();
           if (data.success && data.items) {
             setBlogs(data.items.slice(0, 3));
           }
         }
 
-        const youtubeRes = await fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}`);
-        if (youtubeRes.ok) {
-          const data = await youtubeRes.json();
+        if (youtubeResult.status === "fulfilled" && youtubeResult.value.ok) {
+          const data = await youtubeResult.value.json();
           const rawVideos = data.videos || data.items || [];
           if (data.success && rawVideos.length > 0) {
             const formatted = rawVideos.map((v: any) => ({
@@ -303,8 +305,6 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         }
       } catch (err) {
         console.error("Error loading island details:", err);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -372,21 +372,30 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
         {/* Sample Photos Grid */}
         {photos.length > 0 && (
-          <div id="island-gallery-grid" className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-            {photos.map((url, index) => (
-              <div 
-                key={index} 
-                id={`island-gallery-item-${index}`}
-                className="relative aspect-square w-full rounded-lg overflow-hidden border border-[#D4D4D4] bg-[#EDEDED] group"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={url} 
-                  alt={`${islandName} 이미지 ${index + 1}`} 
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            ))}
+          <div>
+            <div id="island-gallery-grid" className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+              {photos.map((url, index) => (
+                <div 
+                  key={index} 
+                  id={`island-gallery-item-${index}`}
+                  className="relative aspect-square w-full rounded-lg overflow-hidden border border-[#D4D4D4] bg-[#EDEDED] group"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={url} 
+                    alt={`${islandName} 이미지 ${index + 1}`} 
+                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
+            {/* 공공누리 제1유형 출처 표기 안내 */}
+            <div className="mt-3 pt-2.5 border-t border-[#EDEDED] flex flex-wrap items-center gap-2 text-[11px] text-[#6A6A6A]">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#F0FDF4] text-[#166534] border border-[#BBF7D0] font-semibold text-[10px] shrink-0">
+                공공누리 제1유형
+              </span>
+              <span>인천광역시이(가) 보유한 본 저작물은 &quot;공공누리&quot; 제1유형:출처표시 조건에 따라 이용 할 수 있습니다.</span>
+            </div>
           </div>
         )}
       </section>

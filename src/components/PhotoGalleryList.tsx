@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import apiPhotosData from "@/app/data/apiPhotos.json";
 
 interface PhotoItem {
   contentId: string;
@@ -13,9 +14,9 @@ interface PhotoItem {
 }
 
 const islandKeywords = [
-  { name: "전체 (인천/옹진 섬)", query: "옹진군" },
+  { name: "전체 16개 섬 (7개)", query: "" },
   { name: "굴업도", query: "굴업도" },
-  { name: "대연평 (연평도)", query: "연평도" },
+  { name: "대연평 (연평도)", query: "연평" },
   { name: "대이작도", query: "이작도" },
   { name: "대청도", query: "대청도" },
   { name: "덕적도", query: "덕적도" },
@@ -32,25 +33,6 @@ const islandKeywords = [
   { name: "소야도", query: "소야도" },
 ];
 
-const gonggongNuriPhotos: Record<string, PhotoItem[]> = {
-  "굴업도": [
-    { contentId: "nuri-gulup-1", title: "굴업도 개머리언덕 노을 비경", webImageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80", createdTime: "2024-05-12", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "굴업도, 개머리언덕", photographyLocation: "인천광역시 옹진군 덕적면 굴업리" },
-    { contentId: "nuri-gulup-2", title: "굴업도 코끼리바위 해식아치", webImageUrl: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&auto=format&fit=crop&q=80", createdTime: "2024-06-20", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "굴업도, 코끼리바위", photographyLocation: "인천광역시 옹진군 덕적면 굴업리" }
-  ],
-  "대이작도": [
-    { contentId: "nuri-ijak-1", title: "대이작도 풀등 모래섬 전경", webImageUrl: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&auto=format&fit=crop&q=80", createdTime: "2024-07-05", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "대이작도, 풀등", photographyLocation: "인천광역시 옹진군 자월면 이작리" }
-  ],
-  "덕적도": [
-    { contentId: "nuri-deokjeok-1", title: "덕적도 서포리 소나무 해변", webImageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80", createdTime: "2024-04-18", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "덕적도, 서포리", photographyLocation: "인천광역시 옹진군 덕적면 서포리" }
-  ],
-  "백령도": [
-    { contentId: "nuri-baengnyeong-1", title: "백령도 두무진 절벽 비경", webImageUrl: "https://images.unsplash.com/photo-1473116763269-25544899376c?w=800&auto=format&fit=crop&q=80", createdTime: "2024-08-01", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "백령도, 두무진", photographyLocation: "인천광역시 옹진군 백령면 진촌리" }
-  ],
-  "자월도": [
-    { contentId: "nuri-jawol-1", title: "자월도 장골 해변 해일몰", webImageUrl: "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=800&auto=format&fit=crop&q=80", createdTime: "2024-05-30", photographer: "한국관광공사 (공공누리 제1유형)", searchKeyword: "자월도, 장골해변", photographyLocation: "인천광역시 옹진군 자월면 자월리" }
-  ]
-};
-
 export default function PhotoGalleryList() {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
@@ -61,25 +43,17 @@ export default function PhotoGalleryList() {
 
   useEffect(() => {
     setLoading(true);
-    const query = islandKeywords[selectedIdx].query;
-    const key = islandKeywords[selectedIdx].name.split(" ")[0];
-    let matched: PhotoItem[] = [];
-    if (selectedIdx === 0 || query === "옹진군") {
-      matched = Object.values(gonggongNuriPhotos).flat();
+    const targetQuery = islandKeywords[selectedIdx]?.query || "";
+
+    if (selectedIdx === 0 || !targetQuery) {
+      setPhotos(apiPhotosData as PhotoItem[]);
     } else {
-      matched = gonggongNuriPhotos[key] || [
-        {
-          contentId: `nuri-default-${selectedIdx}`,
-          title: `${key} 공공누리 추천 풍경 사진`,
-          webImageUrl: "/images/default_island.png",
-          createdTime: "2024-08-01",
-          photographer: "공공누리 자유이용 자원",
-          searchKeyword: key,
-          photographyLocation: `인천광역시 옹진군 ${key}`
-        }
-      ];
+      const filtered = (apiPhotosData as PhotoItem[]).filter((item) => {
+        const fullStr = `${item.title} ${item.photographyLocation} ${item.searchKeyword}`;
+        return fullStr.includes(targetQuery);
+      });
+      setPhotos(filtered);
     }
-    setPhotos(matched);
     setLoading(false);
   }, [selectedIdx]);
 

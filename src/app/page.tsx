@@ -123,6 +123,110 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
+  const [youtubeVideos, setYoutubeVideos] = useState<any[]>([
+    {
+      id: "TDWH5QmtluY",
+      title: "여자 혼자 굴업도 백패킹⛺️ 뚜벅이 솔로캠핑",
+      badgeTitle: "굴업도 백패킹",
+      badgeSub: "임쁨임",
+      dur: "18:42",
+      meta: "임쁨임 · 조회수 2.1만회 · 11개월 전",
+      img: "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      embedUrl: "https://www.youtube.com/embed/TDWH5QmtluY?autoplay=1",
+    },
+    {
+      id: "6JMyWWkSwNo",
+      title: "혼자 캠핑중 험한것이 나왔다ㅣ승봉도 백패킹",
+      badgeTitle: "승봉도 백패킹",
+      badgeSub: "미지 Now mizi",
+      dur: "12:07",
+      meta: "미지 Now mizi · 조회수 9천회 · 1년 전",
+      img: "https://images.unsplash.com/photo-1487730116645-74489c95b41b?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      embedUrl: "https://www.youtube.com/embed/6JMyWWkSwNo?autoplay=1",
+    },
+    {
+      id: "XLUADWwa6wc",
+      title: "인천 자월도 나홀로 백패킹ㅣ배타는법ㅣ맛집",
+      badgeTitle: "자월도 백패킹",
+      badgeSub: "임쁨임",
+      dur: "16:20",
+      meta: "임쁨임 · 조회수 1.6만회 · 1년 전",
+      img: "https://images.unsplash.com/photo-1445308394109-4ec2920981b1?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      embedUrl: "https://www.youtube.com/embed/XLUADWwa6wc?autoplay=1",
+    },
+  ]);
+
+  useEffect(() => {
+    const fetchHomeVideos = async () => {
+      const CACHE_KEY = "hn_home_youtube_videos_v1";
+      const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000; // 7일 (밀리초)
+
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed.timestamp && Date.now() - parsed.timestamp < SEVEN_DAYS_MS && parsed.videos?.length === 3) {
+            setYoutubeVideos(parsed.videos);
+            return; // 7일 이내 저장된 캐시 데이터가 있으면 네트워크 요청 없이 즉시 사용
+          }
+        }
+      } catch (e) {
+        console.error("Cache read error:", e);
+      }
+
+      const keywords = [
+        { island: "굴업도", query: "굴업도 백패킹" },
+        { island: "승봉도", query: "승봉도 백패킹" },
+        { island: "자월도", query: "자월도 백패킹" }
+      ];
+
+      try {
+        const results = await Promise.allSettled(
+          keywords.map(kw => fetch(`/api/youtube?query=${encodeURIComponent(kw.query)}`))
+        );
+
+        const fetched: any[] = [];
+
+        for (let i = 0; i < results.length; i++) {
+          const res = results[i];
+          const kw = keywords[i];
+          if (res.status === "fulfilled" && res.value.ok) {
+            const data = await res.value.json();
+            if (data.success && data.videos && data.videos.length > 0) {
+              const topVid = data.videos[0];
+              fetched.push({
+                id: topVid.videoId || `video-${i}`,
+                title: topVid.title,
+                badgeTitle: `${kw.island} 백패킹`,
+                badgeSub: topVid.ownerText || "실제 백패킹 리뷰",
+                dur: topVid.lengthText || "영상",
+                meta: `${topVid.ownerText || "유튜브"} · ${topVid.viewCountText || "조회수"} · ${topVid.publishedTimeText || ""}`,
+                img: topVid.thumbnail || `https://i.ytimg.com/vi/${topVid.videoId}/hqdefault.jpg`,
+                embedUrl: `https://www.youtube.com/embed/${topVid.videoId}?autoplay=1`
+              });
+            }
+          }
+        }
+
+        if (fetched.length === 3) {
+          setYoutubeVideos(fetched);
+          try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({
+              timestamp: Date.now(),
+              videos: fetched
+            }));
+          } catch (e) {
+            console.error("Cache save error:", e);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching home youtube videos:", err);
+      }
+    };
+
+    fetchHomeVideos();
+  }, []);
+
   useEffect(() => {
     const el = youtubeGridRef.current;
     if (!el) return;
@@ -405,9 +509,6 @@ export default function HomePage() {
 
           {/* Header */}
           <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px]">
-            <span className="text-xs font-semibold tracking-wider text-main-500 uppercase mb-2 block">
-              ISLAND THEME CURATION
-            </span>
             <h2 id="curation-main-title" className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-gray-900 mb-3">
               나에게 맞는 첫 번째 여행 섬 찾기
             </h2>
@@ -430,11 +531,10 @@ export default function HomePage() {
                 style={{
                   transitionDelay: curationVisible ? `${idx * 180}ms` : "0ms",
                 }}
-                className={`flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-700 ease-out group cursor-pointer ${
-                  curationVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-[48px]"
-                }`}
+                className={`flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-700 ease-out group cursor-pointer ${curationVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-[48px]"
+                  }`}
               >
                 {/* Top Image Box */}
                 <div className="relative h-[200px] sm:h-[220px] w-full shrink-0 overflow-hidden bg-[#EDEDED]">
@@ -510,14 +610,11 @@ export default function HomePage() {
       <section id="youtube-reviews-section" data-screen-label="SCR_000 유튜브 리뷰" className="w-full bg-white mb-[100px] md:mb-[200px]">
         <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
           <div id="youtube-reviews-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px] flex flex-col items-center">
-            <span className="text-xs font-semibold tracking-wider text-sub-700 uppercase mb-2 block">
-              SCR_000 · 홈 큐레이션 03
-            </span>
             <h2 className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-gray-900 mb-3">
               영상으로 보는 섬 백패킹 후기
             </h2>
             <p className="text-[14px] sm:text-[16px] text-[#6A6A6A] leading-[160%] m-0">
-              유튜브 검색 파싱 데이터 · 옹진군 섬 조회수 상위 3개 · 카드에서 바로 재생
+              백패킹 성지로 꼽히는 대표 섬 3곳의 생생한 영상 후기를 살펴보세요.
             </p>
           </div>
 
@@ -534,11 +631,10 @@ export default function HomePage() {
                 style={{
                   transitionDelay: youtubeVisible ? `${idx * 180}ms` : "0ms",
                 }}
-                className={`flex flex-col gap-[16px] group cursor-pointer transition-all duration-700 ease-out ${
-                  youtubeVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-[48px]"
-                }`}
+                className={`flex flex-col gap-[16px] group cursor-pointer transition-all duration-700 ease-out ${youtubeVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-[48px]"
+                  }`}
                 onClick={() => setActiveVideo(vid.embedUrl)}
               >
                 {/* Video Thumbnail Box */}

@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
       },
-      next: { revalidate: 3600 } // Cache search results for 1 hour
+      next: { revalidate: 604800 } // Cache search results on server for 7 days (604,800s)
     });
 
     if (!response.ok) {

@@ -283,7 +283,7 @@ export default function YoutubeList() {
             <button
               type="button"
               onClick={() => setActiveVideoUrl(null)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white font-bold flex items-center justify-center hover:bg-black transition-colors"
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/80 text-white font-bold flex items-center justify-center hover:bg-black transition-colors"
             >
               ✕
             </button>

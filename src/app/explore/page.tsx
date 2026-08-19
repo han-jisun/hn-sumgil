@@ -2,6 +2,7 @@
 
 import React, { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import islandsData from "@/app/data/islands.json";
 import imageData from "@/app/data/image.json";
@@ -18,25 +19,6 @@ interface IslandData {
   sigunguCode: number;
   ferries: IslandFerry[];
 }
-
-const islandImages: Record<string, string> = {
-  "굴업도": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
-  "대연평": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&auto=format&fit=crop&q=80",
-  "대이작도": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&auto=format&fit=crop&q=80",
-  "대청도": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&auto=format&fit=crop&q=80",
-  "덕적도": "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&auto=format&fit=crop&q=80",
-  "문갑도": "https://images.unsplash.com/photo-1520121401995-928cd50d4e27?w=600&auto=format&fit=crop&q=80",
-  "백령도": "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?w=600&auto=format&fit=crop&q=80",
-  "백아도": "https://images.unsplash.com/photo-1487730116645-74489c95b41b?w=600&auto=format&fit=crop&q=80",
-  "소연평": "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=600&auto=format&fit=crop&q=80",
-  "소이작도": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=600&auto=format&fit=crop&q=80",
-  "소청도": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
-  "승봉도": "https://images.unsplash.com/photo-1471922694854-ff1b63b20054?w=600&auto=format&fit=crop&q=80",
-  "울도": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&auto=format&fit=crop&q=80",
-  "자월도": "https://images.unsplash.com/photo-1468413253725-0d5181091126?w=600&auto=format&fit=crop&q=80",
-  "지도": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
-  "소야도": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80"
-};
 
 const islandIdMap: Record<string, string> = {
   "굴업도": "gureopdo",
@@ -360,10 +342,7 @@ function ExploreContent() {
           SCR_001 · INCHEON ISLAND EXPLORE
         </span>
         <h1 id="explore-header-title" className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-bold tracking-tight text-[#282828] mb-3 sm:mb-4 leading-tight">
-          나에게 딱 맞는 <span className="relative inline-block text-[#0F3E17]">
-            <span className="absolute left-[-3px] right-[-3px] bottom-1 sm:bottom-1.5 h-2.5 sm:h-3.5 rounded-full bg-[#E6FDE5] -z-10" />
-            인천 섬 찾기
-          </span>
+          나에게 딱 맞는 <span className="text-[#0F3E17]">인천 섬 찾기</span>
         </h1>
         <p className="text-xs sm:text-sm md:text-base text-[#6A6A6A] leading-relaxed mb-6 sm:mb-8 px-2">
           뱃길 시간부터 백패킹·물때 조건까지 — 16개 섬을 조건별로 명쾌하게 탐색하세요.
@@ -510,10 +489,11 @@ function ExploreContent() {
               const safeId = islandIdMap[item.island] || encodeURIComponent(item.island);
               
               return (
-                <div 
+                <Link 
                   key={item.island} 
                   id={`explore-island-card-${safeId}`}
-                  onClick={() => handleIslandClick(item.island)}
+                  href={`/explore/${safeId}`}
+                  onClick={() => incrementClick(item.island)}
                   className="flex flex-col rounded-xl overflow-hidden border border-[#D4D4D4] bg-white hover:border-[#0F3E17] hover:shadow-lg transition-all duration-300 cursor-pointer group"
                 >
                   {/* Card Thumbnail */}
@@ -582,7 +562,7 @@ function ExploreContent() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

@@ -142,7 +142,7 @@ export default function PhotoGalleryList() {
                 <button
                   type="button"
                   onClick={(e) => copyToClipboard(photo.contentId, e)}
-                  className="bg-black/75 hover:bg-[#0F3E17] text-white text-[11px] font-mono font-bold px-2.5 py-1 rounded-md border border-white/20 transition-all flex items-center gap-1 backdrop-blur-sm"
+                  className="bg-black/80 hover:bg-[#0F3E17] text-white text-[11px] font-mono font-bold px-2.5 py-1 rounded-md border border-white/20 transition-all flex items-center gap-1 backdrop-blur-sm"
                   title="클릭하여 ID 복사"
                 >
                   <span>🆔 {photo.contentId}</span>
@@ -176,7 +176,7 @@ export default function PhotoGalleryList() {
       {/* Lightbox Photo Modal */}
       {selectedPhoto && (
         <div
-          className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setSelectedPhoto(null)}
         >
           <div
@@ -186,7 +186,7 @@ export default function PhotoGalleryList() {
             <button
               type="button"
               onClick={() => setSelectedPhoto(null)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white font-bold flex items-center justify-center hover:bg-black transition-colors"
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/80 text-white font-bold flex items-center justify-center hover:bg-black transition-colors"
             >
               ✕
             </button>

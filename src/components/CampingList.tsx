@@ -284,7 +284,7 @@ export default function CampingList() {
       {/* Campsite Detail Lightbox Modal */}
       {selectedCamp && (
         <div
-          className="fixed inset-0 z-[200] bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setSelectedCamp(null)}
         >
           <div

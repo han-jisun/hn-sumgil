@@ -45,8 +45,8 @@ const youtubeVideos = [
     badgeSub: "개머리언덕 일몰",
     dur: "18:42",
     meta: "섬생활 · 조회수 24만회 · 2026.06.14",
-    img: "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?fm=jpg&q=80&w=1200&auto=format&fit=crop",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    img: "https://i.ytimg.com/vi/TDWH5QmtluY/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/TDWH5QmtluY?autoplay=1",
   },
   {
     id: "scr3-video-2",
@@ -55,8 +55,8 @@ const youtubeVideos = [
     badgeSub: "하나개 노지캠핑",
     dur: "12:07",
     meta: "주말섬로그 · 조회수 11만회 · 2026.05.30",
-    img: "https://images.unsplash.com/photo-1487730116645-74489c95b41b?fm=jpg&q=80&w=1200&auto=format&fit=crop",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    img: "https://i.ytimg.com/vi/6JMyWWkSwNo/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/6JMyWWkSwNo?autoplay=1",
   },
   {
     id: "scr3-video-3",
@@ -65,8 +65,8 @@ const youtubeVideos = [
     badgeSub: "배시간·물때 정리",
     dur: "09:51",
     meta: "백패킹하는남자 · 조회수 8.7만회 · 2026.07.05",
-    img: "https://images.unsplash.com/photo-1445308394109-4ec2920981b1?fm=jpg&q=80&w=1200&auto=format&fit=crop",
-    embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1",
+    img: "https://i.ytimg.com/vi/XLUADWwa6wc/hqdefault.jpg",
+    embedUrl: "https://www.youtube.com/embed/XLUADWwa6wc?autoplay=1",
   },
 ];
 
@@ -131,7 +131,7 @@ export default function HomePage() {
       badgeSub: "임쁨임",
       dur: "18:42",
       meta: "임쁨임 · 조회수 2.1만회 · 11개월 전",
-      img: "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      img: "https://i.ytimg.com/vi/TDWH5QmtluY/hqdefault.jpg",
       embedUrl: "https://www.youtube.com/embed/TDWH5QmtluY?autoplay=1",
     },
     {
@@ -141,7 +141,7 @@ export default function HomePage() {
       badgeSub: "미지 Now mizi",
       dur: "12:07",
       meta: "미지 Now mizi · 조회수 9천회 · 1년 전",
-      img: "https://images.unsplash.com/photo-1487730116645-74489c95b41b?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      img: "https://i.ytimg.com/vi/6JMyWWkSwNo/hqdefault.jpg",
       embedUrl: "https://www.youtube.com/embed/6JMyWWkSwNo?autoplay=1",
     },
     {
@@ -151,7 +151,7 @@ export default function HomePage() {
       badgeSub: "임쁨임",
       dur: "16:20",
       meta: "임쁨임 · 조회수 1.6만회 · 1년 전",
-      img: "https://images.unsplash.com/photo-1445308394109-4ec2920981b1?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+      img: "https://i.ytimg.com/vi/XLUADWwa6wc/hqdefault.jpg",
       embedUrl: "https://www.youtube.com/embed/XLUADWwa6wc?autoplay=1",
     },
   ]);
@@ -819,7 +819,7 @@ export default function HomePage() {
               id="youtube-modal-close-btn"
               type="button"
               onClick={() => setActiveVideo(null)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 text-white text-xl font-bold flex items-center justify-center hover:bg-black transition-colors"
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/80 text-white text-xl font-bold flex items-center justify-center hover:bg-black transition-colors"
             >
               ✕
             </button>

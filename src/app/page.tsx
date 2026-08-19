@@ -296,6 +296,51 @@ export default function HomePage() {
     }
   ];
 
+  const curationThemes = [
+    {
+      id: "gourmet",
+      badge: "🍽️ 미식 & 낚시",
+      badgeBg: "bg-[#FFF8E7] text-[#B45309] border-[#FCD34D]",
+      title: "해산물 식당가와 선상 낚시 스팟",
+      primaryHref: "/explore/jawoldo",
+      islands: [
+        { name: "자월도", href: "/explore/jawoldo" },
+        { name: "승봉도", href: "/explore/seungbongdo" },
+      ],
+      tags: ["#1박4식 미식", "#선상 낚시"],
+      desc: "삼시세끼 해산물 차림을 제공하는 민박과 당일 선상 낚시 포인트가 있는 섬",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+      id: "tidal",
+      badge: "🦀 갯벌 & 트레킹",
+      badgeBg: "bg-[#E7FAFF] text-[#0284C7] border-[#93C5FD]",
+      title: "썰물 때 열리는 모래섬과 갯벌 체험장",
+      primaryHref: "/explore/daeijakdo",
+      islands: [
+        { name: "대이작도", href: "/explore/daeijakdo" },
+        { name: "소이작도", href: "/explore/soijakdo" },
+      ],
+      tags: ["#갯벌체험", "#해안 데크길"],
+      desc: "하루 두 번 열리는 풀등 모래섬과 경사가 완만해 걷기 쉬운 해안 산책로",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+      id: "backpacking",
+      badge: "🏕️ 백패킹",
+      badgeBg: "bg-[#E6FDE5] text-[#0F3E17] border-[#86EFAC]",
+      title: "야영장이 갖춰진 백패킹과 일몰 스팟",
+      primaryHref: "/explore/gureopdo",
+      islands: [
+        { name: "굴업도", href: "/explore/gureopdo" },
+        { name: "덕적도", href: "/explore/deokjeokdo" },
+      ],
+      tags: ["#백패킹", "#일몰 명소"],
+      desc: "개머리언덕 능선과 서해 해안 절벽을 따라 걷는 대표 백패킹 코스",
+      image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?fm=jpg&q=80&w=1200&auto=format&fit=crop",
+    },
+  ];
+
   // Hero auto rolling
   useEffect(() => {
     if (!isPlaying) return;
@@ -564,7 +609,7 @@ export default function HomePage() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-[13px] sm:text-[14px] text-[#6A6A6A] leading-[160%] m-0 flex-1">
+                <p className="text-[13px] sm:text-[14px] text-[#6A6A6A] leading-[160%] m-0 flex-1 break-all">
                   {item.desc}
                 </p>
               </div>
@@ -664,6 +709,98 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 4: 나에게 맞는 첫 번째 여행 섬 찾기 */}
+      {/* ========================================================================= */}
+      <section id="curation-section" className="w-full bg-white mb-[100px] md:mb-[160px]">
+        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
+
+          {/* Header */}
+          <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px]">
+            <h2 id="curation-main-title" className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-[#282828] mb-3">
+              나에게 맞는 첫 번째 여행 섬 찾기
+            </h2>
+            <p id="curation-subtitle" className="text-[14px] sm:text-[16px] text-[#6A6A6A] leading-[160%] m-0">
+              어떤 여행을 꿈꾸시나요? 목적에 맞는 섬을 추천해 드립니다.
+            </p>
+          </div>
+
+          {/* 3 White Card Type Theme Curation Cards */}
+          <div
+            id="curation-cards-grid"
+            className="grid grid-cols-1 md:grid-cols-3 gap-[24px] sm:gap-[32px]"
+          >
+            {curationThemes.map((theme, idx) => (
+              <Link
+                key={theme.id}
+                id={`curation-card-${idx + 1}`}
+                href={theme.primaryHref}
+                className="flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-300 group cursor-pointer"
+              >
+                {/* Top Image Box */}
+                <div className="relative h-[200px] sm:h-[220px] w-full shrink-0 overflow-hidden bg-[#EDEDED]">
+                  <Image
+                    src={theme.image}
+                    alt={theme.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Bottom Content Area (White Background) */}
+                <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[12px]">
+                  {/* Hashtags (Above Title) */}
+                  <div className="flex items-center gap-[6px] flex-wrap">
+                    {theme.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-normal border border-[#EDEDED] bg-[#FFFFFF] text-[#6A6A6A]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors">
+                    {theme.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-[14px] sm:text-[15px] text-[#6A6A6A] leading-[150%] m-0 flex-1">
+                    {theme.desc}
+                  </p>
+
+                  {/* Recommended Islands */}
+                  <div className="pt-[14px] mt-[4px] border-t border-[#EDEDED] flex items-center gap-[6px] flex-wrap">
+                    <span className="text-[12px] text-[#848484] font-medium mr-[2px]">추천 섬</span>
+                    {theme.islands.map((island, i) => {
+                      const color = getIslandColor(island.name, idx * 3 + i);
+                      return (
+                        <span
+                          key={island.name}
+                          id={`curation-island-badge-${theme.id}-${island.name}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.location.href = island.href;
+                          }}
+                          className={`h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-bold border ${color.bg} ${color.text} ${color.border} hover:opacity-85 transition-all cursor-pointer`}
+                        >
+                          {island.name}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
         </div>
       </section>
 

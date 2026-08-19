@@ -43,7 +43,7 @@ export default function Navbar() {
           <Link
             id="nav-link-explore"
             href="/explore"
-            className={`inline-flex items-center gap-[6px] text-[18px] leading-[100%] transition-colors py-[4px] ${
+            className={`group relative inline-flex items-center gap-[6px] text-[18px] leading-[100%] transition-colors py-[4px] ${
               isHome
                 ? pathname.startsWith("/explore")
                   ? "text-[#E6FDE5] font-bold"
@@ -53,6 +53,18 @@ export default function Navbar() {
                 : "text-[#282828] hover:text-[#0F3E17] font-medium"
             }`}
           >
+            {/* Capsule Underlay Highlighter (형광펜 효과) */}
+            <span
+              className={`absolute left-[-4px] right-[-4px] bottom-[2px] h-[10px] rounded-full -z-10 transition-all duration-300 pointer-events-none ${
+                isHome
+                  ? pathname.startsWith("/explore")
+                    ? "bg-[#E6FDE5]/25 opacity-100 scale-100"
+                    : "bg-[#E6FDE5]/20 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100"
+                  : pathname.startsWith("/explore")
+                  ? "bg-[#E6FDE5] opacity-100 scale-100"
+                  : "bg-[#E6FDE5]/80 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100"
+              }`}
+            />
             <svg
               className="w-[20px] h-[20px] shrink-0"
               viewBox="0 0 24 24"
@@ -77,7 +89,7 @@ export default function Navbar() {
           <Link
             id="nav-link-theme"
             href="/theme"
-            className={`inline-flex items-center gap-[6px] text-[18px] leading-[100%] transition-colors py-[4px] ${
+            className={`group relative inline-flex items-center gap-[6px] text-[18px] leading-[100%] transition-colors py-[4px] ${
               isHome
                 ? pathname.startsWith("/theme")
                   ? "text-[#E6FDE5] font-bold"
@@ -87,6 +99,18 @@ export default function Navbar() {
                 : "text-[#282828] hover:text-[#0F3E17] font-medium"
             }`}
           >
+            {/* Capsule Underlay Highlighter (형광펜 효과) */}
+            <span
+              className={`absolute left-[-4px] right-[-4px] bottom-[2px] h-[10px] rounded-full -z-10 transition-all duration-300 pointer-events-none ${
+                isHome
+                  ? pathname.startsWith("/theme")
+                    ? "bg-[#E6FDE5]/25 opacity-100 scale-100"
+                    : "bg-[#E6FDE5]/20 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100"
+                  : pathname.startsWith("/theme")
+                  ? "bg-[#E6FDE5] opacity-100 scale-100"
+                  : "bg-[#E6FDE5]/80 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100"
+              }`}
+            />
             <svg
               className="w-[20px] h-[20px] shrink-0"
               viewBox="0 0 24 24"

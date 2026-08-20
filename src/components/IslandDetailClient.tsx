@@ -580,6 +580,20 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             );
           }
         }
+
+        // TourAPI에 명소 데이터가 없는 섬의 경우, 메타데이터의 대표 비경(topSpots)과 공공데이터 사진(image.json)을 연결
+        if (fetchedSpots.length === 0 && meta?.topSpots) {
+          const spotTitles = meta.topSpots.split(",").map((s: string) => s.trim()).filter(Boolean);
+          const gallery = getGalleryPhotos(islandName);
+          fetchedSpots = spotTitles.map((title: string, idx: number) => ({
+            contentId: `custom-spot-${idx}`,
+            title: title,
+            addr: found?.address || `인천광역시 옹진군 ${islandName}`,
+            firstImage: gallery[idx] || gallery[0] || "",
+            overview: ""
+          }));
+        }
+
         setSpots(fetchedSpots);
 
         if (tideResult.status === "fulfilled" && tideResult.value.ok) {
@@ -863,7 +877,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                       N
                     </span>
                     <span>{islandName} 네이버 위치 지도</span>
-                    <span className="text-[11px] text-[#717171] font-normal hidden sm:inline">(좌표: {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})</span>
+                    <span className="text-xs text-[#717171] font-normal hidden sm:inline">(좌표: {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})</span>
                   </div>
                 </div>
               </div>
@@ -918,33 +932,50 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                   </div>
                 </div>
 
-                {/* Row 2: 대표 비경 (Clickable -> #section-spots) */}
-                <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
-                  <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
-                    대표 비경
-                  </span>
-                  <span 
-                    onClick={() => scrollToSection("section-spots")}
-                    className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
-                    title="클릭하여 대표 비경 목록으로 이동"
-                  >
-                    명소 {spots.length}곳 ({meta.topSpots})
-                  </span>
-                </div>
-
-                {/* Row 3: 인기 테마 (Static / Tag list) */}
-                <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
-                  <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
-                    인기 테마
-                  </span>
-                  <div className="flex items-center gap-2 flex-wrap text-[#404040]">
-                    {meta.tags.map((tag, i) => (
-                      <span key={i} className="text-[#0F3E17] font-medium">
-                        {tag}
+                {/* Row 2: 대표 비경 (Clickable -> #section-spots, Only when spots exist) */}
+                {spots.length > 0 && (
+                  <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
+                    <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
+                      대표 비경
+                    </span>
+                    <span 
+                      onClick={() => scrollToSection("section-spots")}
+                      className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
+                      title="클릭하여 대표 비경 목록으로 이동"
+                    >
+                      {/* 데스크톱: 공간이 여유로우므로 전체 명소 다 표시 */}
+                      <span className="hidden sm:inline">
+                        {spots.map((s: any) => s.title).join(", ")}
                       </span>
-                    ))}
+                      {/* 모바일: 2줄 내로 떨어지도록 3개 이상일 때 '+' 표기 */}
+                      <span className="sm:hidden inline">
+                        {spots.slice(0, 2).map((s: any) => s.title).join(", ")}
+                        {spots.length > 2 && (
+                          <span className="text-[#0F3E17] font-semibold ml-1 inline-block">+</span>
+                        )}
+                      </span>
+                    </span>
                   </div>
-                </div>
+                )}
+
+                {/* Row 3: 인기 테마 (Static / Tag list - Main Card Pill Badge Style) */}
+                {meta.tags && meta.tags.length > 0 && (
+                  <div className="py-3.5 sm:py-4 flex items-center gap-6 sm:gap-10">
+                    <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
+                      인기 테마
+                    </span>
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                      {meta.tags.map((tag, i) => (
+                        <span
+                          key={i}
+                          className="h-[26px] inline-flex items-center px-2.5 rounded-full text-xs font-normal border border-[#EDEDED] bg-white text-[#6A6A6A]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Row 4: 액티비티 (Static) */}
                 <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
@@ -956,19 +987,25 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                   </span>
                 </div>
 
-                {/* Row 5: 주변 편의 (Clickable -> #section-places) */}
-                <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
-                  <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
-                    주변 편의
-                  </span>
-                  <span 
-                    onClick={() => scrollToSection("section-places")}
-                    className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
-                    title="클릭하여 식당·숙소·캠핑 목록으로 이동"
-                  >
-                    식당 {restaurants.length}개소 · 숙소 {lodges.length}곳 {campsites.length > 0 ? `· 캠핑장 ${campsites.length}곳` : ""}
-                  </span>
-                </div>
+                {/* Row 5: 주변 편의 (Clickable -> #section-places, Only when data exists) */}
+                {(restaurants.length > 0 || lodges.length > 0 || campsites.length > 0) && (
+                  <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
+                    <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
+                      주변 편의
+                    </span>
+                    <span 
+                      onClick={() => scrollToSection("section-places")}
+                      className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
+                      title="클릭하여 식당·숙소·캠핑 목록으로 이동"
+                    >
+                      {[
+                        restaurants.length > 0 ? `식당 ${restaurants.length}개소` : null,
+                        lodges.length > 0 ? `숙소 ${lodges.length}곳` : null,
+                        campsites.length > 0 ? `캠핑장 ${campsites.length}곳` : null
+                      ].filter(Boolean).join(" · ")}
+                    </span>
+                  </div>
+                )}
 
                 {/* Row 6: 교통 · 선적 (Static) */}
                 <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
@@ -1140,7 +1177,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                               </div>
 
                               {/* Temperature Range Gauge Bar below Temp */}
-                              <div className="flex items-center gap-1.5 text-[11px] text-[#848484]">
+                              <div className="flex items-center gap-1.5 text-xs text-[#848484]">
                                 <span>{dayWeather?.tempMin || "23°"}</span>
                                 <div className="w-14 sm:w-16 h-1.5 rounded-full bg-[#EDEDED] overflow-hidden relative">
                                   <div className="absolute left-[15%] right-[10%] top-0 bottom-0 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#E5484D]" />
@@ -1153,15 +1190,15 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                           {/* Right Text Key-Value Stats (일출, 일몰, 강수 - Regular weight) */}
                           <div className="flex flex-col gap-1 text-xs text-right">
                             <div className="flex items-center justify-end gap-2">
-                              <span className="text-[#848484] font-normal text-[11px]">일출</span>
+                              <span className="text-[#848484] font-normal text-xs">일출</span>
                               <span className="text-[#333333] text-xs sm:text-[13px]">{dayWeather?.sunrise || "5:50 am"}</span>
                             </div>
                             <div className="flex items-center justify-end gap-2">
-                              <span className="text-[#848484] font-normal text-[11px]">일몰</span>
+                              <span className="text-[#848484] font-normal text-xs">일몰</span>
                               <span className="text-[#333333] text-xs sm:text-[13px]">{dayWeather?.sunset || "7:21 pm"}</span>
                             </div>
                             <div className="flex items-center justify-end gap-2">
-                              <span className="text-[#848484] font-normal text-[11px]">강수</span>
+                              <span className="text-[#848484] font-normal text-xs">강수</span>
                               <span className="text-[#0284C7] text-xs sm:text-[13px]">{dayWeather?.pop || "0%"}</span>
                             </div>
                           </div>
@@ -1265,8 +1302,8 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-              {spots.slice(0, 4).map((spot: any, idx: number) => {
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+              {spots.map((spot: any, idx: number) => {
                 const rawOverview = spot.overview || spotOverviews[spot.contentId]?.overview || "";
                 const summary = cleanText(rawOverview);
                 const hasImage = Boolean(spot.firstImage);
@@ -1282,7 +1319,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                           openGalleryModal(spotPhotos, currentIdx >= 0 ? currentIdx : 0);
                         }
                       }}
-                      className={`relative w-full aspect-[4/4.2] rounded-[16px] overflow-hidden bg-[#F3F4F6] ${hasImage ? "cursor-pointer" : "cursor-default"} shadow-2xs`}
+                      className={`relative w-full aspect-[4/4.2] rounded-[12px] sm:rounded-[16px] overflow-hidden bg-[#F3F4F6] ${hasImage ? "cursor-pointer" : "cursor-default"} shadow-2xs`}
                     >
                       {hasImage ? (
                         <>
@@ -1296,16 +1333,16 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                         </>
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-[#9CA3AF] bg-[#F5F5F5]">
-                          <span className="text-3xl mb-1 opacity-60">📷</span>
+                          <span className="text-2xl sm:text-3xl mb-1 opacity-60">📷</span>
                           <span className="text-xs font-medium text-[#848484]">이미지 준비중</span>
                         </div>
                       )}
                     </div>
 
                     {/* 2. Card Content (Clean API Information - Consistent with Section 05) */}
-                    <div className="mt-2.5 flex flex-col flex-1">
+                    <div className="mt-2 sm:mt-2.5 flex flex-col flex-1">
                       {/* Title (Bold 2-line clamp) */}
-                      <h4 className="text-[17px] sm:text-[18px] font-bold text-[#1E1E1E] leading-[140%] tracking-tight line-clamp-2 group-hover:text-[#0F3E17] transition-colors">
+                      <h4 className="text-[15px] sm:text-[18px] font-bold text-[#1E1E1E] leading-[140%] tracking-tight line-clamp-2 group-hover:text-[#0F3E17] transition-colors">
                         {spot.title}
                       </h4>
 
@@ -1315,15 +1352,15 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                           href={`https://map.naver.com/index.naver?query=${encodeURIComponent(spot.addr)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-sm text-[#717171] hover:text-[#0F3E17] hover:underline transition-colors mt-1.5 line-clamp-1 group/addr"
+                          className="flex items-start gap-1 sm:gap-1.5 text-xs sm:text-sm text-[#717171] hover:text-[#0F3E17] hover:underline transition-colors mt-1 sm:mt-1.5 group/addr"
                           onClick={(e) => e.stopPropagation()}
                           title="네이버 지도로 위치 보기"
                         >
-                          <svg className="w-3.5 h-3.5 text-[#717171] group-hover/addr:text-[#0F3E17] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                          <svg className="w-3.5 h-3.5 text-[#717171] group-hover/addr:text-[#0F3E17] shrink-0 mt-[2px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                           </svg>
-                          <span className="truncate">{spot.addr}</span>
+                          <span className="leading-snug line-clamp-2">{spot.addr}</span>
                         </a>
                       )}
 
@@ -1376,7 +1413,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                           {camp.facltNm}
                         </h4>
                       </div>
-                      <span className={`text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
+                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
                         {cat.icon} {cat.label}
                       </span>
                     </div>
@@ -1419,7 +1456,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                           {rest.bsshNm}
                         </h4>
                       </div>
-                      <span className={`text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
+                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
                         {cat.icon} {cat.label}
                       </span>
                     </div>
@@ -1462,7 +1499,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                           {lodge.bsshNm}
                         </h4>
                       </div>
-                      <span className={`text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
+                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
                         {cat.icon} {cat.label}
                       </span>
                     </div>
@@ -1653,7 +1690,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
       {/* Mobile Floating Booking Bar (Triple / Klook Sleek Glassmorphism Style) */}
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E5E5E5] p-3 px-5 flex justify-between items-center md:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
         <div className="flex flex-col">
-          <span className="text-[11px] text-[#717171] font-medium">{islandName} · 왕복 운임</span>
+          <span className="text-xs text-[#717171] font-medium">{islandName} · 왕복 운임</span>
           <div className="flex items-baseline gap-1">
             <span className="text-lg font-black text-[#0F3E17]">
               {lowestFerry.fare}

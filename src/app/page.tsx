@@ -599,7 +599,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Subtitle */}
-                <span className="text-[11px] font-medium text-[#848484] uppercase tracking-wider mb-1 block">
+                <span className="text-xs font-medium text-[#848484] uppercase tracking-wider mb-1 block">
                   {item.subtitle}
                 </span>
 

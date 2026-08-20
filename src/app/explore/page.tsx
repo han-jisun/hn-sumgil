@@ -39,6 +39,25 @@ const islandIdMap: Record<string, string> = {
   "소야도": "soyado"
 };
 
+const islandCoordinates: Record<string, { lat: number; lng: number }> = {
+  "굴업도": { lat: 37.1947, lng: 125.9389 },
+  "대연평": { lat: 37.6698, lng: 125.6967 },
+  "대이작도": { lat: 37.1912, lng: 126.2415 },
+  "대청도": { lat: 37.8286, lng: 124.7075 },
+  "덕적도": { lat: 37.2289, lng: 126.1558 },
+  "문갑도": { lat: 37.2267, lng: 126.0278 },
+  "백령도": { lat: 37.9547, lng: 124.6736 },
+  "백아도": { lat: 37.1356, lng: 125.9989 },
+  "소연평": { lat: 37.6067, lng: 125.7489 },
+  "소이작도": { lat: 37.1856, lng: 126.2731 },
+  "소청도": { lat: 37.7656, lng: 124.7431 },
+  "승봉도": { lat: 37.1706, lng: 126.3125 },
+  "울도": { lat: 37.0392, lng: 125.9967 },
+  "자월도": { lat: 37.2536, lng: 126.3283 },
+  "지도": { lat: 37.1089, lng: 126.0467 },
+  "소야도": { lat: 37.2028, lng: 126.1778 }
+};
+
 const islandMeta: Record<string, { backpacking: boolean; trekking: boolean; desc: string }> = {
   "굴업도": { backpacking: true, trekking: true, desc: "한국의 갈라파고스라 불리는 백패킹의 성지 개머리언덕과 해안 절벽" },
   "대연평": { backpacking: false, trekking: true, desc: "평화기념관과 조기역사관이 있는 서해 최북단의 평화로운 섬" },
@@ -338,13 +357,13 @@ function ExploreContent() {
     <div id="explore-page-container" className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 text-[#282828]">
       {/* Exploration Header & Search */}
       <section id="explore-header-section" data-screen-label="SCR_001 탐색 헤더" className="pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-10 text-center max-w-[800px] mx-auto">
-        <span className="text-[11px] sm:text-xs font-medium tracking-wider text-[#626E71] uppercase mb-2 sm:mb-3 block">
+        <span className="text-xs sm:text-sm font-medium tracking-wider text-[#626E71] uppercase mb-2 sm:mb-3 block">
           SCR_001 · INCHEON ISLAND EXPLORE
         </span>
         <h1 id="explore-header-title" className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-bold tracking-tight text-[#282828] mb-3 sm:mb-4 leading-tight">
           나에게 딱 맞는 <span className="text-[#0F3E17]">인천 섬 찾기</span>
         </h1>
-        <p className="text-xs sm:text-sm md:text-base text-[#6A6A6A] leading-relaxed mb-6 sm:mb-8 px-2">
+        <p className="text-sm sm:text-base text-[#6A6A6A] leading-relaxed mb-6 sm:mb-8 px-2">
           뱃길 시간부터 백패킹·물때 조건까지 — 16개 섬을 조건별로 명쾌하게 탐색하세요.
         </p>
 
@@ -356,7 +375,7 @@ function ExploreContent() {
             placeholder="섬 이름 또는 주소로 검색해보세요... (예: 굴업도, 대청면)" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 sm:h-14 pl-11 sm:pl-12 pr-16 sm:pr-20 text-xs sm:text-sm md:text-[15px] bg-white border border-[#D4D4D4] text-[#282828] rounded-full font-sans transition-colors hover:border-[#848484] focus:outline-none focus:border-[#0F3E17] placeholder:text-[#848484]"
+            className="w-full h-12 sm:h-14 pl-11 sm:pl-12 pr-16 sm:pr-20 text-sm sm:text-base bg-white border border-[#D4D4D4] text-[#282828] rounded-full font-sans transition-colors hover:border-[#848484] focus:outline-none focus:border-[#0F3E17] placeholder:text-[#848484]"
           />
           <svg className="absolute left-3.5 sm:left-4 text-[#848484] pointer-events-none w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/>
@@ -366,7 +385,7 @@ function ExploreContent() {
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 sm:right-4 text-[11px] sm:text-xs bg-[#E8E8E8] text-[#525252] hover:bg-[#D4D4D4] px-2.5 py-1 rounded-full transition-colors"
+              className="absolute right-3 sm:right-4 text-xs sm:text-sm bg-[#E8E8E8] text-[#525252] hover:bg-[#D4D4D4] px-2.5 py-1 rounded-full transition-colors"
             >
               지우기
             </button>
@@ -374,24 +393,28 @@ function ExploreContent() {
         </div>
       </section>
 
-      {/* Filters Navigation Bar (Centered & Enlarged Volume) */}
+      {/* Filters Navigation Bar (Smooth Touch Scroll & Slim Chips) */}
       <div id="explore-controls-container" className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-[#EDEDED] w-full">
-        {/* Filter Type Tabs (Mobile Horizontal Touch Scroll & Center Aligned) */}
-        <nav id="explore-filter-nav" aria-label="Island filter" className="w-full flex justify-start md:justify-center overflow-x-auto scrollbar-none pb-1 -mb-1">
-          <ul className="flex gap-2.5 sm:gap-3.5 list-none py-0.5 whitespace-nowrap flex-nowrap items-center mx-auto">
+        {/* Filter Type Tabs (Mobile Full-Bleed Horizontal Touch Scroll) */}
+        <nav 
+          id="explore-filter-nav" 
+          aria-label="Island filter" 
+          className="w-full flex justify-start md:justify-center overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+        >
+          <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center mx-auto">
             <li className="shrink-0">
               <button
                 id="explore-filter-all"
                 type="button"
                 onClick={() => handleFilterChange("all")}
-                className={`h-11 sm:h-12 px-5 sm:px-6 rounded-full text-sm sm:text-[15px] font-medium border transition-colors inline-flex items-center gap-2 shrink-0 whitespace-nowrap flex-nowrap ${
+                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
                   filterType === "all" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
                     : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 <span className="whitespace-nowrap leading-none">🏝️ 전체 섬</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 leading-none ${filterType === "all" ? "bg-white/20 text-white" : "bg-[#F6F6F6] text-[#848484]"}`}>
+                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "all" ? "text-white/80" : "text-[#848484]"}`}>
                   {islands.length}
                 </span>
               </button>
@@ -401,14 +424,14 @@ function ExploreContent() {
                 id="explore-filter-backpacking"
                 type="button"
                 onClick={() => handleFilterChange("backpacking")}
-                className={`h-11 sm:h-12 px-5 sm:px-6 rounded-full text-sm sm:text-[15px] font-medium border transition-colors inline-flex items-center gap-2 shrink-0 whitespace-nowrap flex-nowrap ${
+                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
                   filterType === "backpacking" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
                     : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 <span className="whitespace-nowrap leading-none">🎒 백패킹 가능</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 leading-none ${filterType === "backpacking" ? "bg-white/20 text-white" : "bg-[#F6F6F6] text-[#848484]"}`}>
+                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "backpacking" ? "text-white/80" : "text-[#848484]"}`}>
                   {islands.filter(i => islandMeta[i.island]?.backpacking).length}
                 </span>
               </button>
@@ -418,14 +441,14 @@ function ExploreContent() {
                 id="explore-filter-trekking"
                 type="button"
                 onClick={() => handleFilterChange("trekking")}
-                className={`h-11 sm:h-12 px-5 sm:px-6 rounded-full text-sm sm:text-[15px] font-medium border transition-colors inline-flex items-center gap-2 shrink-0 whitespace-nowrap flex-nowrap ${
+                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
                   filterType === "trekking" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
                     : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 <span className="whitespace-nowrap leading-none">🥾 트레킹 코스</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 leading-none ${filterType === "trekking" ? "bg-white/20 text-white" : "bg-[#F6F6F6] text-[#848484]"}`}>
+                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "trekking" ? "text-white/80" : "text-[#848484]"}`}>
                   {islands.filter(i => islandMeta[i.island]?.trekking).length}
                 </span>
               </button>
@@ -435,14 +458,14 @@ function ExploreContent() {
                 id="explore-filter-camping"
                 type="button"
                 onClick={() => handleFilterChange("camping")}
-                className={`h-11 sm:h-12 px-5 sm:px-6 rounded-full text-sm sm:text-[15px] font-medium border transition-colors inline-flex items-center gap-2 shrink-0 whitespace-nowrap flex-nowrap ${
+                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
                   filterType === "camping" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17]" 
+                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
                     : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
                 }`}
               >
                 <span className="whitespace-nowrap leading-none">⛺ 야영장/캠핑</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 leading-none ${filterType === "camping" ? "bg-white/20 text-white" : "bg-[#F6F6F6] text-[#848484]"}`}>
+                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "camping" ? "text-white/80" : "text-[#848484]"}`}>
                   {islands.filter(i => (campsites[i.island] || []).length > 0).length}
                 </span>
               </button>
@@ -459,7 +482,7 @@ function ExploreContent() {
             aria-label="정렬 기준 선택"
             value={sortBy}
             onChange={(e) => handleSortChange(e.target.value as "default" | "time" | "fare" | "lodge" | "restaurant")}
-            className="h-10 pl-3.5 pr-8 bg-white border border-[#D4D4D4] rounded-lg text-xs sm:text-sm font-medium text-[#282828] appearance-none cursor-pointer hover:border-[#848484] focus:outline-none focus:border-[#6A6A6A] transition-colors"
+            className="h-10 pl-3.5 pr-8 bg-white border border-[#D4D4D4] rounded-lg text-sm sm:text-base font-medium text-[#282828] appearance-none cursor-pointer hover:border-[#848484] focus:outline-none focus:border-[#6A6A6A] transition-colors"
           >
             <option value="default">✨ 추천 기본순</option>
             <option value="time">⏱️ 소요시간 빠른순</option>
@@ -483,9 +506,11 @@ function ExploreContent() {
               const meta = islandMeta[item.island] || { backpacking: false, trekking: false, desc: "아름다운 섬 정보" };
               const key = islandIdMap[item.island];
               const itemImgData = key ? (imageData as Record<string, { name: string; images: string[] }>)[key] : null;
-              const image = (itemImgData && itemImgData.images && itemImgData.images.length > 0) 
-                ? itemImgData.images[0] 
-                : "/images/default_island.png";
+              const hasImage = Boolean(itemImgData && itemImgData.images && itemImgData.images.length > 0);
+              const image = hasImage ? itemImgData!.images[0] : null;
+              const coords = islandCoordinates[item.island];
+              const bbox = coords ? `${coords.lng - 0.04}%2C${coords.lat - 0.025}%2C${coords.lng + 0.04}%2C${coords.lat + 0.025}` : "";
+              const osmUrl = coords ? `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${coords.lat}%2C${coords.lng}` : null;
               const safeId = islandIdMap[item.island] || encodeURIComponent(item.island);
               
               return (
@@ -498,64 +523,78 @@ function ExploreContent() {
                 >
                   {/* Card Thumbnail */}
                   <div className="relative w-full h-44 overflow-hidden shrink-0 bg-[#EDEDED]">
-                    <Image 
-                      src={image} 
-                      alt={item.island} 
-                      fill 
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    {/* Floating Island Badge */}
-                    <span className="absolute top-3 left-3 bg-[#0F3E17] text-white py-1 px-3 rounded-full text-xs font-medium shadow whitespace-nowrap shrink-0">
-                      🏝️ {item.island}
-                    </span>
+                    {image ? (
+                      <Image 
+                        src={image} 
+                        alt={item.island} 
+                        fill 
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : osmUrl ? (
+                      <div className="relative w-full h-full overflow-hidden pointer-events-none bg-[#D4E6EC]">
+                        <iframe
+                          title={`${item.island} 위치 지도`}
+                          src={osmUrl}
+                          className="absolute -top-14 -left-12 w-[calc(100%+96px)] h-[calc(100%+90px)] border-none pointer-events-none"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : (
+                      <Image 
+                        src="/images/default_island.png" 
+                        alt={item.island} 
+                        fill 
+                        className="object-cover"
+                      />
+                    )}
                   </div>
 
                   {/* Card Content */}
                   <div className="p-5 flex flex-col flex-1 justify-between gap-4">
                     <div>
-                      <p className="text-xs text-[#848484] font-medium mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                      <p className="text-xs sm:text-sm text-[#848484] font-medium mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
                         {item.address.split(" ").slice(0, 3).join(" ")}
                       </p>
-                      <h3 className="text-xl font-bold text-[#282828] mb-2 tracking-tight group-hover:text-[#0F3E17] transition-colors leading-snug">
+                      <h3 className="text-xl sm:text-2xl font-bold text-[#282828] mb-2 tracking-tight group-hover:text-[#0F3E17] transition-colors leading-snug">
                         {item.island}
                       </h3>
-                      <p className="text-sm text-[#6A6A6A] leading-relaxed line-clamp-2 mb-4">
+                      <p className="text-sm sm:text-base text-[#6A6A6A] leading-relaxed line-clamp-2 mb-4">
                         {meta.desc}
                       </p>
 
                       {/* Left-Aligned Stats Row */}
-                      <div className="grid grid-cols-2 gap-x-3 gap-y-2 pt-3 border-t border-[#EDEDED] text-xs">
+                      <div className="grid grid-cols-2 gap-x-3 gap-y-2 pt-3 border-t border-[#EDEDED] text-xs sm:text-sm">
                         <div className="flex items-center gap-1.5 whitespace-nowrap">
                           <span className="text-[#848484] shrink-0">⏱️ 시간</span>
-                          <span className="text-[#282828] font-semibold whitespace-nowrap">{item.ferries[0]?.time}</span>
+                          <span className="text-[#282828] whitespace-nowrap">{item.ferries[0]?.time}</span>
                         </div>
                         <div className="flex items-center gap-1.5 whitespace-nowrap">
                           <span className="text-[#848484] shrink-0">💵 왕복</span>
-                          <span className="text-[#282828] font-semibold whitespace-nowrap">{item.ferries[0]?.fare}</span>
+                          <span className="text-[#282828] whitespace-nowrap">{item.ferries[0]?.fare}</span>
                         </div>
                         <div className="flex items-center gap-1.5 whitespace-nowrap">
                           <span className="text-[#848484] shrink-0">🍽️ 식당</span>
-                          <span className="text-[#282828] font-semibold whitespace-nowrap">
+                          <span className="text-[#282828] whitespace-nowrap">
                             {loadingRestaurants ? "로딩중..." : `${getRestaurantCount(item.island)}개`}
                           </span>
                         </div>
                         <div className="flex items-center gap-1.5 whitespace-nowrap">
                           <span className="text-[#848484] shrink-0">🏡 숙박</span>
-                          <span className="text-[#282828] font-semibold whitespace-nowrap">
+                          <span className="text-[#282828] whitespace-nowrap">
                             {loadingLodges ? "로딩중..." : `${getLodgeCount(item.island)}개`}
                           </span>
                         </div>
                         {/* 1-Line Fixed Badges Row (NEVER Wraps to 2 Lines) */}
                         <div className="flex items-center gap-1.5 col-span-2 mt-2 pt-2 border-t border-[#EDEDED] flex-nowrap whitespace-nowrap overflow-hidden">
-                          <span className={`px-2 py-0.5 rounded text-[11px] font-medium whitespace-nowrap shrink-0 ${
+                          <span className={`px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap shrink-0 ${
                             meta.backpacking 
                               ? "bg-[#E6FDE5] text-[#0F3E17]" 
                               : "bg-[#FFF1F0] text-[#E5484D]"
                           }`}>
                             🎒 백패킹 {meta.backpacking ? "가능" : "불가"}
                           </span>
-                          <span className="bg-[#E6FDE5] text-[#0F3E17] px-2 py-0.5 rounded text-[11px] font-medium whitespace-nowrap shrink-0">
+                          <span className="bg-[#E6FDE5] text-[#0F3E17] px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap shrink-0">
                             🥾 트레킹 {meta.trekking ? "가능" : "불가"}
                           </span>
                         </div>
@@ -569,8 +608,8 @@ function ExploreContent() {
         ) : (
           <div id="explore-no-results-box" className="text-center py-16 sm:py-20 px-4 rounded-xl border border-dashed border-[#D4D4D4] bg-white text-[#6A6A6A]">
             <span className="text-4xl sm:text-5xl mb-3 sm:mb-4 block">🔍</span>
-            <h3 className="text-sm sm:text-base font-bold text-[#282828] mb-1">검색 결과가 없습니다</h3>
-            <p className="text-xs text-[#848484]">다른 섬 이름 또는 카테고리를 검색해 보세요.</p>
+            <h3 className="text-base sm:text-lg font-bold text-[#282828] mb-1">검색 결과가 없습니다</h3>
+            <p className="text-sm text-[#848484]">다른 섬 이름 또는 카테고리를 검색해 보세요.</p>
           </div>
         )}
       </section>
@@ -581,7 +620,7 @@ function ExploreContent() {
 export default function ExplorePage() {
   return (
     <Suspense fallback={
-      <div className="max-w-[1440px] m-auto flex justify-center items-center min-h-[50vh] text-[#6A6A6A] text-sm">
+      <div className="max-w-[1440px] m-auto flex justify-center items-center min-h-[50vh] text-[#6A6A6A] text-base">
         로딩 중...
       </div>
     }>

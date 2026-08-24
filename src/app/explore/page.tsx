@@ -58,23 +58,23 @@ const islandCoordinates: Record<string, { lat: number; lng: number }> = {
   "소야도": { lat: 37.2028, lng: 126.1778 }
 };
 
-const islandMeta: Record<string, { backpacking: boolean; trekking: boolean; desc: string }> = {
-  "굴업도": { backpacking: true, trekking: true, desc: "한국의 갈라파고스라 불리는 백패킹의 성지 개머리언덕과 해안 절벽" },
-  "대연평": { backpacking: false, trekking: true, desc: "평화기념관과 조기역사관이 있는 서해 최북단의 평화로운 섬" },
-  "대이작도": { backpacking: true, trekking: true, desc: "썰물 때만 나타나는 신비의 모래섬 풀등과 울창한 해송 숲길" },
-  "대청도": { backpacking: true, trekking: true, desc: "옥빛 바다와 한국 유일의 활동성 모래사막이 어우러진 비경" },
-  "덕적도": { backpacking: true, trekking: true, desc: "해송 숲과 드넓은 백사장이 어우러진 캠핑과 휴양의 대표 섬" },
-  "문갑도": { backpacking: true, trekking: true, desc: "한적하고 때 묻지 않은 깃대봉 등산로와 독특한 돌담 골목길" },
-  "백령도": { backpacking: false, trekking: true, desc: "심청이의 설화와 천연기념물 사곶사빈, 비경의 두무진 절벽" },
-  "백아도": { backpacking: true, trekking: true, desc: "발전소 마을 앞 절경과 남조봉 기차바위가 있는 고요한 비박지" },
-  "소연평": { backpacking: false, trekking: true, desc: "얼굴바위와 깨끗한 포구가 맞이하는 때 묻지 않은 소박한 섬" },
-  "소이작도": { backpacking: true, trekking: true, desc: "해안을 따라 이어진 갯티길과 손가락 바위의 신비로운 형상" },
-  "소청도": { backpacking: true, trekking: true, desc: "분바위와 푸른 하늘 아래 우뚝 솟은 등대가 지키는 고요의 섬" },
-  "승봉도": { backpacking: true, trekking: true, desc: "울창한 산림과 이일레 해수욕장, 촛대바위 등 기암괴석의 향연" },
-  "울도": { backpacking: true, trekking: true, desc: "덕적 군도 최서단의 신비로운 비경과 낚시꾼들이 사랑하는 해안" },
-  "자월도": { backpacking: true, trekking: true, desc: "붉은 달빛의 장골 해변과 조용히 은빛 물결이 부서지는 휴식처" },
-  "지도": { backpacking: true, trekking: true, desc: "개발되지 않아 때 묻지 않은 순수한 서해안의 보물 같은 작은 섬" },
-  "소야도": { backpacking: true, trekking: true, desc: "덕적도와 다리로 이어진 조용하고 한적한 떼뿌리 캠핑 천국" }
+const islandMeta: Record<string, { backpacking: boolean; trekking: boolean; healing: boolean; desc: string }> = {
+  "굴업도": { backpacking: true, trekking: true, healing: false, desc: "한국의 갈라파고스라 불리는 백패킹의 성지 개머리언덕과 해안 절벽" },
+  "대연평": { backpacking: false, trekking: true, healing: true, desc: "평화기념관과 조기역사관이 있는 서해 최북단의 평화로운 섬" },
+  "대이작도": { backpacking: true, trekking: true, healing: true, desc: "썰물 때만 나타나는 신비의 모래섬 풀등과 울창한 해송 숲길" },
+  "대청도": { backpacking: true, trekking: true, healing: false, desc: "옥빛 바다와 한국 유일의 활동성 모래사막이 어우러진 비경" },
+  "덕적도": { backpacking: true, trekking: true, healing: true, desc: "해송 숲과 드넓은 백사장이 어우러진 캠핑과 휴양의 대표 섬" },
+  "문갑도": { backpacking: true, trekking: true, healing: true, desc: "한적하고 때 묻지 않은 깃대봉 등산로와 독특한 돌담 골목길" },
+  "백령도": { backpacking: false, trekking: true, healing: false, desc: "심청이의 설화와 천연기념물 사곶사빈, 비경의 두무진 절벽" },
+  "백아도": { backpacking: true, trekking: true, healing: true, desc: "발전소 마을 앞 절경과 남조봉 기차바위가 있는 고요한 비박지" },
+  "소연평": { backpacking: false, trekking: true, healing: true, desc: "얼굴바위와 깨끗한 포구가 맞이하는 때 묻지 않은 소박한 섬" },
+  "소이작도": { backpacking: true, trekking: true, healing: true, desc: "해안을 따라 이어진 갯티길과 손가락 바위의 신비로운 형상" },
+  "소청도": { backpacking: true, trekking: true, healing: true, desc: "분바위와 푸른 하늘 아래 우뚝 솟은 등대가 지키는 고요의 섬" },
+  "승봉도": { backpacking: true, trekking: true, healing: true, desc: "울창한 산림과 이일레 해수욕장, 촛대바위 등 기암괴석의 향연" },
+  "울도": { backpacking: true, trekking: true, healing: false, desc: "덕적 군도 최서단의 신비로운 비경과 낚시꾼들이 사랑하는 해안" },
+  "자월도": { backpacking: true, trekking: true, healing: true, desc: "붉은 달빛의 장골 해변과 조용히 은빛 물결이 부서지는 휴식처" },
+  "지도": { backpacking: true, trekking: true, healing: true, desc: "개발되지 않아 때 묻지 않은 순수한 서해안의 보물 같은 작은 섬" },
+  "소야도": { backpacking: true, trekking: true, healing: true, desc: "덕적도와 다리로 이어진 조용하고 한적한 떼뿌리 캠핑 천국" }
 };
 
 const matchRules: Record<string, (addr: string) => boolean> = {
@@ -123,7 +123,9 @@ function ExploreContent() {
   const router = useRouter();
   
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState<"all" | "backpacking" | "trekking" | "camping">("all");
+  const [timeFilter, setTimeFilter] = useState<"all" | "1to2h" | "2to4h" | "over4h">("all");
+  const [purposeFilter, setPurposeFilter] = useState<"all" | "backpacking" | "trekking" | "camping">("all");
+  const [fareFilter, setFareFilter] = useState<"all" | "under50k" | "50kto100k" | "over100k">("all");
   const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "lodge" | "restaurant" | "clicks">("default");
   const [clicks, setClicks] = useState<Record<string, number>>({});
   
@@ -218,14 +220,30 @@ function ExploreContent() {
     fetchCampsites();
   }, [islands]);
 
+
+
   useEffect(() => {
-    const filterParam = searchParams.get("filter");
+    const timeParam = searchParams.get("time");
+    const purposeParam = searchParams.get("purpose");
+    const fareParam = searchParams.get("fare");
     const sortParam = searchParams.get("sort");
     
-    if (filterParam === "backpacking" || filterParam === "trekking" || filterParam === "camping") {
-      setFilterType(filterParam);
+    if (timeParam === "1to2h" || timeParam === "2to4h" || timeParam === "over4h") {
+      setTimeFilter(timeParam);
     } else {
-      setFilterType("all");
+      setTimeFilter("all");
+    }
+
+    if (purposeParam === "backpacking" || purposeParam === "trekking" || purposeParam === "camping") {
+      setPurposeFilter(purposeParam);
+    } else {
+      setPurposeFilter("all");
+    }
+
+    if (fareParam === "under50k" || fareParam === "50kto100k" || fareParam === "over100k") {
+      setFareFilter(fareParam);
+    } else {
+      setFareFilter("all");
     }
 
     if (sortParam === "time" || sortParam === "fare" || sortParam === "lodge" || sortParam === "restaurant" || sortParam === "clicks") {
@@ -235,13 +253,30 @@ function ExploreContent() {
     }
   }, [searchParams]);
 
-  const updateParams = (newFilter: string, newSort: string) => {
+  const updateParams = (
+    newTime: string,
+    newPurpose: string,
+    newFare: string,
+    newSort: string
+  ) => {
     const params = new URLSearchParams(searchParams.toString());
     
-    if (newFilter === "all") {
-      params.delete("filter");
+    if (newTime === "all") {
+      params.delete("time");
     } else {
-      params.set("filter", newFilter);
+      params.set("time", newTime);
+    }
+
+    if (newPurpose === "all") {
+      params.delete("purpose");
+    } else {
+      params.set("purpose", newPurpose);
+    }
+
+    if (newFare === "all") {
+      params.delete("fare");
+    } else {
+      params.set("fare", newFare);
     }
 
     if (newSort === "default") {
@@ -253,14 +288,24 @@ function ExploreContent() {
     router.push(`/explore?${params.toString()}`);
   };
 
-  const handleFilterChange = (filter: "all" | "backpacking" | "trekking" | "camping") => {
-    setFilterType(filter);
-    updateParams(filter, sortBy);
+  const handleTimeChange = (val: "all" | "1to2h" | "2to4h" | "over4h") => {
+    setTimeFilter(val);
+    updateParams(val, purposeFilter, fareFilter, sortBy);
+  };
+
+  const handlePurposeChange = (val: "all" | "backpacking" | "trekking" | "camping") => {
+    setPurposeFilter(val);
+    updateParams(timeFilter, val, fareFilter, sortBy);
+  };
+
+  const handleFareChange = (val: "all" | "under50k" | "50kto100k" | "over100k") => {
+    setFareFilter(val);
+    updateParams(timeFilter, purposeFilter, val, sortBy);
   };
 
   const handleSortChange = (sort: "default" | "time" | "fare" | "lodge" | "restaurant" | "clicks") => {
     setSortBy(sort);
-    updateParams(filterType, sort);
+    updateParams(timeFilter, purposeFilter, fareFilter, sort);
   };
 
   const incrementClick = async (islandName: string) => {
@@ -286,11 +331,7 @@ function ExploreContent() {
     }
   };
 
-  const handleIslandClick = (islandName: string) => {
-    incrementClick(islandName);
-    const safeId = islandIdMap[islandName] || encodeURIComponent(islandName);
-    router.push(`/explore/${safeId}`);
-  };
+
 
   const getRestaurantCount = (islandName: string): number => {
     const rule = matchRules[islandName];
@@ -307,21 +348,39 @@ function ExploreContent() {
   };
 
   const filteredIslands = islands.filter((item) => {
-    const meta = islandMeta[item.island] || { backpacking: false, trekking: false };
+    const meta = islandMeta[item.island] || { backpacking: false, trekking: false, healing: false };
     const matchesSearch = item.island.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           item.address.toLowerCase().includes(searchQuery.toLowerCase());
     
-    if (filterType === "backpacking") {
-      return matchesSearch && meta.backpacking;
+    if (!matchesSearch) return false;
+
+    // 1. Time Filter
+    if (timeFilter !== "all") {
+      const mins = parseTimeToMinutes(item.ferries[0]?.time || "999시간");
+      if (timeFilter === "1to2h" && (mins < 60 || mins >= 120)) return false;
+      if (timeFilter === "2to4h" && (mins < 120 || mins >= 240)) return false;
+      if (timeFilter === "over4h" && mins < 240) return false;
     }
-    if (filterType === "trekking") {
-      return matchesSearch && meta.trekking;
+
+    // 2. Purpose Filter
+    if (purposeFilter !== "all") {
+      if (purposeFilter === "backpacking" && !meta.backpacking) return false;
+      if (purposeFilter === "trekking" && !meta.trekking) return false;
+      if (purposeFilter === "camping") {
+        const campList = campsites[item.island] || [];
+        if (campList.length === 0) return false;
+      }
     }
-    if (filterType === "camping") {
-      const campList = campsites[item.island] || [];
-      return matchesSearch && campList.length > 0;
+
+    // 3. Fare Filter
+    if (fareFilter !== "all") {
+      const fare = parseFareToNumber(item.ferries[0]?.fare || "999,999원");
+      if (fareFilter === "under50k" && fare > 50000) return false;
+      if (fareFilter === "50kto100k" && (fare <= 50000 || fare > 100000)) return false;
+      if (fareFilter === "over100k" && fare <= 100000) return false;
     }
-    return matchesSearch;
+
+    return true;
   });
 
   const sortedIslands = [...filteredIslands].sort((a, b) => {
@@ -393,86 +452,274 @@ function ExploreContent() {
         </div>
       </section>
 
-      {/* Filters Navigation Bar (Smooth Touch Scroll & Slim Chips) */}
-      <div id="explore-controls-container" className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-[#EDEDED] w-full">
-        {/* Filter Type Tabs (Mobile Full-Bleed Horizontal Touch Scroll) */}
-        <nav 
-          id="explore-filter-nav" 
-          aria-label="Island filter" 
-          className="w-full flex justify-start md:justify-center overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-        >
-          <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center mx-auto">
-            <li className="shrink-0">
-              <button
-                id="explore-filter-all"
-                type="button"
-                onClick={() => handleFilterChange("all")}
-                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                  filterType === "all" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                }`}
-              >
-                <span className="whitespace-nowrap leading-none">🏝️ 전체 섬</span>
-                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "all" ? "text-white/80" : "text-[#848484]"}`}>
-                  {islands.length}
-                </span>
-              </button>
-            </li>
-            <li className="shrink-0">
-              <button
-                id="explore-filter-backpacking"
-                type="button"
-                onClick={() => handleFilterChange("backpacking")}
-                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                  filterType === "backpacking" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                }`}
-              >
-                <span className="whitespace-nowrap leading-none">🎒 백패킹 가능</span>
-                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "backpacking" ? "text-white/80" : "text-[#848484]"}`}>
-                  {islands.filter(i => islandMeta[i.island]?.backpacking).length}
-                </span>
-              </button>
-            </li>
-            <li className="shrink-0">
-              <button
-                id="explore-filter-trekking"
-                type="button"
-                onClick={() => handleFilterChange("trekking")}
-                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                  filterType === "trekking" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                }`}
-              >
-                <span className="whitespace-nowrap leading-none">🥾 트레킹 코스</span>
-                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "trekking" ? "text-white/80" : "text-[#848484]"}`}>
-                  {islands.filter(i => islandMeta[i.island]?.trekking).length}
-                </span>
-              </button>
-            </li>
-            <li className="shrink-0">
-              <button
-                id="explore-filter-camping"
-                type="button"
-                onClick={() => handleFilterChange("camping")}
-                className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                  filterType === "camping" 
-                    ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                    : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                }`}
-              >
-                <span className="whitespace-nowrap leading-none">⛺ 야영장/캠핑</span>
-                <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${filterType === "camping" ? "text-white/80" : "text-[#848484]"}`}>
-                  {islands.filter(i => (campsites[i.island] || []).length > 0).length}
-                </span>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      {/* Filters Navigation Bar (3-row quick filter) */}
+      {(() => {
+        const totalCount = islands.length;
+        const time1to2hCount = islands.filter(i => {
+          const mins = parseTimeToMinutes(i.ferries[0]?.time || "");
+          return mins >= 60 && mins < 120;
+        }).length;
+        const time2to4hCount = islands.filter(i => {
+          const mins = parseTimeToMinutes(i.ferries[0]?.time || "");
+          return mins >= 120 && mins < 240;
+        }).length;
+        const timeOver4hCount = islands.filter(i => {
+          const mins = parseTimeToMinutes(i.ferries[0]?.time || "");
+          return mins >= 240;
+        }).length;
+
+        const backpackingCount = islands.filter(i => islandMeta[i.island]?.backpacking).length;
+        const trekkingCount = islands.filter(i => islandMeta[i.island]?.trekking).length;
+        const campingCount = islands.filter(i => (campsites[i.island] || []).length > 0).length;
+
+        const fareUnder50kCount = islands.filter(i => parseFareToNumber(i.ferries[0]?.fare || "") <= 50000).length;
+        const fare50kto100kCount = islands.filter(i => {
+          const fare = parseFareToNumber(i.ferries[0]?.fare || "");
+          return fare > 50000 && fare <= 100000;
+        }).length;
+        const fareOver100kCount = islands.filter(i => parseFareToNumber(i.ferries[0]?.fare || "") > 100000).length;
+
+        return (
+          <div id="explore-controls-container" className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-[#EDEDED] w-full flex flex-col gap-3.5 sm:gap-4.5">
+            {/* Row 1: 이동시간 */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full">
+              <span className="text-sm sm:text-base font-bold text-[#6A6A6A] min-w-[80px] shrink-0 sm:text-left">
+                이동시간
+              </span>
+              <div className="w-full flex justify-start overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center">
+                  <li className="shrink-0">
+                    <button
+                      id="filter-time-all"
+                      type="button"
+                      onClick={() => handleTimeChange("all")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        timeFilter === "all" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">전체</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "all" ? "text-white/80" : "text-[#848484]"}`}>
+                        {totalCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-time-1to2h"
+                      type="button"
+                      onClick={() => handleTimeChange("1to2h")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        timeFilter === "1to2h" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">⏱️ 1시간~2시간 미만</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "1to2h" ? "text-white/80" : "text-[#848484]"}`}>
+                        {time1to2hCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-time-2to4h"
+                      type="button"
+                      onClick={() => handleTimeChange("2to4h")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        timeFilter === "2to4h" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">🚢 2시간~4시간 미만</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "2to4h" ? "text-white/80" : "text-[#848484]"}`}>
+                        {time2to4hCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-time-over4h"
+                      type="button"
+                      onClick={() => handleTimeChange("over4h")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        timeFilter === "over4h" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">⚓ 4시간 이상</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "over4h" ? "text-white/80" : "text-[#848484]"}`}>
+                        {timeOver4hCount}
+                      </span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Row 2: 여행목적 */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full">
+              <span className="text-sm sm:text-base font-bold text-[#6A6A6A] min-w-[80px] shrink-0 sm:text-left">
+                여행목적
+              </span>
+              <div className="w-full flex justify-start overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center">
+                  <li className="shrink-0">
+                    <button
+                      id="filter-purpose-all"
+                      type="button"
+                      onClick={() => handlePurposeChange("all")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        purposeFilter === "all" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">전체</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "all" ? "text-white/80" : "text-[#848484]"}`}>
+                        {totalCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-purpose-backpacking"
+                      type="button"
+                      onClick={() => handlePurposeChange("backpacking")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        purposeFilter === "backpacking" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">🎒 백패킹 가능</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "backpacking" ? "text-white/80" : "text-[#848484]"}`}>
+                        {backpackingCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-purpose-trekking"
+                      type="button"
+                      onClick={() => handlePurposeChange("trekking")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        purposeFilter === "trekking" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">🪵 트레킹 코스</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "trekking" ? "text-white/80" : "text-[#848484]"}`}>
+                        {trekkingCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-purpose-camping"
+                      type="button"
+                      onClick={() => handlePurposeChange("camping")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        purposeFilter === "camping" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">🏕️ 야영장/캠핑</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "camping" ? "text-white/80" : "text-[#848484]"}`}>
+                        {campingCount}
+                      </span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Row 3: 왕복비용 */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full">
+              <span className="text-sm sm:text-base font-bold text-[#6A6A6A] min-w-[80px] shrink-0 sm:text-left">
+                왕복비용
+              </span>
+              <div className="w-full flex justify-start overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center">
+                  <li className="shrink-0">
+                    <button
+                      id="filter-fare-all"
+                      type="button"
+                      onClick={() => handleFareChange("all")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        fareFilter === "all" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">전체</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "all" ? "text-white/80" : "text-[#848484]"}`}>
+                        {totalCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-fare-under50k"
+                      type="button"
+                      onClick={() => handleFareChange("under50k")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        fareFilter === "under50k" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">💵 5만원 이하</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "under50k" ? "text-white/80" : "text-[#848484]"}`}>
+                        {fareUnder50kCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-fare-50kto100k"
+                      type="button"
+                      onClick={() => handleFareChange("50kto100k")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        fareFilter === "50kto100k" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">💳 5만원~10만원</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "50kto100k" ? "text-white/80" : "text-[#848484]"}`}>
+                        {fare50kto100kCount}
+                      </span>
+                    </button>
+                  </li>
+                  <li className="shrink-0">
+                    <button
+                      id="filter-fare-over100k"
+                      type="button"
+                      onClick={() => handleFareChange("over100k")}
+                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
+                        fareFilter === "over100k" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span className="whitespace-nowrap leading-none">💰 10만원 이상</span>
+                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "over100k" ? "text-white/80" : "text-[#848484]"}`}>
+                        {fareOver100kCount}
+                      </span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Sort Controls (Always Right-Aligned on Mobile & Desktop) */}
       <div id="explore-sort-container" className="flex justify-end items-center w-full mb-6 sm:mb-8">

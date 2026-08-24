@@ -23,20 +23,20 @@ export default function Navbar() {
         <Link
           id="nav-logo-link"
           href="/"
-          className="flex items-center gap-[8px] sm:gap-[10px] shrink-0 select-none py-1"
+          className="flex items-center gap-[4px] shrink-0 select-none py-1"
         >
-          {/* Symbol (Hidden on <=420px mobile screens) */}
+          {/* Symbol */}
           <img
             src={isHome ? "/symbol-white.svg" : "/symbol.svg"}
             alt="한눈섬길 심볼"
-            className="hidden min-[421px]:block h-[28px] sm:h-[34px] w-auto object-contain shrink-0"
+            className="h-[28px] sm:h-[34px] w-auto object-contain shrink-0"
           />
 
-          {/* Wordmark (40px on <=420px mobile, 42px on desktop) */}
+          {/* Wordmark */}
           <img
             src={isHome ? "/wordmark-white.svg" : "/wordmark.svg"}
             alt="한눈섬길 INCHEON ISLANDS"
-            className="h-[40px] min-[421px]:h-[34px] sm:h-[42px] w-auto object-contain shrink-0"
+            className="h-[34px] sm:h-[42px] w-auto object-contain shrink-0"
           />
         </Link>
 

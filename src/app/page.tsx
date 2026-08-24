@@ -107,14 +107,8 @@ export default function HomePage() {
   const [youtubeVisible, setYoutubeVisible] = useState(false);
   const youtubeGridRef = useRef<HTMLDivElement>(null);
 
-  // Prototype benchmark options states
-  const [optAStep, setOptAStep] = useState(0);
-  const [optDChecked, setOptDChecked] = useState<number[]>([0, 1]);
-  const toggleOptD = (idx: number) => {
-    setOptDChecked(prev =>
-      prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
-    );
-  };
+  // Framer Tabs Card Active State
+  const [activeGuideTab, setActiveGuideTab] = useState(0);
 
   useEffect(() => {
     const el = curationGridRef.current;
@@ -256,52 +250,57 @@ export default function HomePage() {
     {
       step: "01",
       icon: "🪪",
+      tag: "필수 지참",
       title: "신분증 지참 필수",
-      subtitle: "실물 신분증 또는 모바일 신분증",
-      desc: "여객선 승선 시 승선권과 신분증 실물 대조가 100% 의무화되어 있습니다. 미성년자는 주민등록등본이나 가족관계증명서를 꼭 지참하세요.",
-      accentBg: "bg-[#FFF8E7]",
-      accentText: "text-[#B45309]",
-      accentBorder: "border-[#FCD34D]"
+      subtitle: "실물 신분증 또는 정부24 모바일 신분증",
+      desc: "여객선 승선 시 승선권과 신분증 실물 대조가 100% 법적 의무화되어 있습니다. 미성년자는 주민등록등본 또는 가족관계증명서를 반드시 준비하세요.",
+      image: "/images/guide/step1-id.jpg",
+      badge: "정부24 · 모바일 신분증 100% 허용",
+      tip: "💡 터미널 현장 무인민원발급기에서 등본 즉시 발급 가능"
     },
     {
       step: "02",
       icon: "🚢",
+      tag: "사전 예매",
       title: "가고싶은섬 배표 예매 팁",
       subtitle: "한국해운조합 공식 예약 사이트",
-      desc: "주말 및 성수기 인기 섬(굴업도·백령도·덕적도) 승선권은 조기 매진됩니다. 최소 1~2주 전 '가고싶은섬' 앱에서 사전 예매하세요.",
-      accentBg: "bg-[#E6FDE5]",
-      accentText: "text-[#0F3E17]",
-      accentBorder: "border-[#86EFAC]"
+      desc: "주말 및 성수기 인기 섬(굴업도·백령도·덕적도)은 승선권이 조기 매진됩니다. 최소 1~2주 전 한국해운조합 '가고싶은섬' 공식 앱에서 사전 예매하세요.",
+      image: "/images/guide/step2-ferry.jpg",
+      badge: "주말 조기 매진 주의 · 공식 사전 예매",
+      tip: "🚢 차량 선적(카페리)은 온라인 예매 불가 시 현장 선착순 접수"
     },
     {
       step: "03",
       icon: "🌊",
+      tag: "해양 기상",
       title: "물때 & 바다 날씨 확인",
-      subtitle: "간조/만조 시각 및 풍랑 주의",
-      desc: "풀등(대이작도 모래섬) 관람과 갯벌 체험, 해안 트레킹은 물이 빠지는 '간조' 전후 2시간이 골든타임입니다. 출발 전 기상 악화 시 출항 여부를 확인하세요.",
-      accentBg: "bg-[#E7FAFF]",
-      accentText: "text-[#0284C7]",
-      accentBorder: "border-[#93C5FD]"
+      subtitle: "간조/만조 시각 및 풍랑 특보",
+      desc: "대이작도 풀등 모래섬과 해안 트레킹, 갯벌 체험은 물이 빠지는 '간조' 전후 2시간이 골든타임입니다. 출발 당일 아침 출항 여부를 꼭 확인하세요.",
+      image: "/images/guide/step3-tide.jpg",
+      badge: "간조 전후 2시간 골든타임",
+      tip: "🌊 국립해양조사원 물때표 및 바다날씨 실시간 연동"
     },
     {
       step: "04",
       icon: "🚌",
-      title: "섬 내부 이동 수단",
-      subtitle: "공영버스 운행 시각 & 렌트 사전예약",
-      desc: "백령도·덕적도 등 큰 섬은 여객선 입항 시각에 맞춰 공영버스가 운행됩니다. 대연평·굴업도 등 소형 섬은 도보 트레킹으로 쾌적하게 둘러볼 수 있습니다.",
-      accentBg: "bg-[#EDE9FE]",
-      accentText: "text-[#5B21B6]",
-      accentBorder: "border-[#C4B5FD]"
+      tag: "섬내 교통",
+      title: "섬 내부 이동 수단 파악",
+      subtitle: "입항 연계 공영버스 & 도보 코스",
+      desc: "백령도·덕적도 등 큰 섬은 여객선 입항 시각에 맞춰 공영버스가 운행됩니다. 대연평·굴업도 등 소형 섬은 여유로운 도보 트레킹으로 충분히 둘러볼 수 있습니다.",
+      image: "/images/guide/step4-bus.jpg",
+      badge: "여객선 입항 연계 공영버스",
+      tip: "🚌 배 도착 시간에 맞춰 선착장 앞 버스 바로 대기"
     },
     {
       step: "05",
       icon: "⛺",
-      title: "LNT 클린 캠핑 수칙",
+      tag: "클린 캠핑",
+      title: "LNT 클린 섬 캠핑 수칙",
       subtitle: "Leave No Trace - 흔적 남기지 않기",
-      desc: "섬은 자체 쓰레기 처리가 매우 어렵습니다. 종량제 봉투를 준비하여 내가 발생시킨 쓰레기는 육지로 되가져오는 클린 섬 여행을 실천해 주세요.",
-      accentBg: "bg-[#FFE4E6]",
-      accentText: "text-[#9F1239]",
-      accentBorder: "border-[#FDA4AF]"
+      desc: "섬은 자체 쓰레기 처리가 어렵습니다. 종량제 봉투를 준비하여 발생한 모든 쓰레기는 육지로 전량 되가져오는 성숙한 클린 백패킹을 실천해 주세요.",
+      image: "/images/guide/step5-camping.jpg",
+      badge: "쓰레기 100% 육지 되가져오기",
+      tip: "⛺ 지정된 야영장 이용 및 화기 사용 시 안전 철저"
     }
   ];
 
@@ -564,518 +563,120 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 1: 배편 예매부터 신분증까지, 첫 섬 여행 가이드 (5-Step Cards) */}
+      {/* SECTION 1: 배편 예매부터 신분증까지, 첫 섬 여행 가이드 (Framer Tabs Card UI) */}
       {/* ========================================================================= */}
-      <section id="starter-guide-section" className="w-full bg-[#FAFAFA] py-[64px] md:py-[100px] border-y border-[#EDEDED]">
+      <section id="starter-guide-section" className="w-full bg-white py-[64px] md:py-[100px] border-y border-[#EDEDED]">
         <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
 
           {/* Header */}
-          <div id="starter-guide-header" className="text-center max-w-[760px] mx-auto mb-[36px] md:mb-[56px] flex flex-col items-center">
-            <h2 id="starter-guide-main-title" className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-[#282828] mb-3">
-              배편 예매부터 신분증까지, 첫 섬 여행 가이드
+          <div id="starter-guide-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px]">
+            <h2 id="starter-guide-main-title" className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-[#191F28] mb-3">
+              첫 여행자 필독 가이드
             </h2>
             <p id="starter-guide-subtitle" className="text-[14px] sm:text-[16px] text-[#6A6A6A] leading-[160%] m-0">
-              섬 여행이 처음이라 망설여지시나요? 구체적인 5가지 입문 핵심 수칙을 한눈에 확인하세요.
+              배편 예매부터 신분증까지, 첫 섬 여행 가이드
             </p>
           </div>
 
-          {/* 5-Step Cards Grid */}
-          <div
-            ref={curationGridRef}
-            id="starter-guide-grid"
-            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-[18px] sm:gap-[24px]"
-          >
-            {starterGuideSteps.map((item, idx) => (
-              <div
-                key={item.step}
-                id={`starter-guide-card-${idx + 1}`}
-                style={{
-                  transitionDelay: curationVisible ? `${idx * 120}ms` : "0ms",
-                }}
-                className={`flex flex-col rounded-2xl border border-[#E5E5E5] bg-white p-[20px] sm:p-[24px] shadow-sm hover:shadow-md hover:border-[#0F3E17] transition-all duration-500 group relative overflow-hidden ${curationVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-[36px]"
-                  }`}
-              >
-                {/* Top Step Number Badge & Icon */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono border ${item.accentBg} ${item.accentText} ${item.accentBorder}`}>
-                    {item.step}
-                  </span>
-                  <span className="text-3xl transition-transform duration-300 group-hover:scale-110">
-                    {item.icon}
-                  </span>
-                </div>
+          {/* Framer Tabs-Card Container */}
+          <div className="max-w-[1240px] mx-auto bg-[#F4F6F8] p-3 sm:p-5 md:p-6 rounded-[28px] sm:rounded-[36px] border border-[#E2E8F0] shadow-[0_12px_48px_rgba(0,0,0,0.04)]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-5 md:gap-6 items-stretch">
 
-                {/* Subtitle */}
-                <span className="text-xs font-medium text-[#848484] uppercase tracking-wider mb-1 block">
-                  {item.subtitle}
-                </span>
-
-                {/* Title */}
-                <h3 className="text-[18px] sm:text-[19px] font-bold text-[#282828] leading-snug mb-2.5 group-hover:text-[#0F3E17] transition-colors">
-                  {item.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-[13px] sm:text-[14px] text-[#6A6A6A] leading-[160%] m-0 flex-1 break-all">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 🌟 [OPTION 1] 토스 라이브 프로덕트 벤토 (Toss Live Bento with Micro-UIs) */}
-      {/* ========================================================================= */}
-      <section id="starter-guide-option-1" className="w-full bg-[#F4F6F8] py-[72px] md:py-[110px] border-b border-[#E5E8EB]">
-        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-          {/* Header */}
-          <div className="text-center max-w-[760px] mx-auto mb-[40px] md:mb-[56px] flex flex-col items-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-bold bg-white text-[#0F3E17] border border-[#E5E8EB] shadow-[0_2px_8px_rgba(0,0,0,0.04)] mb-3.5">
-              ✦ OPTION 1 · 토스 라이브 프로덕트 벤토 (Micro-UI 내장)
-            </span>
-            <h2 className="m-0 text-[clamp(28px,3.6vw,46px)] font-extrabold tracking-[-0.03em] text-[#191F28] mb-3 leading-[1.25]">
-              배편 예매부터 신분증까지,<br className="hidden sm:block" /> 실패 없는 5가지 실전 수칙
-            </h2>
-            <p className="text-[15px] sm:text-[17px] text-[#4E5968] leading-[160%] m-0 font-normal">
-              앱 화면처럼 직관적인 미니 UI로 구성된 토스 감성의 스마트 가이드입니다.
-            </p>
-          </div>
-
-          {/* Bento Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[20px] md:gap-[24px]">
-            {/* Card 1: 신분증 100% 필수 (7 cols) */}
-            <div className="lg:col-span-7 rounded-[28px] bg-white p-7 sm:p-9 border border-[#E5E8EB] shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.07)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-5">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#FFF8E7] text-[#B45309] border border-[#FCD34D]">
-                    STEP 01 · 필수 탑승권 수칙
-                  </span>
-                  <span className="w-12 h-12 rounded-2xl bg-[#F8F9FA] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    🪪
-                  </span>
-                </div>
-                <h3 className="text-[22px] sm:text-[25px] font-extrabold text-[#191F28] tracking-tight leading-snug mb-3">
-                  신분증 실물 대조는 100% 의무입니다
-                </h3>
-                <p className="text-[15px] text-[#4E5968] leading-[170%] m-0 mb-6">
-                  여객선 승선 시 승선권과 신분증 실물 대조가 법적으로 의무화되어 있습니다. 실물 신분증 또는 정부24·모바일 운전면허증을 준비하세요.
-                </p>
-
-                {/* Toss Micro-UI Ticket Badge */}
-                <div className="rounded-2xl bg-[#F8F9FA] border border-[#EDEDED] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#0F3E17] text-white flex items-center justify-center font-bold text-xs font-mono">
-                      PASS
-                    </div>
-                    <div>
-                      <span className="text-xs text-[#8B95A1] block font-medium">인천연안여객터미널 ➔ 굴업도</span>
-                      <span className="text-sm font-bold text-[#191F28]">승선자 실명 확인증 (정부24 연동)</span>
-                    </div>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#E6FDE5] text-[#0F3E17]">
-                    ✓ 대조 완료
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2 mt-6 pt-5 border-t border-[#F2F4F6]">
-                <span className="bg-[#F2F4F6] text-[#333D4B] text-xs font-semibold px-3 py-1.5 rounded-lg">
-                  ✓ 주민등록증 / 운전면허증 / 여권
-                </span>
-                <span className="bg-[#F2F4F6] text-[#333D4B] text-xs font-semibold px-3 py-1.5 rounded-lg">
-                  ✓ 미성년자 등본 지참
-                </span>
-              </div>
-            </div>
-
-            {/* Card 2: 배표 사전 예매 (5 cols) */}
-            <div className="lg:col-span-5 rounded-[28px] bg-white p-7 sm:p-9 border border-[#E5E8EB] shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.07)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-5">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#E6FDE5] text-[#0F3E17] border border-[#86EFAC]">
-                    STEP 02 · 사전 예매 팁
-                  </span>
-                  <span className="w-12 h-12 rounded-2xl bg-[#F4FAF4] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    🚢
-                  </span>
-                </div>
-                <h3 className="text-[22px] sm:text-[25px] font-extrabold text-[#191F28] tracking-tight leading-snug mb-3">
-                  ‘가고싶은섬’ 공식 앱 사전 예매
-                </h3>
-                <p className="text-[15px] text-[#4E5968] leading-[170%] m-0 mb-6">
-                  주말 인기 섬은 조기 매진됩니다. 최소 1~2주 전 한국해운조합 공식 앱에서 잔여석을 확인하고 예매하세요.
-                </p>
-
-                {/* Toss Micro-UI Live Seats Badge */}
-                <div className="rounded-2xl bg-[#F4FAF4] border border-[#86EFAC] p-4 flex items-center justify-between">
-                  <div>
-                    <span className="text-xs text-[#0F3E17] font-semibold block">주말 승선권 현황</span>
-                    <span className="text-sm font-extrabold text-[#0F3E17]">실시간 잔여 14석 (예매 가능)</span>
-                  </div>
-                  <span className="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#0F3E17] text-white">
-                    예매하기 →
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-5 border-t border-[#F2F4F6]">
-                <span className="text-xs text-[#8B95A1]">
-                  한국해운조합 공식 예매 시스템(island.hawoon.co.kr) 지원
-                </span>
-              </div>
-            </div>
-
-            {/* Card 3: 물때 & 날씨 (4 cols) */}
-            <div className="lg:col-span-4 rounded-[28px] bg-white p-6 sm:p-7 border border-[#E5E8EB] shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.07)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#E7FAFF] text-[#0284C7] border border-[#93C5FD]">
-                    STEP 03 · 해양 기상
-                  </span>
-                  <span className="w-11 h-11 rounded-xl bg-[#F0F9FF] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    🌊
-                  </span>
-                </div>
-                <h4 className="text-[19px] font-extrabold text-[#191F28] tracking-tight mb-2.5 leading-snug">
-                  물때 & 바다 날씨 확인
-                </h4>
-                <p className="text-[14px] text-[#4E5968] leading-[160%] m-0 mb-4">
-                  대이작도 풀등과 해안 트레킹은 물이 빠지는 ‘간조’ 전후 2시간이 골든타임입니다.
-                </p>
-
-                {/* Tide Gauge Bar */}
-                <div className="bg-[#F0F9FF] rounded-xl p-3 border border-[#BAE6FD]">
-                  <div className="flex justify-between text-xs font-bold text-[#0284C7] mb-1.5">
-                    <span>간조 골든타임</span>
-                    <span>물 빠짐 82%</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-[#E0F2FE] overflow-hidden">
-                    <div className="w-[82%] h-full bg-[#0284C7] rounded-full" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4: 섬 내부 이동 (4 cols) */}
-            <div className="lg:col-span-4 rounded-[28px] bg-white p-6 sm:p-7 border border-[#E5E8EB] shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.07)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#EDE9FE] text-[#5B21B6] border border-[#C4B5FD]">
-                    STEP 04 · 섬내 교통
-                  </span>
-                  <span className="w-11 h-11 rounded-xl bg-[#F5F3FF] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    🚌
-                  </span>
-                </div>
-                <h4 className="text-[19px] font-extrabold text-[#191F28] tracking-tight mb-2.5 leading-snug">
-                  섬 내부 이동 수단 파악
-                </h4>
-                <p className="text-[14px] text-[#4E5968] leading-[160%] m-0 mb-4">
-                  대형 섬은 입항 연계 공영버스를 탑승하고, 소형 섬은 쾌적한 도보 트레킹을 즐기세요.
-                </p>
-
-                {/* Bus Transfer Pill */}
-                <div className="bg-[#F5F3FF] rounded-xl p-3 border border-[#DDD6FE] flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#5B21B6]">입항 11:20 ➔ 공영버스 11:35</span>
-                  <span className="text-[#6D28D9] font-medium">연계 운행</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 5: LNT 클린 캠핑 (4 cols) */}
-            <div className="lg:col-span-4 rounded-[28px] bg-white p-6 sm:p-7 border border-[#E5E8EB] shadow-[0_4px_24px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.07)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#FFE4E6] text-[#9F1239] border border-[#FDA4AF]">
-                    STEP 05 · 클린 캠핑
-                  </span>
-                  <span className="w-11 h-11 rounded-xl bg-[#FFF1F2] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    ⛺
-                  </span>
-                </div>
-                <h4 className="text-[19px] font-extrabold text-[#191F28] tracking-tight mb-2.5 leading-snug">
-                  LNT 클린 섬 캠핑 수칙
-                </h4>
-                <p className="text-[14px] text-[#4E5968] leading-[160%] m-0 mb-4">
-                  섬은 자체 쓰레기 처리가 어렵습니다. 종량제 봉투에 담아 육지로 되가져오세요.
-                </p>
-
-                {/* Eco Badge */}
-                <div className="bg-[#FFF1F2] rounded-xl p-3 border border-[#FECDD3] flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#9F1239]">Leave No Trace (흔적 남기지 않기)</span>
-                  <span className="text-[#BE123C] font-extrabold">100% 회수</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 🌟 [OPTION 2] 에디토리얼 비주얼 포토 매거진 (AllTrails / Kinfolk Style) */}
-      {/* ========================================================================= */}
-      <section id="starter-guide-option-2" className="w-full bg-[#111612] text-white py-[72px] md:py-[110px] border-b border-[#28382A]">
-        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-          {/* Header */}
-          <div className="text-center max-w-[760px] mx-auto mb-[40px] md:mb-[56px] flex flex-col items-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-bold bg-[#1C2E1F] text-[#86EFAC] border border-[#2D5A34] mb-3.5">
-              ✦ OPTION 2 · 에디토리얼 비주얼 포토 매거진 (아웃도어 화보 스타일)
-            </span>
-            <h2 className="m-0 text-[clamp(28px,3.6vw,46px)] font-extrabold tracking-[-0.03em] text-white mb-3 leading-[1.25]">
-              섬으로 떠나는 첫 걸음, 5대 여행 수칙
-            </h2>
-            <p className="text-[15px] sm:text-[17px] text-[#A3B8A5] leading-[160%] m-0 font-normal">
-              아웃도어 매거진 화보처럼 시원한 비주얼과 함께 떠나는 감성 가이드입니다.
-            </p>
-          </div>
-
-          {/* Magazine Cards Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[20px] md:gap-[24px]">
-            {/* Top Large Visual Card (굴업도 배경 사진 + 신분증 & 배표) */}
-            <div className="lg:col-span-12 rounded-[28px] overflow-hidden relative min-h-[340px] sm:min-h-[400px] flex flex-col justify-end p-7 sm:p-10 group shadow-lg">
-              <div
-                className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700"
-                style={{ backgroundImage: "url('/images/island/gureopdo/1.jpg')" }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-
-              <div className="relative z-10 max-w-[800px]">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#E6FDE5] text-[#0F3E17]">
-                    KEY GUIDE 01 & 02
-                  </span>
-                  <span className="text-sm font-semibold text-[#86EFAC]">출항 전 필수 점검</span>
-                </div>
-                <h3 className="text-[26px] sm:text-[34px] font-extrabold text-white leading-tight mb-3">
-                  신분증 실물 지참 & ‘가고싶은섬’ 사전 배표 예매
-                </h3>
-                <p className="text-white/85 text-[15px] sm:text-[16px] leading-[170%] m-0 mb-5">
-                  여객선 승선권과 신분증 실물 대조는 100% 필수입니다. 주말 및 성수기 인기 섬은 조기 매진되므로 최소 1~2주 전 한국해운조합 공식 앱에서 사전 예매하세요.
-                </p>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <span className="px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-md text-white font-medium">✓ 모바일 신분증 허용</span>
-                  <span className="px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-md text-white font-medium">✓ 미성년자 등본 지참</span>
-                  <span className="px-3 py-1.5 rounded-lg bg-white/20 backdrop-blur-md text-white font-medium">✓ 가고싶은섬 모바일 예약</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom 3 Photo Cards */}
-            {[
-              { step: "03", img: "/images/island/daeijakdo/1.jpg", icon: "🌊", title: "물때 & 바다 날씨", subtitle: "대이작도 풀등 모래섬", desc: "물이 빠지는 '간조' 전후 2시간이 골든타임입니다. 출항 전 기상 특보를 꼭 확인하세요." },
-              { step: "04", img: "/images/island/baengnyeongdo/1.jpg", icon: "🚌", title: "섬 내부 이동 수단", subtitle: "백령도·덕적도 공영버스", desc: "입항 시각에 맞춘 공영버스와 소형 섬 쾌적한 도보 트레킹 코스를 미리 파악하세요." },
-              { step: "05", img: "/images/island/deokjeokdo/1.jpg", icon: "⛺", title: "LNT 클린 캠핑 수칙", subtitle: "Leave No Trace", desc: "섬 쓰레기 처리는 어렵습니다. 종량제 봉투를 준비하여 내가 발생시킨 쓰레기는 육지로 전량 회수하세요." },
-            ].map((card) => (
-              <div
-                key={card.step}
-                className="lg:col-span-4 rounded-[24px] overflow-hidden relative min-h-[300px] flex flex-col justify-end p-6 group shadow-md"
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700"
-                  style={{ backgroundImage: `url('${card.img}')` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
-
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-mono font-bold text-[#86EFAC]">STEP {card.step}</span>
-                    <span className="text-2xl">{card.icon}</span>
-                  </div>
-                  <span className="text-[11px] text-white/70 block mb-1">{card.subtitle}</span>
-                  <h4 className="text-[19px] font-bold text-white mb-2 leading-snug">{card.title}</h4>
-                  <p className="text-[13px] text-white/80 leading-[160%] m-0">{card.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 🌟 [OPTION 3] 시네마틱 스텝 탭 & 인터랙티브 쇼케이스 (Airbnb / Apple Style) */}
-      {/* ========================================================================= */}
-      <section id="starter-guide-option-3" className="w-full bg-[#FAFAFA] py-[72px] md:py-[110px] border-b border-[#EDEDED]">
-        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-          {/* Header */}
-          <div className="text-center max-w-[760px] mx-auto mb-[40px] md:mb-[56px] flex flex-col items-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-bold bg-[#E6FDE5] text-[#0F3E17] border border-[#86EFAC] mb-3.5">
-              ✦ OPTION 3 · 시네마틱 스텝 탭 & 인터랙티브 쇼케이스 (Apple Style)
-            </span>
-            <h2 className="m-0 text-[clamp(28px,3.6vw,46px)] font-extrabold tracking-[-0.03em] text-[#191F28] mb-3 leading-[1.25]">
-              단계별로 알아보는 완벽한 섬 여행
-            </h2>
-            <p className="text-[15px] sm:text-[17px] text-[#6A6A6A] leading-[160%] m-0 font-normal">
-              왼쪽 스텝을 클릭하면 오른쪽에서 사진과 실전 팁이 시네마틱하게 전환됩니다.
-            </p>
-          </div>
-
-          {/* 2-Column Showcase */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[24px] md:gap-[36px] items-stretch max-w-[1240px] mx-auto">
-            {/* Left: Interactive Step Selector */}
-            <div className="lg:col-span-5 flex flex-col gap-3">
-              {starterGuideSteps.map((item, idx) => {
-                const isActive = optAStep === idx;
-                return (
-                  <button
-                    key={`opt3-${item.step}`}
-                    type="button"
-                    onClick={() => setOptAStep(idx)}
-                    className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex items-center justify-between group ${
-                      isActive
-                        ? "bg-white border-[#0F3E17] shadow-[0_8px_24px_rgba(15,62,23,0.08)] -translate-x-1"
-                        : "bg-white/60 border-[#EDEDED] hover:bg-white hover:border-[#D4D4D4]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <span className={`w-9 h-9 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-colors ${
-                        isActive ? "bg-[#0F3E17] text-white" : "bg-[#F0F0F0] text-[#6A6A6A]"
-                      }`}>
-                        {item.step}
-                      </span>
-                      <div>
-                        <span className="text-[11px] font-semibold text-[#848484] block mb-0.5">{item.subtitle}</span>
-                        <h4 className={`text-[17px] font-bold leading-tight ${isActive ? "text-[#0F3E17]" : "text-[#191F28]"}`}>
-                          {item.title}
-                        </h4>
-                      </div>
-                    </div>
-                    <span className="text-2xl opacity-80 group-hover:scale-110 transition-transform">
-                      {item.icon}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Right: Dynamic Cinematic Card with Photos */}
-            <div className="lg:col-span-7 flex">
-              <div className="w-full rounded-[28px] bg-white border border-[#EDEDED] p-7 sm:p-9 flex flex-col justify-between shadow-[0_12px_36px_rgba(0,0,0,0.05)] relative overflow-hidden">
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="px-3.5 py-1.5 rounded-full text-xs font-extrabold font-mono bg-[#0F3E17] text-white">
-                      STEP {starterGuideSteps[optAStep].step} GUIDE
-                    </span>
-                    <span className="text-4xl">{starterGuideSteps[optAStep].icon}</span>
-                  </div>
-
-                  <span className="text-xs font-bold text-[#0F3E17] uppercase tracking-wider block mb-2">
-                    {starterGuideSteps[optAStep].subtitle}
-                  </span>
-                  <h3 className="text-[24px] sm:text-[28px] font-extrabold text-[#191F28] mb-4 leading-snug">
-                    {starterGuideSteps[optAStep].title}
-                  </h3>
-                  <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[170%] mb-6">
-                    {starterGuideSteps[optAStep].desc}
-                  </p>
-                </div>
-
-                {/* Interactive Bottom Tip Box */}
-                <div className="pt-5 border-t border-[#EDEDED] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#F8F9FA] -mx-7 sm:-mx-9 -mb-7 sm:-mb-9 p-6 sm:p-7">
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#0F3E17] animate-pulse" />
-                    <span className="text-xs font-bold text-[#191F28]">한눈섬길 공식 실전 팁</span>
-                  </div>
-                  <span className="text-xs text-[#848484] font-medium">
-                    {optAStep + 1} / 5 단계 확인 중
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 🌟 [OPTION 4] 아웃도어 패스포트 & 실전 체크리스트 (Passport Checklist) */}
-      {/* ========================================================================= */}
-      <section id="starter-guide-option-4" className="w-full bg-[#F5F3EF] py-[72px] md:py-[110px] border-b border-[#E6E2D8]">
-        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-          {/* Header */}
-          <div className="text-center max-w-[760px] mx-auto mb-[40px] md:mb-[56px] flex flex-col items-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-bold bg-[#E8E3D5] text-[#524B3A] border border-[#D9D3C3] mb-3.5">
-              ✦ OPTION 4 · 아웃도어 패스포트 실전 체크보드
-            </span>
-            <h2 className="m-0 text-[clamp(28px,3.6vw,46px)] font-extrabold tracking-[-0.03em] text-[#2D2A26] mb-3 leading-[1.25]">
-              섬 여행 출발 전 패스포트 점검
-            </h2>
-            <p className="text-[15px] sm:text-[17px] text-[#6E695E] leading-[160%] m-0 font-normal">
-              직접 하나씩 눌러보며 준비 완료 도장을 찍어보세요.
-            </p>
-          </div>
-
-          {/* Passport Container */}
-          <div className="max-w-[920px] mx-auto rounded-[32px] border-2 border-[#E0DBCF] bg-[#FAF8F5] p-7 sm:p-10 shadow-[0_16px_40px_rgba(0,0,0,0.04)]">
-            {/* Stamp Progress Meter */}
-            <div className="mb-8 pb-6 border-b border-[#E6E2D8] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <span className="text-xs font-bold text-[#8C8474] uppercase tracking-wider block mb-1">
-                  ISLAND PASSPORT CHECK
-                </span>
-                <h3 className="text-xl font-extrabold text-[#2D2A26]">나의 섬 여행 준비율</h3>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-36 h-3 rounded-full bg-[#E8E3D5] overflow-hidden">
-                  <div
-                    className="h-full bg-[#0F3E17] transition-all duration-500 rounded-full"
-                    style={{ width: `${(optDChecked.length / starterGuideSteps.length) * 100}%` }}
-                  />
-                </div>
-                <span className="font-mono font-extrabold text-sm text-[#0F3E17]">
-                  {optDChecked.length}/{starterGuideSteps.length} STAMPS
-                </span>
-              </div>
-            </div>
-
-            {/* Checklist items */}
-            <div className="flex flex-col gap-3">
-              {starterGuideSteps.map((item, idx) => {
-                const isChecked = optDChecked.includes(idx);
-                return (
-                  <div
-                    key={`opt4-${item.step}`}
-                    onClick={() => toggleOptD(idx)}
-                    className={`p-5 rounded-2xl border-2 transition-all duration-200 cursor-pointer flex items-start gap-4 ${
-                      isChecked
-                        ? "bg-[#F0F7F1] border-[#86EFAC] shadow-sm"
-                        : "bg-white border-[#EDE9DE] hover:border-[#C4BCAB]"
-                    }`}
-                  >
-                    <div
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center mt-0.5 shrink-0 transition-colors ${
-                        isChecked ? "bg-[#0F3E17] text-white" : "border-2 border-[#C4BCAB] bg-white"
+              {/* Left Column: Uniform Tabs List (Horizontal swipe on mobile, vertical stack on desktop) */}
+              <div className="lg:col-span-5 flex flex-row lg:flex-col gap-2.5 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 no-scrollbar justify-between">
+                {starterGuideSteps.map((item, idx) => {
+                  const isActive = activeGuideTab === idx;
+                  return (
+                    <button
+                      key={`framer-tab-${item.step}`}
+                      type="button"
+                      onClick={() => setActiveGuideTab(idx)}
+                      onMouseEnter={() => setActiveGuideTab(idx)}
+                      className={`text-left px-3.5 sm:px-5 py-3 sm:py-4 rounded-[16px] sm:rounded-[20px] transition-all duration-200 flex items-center justify-between cursor-pointer shrink-0 min-w-[190px] sm:min-w-[220px] lg:min-w-0 lg:w-full ${
+                        isActive
+                          ? "bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-[#E2E8F0] -translate-y-0.5"
+                          : "bg-white/40 lg:bg-transparent hover:bg-white/70 border border-transparent"
                       }`}
                     >
-                      {isChecked && (
-                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2.5 mb-1.5">
-                        <span className={`text-xs font-extrabold font-mono px-2.5 py-0.5 rounded-full border ${item.accentBg} ${item.accentText} ${item.accentBorder}`}>
-                          STEP {item.step}
+                      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+                        {/* Step Number Badge */}
+                        <span
+                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center font-mono text-[11px] sm:text-xs font-bold transition-all duration-200 shrink-0 ${
+                            isActive
+                              ? "bg-[#0F3E17] text-white"
+                              : "bg-[#E2E8F0] text-[#64748B]"
+                          }`}
+                        >
+                          {item.step}
                         </span>
-                        <h4 className={`text-[17px] font-bold ${isChecked ? "text-[#0F3E17]" : "text-[#2D2A26]"}`}>
-                          {item.title}
-                        </h4>
-                        <span className="text-2xl ml-auto">{item.icon}</span>
+
+                        <div className="min-w-0">
+                          <span
+                            className={`text-[10px] sm:text-[11px] font-semibold block uppercase tracking-wider transition-colors truncate ${
+                              isActive ? "text-[#0F3E17]" : "text-[#94A3B8]"
+                            }`}
+                          >
+                            {item.tag} · {item.subtitle}
+                          </span>
+                          <h4
+                            className={`text-[14px] sm:text-[16px] lg:text-[17px] font-bold leading-snug transition-colors truncate ${
+                              isActive ? "text-[#0F3E17]" : "text-[#1E293B]"
+                            }`}
+                          >
+                            {item.title}
+                          </h4>
+                        </div>
                       </div>
-                      <p className="text-[13.5px] text-[#6E695E] leading-[160%] m-0">
-                        {item.desc}
-                      </p>
+
+                      {/* Icon */}
+                      <span className={`text-xl sm:text-2xl shrink-0 transition-transform duration-200 ml-2 ${isActive ? "scale-110" : "opacity-50"}`}>
+                        {item.icon}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right Column: Full-Bleed 3D Showcase Card with Clean Text (No Shadow) */}
+              <div className="lg:col-span-7 flex">
+                <div className="w-full rounded-[24px] sm:rounded-[28px] overflow-hidden relative border border-[#E2E8F0] min-h-[420px] sm:min-h-[500px] flex flex-col justify-between p-5 sm:p-7 bg-[#EDE3D4] group">
+
+                  {/* 3D Image (100% Full-Bleed Coverage with Zero Top Cutoff) */}
+                  <div
+                    key={`bg-img-${activeGuideTab}`}
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out transform group-hover:scale-105"
+                    style={{ backgroundImage: `url('${starterGuideSteps[activeGuideTab].image}')` }}
+                  />
+
+                  {/* Matching Image Background Color Gradient - Stops right at the Title */}
+                  <div className="absolute inset-x-0 bottom-0 h-[42%] sm:h-[40%] bg-gradient-to-t from-[#EDE3D4] via-[#EDE3D4]/95 to-transparent pointer-events-none" />
+
+                  {/* Top Green Rounded Pill Badge (Flat, No Shadow) */}
+                  <div className="relative z-10 flex items-center justify-start pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[12px] sm:text-[14px] font-bold bg-[#E6FDE5] text-[#0F3E17] border border-[#55E590]">
+                      ✓ {starterGuideSteps[activeGuideTab].badge}
+                    </span>
+                  </div>
+
+                  {/* Bottom Text & Tip Area (No Box Background & No Text Shadow) */}
+                  <div className="relative z-10">
+                    <h3 className="text-[18px] sm:text-[23px] font-extrabold text-[#191F28] tracking-tight leading-snug mb-1.5 sm:mb-2">
+                      {starterGuideSteps[activeGuideTab].title}
+                    </h3>
+                    <p className="text-[13px] sm:text-[14.5px] text-[#334155] leading-[160%] mb-3 max-w-[560px] font-medium">
+                      {starterGuideSteps[activeGuideTab].desc}
+                    </p>
+                    <div className="inline-flex items-center gap-2 text-xs sm:text-[13px] font-bold text-[#0F3E17]">
+                      <span>{starterGuideSteps[activeGuideTab].tip}</span>
                     </div>
                   </div>
-                );
-              })}
+
+                </div>
+              </div>
+
             </div>
           </div>
+
         </div>
       </section>
 

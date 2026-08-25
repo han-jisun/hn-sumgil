@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import islandsData from "@/app/data/islands.json";
@@ -287,8 +287,8 @@ const matchRules: Record<string, (addr: string) => boolean> = {
   "대연평": (addr) => addr.includes("연평") && !addr.includes("소연평"),
   "대이작도": (addr) => addr.includes("이작") && !addr.includes("소이작"),
   "대청도": (addr) => addr.includes("대청") && !addr.includes("소청"),
-  "덕적도": (addr) => (addr.includes("덕적") || addr.includes("진리")) && 
-                      !["굴업", "문갑", "백아", "울도", "지도", "소야", "북도"].some(x => addr.includes(x)),
+  "덕적도": (addr) => (addr.includes("덕적") || addr.includes("진리")) &&
+    !["굴업", "문갑", "백아", "울도", "지도", "소야", "북도"].some(x => addr.includes(x)),
   "문갑도": (addr) => addr.includes("문갑"),
   "백령도": (addr) => addr.includes("백령"),
   "백아도": (addr) => addr.includes("백아"),
@@ -504,6 +504,17 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
   const [modalPhotos, setModalPhotos] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [activeTideIndex, setActiveTideIndex] = useState(0);
+  const tideScrollRef = useRef<HTMLDivElement>(null);
+
+  const handleTideScroll = () => {
+    if (tideScrollRef.current) {
+      const { scrollLeft, clientWidth } = tideScrollRef.current;
+      const cardWidth = clientWidth * 0.86;
+      const index = Math.round(scrollLeft / (cardWidth + 16));
+      setActiveTideIndex(Math.min(Math.max(0, index), Math.max(0, tides.length - 1)));
+    }
+  };
 
   const [spotOverviews, setSpotOverviews] = useState<Record<string, { overview: string; homepage: string; tel: string; loading: boolean }>>({});
 
@@ -532,7 +543,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
     const fetchAllData = async () => {
       try {
-        const [restResult, lodgeResult, campResult, spotResult, tideResult, weatherResult, blogResult, youtubeResult] = 
+        const [restResult, lodgeResult, campResult, spotResult, tideResult, weatherResult, blogResult, youtubeResult] =
           await Promise.allSettled([
             fetch("/api/restaurant"),
             fetch("/api/lodge"),
@@ -547,7 +558,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         if (restResult.status === "fulfilled" && restResult.value.ok) {
           const data = await restResult.value.json();
           if (data.success && data.items) {
-            const filtered = data.items.filter((item: any) => 
+            const filtered = data.items.filter((item: any) =>
               rule ? rule(item.addr) : item.addr.includes(islandName)
             );
             setRestaurants(filtered);
@@ -557,7 +568,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         if (lodgeResult.status === "fulfilled" && lodgeResult.value.ok) {
           const data = await lodgeResult.value.json();
           if (data.success && data.items) {
-            const filtered = data.items.filter((item: any) => 
+            const filtered = data.items.filter((item: any) =>
               rule ? rule(item.addr) : item.addr.includes(islandName)
             );
             setLodges(filtered);
@@ -575,7 +586,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
         if (spotResult.status === "fulfilled" && spotResult.value.ok) {
           const data = await spotResult.value.json();
           if (data.success && data.items) {
-            fetchedSpots = data.items.filter((item: any) => 
+            fetchedSpots = data.items.filter((item: any) =>
               rule ? rule(item.addr) : item.addr.includes(islandName)
             );
           }
@@ -708,7 +719,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
   return (
     <div id="island-detail-container" className="pt-8 sm:pt-12 md:pt-16 pb-28 md:pb-36 max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 text-[#282828]">
-      
+
       {/* 1. Visual Area: Photo Gallery at the Very Top (Full Width) */}
       {photos.length > 0 ? (
         <section id="island-hero-gallery" className="mb-[40px]">
@@ -741,48 +752,47 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             {photos.length >= 4 ? (
               <div id="island-gallery-grid" className="hidden md:grid md:grid-cols-4 md:grid-rows-2 gap-2.5 h-[420px] rounded-2xl overflow-hidden border border-[#D4D4D4]">
                 {/* Main Hero Photo (Independent Hover Zoom) */}
-                <div 
+                <div
                   onClick={() => openGalleryModal(photos, 0)}
                   className="md:col-span-2 md:row-span-2 relative h-full w-full bg-[#EDEDED] overflow-hidden cursor-pointer group/item"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={photos[0]} 
-                    alt={`${islandName} 대표 풍경`} 
-                    className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500" 
+                  <img
+                    src={photos[0]}
+                    alt={`${islandName} 대표 풍경`}
+                    className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
                 </div>
 
                 {/* Sub Photos (Each has Independent Hover Zoom) */}
                 {photos.slice(1, 4).map((url, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     onClick={() => openGalleryModal(photos, index + 1)}
-                    className={`relative w-full h-full bg-[#EDEDED] overflow-hidden cursor-pointer group/item ${
-                      index === 0 ? "md:col-span-2 md:row-span-1" : "md:col-span-1 md:row-span-1"
-                    }`}
+                    className={`relative w-full h-full bg-[#EDEDED] overflow-hidden cursor-pointer group/item ${index === 0 ? "md:col-span-2 md:row-span-1" : "md:col-span-1 md:row-span-1"
+                      }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img 
-                      src={url} 
-                      alt={`${islandName} 사진 ${index + 2}`} 
-                      className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500" 
+                    <img
+                      src={url}
+                      alt={`${islandName} 사진 ${index + 2}`}
+                      className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/5 group-hover/item:bg-black/0 transition-colors pointer-events-none" />
                   </div>
                 ))}
               </div>
             ) : (
-              <div 
+              <div
                 onClick={() => openGalleryModal(photos, 0)}
                 className="hidden md:block relative w-full h-[380px] rounded-2xl overflow-hidden border border-[#D4D4D4] bg-[#EDEDED] cursor-pointer group/item"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={photos[0]} 
-                  alt={`${islandName} 대표 사진`} 
-                  className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500" 
+                <img
+                  src={photos[0]}
+                  alt={`${islandName} 대표 사진`}
+                  className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/5 group-hover/item:bg-black/0 transition-colors pointer-events-none" />
               </div>
@@ -796,11 +806,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               title="전체 섬 목록으로 이동"
               aria-label="전체 섬 목록으로 이동"
             >
-              <svg 
-                className="w-5 h-5 text-white group-hover/back:-translate-x-0.5 transition-transform" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
+              <svg
+                className="w-5 h-5 text-white group-hover/back:-translate-x-0.5 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
                 strokeWidth="2.5"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -808,7 +818,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             </Link>
 
             {/* Gallery Expand Button (Bottom-Right, Fixed 32px Area, No Size Jitter) */}
-            <button 
+            <button
               type="button"
               aria-label="사진 전체화면 확대"
               onClick={() => openGalleryModal(photos, 0)}
@@ -838,7 +848,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             const coords = islandCoordinates[islandName] || { lat: 37.2289, lng: 126.1558 };
             const bbox = `${coords.lng - 0.04}%2C${coords.lat - 0.025}%2C${coords.lng + 0.04}%2C${coords.lat + 0.025}`;
             const osmUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${coords.lat}%2C${coords.lng}`;
-            
+
             return (
               <div className="flex flex-col gap-3">
                 <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] rounded-2xl overflow-hidden border border-[#D4D4D4] bg-[#F8F9FA] shadow-2xs">
@@ -860,11 +870,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                     title="전체 섬 목록으로 이동"
                     aria-label="전체 섬 목록으로 이동"
                   >
-                    <svg 
-                      className="w-5 h-5 text-white group-hover/back:-translate-x-0.5 transition-transform" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24" 
+                    <svg
+                      className="w-5 h-5 text-white group-hover/back:-translate-x-0.5 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                       strokeWidth="2.5"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -888,14 +898,14 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
       {/* 2. Main Content Flow (Full Width Vertical Stack) */}
       <div className="flex flex-col gap-[80px]">
-        
+
         {/* Section 01: Island Header & Overview Story + Stayfolio-Style Booking Card (2-Column Grid) */}
         <section id="section-story">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 lg:gap-10 items-start">
-            
+
             {/* Left Column: [Island Title & Location] + [Story] + [Spec Table] (md:col-span-7) */}
             <div className="md:col-span-7 flex flex-col gap-6 pt-1">
-              
+
               {/* 1) Island Title & Location */}
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
@@ -920,7 +930,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
               {/* 3) Island Comprehensive Specification (Stayfolio Clean Horizontal Row Style - 14px) */}
               <div className="border-t border-b border-[#EDEDED] divide-y divide-[#EDEDED] my-2 text-sm">
-                
+
                 {/* Row 1: 추천 일정 (Static) */}
                 <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
                   <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
@@ -938,7 +948,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                     <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
                       대표 비경
                     </span>
-                    <span 
+                    <span
                       onClick={() => scrollToSection("section-spots")}
                       className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
                       title="클릭하여 대표 비경 목록으로 이동"
@@ -993,7 +1003,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                     <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
                       주변 편의
                     </span>
-                    <span 
+                    <span
                       onClick={() => scrollToSection("section-places")}
                       className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
                       title="클릭하여 식당·숙소·캠핑 목록으로 이동"
@@ -1022,7 +1032,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
             {/* Right Column: Stayfolio-Style Clean & Intuitive Ferry Booking Card (md:col-span-5 md:sticky md:top-24 self-start) */}
             <div className="md:col-span-5 md:sticky md:top-24 self-start p-5 sm:p-6 rounded-[16px] border border-[#D4D4D4] bg-white shadow-sm flex flex-col gap-4">
-              
+
               {/* 1. Pricing Header */}
               <div className="flex flex-col gap-1 pb-3.5 border-b border-[#EDEDED]">
                 <div className="flex justify-between items-center text-xs text-[#848484]">
@@ -1045,8 +1055,8 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                   {sortedFerries.map((ferry, idx) => {
                     const routeInfo = getFerryRouteDetail(islandName, ferry, idx, sortedFerries.length);
                     return (
-                      <div 
-                        key={idx} 
+                      <div
+                        key={idx}
                         className="flex flex-col gap-2"
                       >
                         {/* 1) Grey Rounded Box: Port Name + Fare */}
@@ -1084,11 +1094,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               </div>
 
               {/* 3. CTA Button (Modern Travel Platform High-Conversion Style) */}
-              <a 
+              <a
                 id="story-ferry-booking-btn"
-                href="https://island.theksa.co.kr/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+                href="https://island.theksa.co.kr/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full py-4 px-6 rounded-[12px] bg-[#0F3E17] hover:bg-[#0A2D10] text-white font-bold text-[15px] sm:text-base text-center transition-all shadow-[0_4px_14px_rgba(15,62,23,0.25)] hover:shadow-[0_6px_20px_rgba(15,62,23,0.35)] flex items-center justify-between group cursor-pointer mt-2"
               >
                 <div className="flex items-center gap-2.5">
@@ -1123,7 +1133,11 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           {tides.length > 0 ? (
             <div className="flex flex-col gap-4">
               {/* 3 Separate Day Cards Grid (Mobile Horizontal Swipe Slider + Desktop 3-Col Grid) */}
-              <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-none pb-3 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0">
+              <div
+                ref={tideScrollRef}
+                onScroll={handleTideScroll}
+                className="flex md:grid md:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-none pb-3 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0"
+              >
                 {tides.map((tide, index) => {
                   const heights = tide.tideTime.map((e: any) => parseInt(e.height.replace(/[^0-9]/g, "")) || 0);
                   const minH = Math.min(...heights);
@@ -1141,8 +1155,8 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                   const dayWeather = weather[index];
 
                   return (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className="w-[86vw] sm:w-[360px] md:w-auto shrink-0 md:shrink snap-center rounded-[14px] border border-[#EDEDED] bg-white p-5 sm:p-6 flex flex-col justify-between gap-4 shadow-sm"
                     >
                       {/* Card Header: Weather Condition Block */}
@@ -1164,7 +1178,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                             <span className="text-4xl sm:text-5xl leading-none shrink-0 drop-shadow-2xs select-none">
                               {dayWeather?.icon || "🌤️"}
                             </span>
-                            
+
                             <div className="flex flex-col gap-1">
                               {/* Temp + Weather Status Inline */}
                               <div className="flex items-baseline gap-2">
@@ -1214,56 +1228,79 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                         </div>
 
                         <div className="flex flex-col">
-                        {tide.tideTime.map((event: any, idx: number) => {
-                          const isNegative = event.height.startsWith('-');
-                          const absHeight = event.height.replace(/^[+-]/, '');
-                          return (
-                            <div key={idx} className="flex justify-between items-center py-2.5 border-b border-[#F0F0F0] last:border-0">
-                              {/* Column 1: Type (Icon and Text unified color) */}
-                              <div className={`w-[85px] shrink-0 flex items-center gap-1.5 text-base font-medium ${event.type === '고조' ? 'text-[#E5484D]' : 'text-[#0284C7]'}`}>
-                                {event.type === '고조' ? (
-                                  <svg className="w-[18px] h-[18px] currentColor" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
-                                  </svg>
-                                ) : (
-                                  <svg className="w-[18px] h-[18px] currentColor" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/>
-                                  </svg>
-                                )}
-                                <span>{event.type === '고조' ? '만조' : '간조'}</span>
-                              </div>
-                              
-                              {/* Column 2: Time */}
-                              <div className="flex-1 flex items-center">
-                                <span className="font-bold text-[16px] text-[#282828]">
-                                  {event.time}
-                                </span>
-                              </div>
-                              
-                              {/* Column 3: Height (Icon sign + Number + Unit) */}
-                              <div className="text-right flex items-center justify-end gap-[1px] text-[#848484]">
-                                {isNegative ? (
-                                  <svg className="w-[13px] h-[13px] currentColor opacity-80" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19 13H5v-2h14v2z" />
-                                  </svg>
-                                ) : (
-                                  <svg className="w-[13px] h-[13px] currentColor opacity-80" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                  </svg>
-                                )}
-                                <div className="flex items-baseline gap-[1px] ml-[1px]">
-                                  <span className="font-medium text-base">{absHeight}</span>
-                                  <span className="text-[13px] font-normal">cm</span>
+                          {tide.tideTime.map((event: any, idx: number) => {
+                            const isNegative = event.height.startsWith('-');
+                            const absHeight = event.height.replace(/^[+-]/, '');
+                            return (
+                              <div key={idx} className="flex justify-between items-center py-2.5 border-b border-[#F0F0F0] last:border-0">
+                                {/* Column 1: Type (Icon and Text unified color) */}
+                                <div className={`w-[85px] shrink-0 flex items-center gap-1.5 text-base font-medium ${event.type === '고조' ? 'text-[#E5484D]' : 'text-[#0284C7]'}`}>
+                                  {event.type === '고조' ? (
+                                    <svg className="w-[18px] h-[18px] currentColor" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z" />
+                                    </svg>
+                                  ) : (
+                                    <svg className="w-[18px] h-[18px] currentColor" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z" />
+                                    </svg>
+                                  )}
+                                  <span>{event.type === '고조' ? '만조' : '간조'}</span>
+                                </div>
+
+                                {/* Column 2: Time */}
+                                <div className="flex-1 flex items-center">
+                                  <span className="font-bold text-[16px] text-[#282828]">
+                                    {event.time}
+                                  </span>
+                                </div>
+
+                                {/* Column 3: Height (Icon sign + Number + Unit) */}
+                                <div className="text-right flex items-center justify-end gap-[1px] text-[#848484]">
+                                  {isNegative ? (
+                                    <svg className="w-[13px] h-[13px] currentColor opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M19 13H5v-2h14v2z" />
+                                    </svg>
+                                  ) : (
+                                    <svg className="w-[13px] h-[13px] currentColor opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                    </svg>
+                                  )}
+                                  <div className="flex items-baseline gap-[1px] ml-[1px]">
+                                    <span className="font-medium text-base">{absHeight}</span>
+                                    <span className="text-[13px] font-normal">cm</span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+
+              {/* Mobile 3-Circle Page Indicator (원 세 개에서 몇 번째인지 색상으로 표시) */}
+              <div className="flex md:hidden items-center justify-center gap-2 -mt-1 mb-2">
+                {tides.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    type="button"
+                    onClick={() => {
+                      if (tideScrollRef.current) {
+                        const cards = tideScrollRef.current.children;
+                        const targetCard = cards[dotIdx] as HTMLElement;
+                        targetCard?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                        setActiveTideIndex(dotIdx);
+                      }
+                    }}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-200 cursor-pointer ${activeTideIndex === dotIdx
+                        ? "bg-[#0F3E17] scale-125"
+                        : "bg-[#D4D4D4] hover:bg-[#A0A0A0]"
+                      }`}
+                    aria-label={`물때 ${dotIdx + 1}일차 카드로 이동`}
+                  />
+                ))}
               </div>
 
               <div className="flex flex-col gap-3">
@@ -1301,7 +1338,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                 {islandName}의 숨겨진 보물 같은 명소와 해안 산책로
               </p>
             </div>
-            
+
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {spots.map((spot: any, idx: number) => {
                 const rawOverview = spot.overview || spotOverviews[spot.contentId]?.overview || "";
@@ -1311,7 +1348,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                 return (
                   <div key={idx} className="flex flex-col group cursor-pointer">
                     {/* 1. Clean Thumbnail Container (No Icon / No Badge) */}
-                    <div 
+                    <div
                       onClick={() => {
                         if (hasImage) {
                           const spotPhotos = spots.filter((s: any) => s.firstImage).map((s: any) => s.firstImage);
@@ -1324,10 +1361,10 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                       {hasImage ? (
                         <>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img 
-                            src={spot.firstImage} 
-                            alt={spot.title} 
-                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" 
+                          <img
+                            src={spot.firstImage}
+                            alt={spot.title}
+                            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                           />
                           <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
                         </>
@@ -1611,71 +1648,71 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {videos.slice(0, 3).map((video: any, vIdx: number) => (
+                <div
+                  key={vIdx}
+                  id={`island-youtube-card-${vIdx}`}
+                  onClick={() => setActiveVideo(video.embedUrl || video.url)}
+                  className="flex flex-col gap-3.5 group cursor-pointer"
+                >
+                  {/* Video Thumbnail Box (Identical to Main Page) */}
+                  <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-[#EDEDED] shadow-sm group-hover:shadow-md transition-shadow">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={video.img || video.thumbnail}
+                      alt={video.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Duration badge if available */}
+                    {video.dur && (
+                      <span className="absolute right-3.5 bottom-3.5 inline-flex items-center h-6 px-2 rounded bg-black/75 text-white text-xs font-medium backdrop-blur-xs">
+                        {video.dur}
+                      </span>
+                    )}
+
+                    {/* Punched Hole White Circular Play Button (Main Page SVG) */}
                     <div
-                      key={vIdx}
-                      id={`island-youtube-card-${vIdx}`}
-                      onClick={() => setActiveVideo(video.embedUrl || video.url)}
-                      className="flex flex-col gap-3.5 group cursor-pointer"
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300 pointer-events-none"
                     >
-                      {/* Video Thumbnail Box (Identical to Main Page) */}
-                      <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-[#EDEDED] shadow-sm group-hover:shadow-md transition-shadow">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={video.img || video.thumbnail}
-                          alt={video.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      <svg
+                        className="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-[0_4px_16px_rgba(0,0,0,0.25)]"
+                        viewBox="0 0 56 56"
+                      >
+                        <mask id={`island-play-mask-${vIdx}`}>
+                          <rect width="56" height="56" rx="28" fill="white" />
+                          <polygon points="23,17 39,28 23,39" fill="black" />
+                        </mask>
+                        <rect
+                          width="56"
+                          height="56"
+                          rx="28"
+                          fill="rgba(255, 255, 255, 0.95)"
+                          mask={`url(#island-play-mask-${vIdx})`}
                         />
-
-                        {/* Duration badge if available */}
-                        {video.dur && (
-                          <span className="absolute right-3.5 bottom-3.5 inline-flex items-center h-6 px-2 rounded bg-black/75 text-white text-xs font-medium backdrop-blur-xs">
-                            {video.dur}
-                          </span>
-                        )}
-
-                        {/* Punched Hole White Circular Play Button (Main Page SVG) */}
-                        <div
-                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center group-hover:scale-110 transition-transform duration-300 pointer-events-none"
-                        >
-                          <svg
-                            className="w-12 h-12 sm:w-14 sm:h-14 drop-shadow-[0_4px_16px_rgba(0,0,0,0.25)]"
-                            viewBox="0 0 56 56"
-                          >
-                            <mask id={`island-play-mask-${vIdx}`}>
-                              <rect width="56" height="56" rx="28" fill="white" />
-                              <polygon points="23,17 39,28 23,39" fill="black" />
-                            </mask>
-                            <rect
-                              width="56"
-                              height="56"
-                              rx="28"
-                              fill="rgba(255, 255, 255, 0.95)"
-                              mask={`url(#island-play-mask-${vIdx})`}
-                            />
-                          </svg>
-                        </div>
-                      </div>
-
-                      {/* Text Info Below Thumbnail */}
-                      <div className="flex flex-col gap-1.5">
-                        <h4 className="text-base sm:text-lg font-bold tracking-tight text-[#282828] leading-snug group-hover:text-[#0F3E17] transition-colors line-clamp-2 m-0">
-                          {cleanText(video.title)}
-                        </h4>
-                        <span className="text-xs sm:text-sm text-[#6A6A6A] leading-relaxed">
-                          {video.channelName || video.meta || `${islandName} 여행 가이드`}
-                        </span>
-                      </div>
+                      </svg>
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Text Info Below Thumbnail */}
+                  <div className="flex flex-col gap-1.5">
+                    <h4 className="text-base sm:text-lg font-bold tracking-tight text-[#282828] leading-snug group-hover:text-[#0F3E17] transition-colors line-clamp-2 m-0">
+                      {cleanText(video.title)}
+                    </h4>
+                    <span className="text-xs sm:text-sm text-[#6A6A6A] leading-relaxed">
+                      {video.channelName || video.meta || `${islandName} 여행 가이드`}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         )}
 
         {/* Bottom Back to List Button (Clean & Minimal Style) */}
         <div className="pt-4 sm:pt-6 pb-2 flex justify-center">
-          <Link 
+          <Link
             id="island-bottom-back-link"
-            href="/explore" 
+            href="/explore"
             className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-[#F8F9FA] border border-[#D4D4D4] hover:border-[#0F3E17] text-[#1E1E1E] hover:text-[#0F3E17] transition-all duration-200 font-bold text-sm shadow-2xs group cursor-pointer"
           >
             <svg className="w-4 h-4 text-[#717171] group-hover:text-[#0F3E17] group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
@@ -1698,10 +1735,10 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             {hasMultipleFerries && <span className="text-xs text-[#717171]">~</span>}
           </div>
         </div>
-        <a 
-          href="https://island.theksa.co.kr/" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href="https://island.theksa.co.kr/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="py-2.5 px-5 rounded-[10px] bg-[#0F3E17] hover:bg-[#093712] active:scale-95 text-white font-bold text-xs shadow-md transition-all flex items-center gap-1.5"
         >
           <span>실시간 예매</span>
@@ -1788,9 +1825,9 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               ›
             </button>
           )}
-          
+
           {/* Main Image Container */}
-          <div 
+          <div
             className="relative max-w-full max-h-full flex flex-col items-center justify-center gap-3"
             onClick={(e) => e.stopPropagation()}
           >

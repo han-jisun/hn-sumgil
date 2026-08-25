@@ -129,6 +129,9 @@ function ExploreContent() {
   const [sortBy, setSortBy] = useState<"default" | "time" | "fare" | "lodge" | "restaurant" | "clicks">("default");
   const [clicks, setClicks] = useState<Record<string, number>>({});
   
+  const [activeDropdown, setActiveDropdown] = useState<"time" | "purpose" | "fare" | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  
   const [restaurants, setRestaurants] = useState<any[]>([]);
   const [loadingRestaurants, setLoadingRestaurants] = useState(true);
   const [lodges, setLodges] = useState<any[]>([]);
@@ -136,6 +139,15 @@ function ExploreContent() {
   const [campsites, setCampsites] = useState<Record<string, any[]>>({});
 
   const islands: IslandData[] = islandsData as IslandData[];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchClicks = async () => {
@@ -452,7 +464,7 @@ function ExploreContent() {
         </div>
       </section>
 
-      {/* Filters Navigation Bar (3-row quick filter) */}
+      {/* Filters Navigation Bar (1-row dropdown filter) */}
       {(() => {
         const totalCount = islands.length;
         const time1to2hCount = islands.filter(i => {
@@ -479,245 +491,373 @@ function ExploreContent() {
         }).length;
         const fareOver100kCount = islands.filter(i => parseFareToNumber(i.ferries[0]?.fare || "") > 100000).length;
 
+        const timeOptions = [
+          { value: "all", label: "전체", chipLabel: "⏱️ 이동시간" },
+          { value: "1to2h", label: "⏱️ 1시간~2시간 미만", chipLabel: "⏱️ 1~2시간 미만" },
+          { value: "2to4h", label: "🚢 2시간~4시간 미만", chipLabel: "🚢 2~4시간 미만" },
+          { value: "over4h", label: "⚓ 4시간 이상", chipLabel: "⚓ 4시간 이상" }
+        ] as const;
+
+        const purposeOptions = [
+          { value: "all", label: "전체", chipLabel: "🎒 여행목적" },
+          { value: "backpacking", label: "🎒 백패킹 가능", chipLabel: "🎒 백패킹 가능" },
+          { value: "trekking", label: "🪵 트레킹 코스", chipLabel: "🪵 트레킹 코스" },
+          { value: "camping", label: "🏕️ 야영장/캠핑", chipLabel: "🏕️ 야영장/캠핑" }
+        ] as const;
+
+        const fareOptions = [
+          { value: "all", label: "전체", chipLabel: "💵 왕복비용" },
+          { value: "under50k", label: "💵 5만원 이하", chipLabel: "💵 5만원 이하" },
+          { value: "50kto100k", label: "💳 5만원~10만원", chipLabel: "💳 5만원~10만원" },
+          { value: "over100k", label: "💰 10만원 이상", chipLabel: "💰 10만원 이상" }
+        ] as const;
+
+        const getTimeCount = (val: string) => {
+          if (val === "all") return totalCount;
+          if (val === "1to2h") return time1to2hCount;
+          if (val === "2to4h") return time2to4hCount;
+          if (val === "over4h") return timeOver4hCount;
+          return 0;
+        };
+
+        const getPurposeCount = (val: string) => {
+          if (val === "all") return totalCount;
+          if (val === "backpacking") return backpackingCount;
+          if (val === "trekking") return trekkingCount;
+          if (val === "camping") return campingCount;
+          return 0;
+        };
+
+        const getFareCount = (val: string) => {
+          if (val === "all") return totalCount;
+          if (val === "under50k") return fareUnder50kCount;
+          if (val === "50kto100k") return fare50kto100kCount;
+          if (val === "over100k") return fareOver100kCount;
+          return 0;
+        };
+
+        const isAllActive = timeFilter === "all" && purposeFilter === "all" && fareFilter === "all";
+
+        const handleResetAll = () => {
+          setTimeFilter("all");
+          setPurposeFilter("all");
+          setFareFilter("all");
+          updateParams("all", "all", "all", sortBy);
+          setActiveDropdown(null);
+        };
+
         return (
-          <div id="explore-controls-container" className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-[#EDEDED] w-full flex flex-col gap-3.5 sm:gap-4.5">
-            {/* Row 1: 이동시간 */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full">
-              <span className="text-sm sm:text-base font-bold text-[#6A6A6A] min-w-[80px] shrink-0 sm:text-left">
-                이동시간
-              </span>
-              <div className="w-full flex justify-start overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center">
-                  <li className="shrink-0">
-                    <button
-                      id="filter-time-all"
-                      type="button"
-                      onClick={() => handleTimeChange("all")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        timeFilter === "all" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">전체</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "all" ? "text-white/80" : "text-[#848484]"}`}>
-                        {totalCount}
+          <>
+            {/* Click Outside Backdrop for Desktop */}
+            {activeDropdown && !isMobile && (
+              <div 
+                id="dropdown-backdrop"
+                className="fixed inset-0 z-20 cursor-default" 
+                onClick={() => setActiveDropdown(null)} 
+              />
+            )}
+
+            <div id="explore-controls-container" className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-[#EDEDED] w-full flex items-center justify-between gap-3 relative z-30">
+              <div className="flex items-center gap-2 overflow-x-auto sm:overflow-visible no-scrollbar scroll-smooth py-1 -mx-4 px-4 sm:mx-0 sm:px-0 whitespace-nowrap flex-nowrap w-full">
+                {/* 1. [전체 16] Chip button */}
+                <button
+                  id="filter-all-btn"
+                  type="button"
+                  onClick={handleResetAll}
+                  className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                    isAllActive 
+                      ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
+                      : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                  }`}
+                >
+                  <span className="leading-none">전체</span>
+                  <span className={`text-xs sm:text-sm shrink-0 leading-none ${isAllActive ? "text-white/80" : "text-[#848484]"}`}>
+                    {totalCount}
+                  </span>
+                </button>
+
+                {/* 2. [⏱️ 이동시간 ▾] Dropdown Chip */}
+                <div className="relative shrink-0">
+                  <button
+                    id="filter-time-dropdown-btn"
+                    type="button"
+                    onClick={() => setActiveDropdown(prev => prev === "time" ? null : "time")}
+                    className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                      timeFilter !== "all" 
+                        ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
+                        : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                    }`}
+                  >
+                    <span>{timeOptions.find(o => o.value === timeFilter)?.chipLabel}</span>
+                    {timeFilter === "all" ? (
+                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    ) : (
+                      <span
+                        className="inline-flex items-center justify-center ml-0.5 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 text-white transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTimeChange("all");
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-time-1to2h"
-                      type="button"
-                      onClick={() => handleTimeChange("1to2h")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        timeFilter === "1to2h" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">⏱️ 1시간~2시간 미만</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "1to2h" ? "text-white/80" : "text-[#848484]"}`}>
-                        {time1to2hCount}
+                    )}
+                  </button>
+
+                  {/* Desktop Dropdown for Time */}
+                  {activeDropdown === "time" && !isMobile && (
+                    <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-xl shadow-lg py-1.5 min-w-[220px] flex flex-col gap-0.5">
+                      {timeOptions.map(option => {
+                        const isSelected = option.value === timeFilter;
+                        return (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => {
+                              handleTimeChange(option.value);
+                              setActiveDropdown(null);
+                            }}
+                            className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex justify-between items-center ${
+                              isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
+                            }`}
+                          >
+                            <span>{option.label}</span>
+                            <span className={`text-xs ${isSelected ? "text-[#0F3E17]" : "text-[#848484]"}`}>
+                              {getTimeCount(option.value)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. [🎒 여행목적 ▾] Dropdown Chip */}
+                <div className="relative shrink-0">
+                  <button
+                    id="filter-purpose-dropdown-btn"
+                    type="button"
+                    onClick={() => setActiveDropdown(prev => prev === "purpose" ? null : "purpose")}
+                    className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                      purposeFilter !== "all" 
+                        ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
+                        : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                    }`}
+                  >
+                    <span>{purposeOptions.find(o => o.value === purposeFilter)?.chipLabel}</span>
+                    {purposeFilter === "all" ? (
+                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    ) : (
+                      <span
+                        className="inline-flex items-center justify-center ml-0.5 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 text-white transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePurposeChange("all");
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-time-2to4h"
-                      type="button"
-                      onClick={() => handleTimeChange("2to4h")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        timeFilter === "2to4h" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">🚢 2시간~4시간 미만</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "2to4h" ? "text-white/80" : "text-[#848484]"}`}>
-                        {time2to4hCount}
+                    )}
+                  </button>
+
+                  {/* Desktop Dropdown for Purpose */}
+                  {activeDropdown === "purpose" && !isMobile && (
+                    <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-xl shadow-lg py-1.5 min-w-[220px] flex flex-col gap-0.5">
+                      {purposeOptions.map(option => {
+                        const isSelected = option.value === purposeFilter;
+                        return (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => {
+                              handlePurposeChange(option.value);
+                              setActiveDropdown(null);
+                            }}
+                            className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex justify-between items-center ${
+                              isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
+                            }`}
+                          >
+                            <span>{option.label}</span>
+                            <span className={`text-xs ${isSelected ? "text-[#0F3E17]" : "text-[#848484]"}`}>
+                              {getPurposeCount(option.value)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* 4. [💵 왕복비용 ▾] Dropdown Chip */}
+                <div className="relative shrink-0">
+                  <button
+                    id="filter-fare-dropdown-btn"
+                    type="button"
+                    onClick={() => setActiveDropdown(prev => prev === "fare" ? null : "fare")}
+                    className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                      fareFilter !== "all" 
+                        ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
+                        : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                    }`}
+                  >
+                    <span>{fareOptions.find(o => o.value === fareFilter)?.chipLabel}</span>
+                    {fareFilter === "all" ? (
+                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    ) : (
+                      <span
+                        className="inline-flex items-center justify-center ml-0.5 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 text-white transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFareChange("all");
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-time-over4h"
-                      type="button"
-                      onClick={() => handleTimeChange("over4h")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        timeFilter === "over4h" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">⚓ 4시간 이상</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${timeFilter === "over4h" ? "text-white/80" : "text-[#848484]"}`}>
-                        {timeOver4hCount}
-                      </span>
-                    </button>
-                  </li>
-                </ul>
+                    )}
+                  </button>
+
+                  {/* Desktop Dropdown for Fare */}
+                  {activeDropdown === "fare" && !isMobile && (
+                    <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-xl shadow-lg py-1.5 min-w-[220px] flex flex-col gap-0.5">
+                      {fareOptions.map(option => {
+                        const isSelected = option.value === fareFilter;
+                        return (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => {
+                              handleFareChange(option.value);
+                              setActiveDropdown(null);
+                            }}
+                            className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex justify-between items-center ${
+                              isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
+                            }`}
+                          >
+                            <span>{option.label}</span>
+                            <span className={`text-xs ${isSelected ? "text-[#0F3E17]" : "text-[#848484]"}`}>
+                              {getFareCount(option.value)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* 5. [초기화 ↺] Text Button (Desktop will place it at the end, flex pushes it to right) */}
+                {!isAllActive && (
+                  <button
+                    id="filter-reset-all-btn"
+                    type="button"
+                    onClick={handleResetAll}
+                    className="flex items-center gap-1 text-sm font-semibold text-[#848484] hover:text-[#282828] transition-colors shrink-0 cursor-pointer ml-auto pl-2 h-9 sm:h-11"
+                  >
+                    <span>초기화</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
 
-            {/* Row 2: 여행목적 */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full">
-              <span className="text-sm sm:text-base font-bold text-[#6A6A6A] min-w-[80px] shrink-0 sm:text-left">
-                여행목적
-              </span>
-              <div className="w-full flex justify-start overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center">
-                  <li className="shrink-0">
-                    <button
-                      id="filter-purpose-all"
-                      type="button"
-                      onClick={() => handlePurposeChange("all")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        purposeFilter === "all" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
+            {/* Mobile Bottom Sheets (Rendered at top-level body area) */}
+            {isMobile && activeDropdown && (
+              <>
+                {/* Backdrop overlay */}
+                <div 
+                  id="mobile-bottomsheet-backdrop"
+                  className="fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
+                  onClick={() => setActiveDropdown(null)}
+                />
+                
+                {/* Bottom Sheet Panel */}
+                <div 
+                  id="mobile-bottomsheet-panel"
+                  className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 px-5 pt-4 pb-8 shadow-2xl flex flex-col gap-4 max-h-[85vh] overflow-y-auto transform transition-transform duration-300 translate-y-0"
+                >
+                  {/* Drag Handle Indicator */}
+                  <div className="w-12 h-1.5 bg-[#E8E8E8] rounded-full mx-auto mb-2" />
+                  
+                  {/* Header Title & Close button */}
+                  <div className="flex justify-between items-center pb-3 border-b border-[#EDEDED]">
+                    <span className="font-bold text-lg text-[#282828]">
+                      {activeDropdown === "time" && "⏱️ 이동시간 선택"}
+                      {activeDropdown === "purpose" && "🎒 여행목적 선택"}
+                      {activeDropdown === "fare" && "💵 왕복비용 선택"}
+                    </span>
+                    <button 
+                      type="button" 
+                      onClick={() => setActiveDropdown(null)}
+                      className="text-[#848484] hover:text-[#282828] p-1.5 rounded-full bg-[#F5F5F5] transition-colors"
+                      aria-label="닫기"
                     >
-                      <span className="whitespace-nowrap leading-none">전체</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "all" ? "text-white/80" : "text-[#848484]"}`}>
-                        {totalCount}
-                      </span>
+                      <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                     </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-purpose-backpacking"
-                      type="button"
-                      onClick={() => handlePurposeChange("backpacking")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        purposeFilter === "backpacking" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">🎒 백패킹 가능</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "backpacking" ? "text-white/80" : "text-[#848484]"}`}>
-                        {backpackingCount}
-                      </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-purpose-trekking"
-                      type="button"
-                      onClick={() => handlePurposeChange("trekking")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        purposeFilter === "trekking" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">🪵 트레킹 코스</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "trekking" ? "text-white/80" : "text-[#848484]"}`}>
-                        {trekkingCount}
-                      </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-purpose-camping"
-                      type="button"
-                      onClick={() => handlePurposeChange("camping")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        purposeFilter === "camping" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">🏕️ 야영장/캠핑</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${purposeFilter === "camping" ? "text-white/80" : "text-[#848484]"}`}>
-                        {campingCount}
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
+                  </div>
 
-            {/* Row 3: 왕복비용 */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full">
-              <span className="text-sm sm:text-base font-bold text-[#6A6A6A] min-w-[80px] shrink-0 sm:text-left">
-                왕복비용
-              </span>
-              <div className="w-full flex justify-start overflow-x-auto no-scrollbar scroll-smooth overscroll-x-contain py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <ul className="flex gap-2 sm:gap-3 list-none py-0.5 whitespace-nowrap flex-nowrap items-center">
-                  <li className="shrink-0">
-                    <button
-                      id="filter-fare-all"
-                      type="button"
-                      onClick={() => handleFareChange("all")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        fareFilter === "all" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">전체</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "all" ? "text-white/80" : "text-[#848484]"}`}>
-                        {totalCount}
-                      </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-fare-under50k"
-                      type="button"
-                      onClick={() => handleFareChange("under50k")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        fareFilter === "under50k" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">💵 5만원 이하</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "under50k" ? "text-white/80" : "text-[#848484]"}`}>
-                        {fareUnder50kCount}
-                      </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-fare-50kto100k"
-                      type="button"
-                      onClick={() => handleFareChange("50kto100k")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        fareFilter === "50kto100k" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">💳 5만원~10만원</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "50kto100k" ? "text-white/80" : "text-[#848484]"}`}>
-                        {fare50kto100kCount}
-                      </span>
-                    </button>
-                  </li>
-                  <li className="shrink-0">
-                    <button
-                      id="filter-fare-over100k"
-                      type="button"
-                      onClick={() => handleFareChange("over100k")}
-                      className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 whitespace-nowrap flex-nowrap active:scale-95 ${
-                        fareFilter === "over100k" 
-                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                      }`}
-                    >
-                      <span className="whitespace-nowrap leading-none">💰 10만원 이상</span>
-                      <span className={`text-xs sm:text-sm whitespace-nowrap shrink-0 leading-none ${fareFilter === "over100k" ? "text-white/80" : "text-[#848484]"}`}>
-                        {fareOver100kCount}
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+                  {/* Body Options */}
+                  <div className="flex flex-col gap-2 mt-1">
+                    {(() => {
+                      const options = activeDropdown === "time" ? timeOptions 
+                                    : activeDropdown === "purpose" ? purposeOptions 
+                                    : fareOptions;
+                      const currentValue = activeDropdown === "time" ? timeFilter 
+                                         : activeDropdown === "purpose" ? purposeFilter 
+                                         : fareFilter;
+                      const handleChange = activeDropdown === "time" ? handleTimeChange 
+                                         : activeDropdown === "purpose" ? handlePurposeChange 
+                                         : handleFareChange;
+                      const getCount = activeDropdown === "time" ? getTimeCount 
+                                     : activeDropdown === "purpose" ? getPurposeCount 
+                                     : getFareCount;
+
+                      return options.map(option => {
+                        const isSelected = option.value === currentValue;
+                        return (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => {
+                              handleChange(option.value);
+                              setActiveDropdown(null);
+                            }}
+                            className={`w-full h-12 px-4 rounded-xl text-left font-medium transition-colors flex justify-between items-center text-sm ${
+                              isSelected 
+                                ? "bg-[#0F3E17] text-white font-bold" 
+                                : "bg-[#F5F5F5] text-[#525252] hover:bg-[#EDEDED]"
+                            }`}
+                          >
+                            <span>{option.label}</span>
+                            <span className={isSelected ? "text-white/80" : "text-[#848484]"}>
+                              {getCount(option.value)}개
+                            </span>
+                          </button>
+                        );
+                      });
+                    })()}
+                  </div>
+                </div>
+              </>
+            )}
+          </>
         );
       })()}
 

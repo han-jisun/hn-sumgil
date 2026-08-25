@@ -836,7 +836,7 @@ function ExploreContent() {
                             key={option.value}
                             type="button"
                             onClick={() => {
-                              handleChange(option.value);
+                              (handleChange as (val: string) => void)(option.value);
                               setActiveDropdown(null);
                             }}
                             className={`w-full h-12 px-4 rounded-xl text-left font-medium transition-colors flex justify-between items-center text-sm ${
@@ -847,7 +847,7 @@ function ExploreContent() {
                           >
                             <span>{option.label}</span>
                             <span className={isSelected ? "text-white/80" : "text-[#848484]"}>
-                              {getCount(option.value)}개
+                              {(getCount as (val: string) => number)(option.value)}개
                             </span>
                           </button>
                         );

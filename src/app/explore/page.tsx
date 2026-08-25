@@ -130,6 +130,8 @@ function ExploreContent() {
   const [clicks, setClicks] = useState<Record<string, number>>({});
   
   const [activeDropdown, setActiveDropdown] = useState<"time" | "purpose" | "fare" | null>(null);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [mobileSubMenu, setMobileSubMenu] = useState<"time" | "purpose" | "fare" | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   
   const [restaurants, setRestaurants] = useState<any[]>([]);
@@ -464,6 +466,9 @@ function ExploreContent() {
         </div>
       </section>
 
+      {/* Divider line between Search and Filters */}
+      <div className="w-full border-b border-[#EDEDED] mb-6 sm:mb-8" />
+
       {/* Filters Navigation Bar (1-row dropdown filter) */}
       {(() => {
         const totalCount = islands.length;
@@ -492,21 +497,21 @@ function ExploreContent() {
         const fareOver100kCount = islands.filter(i => parseFareToNumber(i.ferries[0]?.fare || "") > 100000).length;
 
         const timeOptions = [
-          { value: "all", label: "전체", chipLabel: "⏱️ 이동시간" },
+          { value: "all", label: "⏱️ 이동시간 전체", chipLabel: "⏱️ 이동시간" },
           { value: "1to2h", label: "⏱️ 1시간~2시간 미만", chipLabel: "⏱️ 1~2시간 미만" },
           { value: "2to4h", label: "🚢 2시간~4시간 미만", chipLabel: "🚢 2~4시간 미만" },
           { value: "over4h", label: "⚓ 4시간 이상", chipLabel: "⚓ 4시간 이상" }
         ] as const;
 
         const purposeOptions = [
-          { value: "all", label: "전체", chipLabel: "🎒 여행목적" },
+          { value: "all", label: "🎒 여행목적 전체", chipLabel: "🎒 여행목적" },
           { value: "backpacking", label: "🎒 백패킹 가능", chipLabel: "🎒 백패킹 가능" },
           { value: "trekking", label: "🪵 트레킹 코스", chipLabel: "🪵 트레킹 코스" },
           { value: "camping", label: "🏕️ 야영장/캠핑", chipLabel: "🏕️ 야영장/캠핑" }
         ] as const;
 
         const fareOptions = [
-          { value: "all", label: "전체", chipLabel: "💵 왕복비용" },
+          { value: "all", label: "💵 왕복비용 전체", chipLabel: "💵 왕복비용" },
           { value: "under50k", label: "💵 5만원 이하", chipLabel: "💵 5만원 이하" },
           { value: "50kto100k", label: "💳 5만원~10만원", chipLabel: "💳 5만원~10만원" },
           { value: "over100k", label: "💰 10만원 이상", chipLabel: "💰 10만원 이상" }
@@ -557,333 +562,428 @@ function ExploreContent() {
               />
             )}
 
-            <div id="explore-controls-container" className="mb-6 sm:mb-8 pb-4 sm:pb-6 border-b border-[#EDEDED] w-full flex items-center justify-between gap-3 relative z-30">
-              <div className="flex items-center gap-2 overflow-x-auto sm:overflow-visible no-scrollbar scroll-smooth py-1 -mx-4 px-4 sm:mx-0 sm:px-0 whitespace-nowrap flex-nowrap w-full">
-                {/* 1. [전체 16] Chip button */}
-                <button
-                  id="filter-all-btn"
-                  type="button"
-                  onClick={handleResetAll}
-                  className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
-                    isAllActive 
-                      ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs" 
-                      : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                  }`}
-                >
-                  <span className="leading-none">전체</span>
-                  <span className={`text-xs sm:text-sm shrink-0 leading-none ${isAllActive ? "text-white/80" : "text-[#848484]"}`}>
-                    {totalCount}
-                  </span>
-                </button>
-
-                {/* 2. [⏱️ 이동시간 ▾] Dropdown Chip */}
-                <div className="relative shrink-0">
-                  <button
-                    id="filter-time-dropdown-btn"
-                    type="button"
-                    onClick={() => setActiveDropdown(prev => prev === "time" ? null : "time")}
-                    className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
-                      timeFilter !== "all" 
-                        ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
-                        : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                    }`}
-                  >
-                    <span>{timeOptions.find(o => o.value === timeFilter)?.chipLabel}</span>
-                    {timeFilter === "all" ? (
-                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            <div id="explore-controls-container" className="mb-6 sm:mb-8 w-full flex items-center justify-between gap-3 sm:gap-4 relative z-30 overflow-visible">
+              {/* LEFT: Category Filters (Desktop Chips & Mobile Filter Button) */}
+              <div className="flex items-center gap-2 overflow-visible">
+                {/* Mobile/Tablet (< lg): Single Filter Icon Button [ ☰ ] + Reset Button */}
+                <div className="flex items-center gap-2 lg:hidden shrink-0">
+                  <div className="relative shrink-0">
+                    <button
+                      id="mobile-filter-toggle-btn"
+                      type="button"
+                      onClick={() => {
+                        setIsMobileFilterOpen(prev => !prev);
+                        setMobileSubMenu(null);
+                      }}
+                      className={`h-9 w-9 rounded-xl border flex items-center justify-center transition-all cursor-pointer relative ${
+                        !isAllActive || isMobileFilterOpen
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs"
+                          : "bg-white border-[#D4D4D4] text-[#282828] hover:border-[#0F3E17]"
+                      }`}
+                      aria-label="필터 메뉴 열기"
+                    >
+                      <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M6 12h12M9 17.25h6" />
                       </svg>
-                    ) : (
-                      <span
-                        className="inline-flex items-center justify-center ml-0.5 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 text-white transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTimeChange("all");
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </span>
-                    )}
-                  </button>
+                      {!isAllActive && (
+                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#10B981] border-2 border-white rounded-full" />
+                      )}
+                    </button>
 
-                  {/* Desktop Dropdown for Time */}
-                  {activeDropdown === "time" && !isMobile && (
-                    <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-xl shadow-lg py-1.5 min-w-[220px] flex flex-col gap-0.5">
-                      {timeOptions.map(option => {
-                        const isSelected = option.value === timeFilter;
-                        return (
-                          <button
-                            key={option.value}
-                            type="button"
-                            onClick={() => {
-                              handleTimeChange(option.value);
-                              setActiveDropdown(null);
-                            }}
-                            className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex justify-between items-center ${
-                              isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
-                            }`}
-                          >
-                            <span>{option.label}</span>
-                            <span className={`text-xs ${isSelected ? "text-[#0F3E17]" : "text-[#848484]"}`}>
-                              {getTimeCount(option.value)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
+                    {/* Mobile Filter Popover Menu (Light Theme with Transparent Backdrop) */}
+                    {isMobileFilterOpen && (
+                      <>
+                        <div 
+                          id="mobile-popover-backdrop"
+                          className="fixed inset-0 z-40 cursor-default" 
+                          onClick={() => {
+                            setIsMobileFilterOpen(false);
+                            setMobileSubMenu(null);
+                          }} 
+                        />
+                        <div className="absolute left-0 top-full mt-2 z-50 bg-white text-[#282828] rounded-2xl shadow-xl p-2 w-[240px] border border-[#D4D4D4] animate-in fade-in zoom-in-95 duration-150 flex flex-col gap-1">
+                          {/* Top Level Category List */}
+                          {mobileSubMenu === null ? (
+                            <>
+                              <div className="px-2.5 py-1.5 text-xs font-semibold text-[#848484] border-b border-[#EDEDED] flex items-center justify-between">
+                                <span>필터 조건</span>
+                                {!isAllActive && (
+                                  <button
+                                    type="button"
+                                    onClick={handleResetAll}
+                                    className="text-[11px] text-[#848484] hover:text-[#0F3E17] font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+                                  >
+                                    <span>초기화</span>
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                    </svg>
+                                  </button>
+                                )}
+                              </div>
+
+                            {/* 1. 이동시간 Category */}
+                            <button
+                              type="button"
+                              onClick={() => setMobileSubMenu("time")}
+                              className="w-full px-2.5 py-2.5 rounded-xl hover:bg-[#F5F5F5] flex items-center justify-between text-xs text-left transition-colors cursor-pointer"
+                            >
+                              <span className="flex items-center gap-2">
+                                <span>⏱️</span>
+                                <span className="font-medium text-[#282828]">이동시간</span>
+                              </span>
+                              <span className="flex items-center gap-1 text-[11px] text-[#848484]">
+                                <span className={timeFilter !== "all" ? "text-[#0F3E17] font-semibold" : ""}>
+                                  {timeFilter === "all" ? "전체" : timeOptions.find(o => o.value === timeFilter)?.chipLabel.replace("⏱️ ", "").replace("🚢 ", "").replace("⚓ ", "")}
+                                </span>
+                                <svg className="w-3.5 h-3.5 text-[#848484]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {/* 2. 여행목적 Category */}
+                            <button
+                              type="button"
+                              onClick={() => setMobileSubMenu("purpose")}
+                              className="w-full px-2.5 py-2.5 rounded-xl hover:bg-[#F5F5F5] flex items-center justify-between text-xs text-left transition-colors cursor-pointer"
+                            >
+                              <span className="flex items-center gap-2">
+                                <span>🎒</span>
+                                <span className="font-medium text-[#282828]">여행목적</span>
+                              </span>
+                              <span className="flex items-center gap-1 text-[11px] text-[#848484]">
+                                <span className={purposeFilter !== "all" ? "text-[#0F3E17] font-semibold" : ""}>
+                                  {purposeFilter === "all" ? "전체" : purposeOptions.find(o => o.value === purposeFilter)?.chipLabel.replace("🎒 ", "").replace("🪵 ", "").replace("🏕️ ", "")}
+                                </span>
+                                <svg className="w-3.5 h-3.5 text-[#848484]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                              </span>
+                            </button>
+
+                            {/* 3. 왕복비용 Category */}
+                            <button
+                              type="button"
+                              onClick={() => setMobileSubMenu("fare")}
+                              className="w-full px-2.5 py-2.5 rounded-xl hover:bg-[#F5F5F5] flex items-center justify-between text-xs text-left transition-colors cursor-pointer"
+                            >
+                              <span className="flex items-center gap-2">
+                                <span>💵</span>
+                                <span className="font-medium text-[#282828]">왕복비용</span>
+                              </span>
+                              <span className="flex items-center gap-1 text-[11px] text-[#848484]">
+                                <span className={fareFilter !== "all" ? "text-[#0F3E17] font-semibold" : ""}>
+                                  {fareFilter === "all" ? "전체" : fareOptions.find(o => o.value === fareFilter)?.chipLabel.replace("💵 ", "").replace("💳 ", "").replace("💰 ", "")}
+                                </span>
+                                <svg className="w-3.5 h-3.5 text-[#848484]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                              </span>
+                            </button>
+                          </>
+                        ) : (
+                          /* SubMenu Option List */
+                          <>
+                            <div className="px-2 py-1.5 border-b border-[#EDEDED] flex items-center justify-between">
+                              <button
+                                type="button"
+                                onClick={() => setMobileSubMenu(null)}
+                                className="flex items-center gap-1 text-xs font-semibold text-[#525252] hover:text-[#0F3E17] py-0.5 px-1 rounded cursor-pointer"
+                              >
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                </svg>
+                                <span>뒤로</span>
+                              </button>
+                              <span className="text-xs font-bold text-[#282828]">
+                                {mobileSubMenu === "time" && "이동시간"}
+                                {mobileSubMenu === "purpose" && "여행목적"}
+                                {mobileSubMenu === "fare" && "왕복비용"}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-col gap-0.5 mt-1">
+                              {(() => {
+                                const options = mobileSubMenu === "time" ? timeOptions 
+                                              : mobileSubMenu === "purpose" ? purposeOptions 
+                                              : fareOptions;
+                                const currentVal = mobileSubMenu === "time" ? timeFilter 
+                                                 : mobileSubMenu === "purpose" ? purposeFilter 
+                                                 : fareFilter;
+                                const handleChange = mobileSubMenu === "time" ? handleTimeChange 
+                                                   : mobileSubMenu === "purpose" ? handlePurposeChange 
+                                                   : handleFareChange;
+                                const getCount = mobileSubMenu === "time" ? getTimeCount 
+                                               : mobileSubMenu === "purpose" ? getPurposeCount 
+                                               : getFareCount;
+
+                                return options.map(option => {
+                                  const isSelected = option.value === currentVal;
+                                  return (
+                                    <button
+                                      key={option.value}
+                                      type="button"
+                                      onClick={() => {
+                                        (handleChange as (val: string) => void)(option.value);
+                                        setMobileSubMenu(null);
+                                      }}
+                                      className={`w-full text-left px-2.5 py-2 rounded-xl text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                                        isSelected ? "bg-[#E6FDE5]/50 text-[#0F3E17] font-bold" : "text-[#525252] hover:bg-[#F5F5F5]"
+                                      }`}
+                                    >
+                                      <span className="flex items-center gap-1.5">
+                                        <span className="w-3.5 h-3.5 flex items-center justify-center shrink-0">
+                                          {isSelected && (
+                                            <svg className="w-3.5 h-3.5 text-[#0F3E17]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                          )}
+                                        </span>
+                                        <span>{option.label}</span>
+                                      </span>
+                                      <span className={`text-[10px] ${isSelected ? "text-[#0F3E17] font-bold" : "text-[#848484]"}`}>
+                                        {(getCount as (val: string) => number)(option.value)}
+                                      </span>
+                                    </button>
+                                  );
+                                });
+                              })()}
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
 
-                {/* 3. [🎒 여행목적 ▾] Dropdown Chip */}
-                <div className="relative shrink-0">
-                  <button
-                    id="filter-purpose-dropdown-btn"
-                    type="button"
-                    onClick={() => setActiveDropdown(prev => prev === "purpose" ? null : "purpose")}
-                    className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
-                      purposeFilter !== "all" 
-                        ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
-                        : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                    }`}
-                  >
-                    <span>{purposeOptions.find(o => o.value === purposeFilter)?.chipLabel}</span>
-                    {purposeFilter === "all" ? (
-                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                      </svg>
-                    ) : (
-                      <span
-                        className="inline-flex items-center justify-center ml-0.5 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 text-white transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handlePurposeChange("all");
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </span>
-                    )}
-                  </button>
-
-                  {/* Desktop Dropdown for Purpose */}
-                  {activeDropdown === "purpose" && !isMobile && (
-                    <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-xl shadow-lg py-1.5 min-w-[220px] flex flex-col gap-0.5">
-                      {purposeOptions.map(option => {
-                        const isSelected = option.value === purposeFilter;
-                        return (
-                          <button
-                            key={option.value}
-                            type="button"
-                            onClick={() => {
-                              handlePurposeChange(option.value);
-                              setActiveDropdown(null);
-                            }}
-                            className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex justify-between items-center ${
-                              isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
-                            }`}
-                          >
-                            <span>{option.label}</span>
-                            <span className={`text-xs ${isSelected ? "text-[#0F3E17]" : "text-[#848484]"}`}>
-                              {getPurposeCount(option.value)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* 4. [💵 왕복비용 ▾] Dropdown Chip */}
-                <div className="relative shrink-0">
-                  <button
-                    id="filter-fare-dropdown-btn"
-                    type="button"
-                    onClick={() => setActiveDropdown(prev => prev === "fare" ? null : "fare")}
-                    className={`h-9 sm:h-11 px-3.5 sm:px-5 rounded-full text-sm sm:text-base font-medium border transition-all inline-flex items-center gap-1.5 sm:gap-2 shrink-0 active:scale-95 cursor-pointer ${
-                      fareFilter !== "all" 
-                        ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
-                        : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-                    }`}
-                  >
-                    <span>{fareOptions.find(o => o.value === fareFilter)?.chipLabel}</span>
-                    {fareFilter === "all" ? (
-                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                      </svg>
-                    ) : (
-                      <span
-                        className="inline-flex items-center justify-center ml-0.5 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 text-white transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleFareChange("all");
-                          setActiveDropdown(null);
-                        }}
-                      >
-                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </span>
-                    )}
-                  </button>
-
-                  {/* Desktop Dropdown for Fare */}
-                  {activeDropdown === "fare" && !isMobile && (
-                    <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-xl shadow-lg py-1.5 min-w-[220px] flex flex-col gap-0.5">
-                      {fareOptions.map(option => {
-                        const isSelected = option.value === fareFilter;
-                        return (
-                          <button
-                            key={option.value}
-                            type="button"
-                            onClick={() => {
-                              handleFareChange(option.value);
-                              setActiveDropdown(null);
-                            }}
-                            className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex justify-between items-center ${
-                              isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
-                            }`}
-                          >
-                            <span>{option.label}</span>
-                            <span className={`text-xs ${isSelected ? "text-[#0F3E17]" : "text-[#848484]"}`}>
-                              {getFareCount(option.value)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* 5. [초기화 ↺] Text Button (Desktop will place it at the end, flex pushes it to right) */}
+                {/* Mobile Reset Button beside Filter icon */}
                 {!isAllActive && (
                   <button
-                    id="filter-reset-all-btn"
+                    id="mobile-filter-reset-btn"
                     type="button"
                     onClick={handleResetAll}
-                    className="flex items-center gap-1 text-sm font-semibold text-[#848484] hover:text-[#282828] transition-colors shrink-0 cursor-pointer ml-auto pl-2 h-9 sm:h-11"
+                    className="flex items-center gap-1 text-xs font-semibold text-[#848484] hover:text-[#0F3E17] transition-colors cursor-pointer py-1 px-1.5 shrink-0"
                   >
                     <span>초기화</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
                   </button>
                 )}
               </div>
-            </div>
 
-            {/* Mobile Bottom Sheets (Rendered at top-level body area) */}
-            {isMobile && activeDropdown && (
-              <>
-                {/* Backdrop overlay */}
-                <div 
-                  id="mobile-bottomsheet-backdrop"
-                  className="fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
-                  onClick={() => setActiveDropdown(null)}
-                />
-                
-                {/* Bottom Sheet Panel */}
-                <div 
-                  id="mobile-bottomsheet-panel"
-                  className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 px-5 pt-4 pb-8 shadow-2xl flex flex-col gap-4 max-h-[85vh] overflow-y-auto transform transition-transform duration-300 translate-y-0"
-                >
-                  {/* Drag Handle Indicator */}
-                  <div className="w-12 h-1.5 bg-[#E8E8E8] rounded-full mx-auto mb-2" />
-                  
-                  {/* Header Title & Close button */}
-                  <div className="flex justify-between items-center pb-3 border-b border-[#EDEDED]">
-                    <span className="font-bold text-lg text-[#282828]">
-                      {activeDropdown === "time" && "⏱️ 이동시간 선택"}
-                      {activeDropdown === "purpose" && "🎒 여행목적 선택"}
-                      {activeDropdown === "fare" && "💵 왕복비용 선택"}
-                    </span>
-                    <button 
-                      type="button" 
-                      onClick={() => setActiveDropdown(null)}
-                      className="text-[#848484] hover:text-[#282828] p-1.5 rounded-full bg-[#F5F5F5] transition-colors"
-                      aria-label="닫기"
+              {/* Desktop Category Dropdown Filters (>= lg) */}
+              <div className="hidden lg:flex items-center gap-2 overflow-visible">
+                  {/* 1. [⏱️ 이동시간 ▾] Dropdown Chip */}
+                  <div className="relative shrink-0">
+                    <button
+                      id="filter-time-dropdown-btn"
+                      type="button"
+                      onClick={() => setActiveDropdown(prev => prev === "time" ? null : "time")}
+                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-all inline-flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                        timeFilter !== "all" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
                     >
-                      <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      <span>{timeOptions.find(o => o.value === timeFilter)?.chipLabel}</span>
+                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                       </svg>
                     </button>
+
+                    {/* Desktop Dropdown for Time */}
+                    {activeDropdown === "time" && (
+                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-150">
+                        {timeOptions.map(option => {
+                          const isSelected = option.value === timeFilter;
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                handleTimeChange(option.value);
+                                setActiveDropdown(null);
+                              }}
+                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer ${
+                                isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
+                              }`}
+                            >
+                              <span className="flex items-center gap-2">
+                                <span className="w-4 h-4 flex items-center justify-center shrink-0">
+                                  {isSelected && (
+                                    <svg className="w-4 h-4 text-[#0F3E17]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                  )}
+                                </span>
+                                <span>{option.label}</span>
+                              </span>
+                              <span className={`text-xs ${isSelected ? "text-[#0F3E17] font-bold" : "text-[#848484]"}`}>
+                                {getTimeCount(option.value)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Body Options */}
-                  <div className="flex flex-col gap-2 mt-1">
-                    {(() => {
-                      const options = activeDropdown === "time" ? timeOptions 
-                                    : activeDropdown === "purpose" ? purposeOptions 
-                                    : fareOptions;
-                      const currentValue = activeDropdown === "time" ? timeFilter 
-                                         : activeDropdown === "purpose" ? purposeFilter 
-                                         : fareFilter;
-                      const handleChange = activeDropdown === "time" ? handleTimeChange 
-                                         : activeDropdown === "purpose" ? handlePurposeChange 
-                                         : handleFareChange;
-                      const getCount = activeDropdown === "time" ? getTimeCount 
-                                     : activeDropdown === "purpose" ? getPurposeCount 
-                                     : getFareCount;
+                  {/* 2. [🎒 여행목적 ▾] Dropdown Chip */}
+                  <div className="relative shrink-0">
+                    <button
+                      id="filter-purpose-dropdown-btn"
+                      type="button"
+                      onClick={() => setActiveDropdown(prev => prev === "purpose" ? null : "purpose")}
+                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-all inline-flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                        purposeFilter !== "all" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span>{purposeOptions.find(o => o.value === purposeFilter)?.chipLabel}</span>
+                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    </button>
 
-                      return options.map(option => {
-                        const isSelected = option.value === currentValue;
-                        return (
-                          <button
-                            key={option.value}
-                            type="button"
-                            onClick={() => {
-                              (handleChange as (val: string) => void)(option.value);
-                              setActiveDropdown(null);
-                            }}
-                            className={`w-full h-12 px-4 rounded-xl text-left font-medium transition-colors flex justify-between items-center text-sm ${
-                              isSelected 
-                                ? "bg-[#0F3E17] text-white font-bold" 
-                                : "bg-[#F5F5F5] text-[#525252] hover:bg-[#EDEDED]"
-                            }`}
-                          >
-                            <span>{option.label}</span>
-                            <span className={isSelected ? "text-white/80" : "text-[#848484]"}>
-                              {(getCount as (val: string) => number)(option.value)}개
-                            </span>
-                          </button>
-                        );
-                      });
-                    })()}
+                    {/* Desktop Dropdown for Purpose */}
+                    {activeDropdown === "purpose" && (
+                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-150">
+                        {purposeOptions.map(option => {
+                          const isSelected = option.value === purposeFilter;
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                handlePurposeChange(option.value);
+                                setActiveDropdown(null);
+                              }}
+                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer ${
+                                isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
+                              }`}
+                            >
+                              <span className="flex items-center gap-2">
+                                <span className="w-4 h-4 flex items-center justify-center shrink-0">
+                                  {isSelected && (
+                                    <svg className="w-4 h-4 text-[#0F3E17]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                  )}
+                                </span>
+                                <span>{option.label}</span>
+                              </span>
+                              <span className={`text-xs ${isSelected ? "text-[#0F3E17] font-bold" : "text-[#848484]"}`}>
+                                {getPurposeCount(option.value)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
+
+                  {/* 3. [💵 왕복비용 ▾] Dropdown Chip */}
+                  <div className="relative shrink-0">
+                    <button
+                      id="filter-fare-dropdown-btn"
+                      type="button"
+                      onClick={() => setActiveDropdown(prev => prev === "fare" ? null : "fare")}
+                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-all inline-flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                        fareFilter !== "all" 
+                          ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
+                          : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
+                      }`}
+                    >
+                      <span>{fareOptions.find(o => o.value === fareFilter)?.chipLabel}</span>
+                      <svg className="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    </button>
+
+                    {/* Desktop Dropdown for Fare */}
+                    {activeDropdown === "fare" && (
+                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-150">
+                        {fareOptions.map(option => {
+                          const isSelected = option.value === fareFilter;
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                handleFareChange(option.value);
+                                setActiveDropdown(null);
+                              }}
+                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer ${
+                                isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
+                              }`}
+                            >
+                              <span className="flex items-center gap-2">
+                                <span className="w-4 h-4 flex items-center justify-center shrink-0">
+                                  {isSelected && (
+                                    <svg className="w-4 h-4 text-[#0F3E17]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                  )}
+                                </span>
+                                <span>{option.label}</span>
+                              </span>
+                              <span className={`text-xs ${isSelected ? "text-[#0F3E17] font-bold" : "text-[#848484]"}`}>
+                                {getFareCount(option.value)}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 4. [초기화 ↺] Text Button */}
+                  {!isAllActive && (
+                    <button
+                      id="filter-reset-all-btn"
+                      type="button"
+                      onClick={handleResetAll}
+                      className="flex items-center gap-1 text-sm font-semibold text-[#848484] hover:text-[#0F3E17] transition-colors shrink-0 cursor-pointer pl-1.5 h-10"
+                    >
+                      <span>초기화</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
-              </>
-            )}
+              </div>
+
+              {/* RIGHT: Separated Sort Text Buttons (Relevancy, Trending, Latest Style) */}
+              <div id="explore-sort-tabs" className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">
+                {[
+                  { value: "default", label: "추천순" },
+                  { value: "time", label: "시간순" },
+                  { value: "fare", label: "비용순" },
+                ].map((tab) => {
+                  const isActive = sortBy === tab.value;
+                  return (
+                    <button
+                      key={tab.value}
+                      type="button"
+                      onClick={() => handleSortChange(tab.value as any)}
+                      className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm transition-all cursor-pointer ${
+                        isActive
+                          ? "bg-[#282828] text-white font-bold shadow-xs"
+                          : "text-[#848484] hover:text-[#282828] hover:bg-black/5 font-medium"
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </>
         );
       })()}
-
-      {/* Sort Controls (Always Right-Aligned on Mobile & Desktop) */}
-      <div id="explore-sort-container" className="flex justify-end items-center w-full mb-6 sm:mb-8">
-        <div className="relative">
-          <select
-            id="explore-sort-select"
-            aria-label="정렬 기준 선택"
-            value={sortBy}
-            onChange={(e) => handleSortChange(e.target.value as "default" | "time" | "fare" | "lodge" | "restaurant")}
-            className="h-10 pl-3.5 pr-8 bg-white border border-[#D4D4D4] rounded-lg text-sm sm:text-base font-medium text-[#282828] appearance-none cursor-pointer hover:border-[#848484] focus:outline-none focus:border-[#6A6A6A] transition-colors"
-          >
-            <option value="default">✨ 추천 기본순</option>
-            <option value="time">⏱️ 소요시간 빠른순</option>
-            <option value="fare">💵 왕복운임 낮은순</option>
-            <option value="lodge">🏡 숙박 많은순</option>
-            <option value="restaurant">🍽️ 식당 많은순</option>
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-[#848484]">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-        </div>
-      </div>
 
       {/* Islands Grid Listing */}
       <section id="explore-islands-section" className="mb-16 md:mb-28">

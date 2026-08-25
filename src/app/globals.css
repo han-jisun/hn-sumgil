@@ -196,6 +196,20 @@
     background: none;
     border: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  *, *::before, *::after {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus,
+  button:focus-visible,
+  a:focus,
+  a:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
 }
 

@@ -528,30 +528,30 @@ export default function HomePage() {
         </div>
 
         {/* Hero Bottom Bar */}
-        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-[24px] sm:bottom-[40px] z-10">
-          <div className="max-w-[1440px] mx-auto px-[16px] sm:px-[40px] grid grid-cols-12 gap-[16px] items-end">
-            {/* Active Slide Name */}
-            <div className="col-span-12 sm:col-span-4 flex items-center gap-[8px] sm:gap-[12px] mb-[12px] sm:mb-0">
-              <span className="w-[16px] sm:w-[24px] h-[1px] bg-white/60 shrink-0" />
-              <span className="text-[12px] font-medium tracking-[0.05em] leading-[100%] text-sub-500 uppercase shrink-0">지금 보이는 곳</span>
-              <span id="hero-current-slide-label" className="text-[14px] sm:text-[16px] font-medium leading-[100%] text-white truncate">
+        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-[20px] sm:bottom-[36px] z-10">
+          <div className="max-w-[1440px] mx-auto px-[16px] sm:px-[40px] flex items-center justify-between gap-4 w-full">
+            {/* Active Slide Name (Left) */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 max-w-[650px]">
+              <span className="w-4 sm:w-6 h-[1px] bg-white/60 shrink-0" />
+              <span className="text-[11px] sm:text-[12px] font-medium tracking-wider text-sub-500 uppercase shrink-0">지금 보이는 곳</span>
+              <span id="hero-current-slide-label" className="text-[13px] sm:text-[15px] font-medium text-white break-keep leading-snug line-clamp-2">
                 {heroSlides[heroIdx].name}
               </span>
             </div>
 
-            {/* Slide Progress & Controls */}
-            <div id="hero-slide-controls" className="col-span-12 sm:col-start-7 sm:col-span-6 flex items-center justify-between sm:justify-end gap-[12px] sm:gap-[16px] w-full mt-[16px] sm:mt-0">
-              <span id="hero-slide-counter" className="text-white text-[14px] font-medium tracking-[0.05em] leading-[100%] shrink-0">
+            {/* Slide Progress & Controls (Right - Compact Bars) */}
+            <div id="hero-slide-controls" className="flex items-center justify-end gap-2.5 sm:gap-4 shrink-0">
+              <span id="hero-slide-counter" className="text-white text-[12px] sm:text-[14px] font-medium tracking-wider leading-none shrink-0 font-mono">
                 0{heroIdx + 1} / 0{heroSlides.length}
               </span>
-              <div id="hero-slide-indicators" className="flex items-center gap-[8px] flex-1 sm:flex-initial">
+              <div id="hero-slide-indicators" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 {heroSlides.map((_, i) => (
                   <button
                     key={i}
                     id={`hero-slide-btn-${i}`}
                     type="button"
                     onClick={() => setHeroIdx(i)}
-                    className="flex-1 sm:flex-initial sm:w-[64px] h-[4px] p-0 border-none rounded-full overflow-hidden bg-white/30 cursor-pointer"
+                    className="w-[24px] sm:w-[36px] h-[3px] sm:h-[3.5px] p-0 border-none rounded-full overflow-hidden bg-white/30 cursor-pointer transition-all"
                     aria-label={`Go to slide ${i + 1}`}
                   >
                     <span
@@ -565,7 +565,7 @@ export default function HomePage() {
                 id="hero-pause-play-btn"
                 type="button"
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="inline-flex items-center justify-center w-[32px] h-[32px] rounded-full border border-white/40 bg-transparent text-white text-[12px] font-medium leading-[100%] hover:bg-white/10 transition-colors shrink-0"
+                className="inline-flex items-center justify-center w-[28px] h-[28px] sm:w-[32px] sm:h-[32px] rounded-full border border-white/40 bg-transparent text-white text-[11px] sm:text-[12px] font-medium leading-none hover:bg-white/15 transition-colors shrink-0"
                 aria-label={isPlaying ? "Pause auto slide" : "Play auto slide"}
               >
                 {isPlaying ? "❙❙" : "▶"}
@@ -591,8 +591,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Framer Tabs-Card Container (No outer box wrapper) */}
-          <div className="max-w-[1240px] mx-auto">
+          {/* Framer Tabs-Card Container (100% Grid Width) */}
+          <div className="w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
 
               {/* Mobile Only: 1~5 Single Row Number Bar (번호만 노출) */}

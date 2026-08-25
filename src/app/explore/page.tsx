@@ -299,7 +299,11 @@ function ExploreContent() {
       params.set("sort", newSort);
     }
 
-    router.push(`/explore?${params.toString()}`);
+    const queryStr = params.toString();
+    const newUrl = queryStr ? `/explore?${queryStr}` : "/explore";
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", newUrl);
+    }
   };
 
   const handleTimeChange = (val: "all" | "1to2h" | "2to4h" | "over4h") => {
@@ -780,7 +784,7 @@ function ExploreContent() {
                       id="filter-time-dropdown-btn"
                       type="button"
                       onClick={() => setActiveDropdown(prev => prev === "time" ? null : "time")}
-                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-all inline-flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-colors inline-flex items-center gap-2 shrink-0 cursor-pointer focus:outline-none focus:ring-0 select-none ${
                         timeFilter !== "all" 
                           ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
                           : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
@@ -794,7 +798,7 @@ function ExploreContent() {
 
                     {/* Desktop Dropdown for Time */}
                     {activeDropdown === "time" && (
-                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5">
                         {timeOptions.map(option => {
                           const isSelected = option.value === timeFilter;
                           return (
@@ -805,7 +809,7 @@ function ExploreContent() {
                                 handleTimeChange(option.value);
                                 setActiveDropdown(null);
                               }}
-                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer ${
+                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer focus:outline-none focus:ring-0 select-none ${
                                 isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
                               }`}
                             >
@@ -835,7 +839,7 @@ function ExploreContent() {
                       id="filter-purpose-dropdown-btn"
                       type="button"
                       onClick={() => setActiveDropdown(prev => prev === "purpose" ? null : "purpose")}
-                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-all inline-flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-colors inline-flex items-center gap-2 shrink-0 cursor-pointer focus:outline-none focus:ring-0 select-none ${
                         purposeFilter !== "all" 
                           ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
                           : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
@@ -849,7 +853,7 @@ function ExploreContent() {
 
                     {/* Desktop Dropdown for Purpose */}
                     {activeDropdown === "purpose" && (
-                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5">
                         {purposeOptions.map(option => {
                           const isSelected = option.value === purposeFilter;
                           return (
@@ -860,7 +864,7 @@ function ExploreContent() {
                                 handlePurposeChange(option.value);
                                 setActiveDropdown(null);
                               }}
-                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer ${
+                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer focus:outline-none focus:ring-0 select-none ${
                                 isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
                               }`}
                             >
@@ -890,7 +894,7 @@ function ExploreContent() {
                       id="filter-fare-dropdown-btn"
                       type="button"
                       onClick={() => setActiveDropdown(prev => prev === "fare" ? null : "fare")}
-                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-all inline-flex items-center gap-2 shrink-0 active:scale-95 cursor-pointer ${
+                      className={`h-10 px-4 rounded-full text-sm font-medium border transition-colors inline-flex items-center gap-2 shrink-0 cursor-pointer focus:outline-none focus:ring-0 select-none ${
                         fareFilter !== "all" 
                           ? "bg-[#0F3E17] text-white border-[#0F3E17] shadow-xs z-30 relative" 
                           : "bg-white border-[#D4D4D4] text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
@@ -904,7 +908,7 @@ function ExploreContent() {
 
                     {/* Desktop Dropdown for Fare */}
                     {activeDropdown === "fare" && (
-                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="absolute top-full left-0 mt-2 z-30 bg-white border border-[#D4D4D4] rounded-2xl shadow-xl py-2 min-w-[210px] w-max flex flex-col gap-0.5">
                         {fareOptions.map(option => {
                           const isSelected = option.value === fareFilter;
                           return (
@@ -915,7 +919,7 @@ function ExploreContent() {
                                 handleFareChange(option.value);
                                 setActiveDropdown(null);
                               }}
-                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer ${
+                              className={`w-full text-left px-4 py-2.5 hover:bg-[#F5F5F5] transition-colors text-sm flex items-center justify-between cursor-pointer focus:outline-none focus:ring-0 select-none ${
                                 isSelected ? "font-bold text-[#0F3E17] bg-[#E6FDE5]/40" : "text-[#525252]"
                               }`}
                             >
@@ -956,8 +960,8 @@ function ExploreContent() {
                 </div>
               </div>
 
-              {/* RIGHT: Separated Sort Text Buttons (Relevancy, Trending, Latest Style) */}
-              <div id="explore-sort-tabs" className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">
+              {/* RIGHT: Text-Based Sort Tabs (Active Item Has Round Pill Border) */}
+              <div id="explore-sort-tabs" className="flex items-center gap-1 sm:gap-1.5 shrink-0 ml-auto">
                 {[
                   { value: "default", label: "추천순" },
                   { value: "time", label: "시간순" },
@@ -969,10 +973,10 @@ function ExploreContent() {
                       key={tab.value}
                       type="button"
                       onClick={() => handleSortChange(tab.value as any)}
-                      className={`px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm transition-all cursor-pointer ${
+                      className={`text-xs sm:text-sm rounded-full px-3.5 sm:px-4 py-1.5 cursor-pointer inline-flex items-center justify-center font-medium select-none focus:outline-none focus:ring-0 ${
                         isActive
-                          ? "bg-[#282828] text-white font-bold shadow-xs"
-                          : "text-[#848484] hover:text-[#282828] hover:bg-black/5 font-medium"
+                          ? "bg-white border border-[#D4D4D4] text-[#282828]"
+                          : "bg-transparent border border-transparent text-[#848484] hover:text-[#282828]"
                       }`}
                     >
                       {tab.label}

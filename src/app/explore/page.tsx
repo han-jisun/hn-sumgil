@@ -118,6 +118,8 @@ const parseFareToNumber = (fareStr: string): number => {
   return parseInt(clean) || 0;
 };
 
+const islands: IslandData[] = islandsData as IslandData[];
+
 function ExploreContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -139,8 +141,6 @@ function ExploreContent() {
   const [lodges, setLodges] = useState<any[]>([]);
   const [loadingLodges, setLoadingLodges] = useState(true);
   const [campsites, setCampsites] = useState<Record<string, any[]>>({});
-
-  const islands: IslandData[] = islandsData as IslandData[];
 
   useEffect(() => {
     const handleResize = () => {
@@ -232,15 +232,18 @@ function ExploreContent() {
       }
     };
     fetchCampsites();
-  }, [islands]);
-
-
+  }, []);
 
   useEffect(() => {
+    const qParam = searchParams.get("q") || searchParams.get("search");
     const timeParam = searchParams.get("time");
     const purposeParam = searchParams.get("purpose");
     const fareParam = searchParams.get("fare");
     const sortParam = searchParams.get("sort");
+
+    if (qParam !== null) {
+      setSearchQuery(qParam);
+    }
     
     if (timeParam === "1to2h" || timeParam === "2to4h" || timeParam === "over4h") {
       setTimeFilter(timeParam);
@@ -271,10 +274,18 @@ function ExploreContent() {
     newTime: string,
     newPurpose: string,
     newFare: string,
-    newSort: string
+    newSort: string,
+    newQuery: string = searchQuery
   ) => {
     const params = new URLSearchParams(searchParams.toString());
     
+    if (newQuery && newQuery.trim()) {
+      params.set("q", newQuery.trim());
+    } else {
+      params.delete("q");
+      params.delete("search");
+    }
+
     if (newTime === "all") {
       params.delete("time");
     } else {
@@ -304,6 +315,11 @@ function ExploreContent() {
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", newUrl);
     }
+  };
+
+  const handleSearchChange = (val: string) => {
+    setSearchQuery(val);
+    updateParams(timeFilter, purposeFilter, fareFilter, sortBy, val);
   };
 
   const handleTimeChange = (val: "all" | "1to2h" | "2to4h" | "over4h") => {
@@ -386,7 +402,8 @@ function ExploreContent() {
       if (purposeFilter === "trekking" && !meta.trekking) return false;
       if (purposeFilter === "camping") {
         const campList = campsites[item.island] || [];
-        if (campList.length === 0) return false;
+        const hasCampingMeta = Boolean(meta.backpacking || meta.desc.includes("캠핑") || meta.desc.includes("야영"));
+        if (campList.length === 0 && !hasCampingMeta) return false;
       }
     }
 
@@ -451,7 +468,7 @@ function ExploreContent() {
             type="text" 
             placeholder="섬 이름 또는 주소로 검색해보세요... (예: 굴업도, 대청면)" 
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="w-full h-12 sm:h-14 pl-11 sm:pl-12 pr-16 sm:pr-20 text-sm sm:text-base bg-white border border-[#D4D4D4] text-[#282828] rounded-full font-sans transition-colors hover:border-[#848484] focus:outline-none focus:border-[#0F3E17] placeholder:text-[#848484]"
           />
           <svg className="absolute left-3.5 sm:left-4 text-[#848484] pointer-events-none w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -461,7 +478,7 @@ function ExploreContent() {
           {searchQuery && (
             <button
               type="button"
-              onClick={() => setSearchQuery("")}
+              onClick={() => handleSearchChange("")}
               className="absolute right-3 sm:right-4 text-xs sm:text-sm bg-[#E8E8E8] text-[#525252] hover:bg-[#D4D4D4] px-2.5 py-1 rounded-full transition-colors"
             >
               지우기
@@ -491,7 +508,12 @@ function ExploreContent() {
 
         const backpackingCount = islands.filter(i => islandMeta[i.island]?.backpacking).length;
         const trekkingCount = islands.filter(i => islandMeta[i.island]?.trekking).length;
-        const campingCount = islands.filter(i => (campsites[i.island] || []).length > 0).length;
+        const campingCount = islands.filter(i => {
+          const meta = islandMeta[i.island];
+          const campList = campsites[i.island] || [];
+          const hasCampingMeta = Boolean(meta?.backpacking || meta?.desc?.includes("캠핑") || meta?.desc?.includes("야영"));
+          return campList.length > 0 || hasCampingMeta;
+        }).length;
 
         const fareUnder50kCount = islands.filter(i => parseFareToNumber(i.ferries[0]?.fare || "") <= 50000).length;
         const fare50kto100kCount = islands.filter(i => {
@@ -545,14 +567,17 @@ function ExploreContent() {
           return 0;
         };
 
-        const isAllActive = timeFilter === "all" && purposeFilter === "all" && fareFilter === "all";
+        const isAllActive = timeFilter === "all" && purposeFilter === "all" && fareFilter === "all" && !searchQuery;
 
         const handleResetAll = () => {
+          setSearchQuery("");
           setTimeFilter("all");
           setPurposeFilter("all");
           setFareFilter("all");
-          updateParams("all", "all", "all", sortBy);
+          updateParams("all", "all", "all", sortBy, "");
           setActiveDropdown(null);
+          setIsMobileFilterOpen(false);
+          setMobileSubMenu(null);
         };
 
         return (
@@ -1027,9 +1052,12 @@ function ExploreContent() {
                         <iframe
                           title={`${item.island} 위치 지도`}
                           src={osmUrl}
-                          className="absolute -top-14 -left-12 w-[calc(100%+96px)] h-[calc(100%+90px)] border-none pointer-events-none"
+                          className="absolute -top-14 -left-12 w-[calc(100%+96px)] h-[calc(100%+100px)] border-none pointer-events-none"
                           loading="lazy"
                         />
+                        <span className="absolute bottom-1.5 right-2 z-10 px-1.5 py-0.5 rounded bg-black/60 text-white/90 text-[10px] font-sans pointer-events-none backdrop-blur-xs select-none">
+                          © OpenStreetMap
+                        </span>
                       </div>
                     ) : (
                       <Image 

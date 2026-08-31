@@ -551,7 +551,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
             fetch("/api/spot"),
             fetch(`/api/tide?island=${encodeURIComponent(islandName)}`),
             fetch(`/api/weather?island=${encodeURIComponent(islandName)}`),
-            fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=6`),
+            fetch(`/api/blog?query=${encodeURIComponent(islandName + " 여행")}&display=6&sort=date`),
             fetch(`/api/youtube?query=${encodeURIComponent(islandName + " 여행")}`)
           ]);
 
@@ -590,19 +590,6 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               rule ? rule(item.addr) : item.addr.includes(islandName)
             );
           }
-        }
-
-        // TourAPI에 명소 데이터가 없는 섬의 경우, 메타데이터의 대표 비경(topSpots)과 공공데이터 사진(image.json)을 연결
-        if (fetchedSpots.length === 0 && meta?.topSpots) {
-          const spotTitles = meta.topSpots.split(",").map((s: string) => s.trim()).filter(Boolean);
-          const gallery = getGalleryPhotos(islandName);
-          fetchedSpots = spotTitles.map((title: string, idx: number) => ({
-            contentId: `custom-spot-${idx}`,
-            title: title,
-            addr: found?.address || `인천광역시 옹진군 ${islandName}`,
-            firstImage: gallery[idx] || gallery[0] || "",
-            overview: ""
-          }));
         }
 
         setSpots(fetchedSpots);
@@ -853,13 +840,16 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               <div className="flex flex-col gap-3">
                 <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] rounded-2xl overflow-hidden border border-[#D4D4D4] bg-[#F8F9FA] shadow-2xs">
                   {/* Naver Map Container */}
-                  <div id="naver-map-element" className="w-full h-full">
+                  <div id="naver-map-element" className="relative w-full h-full overflow-hidden bg-[#D4E6EC]">
                     <iframe
-                      title={`${islandName} 네이버 위치 지도`}
+                      title={`${islandName} 위치 지도`}
                       src={osmUrl}
-                      className="w-full h-full border-none"
+                      className="absolute -top-12 -left-10 w-[calc(100%+80px)] h-[calc(100%+80px)] border-none"
                       loading="lazy"
                     />
+                    <span className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded-md bg-black/60 text-white/90 text-xs font-sans pointer-events-none backdrop-blur-xs select-none">
+                      © OpenStreetMap
+                    </span>
                   </div>
 
                   {/* Back to Explore List Button on Map Hero */}
@@ -1126,7 +1116,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               실시간 3일 물때 (조석 예보)
             </h3>
             <p className="text-base text-[#6A6A6A] leading-[180%] break-keep m-0">
-              갯벌체험 및 해안 탐방 시 간조(물 빠짐) 시간을 반드시 확인하세요. 국립해양조사원 기준 해양 조석 시뮬레이션
+              갯벌체험 및 해안 탐방 시 간조(물 빠짐) 시간을 반드시 확인하세요
             </p>
           </div>
 
@@ -1295,8 +1285,8 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                       }
                     }}
                     className={`w-2.5 h-2.5 rounded-full transition-all duration-200 cursor-pointer ${activeTideIndex === dotIdx
-                        ? "bg-[#0F3E17] scale-125"
-                        : "bg-[#D4D4D4] hover:bg-[#A0A0A0]"
+                      ? "bg-[#0F3E17] scale-125"
+                      : "bg-[#D4D4D4] hover:bg-[#A0A0A0]"
                       }`}
                     aria-label={`물때 ${dotIdx + 1}일차 카드로 이동`}
                   />

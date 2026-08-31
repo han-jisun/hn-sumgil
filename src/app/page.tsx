@@ -607,11 +607,10 @@ export default function HomePage() {
                         onClick={() => {
                           setActiveGuideTab(idx); // 클릭한 탭으로 즉시 이동 후 4.5초 뒤 다음으로 자동 롤링 계속
                         }}
-                        className={`h-[42px] flex items-center justify-center rounded-[12px] transition-all cursor-pointer ${
-                          isActive
-                            ? "bg-[#0F3E17] text-white border border-[#0F3E17] font-bold shadow-sm"
-                            : "bg-[#F8FAF9] text-[#64748B] hover:bg-[#F1F5F3] border border-[#E5E7EB] font-medium"
-                        }`}
+                        className={`h-[42px] flex items-center justify-center rounded-[12px] transition-all cursor-pointer ${isActive
+                          ? "bg-[#0F3E17] text-white border border-[#0F3E17] font-bold shadow-sm"
+                          : "bg-[#F8FAF9] text-[#64748B] hover:bg-[#F1F5F3] border border-[#E5E7EB] font-medium"
+                          }`}
                       >
                         <span className="font-mono text-[16px] leading-none">{item.step}</span>
                       </button>
@@ -634,36 +633,32 @@ export default function HomePage() {
                       onMouseEnter={() => {
                         setActiveGuideTab(idx);
                       }}
-                      className={`text-left px-5 py-3.5 rounded-[18px] transition-all duration-200 flex items-center justify-between cursor-pointer w-full ${
-                        isActive
-                          ? "bg-white shadow-[0_4px_20px_rgba(15,62,23,0.08)] border border-[#0F3E17] -translate-y-0.5"
-                          : "bg-[#F8FAF9] hover:bg-[#F1F5F3] border border-[#E5E7EB]"
-                      }`}
+                      className={`text-left px-5 py-3.5 rounded-[18px] transition-all duration-200 flex items-center justify-between cursor-pointer w-full ${isActive
+                        ? "bg-white shadow-[0_4px_20px_rgba(15,62,23,0.08)] border border-[#0F3E17] -translate-y-0.5"
+                        : "bg-[#F8FAF9] hover:bg-[#F1F5F3] border border-[#E5E7EB]"
+                        }`}
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
                         {/* Step Number Badge */}
                         <span
-                          className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all duration-200 shrink-0 ${
-                            isActive
-                              ? "bg-[#0F3E17] text-white"
-                              : "bg-[#E2E8F0] text-[#64748B]"
-                          }`}
+                          className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all duration-200 shrink-0 ${isActive
+                            ? "bg-[#0F3E17] text-white"
+                            : "bg-[#E2E8F0] text-[#64748B]"
+                            }`}
                         >
                           {item.step}
                         </span>
 
                         <div className="min-w-0">
                           <span
-                            className={`text-[11px] font-semibold block uppercase tracking-wider transition-colors truncate ${
-                              isActive ? "text-[#0F3E17]" : "text-[#94A3B8]"
-                            }`}
+                            className={`text-[11px] font-semibold block uppercase tracking-wider transition-colors truncate ${isActive ? "text-[#0F3E17]" : "text-[#94A3B8]"
+                              }`}
                           >
                             {item.tag} · {item.subtitle}
                           </span>
                           <h4
-                            className={`text-[16px] lg:text-[17px] font-bold leading-snug transition-colors truncate ${
-                              isActive ? "text-[#0F3E17]" : "text-[#1E293B]"
-                            }`}
+                            className={`text-[16px] lg:text-[17px] font-bold leading-snug transition-colors truncate ${isActive ? "text-[#0F3E17]" : "text-[#1E293B]"
+                              }`}
                           >
                             {item.title}
                           </h4>
@@ -813,98 +808,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* SECTION 4: 나에게 맞는 첫 번째 여행 섬 찾기 */}
-      {/* ========================================================================= */}
-      <section id="curation-section" className="w-full bg-white mb-[100px] md:mb-[160px]">
-        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-
-          {/* Header */}
-          <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px]">
-            <h2 id="curation-main-title" className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-[#282828] mb-3">
-              나에게 맞는 첫 번째 여행 섬 찾기
-            </h2>
-            <p id="curation-subtitle" className="text-[14px] sm:text-[16px] text-[#6A6A6A] leading-[160%] m-0">
-              어떤 여행을 꿈꾸시나요? 목적에 맞는 섬을 추천해 드립니다.
-            </p>
-          </div>
-
-          {/* 3 White Card Type Theme Curation Cards */}
-          <div
-            id="curation-cards-grid"
-            className="grid grid-cols-1 md:grid-cols-3 gap-[24px] sm:gap-[32px]"
-          >
-            {curationThemes.map((theme, idx) => (
-              <Link
-                key={theme.id}
-                id={`curation-card-${idx + 1}`}
-                href={theme.primaryHref}
-                className="flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-300 group cursor-pointer"
-              >
-                {/* Top Image Box */}
-                <div className="relative h-[200px] sm:h-[220px] w-full shrink-0 overflow-hidden bg-[#EDEDED]">
-                  <Image
-                    src={theme.image}
-                    alt={theme.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-
-                {/* Bottom Content Area (White Background) */}
-                <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[12px]">
-                  {/* Hashtags (Above Title) */}
-                  <div className="flex items-center gap-[6px] flex-wrap">
-                    {theme.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-normal border border-[#EDEDED] bg-[#FFFFFF] text-[#6A6A6A]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors">
-                    {theme.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[14px] sm:text-[15px] text-[#6A6A6A] leading-[150%] m-0 flex-1">
-                    {theme.desc}
-                  </p>
-
-                  {/* Recommended Islands */}
-                  <div className="pt-[14px] mt-[4px] border-t border-[#EDEDED] flex items-center gap-[6px] flex-wrap">
-                    <span className="text-[12px] text-[#848484] font-medium mr-[2px]">추천 섬</span>
-                    {theme.islands.map((island, i) => {
-                      const color = getIslandColor(island.name, idx * 3 + i);
-                      return (
-                        <span
-                          key={island.name}
-                          id={`curation-island-badge-${theme.id}-${island.name}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.location.href = island.href;
-                          }}
-                          className={`h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-bold border ${color.bg} ${color.text} ${color.border} hover:opacity-85 transition-all cursor-pointer`}
-                        >
-                          {island.name}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
         </div>
       </section>
 

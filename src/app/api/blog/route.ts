@@ -5,12 +5,13 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") || "한눈섬길 여행";
   const display = searchParams.get("display") || "20";
   const start = searchParams.get("start") || "1";
+  const sort = searchParams.get("sort") || "date";
 
   const clientId = "yYEwqEldIjq7ZBsfDCxw";
   const clientSecret = "OhyBpsgyAh";
 
   try {
-    const naverApiUrl = `https://openapi.naver.com/v1/search/blog.json?query=${encodeURIComponent(query)}&display=${display}&start=${start}`;
+    const naverApiUrl = `https://openapi.naver.com/v1/search/blog.json?query=${encodeURIComponent(query)}&display=${display}&start=${start}&sort=${sort}`;
     
     const response = await fetch(naverApiUrl, {
       method: "GET",

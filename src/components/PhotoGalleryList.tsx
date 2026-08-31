@@ -75,11 +75,10 @@ export default function PhotoGalleryList() {
               key={item.name}
               type="button"
               onClick={() => setSelectedIdx(idx)}
-              className={`h-9 px-4 rounded-full text-sm font-medium border transition-colors ${
-                isActive
+              className={`h-9 px-4 rounded-full text-sm font-medium border transition-colors ${isActive
                   ? "border-[#0F3E17] bg-[#0F3E17] text-white"
                   : "border-[#D4D4D4] bg-white text-[#525252] hover:border-[#0F3E17] hover:text-[#0F3E17]"
-              }`}
+                }`}
             >
               {item.name}
             </button>
@@ -208,7 +207,7 @@ export default function PhotoGalleryList() {
                   <span className="inline-flex items-center h-6 px-3 rounded-full bg-[#E6FDE5] text-[#0F3E17] text-xs font-semibold">
                     한국관광공사 사진갤러리
                   </span>
-                  
+
                   {/* Copy ID Button in Modal */}
                   <button
                     type="button"
@@ -268,30 +267,25 @@ export default function PhotoGalleryList() {
                 )}
               </div>
 
-                {/* 공공누리 제1유형 공식 출처 표기 */}
-                <div className="mt-3 pt-3 border-t border-white/10 flex flex-col gap-2 text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-[#E6FDE5] text-[#0F3E17] font-semibold text-[11px]">
-                      공공누리 제1유형:출처표시
-                    </span>
-                    <span className="text-[11px] text-[#B6CED5]">출처 표시 | 변형 가능 | 상업적 이용 가능</span>
-                  </div>
-                  <p className="text-[11px] leading-relaxed text-white/80 m-0">
-                    본 저작물은 &apos;{selectedPhoto.photographer?.split(" ")[0] || "한국관광공사/인천광역시"}&apos;에서 {selectedPhoto.createdTime ? `${selectedPhoto.createdTime.slice(0, 4)}년 ` : ""}작성하여 공공누리 제1유형으로 개방한 &apos;{selectedPhoto.title}(작성자:{selectedPhoto.photographer})&apos;을 이용하였으며, 해당 저작물은 <a href="https://www.incheon.go.kr" target="_blank" rel="noopener noreferrer" className="text-[#E6FDE5] underline">인천광역시(www.incheon.go.kr)</a> 및 한국관광공사에서 무료로 다운받으실 수 있습니다.
-                  </p>
+              {/* 공공누리 제1유형 출처 표기 */}
+              <div className="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-[#B6CED5]">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-0.5 rounded bg-[#E6FDE5]/20 text-[#E6FDE5] font-medium text-[11px]">
+                    공공누리 제1유형
+                  </span>
+                  <span className="text-[11px] text-white/80">
+                    출처: {selectedPhoto.photographer || "한국관광공사"}
+                  </span>
                 </div>
-
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-white/50">
-                  <span>Data Source: KTO PhotoGalleryService1</span>
-                  <a
-                    href={selectedPhoto.webImageUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#E6FDE5] hover:underline"
-                  >
-                    원본 사진 보기 ↗
-                  </a>
-                </div>
+                <a
+                  href={selectedPhoto.webImageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-[#E6FDE5] hover:underline"
+                >
+                  원본 사진 보기 ↗
+                </a>
+              </div>
             </div>
           </div>
         </div>

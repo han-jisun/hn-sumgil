@@ -107,13 +107,13 @@ export default function SumList() {
                               경로 옵션 {fIdx + 1}
                             </span>
                           )}
-                          <div className="flex justify-between items-center text-[#6A6A6A]">
-                            <span>⏱️ 소요 시간</span>
-                            <span className="font-semibold text-[#282828]">{ferry.time}</span>
+                          <div className="flex justify-between items-center text-[#6A6A6A] whitespace-nowrap break-keep">
+                            <span className="shrink-0">⏱️ 소요 시간</span>
+                            <span className="font-semibold text-[#282828] whitespace-nowrap break-keep">{ferry.time ? ferry.time.replace(/ /g, "\u00A0") : ""}</span>
                           </div>
-                          <div className="flex justify-between items-center text-[#6A6A6A]">
-                            <span>💰 왕복 요금</span>
-                            <span className="font-bold text-[#0F3E17]">{ferry.fare}</span>
+                          <div className="flex justify-between items-center text-[#6A6A6A] whitespace-nowrap break-keep">
+                            <span className="shrink-0">💰 왕복 요금</span>
+                            <span className="font-bold text-[#0F3E17] whitespace-nowrap break-keep">{ferry.fare ? ferry.fare.replace(/ /g, "\u00A0") : ""}</span>
                           </div>
                         </div>
                       ))}

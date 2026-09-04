@@ -7,7 +7,7 @@
   --black: #000000;
 
   /* Main */
-  --main-50:  #E6FDE5;
+  --main-50: #E6FDE5;
   --main-100: #BCD2BC;
   --main-200: #94A994;
   --main-300: #688468;
@@ -19,7 +19,7 @@
   --main-900: #022100;
 
   /* Sub */
-  --sub-50:  #E7FAFF;
+  --sub-50: #E7FAFF;
   --sub-100: #DCF1F7;
   --sub-200: #D3E8EE;
   --sub-300: #C9DFE6;
@@ -31,7 +31,7 @@
   --sub-900: #151D1F;
 
   /* Gray */
-  --gray-50:  #F6F6F6;
+  --gray-50: #F6F6F6;
   --gray-100: #E8E8E8;
   --gray-200: #D4D4D4;
   --gray-300: #BBBBBB;
@@ -45,18 +45,30 @@
   /* Typography */
   --font-family: 'Noto Sans KR', 'Noto Sans', sans-serif;
 
-  --font-display: 64px;   --lh-display: 120%;
-  --font-h1: 48px;        --lh-h1: 125%;
-  --font-h2: 40px;        --lh-h2: 130%;
-  --font-h3: 32px;        --lh-h3: 135%;
-  --font-h4: 24px;        --lh-h4: 140%;
-  --font-h5: 20px;        --lh-h5: 145%;
-  --font-body-lg: 20px;   --lh-body-lg: 160%;
-  --font-body: 16px;      --lh-body: 160%;
-  --font-caption: 12px;   --lh-caption: 150%;
-  --font-label: 12px;     --lh-label: 100%;
-  --font-data-lg: 40px;   --lh-data-lg: 100%;
-  --font-data: 20px;      --lh-data: 100%;
+  --font-display: 64px;
+  --lh-display: 120%;
+  --font-h1: 48px;
+  --lh-h1: 125%;
+  --font-h2: 40px;
+  --lh-h2: 130%;
+  --font-h3: 32px;
+  --lh-h3: 135%;
+  --font-h4: 24px;
+  --lh-h4: 140%;
+  --font-h5: 20px;
+  --lh-h5: 145%;
+  --font-body-lg: 20px;
+  --lh-body-lg: 160%;
+  --font-body: 16px;
+  --lh-body: 160%;
+  --font-caption: 12px;
+  --lh-caption: 150%;
+  --font-label: 12px;
+  --lh-label: 100%;
+  --font-data-lg: 40px;
+  --lh-data-lg: 100%;
+  --font-data: 20px;
+  --lh-data: 100%;
 
   --weight-light: 300;
   --weight-regular: 400;
@@ -65,15 +77,23 @@
 
   /* Fluid Typography */
   --font-display-fluid: clamp(32px, 5vw, 64px);
-  --font-h1-fluid:      clamp(28px, 3.6vw, 48px);
-  --font-h4-fluid:      clamp(19px, 1.8vw, 22px);
+  --font-h1-fluid: clamp(28px, 3.6vw, 48px);
+  --font-h4-fluid: clamp(19px, 1.8vw, 22px);
   --font-data-lg-fluid: clamp(28px, 3.2vw, 40px);
 
   /* Spacing */
-  --space-1: 4px;    --space-2: 8px;    --space-3: 12px;
-  --space-4: 16px;   --space-5: 24px;   --space-6: 32px;
-  --space-7: 40px;   --space-8: 48px;   --space-9: 64px;
-  --space-10: 80px;  --space-11: 96px;  --space-12: 128px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+  --space-11: 96px;
+  --space-12: 128px;
 
   /* Layout */
   --container-max: 1440px;
@@ -150,8 +170,17 @@
 }
 
 @keyframes hn-cue {
-  0%, 100% { transform: translateY(0); opacity: .5; }
-  50% { transform: translateY(6px); opacity: 1; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: .5;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
 }
 
 /* Base styles */
@@ -196,6 +225,22 @@
     background: none;
     border: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus,
+  button:focus-visible,
+  a:focus,
+  a:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
 }
 
@@ -321,17 +366,29 @@
 }
 
 /* Hide scrollbar utility */
-.no-scrollbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
   display: none;
 }
-.no-scrollbar {
+
+.no-scrollbar,
+.scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
 /* Global Korean Typography: Word-level line breaking & pretty text wrap */
-h1, h2, h3, h4, h5, h6,
-p, span, a, label, li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+label,
+li,
 .break-keep {
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -339,7 +396,8 @@ p, span, a, label, li,
 }
 
 /* 320px and below Horizontal Scroll Safety */
-html, body {
+html,
+body {
   min-width: 320px;
   overflow-x: auto;
 }

@@ -107,8 +107,16 @@ export default function HomePage() {
   const [youtubeVisible, setYoutubeVisible] = useState(false);
   const youtubeGridRef = useRef<HTMLDivElement>(null);
 
-  // Framer Tabs Card Active State
+  // Framer Tabs Card Active State & Continuous Auto Rolling (4.5s)
   const [activeGuideTab, setActiveGuideTab] = useState(0);
+
+  // Starter Guide Auto-rolling timer (4.5s, resets on tab click so user gets full duration)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveGuideTab((prev) => (prev + 1) % 5);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [activeGuideTab]);
 
   useEffect(() => {
     const el = curationGridRef.current;
@@ -254,7 +262,8 @@ export default function HomePage() {
       title: "신분증 지참 필수",
       subtitle: "실물 신분증 또는 정부24 모바일 신분증",
       desc: "여객선 승선 시 승선권과 신분증 실물 대조가 100% 법적 의무화되어 있습니다. 미성년자는 주민등록등본 또는 가족관계증명서를 반드시 준비하세요.",
-      image: "/images/guide/step1-id.jpg",
+      image: "/images/guide/step1-id.png",
+      pos: "bg-[position:center_10px] sm:bg-[position:center_14px]",
       badge: "정부24 · 모바일 신분증 100% 허용",
       tip: "💡 터미널 현장 무인민원발급기에서 등본 즉시 발급 가능"
     },
@@ -265,7 +274,8 @@ export default function HomePage() {
       title: "가고싶은섬 배표 예매 팁",
       subtitle: "한국해운조합 공식 예약 사이트",
       desc: "주말 및 성수기 인기 섬(굴업도·백령도·덕적도)은 승선권이 조기 매진됩니다. 최소 1~2주 전 한국해운조합 '가고싶은섬' 공식 앱에서 사전 예매하세요.",
-      image: "/images/guide/step2-ferry.jpg",
+      image: "/images/guide/step2-ferry.png",
+      pos: "bg-[position:center_10px] sm:bg-[position:center_14px]",
       badge: "주말 조기 매진 주의 · 공식 사전 예매",
       tip: "🚢 차량 선적(카페리)은 온라인 예매 불가 시 현장 선착순 접수"
     },
@@ -276,7 +286,8 @@ export default function HomePage() {
       title: "물때 & 바다 날씨 확인",
       subtitle: "간조/만조 시각 및 풍랑 특보",
       desc: "대이작도 풀등 모래섬과 해안 트레킹, 갯벌 체험은 물이 빠지는 '간조' 전후 2시간이 골든타임입니다. 출발 당일 아침 출항 여부를 꼭 확인하세요.",
-      image: "/images/guide/step3-tide.jpg",
+      image: "/images/guide/step3-tide.png",
+      pos: "bg-[position:center_36px] sm:bg-[position:center_26px]",
       badge: "간조 전후 2시간 골든타임",
       tip: "🌊 국립해양조사원 물때표 및 바다날씨 실시간 연동"
     },
@@ -287,7 +298,8 @@ export default function HomePage() {
       title: "섬 내부 이동 수단 파악",
       subtitle: "입항 연계 공영버스 & 도보 코스",
       desc: "백령도·덕적도 등 큰 섬은 여객선 입항 시각에 맞춰 공영버스가 운행됩니다. 대연평·굴업도 등 소형 섬은 여유로운 도보 트레킹으로 충분히 둘러볼 수 있습니다.",
-      image: "/images/guide/step4-bus.jpg",
+      image: "/images/guide/step4-bus.png",
+      pos: "bg-[position:center_10px] sm:bg-[position:center_14px]",
       badge: "여객선 입항 연계 공영버스",
       tip: "🚌 배 도착 시간에 맞춰 선착장 앞 버스 바로 대기"
     },
@@ -298,7 +310,8 @@ export default function HomePage() {
       title: "LNT 클린 섬 캠핑 수칙",
       subtitle: "Leave No Trace - 흔적 남기지 않기",
       desc: "섬은 자체 쓰레기 처리가 어렵습니다. 종량제 봉투를 준비하여 발생한 모든 쓰레기는 육지로 전량 되가져오는 성숙한 클린 백패킹을 실천해 주세요.",
-      image: "/images/guide/step5-camping.jpg",
+      image: "/images/guide/step5-camping.png",
+      pos: "bg-[position:center_32px] sm:bg-[position:center_24px]",
       badge: "쓰레기 100% 육지 되가져오기",
       tip: "⛺ 지정된 야영장 이용 및 화기 사용 시 안전 철저"
     }
@@ -515,30 +528,30 @@ export default function HomePage() {
         </div>
 
         {/* Hero Bottom Bar */}
-        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-[24px] sm:bottom-[40px] z-10">
-          <div className="max-w-[1440px] mx-auto px-[16px] sm:px-[40px] grid grid-cols-12 gap-[16px] items-end">
-            {/* Active Slide Name */}
-            <div className="col-span-12 sm:col-span-4 flex items-center gap-[8px] sm:gap-[12px] mb-[12px] sm:mb-0">
-              <span className="w-[16px] sm:w-[24px] h-[1px] bg-white/60 shrink-0" />
-              <span className="text-[12px] font-medium tracking-[0.05em] leading-[100%] text-sub-500 uppercase shrink-0">지금 보이는 곳</span>
-              <span id="hero-current-slide-label" className="text-[14px] sm:text-[16px] font-medium leading-[100%] text-white truncate">
+        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-[20px] sm:bottom-[36px] z-10">
+          <div className="max-w-[1440px] mx-auto px-[16px] sm:px-[40px] flex items-center justify-between gap-4 w-full">
+            {/* Active Slide Name (Left) */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 max-w-[650px]">
+              <span className="w-4 sm:w-6 h-[1px] bg-white/60 shrink-0" />
+              <span className="text-[11px] sm:text-[12px] font-medium tracking-wider text-sub-500 uppercase shrink-0">지금 보이는 곳</span>
+              <span id="hero-current-slide-label" className="text-[13px] sm:text-[15px] font-medium text-white break-keep leading-snug line-clamp-2">
                 {heroSlides[heroIdx].name}
               </span>
             </div>
 
-            {/* Slide Progress & Controls */}
-            <div id="hero-slide-controls" className="col-span-12 sm:col-start-7 sm:col-span-6 flex items-center justify-between sm:justify-end gap-[12px] sm:gap-[16px] w-full mt-[16px] sm:mt-0">
-              <span id="hero-slide-counter" className="text-white text-[14px] font-medium tracking-[0.05em] leading-[100%] shrink-0">
+            {/* Slide Progress & Controls (Right - Compact Bars) */}
+            <div id="hero-slide-controls" className="flex items-center justify-end gap-2.5 sm:gap-4 shrink-0">
+              <span id="hero-slide-counter" className="text-white text-[12px] sm:text-[14px] font-medium tracking-wider leading-none shrink-0 font-mono">
                 0{heroIdx + 1} / 0{heroSlides.length}
               </span>
-              <div id="hero-slide-indicators" className="flex items-center gap-[8px] flex-1 sm:flex-initial">
+              <div id="hero-slide-indicators" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 {heroSlides.map((_, i) => (
                   <button
                     key={i}
                     id={`hero-slide-btn-${i}`}
                     type="button"
                     onClick={() => setHeroIdx(i)}
-                    className="flex-1 sm:flex-initial sm:w-[64px] h-[4px] p-0 border-none rounded-full overflow-hidden bg-white/30 cursor-pointer"
+                    className="w-[24px] sm:w-[36px] h-[3px] sm:h-[3.5px] p-0 border-none rounded-full overflow-hidden bg-white/30 cursor-pointer transition-all"
                     aria-label={`Go to slide ${i + 1}`}
                   >
                     <span
@@ -552,7 +565,7 @@ export default function HomePage() {
                 id="hero-pause-play-btn"
                 type="button"
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="inline-flex items-center justify-center w-[32px] h-[32px] rounded-full border border-white/40 bg-transparent text-white text-[12px] font-medium leading-[100%] hover:bg-white/10 transition-colors shrink-0"
+                className="inline-flex items-center justify-center w-[28px] h-[28px] sm:w-[32px] sm:h-[32px] rounded-full border border-white/40 bg-transparent text-white text-[11px] sm:text-[12px] font-medium leading-none hover:bg-white/15 transition-colors shrink-0"
                 aria-label={isPlaying ? "Pause auto slide" : "Play auto slide"}
               >
                 {isPlaying ? "❙❙" : "▶"}
@@ -565,7 +578,7 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* SECTION 1: 배편 예매부터 신분증까지, 첫 섬 여행 가이드 (Framer Tabs Card UI) */}
       {/* ========================================================================= */}
-      <section id="starter-guide-section" className="w-full bg-white py-[64px] md:py-[100px] border-y border-[#EDEDED]">
+      <section id="starter-guide-section" className="w-full bg-white py-[64px] md:py-[100px] border-t border-[#EDEDED]">
         <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
 
           {/* Header */}
@@ -578,50 +591,74 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Framer Tabs-Card Container */}
-          <div className="max-w-[1240px] mx-auto bg-[#F4F6F8] p-3 sm:p-5 md:p-6 rounded-[28px] sm:rounded-[36px] border border-[#E2E8F0] shadow-[0_12px_48px_rgba(0,0,0,0.04)]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-5 md:gap-6 items-stretch">
+          {/* Framer Tabs-Card Container (100% Grid Width) */}
+          <div className="w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
 
-              {/* Left Column: Uniform Tabs List (Horizontal swipe on mobile, vertical stack on desktop) */}
-              <div className="lg:col-span-5 flex flex-row lg:flex-col gap-2.5 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 no-scrollbar justify-between">
+              {/* Mobile Only: 1~5 Single Row Number Bar (번호만 노출) */}
+              <div className="lg:hidden col-span-1 flex flex-col gap-2 w-full mb-1">
+                <div className="grid grid-cols-5 gap-2 w-full">
+                  {starterGuideSteps.map((item, idx) => {
+                    const isActive = activeGuideTab === idx;
+                    return (
+                      <button
+                        key={`mobile-guide-tab-${item.step}`}
+                        type="button"
+                        onClick={() => {
+                          setActiveGuideTab(idx); // 클릭한 탭으로 즉시 이동 후 4.5초 뒤 다음으로 자동 롤링 계속
+                        }}
+                        className={`h-[42px] flex items-center justify-center rounded-[12px] transition-all cursor-pointer ${isActive
+                          ? "bg-[#0F3E17] text-white border border-[#0F3E17] font-bold shadow-sm"
+                          : "bg-[#F8FAF9] text-[#64748B] hover:bg-[#F1F5F3] border border-[#E5E7EB] font-medium"
+                          }`}
+                      >
+                        <span className="font-mono text-[16px] leading-none">{item.step}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Desktop Only: 5 Vertical Tabs (좌측 세로 선 없이 깔끔한 1px 테두리 디자인) */}
+              <div className="hidden lg:flex lg:col-span-5 flex-col gap-2.5 w-full">
                 {starterGuideSteps.map((item, idx) => {
                   const isActive = activeGuideTab === idx;
                   return (
                     <button
                       key={`framer-tab-${item.step}`}
                       type="button"
-                      onClick={() => setActiveGuideTab(idx)}
-                      onMouseEnter={() => setActiveGuideTab(idx)}
-                      className={`text-left px-3.5 sm:px-5 py-3 sm:py-4 rounded-[16px] sm:rounded-[20px] transition-all duration-200 flex items-center justify-between cursor-pointer shrink-0 min-w-[190px] sm:min-w-[220px] lg:min-w-0 lg:w-full ${
-                        isActive
-                          ? "bg-white shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-[#E2E8F0] -translate-y-0.5"
-                          : "bg-white/40 lg:bg-transparent hover:bg-white/70 border border-transparent"
-                      }`}
+                      onClick={() => {
+                        setActiveGuideTab(idx);
+                      }}
+                      onMouseEnter={() => {
+                        setActiveGuideTab(idx);
+                      }}
+                      className={`text-left px-5 py-3.5 rounded-[18px] transition-all duration-200 flex items-center justify-between cursor-pointer w-full ${isActive
+                        ? "bg-white shadow-[0_4px_20px_rgba(15,62,23,0.08)] border border-[#0F3E17] -translate-y-0.5"
+                        : "bg-[#F8FAF9] hover:bg-[#F1F5F3] border border-[#E5E7EB]"
+                        }`}
                     >
-                      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+                      <div className="flex items-center gap-3.5 min-w-0">
                         {/* Step Number Badge */}
                         <span
-                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center font-mono text-[11px] sm:text-xs font-bold transition-all duration-200 shrink-0 ${
-                            isActive
-                              ? "bg-[#0F3E17] text-white"
-                              : "bg-[#E2E8F0] text-[#64748B]"
-                          }`}
+                          className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all duration-200 shrink-0 ${isActive
+                            ? "bg-[#0F3E17] text-white"
+                            : "bg-[#E2E8F0] text-[#64748B]"
+                            }`}
                         >
                           {item.step}
                         </span>
 
                         <div className="min-w-0">
                           <span
-                            className={`text-[10px] sm:text-[11px] font-semibold block uppercase tracking-wider transition-colors truncate ${
-                              isActive ? "text-[#0F3E17]" : "text-[#94A3B8]"
-                            }`}
+                            className={`text-[11px] font-semibold block uppercase tracking-wider transition-colors truncate ${isActive ? "text-[#0F3E17]" : "text-[#94A3B8]"
+                              }`}
                           >
                             {item.tag} · {item.subtitle}
                           </span>
                           <h4
-                            className={`text-[14px] sm:text-[16px] lg:text-[17px] font-bold leading-snug transition-colors truncate ${
-                              isActive ? "text-[#0F3E17]" : "text-[#1E293B]"
-                            }`}
+                            className={`text-[16px] lg:text-[17px] font-bold leading-snug transition-colors truncate ${isActive ? "text-[#0F3E17]" : "text-[#1E293B]"
+                              }`}
                           >
                             {item.title}
                           </h4>
@@ -629,41 +666,42 @@ export default function HomePage() {
                       </div>
 
                       {/* Icon */}
-                      <span className={`text-xl sm:text-2xl shrink-0 transition-transform duration-200 ml-2 ${isActive ? "scale-110" : "opacity-50"}`}>
+                      <span className={`text-2xl shrink-0 transition-transform duration-200 ml-2 ${isActive ? "scale-110" : "opacity-50"}`}>
                         {item.icon}
                       </span>
                     </button>
                   );
                 })}
+
               </div>
 
-              {/* Right Column: Full-Bleed 3D Showcase Card with Clean Text (No Shadow) */}
+              {/* Right Column: Full-Bleed 3D Showcase Card with Transparent PNG Cutout */}
               <div className="lg:col-span-7 flex">
-                <div className="w-full rounded-[24px] sm:rounded-[28px] overflow-hidden relative border border-[#E2E8F0] min-h-[420px] sm:min-h-[500px] flex flex-col justify-between p-5 sm:p-7 bg-[#EDE3D4] group">
+                <div className="w-full rounded-[24px] sm:rounded-[28px] overflow-hidden relative border border-[#E2E8F0] min-h-[420px] sm:min-h-[500px] flex flex-col justify-between p-5 sm:p-7 bg-[#F9FBFA] group shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
 
-                  {/* 3D Image (100% Full-Bleed Coverage with Zero Top Cutoff) */}
+                  {/* 3D Transparent Cutout Object (Custom position per step) */}
                   <div
                     key={`bg-img-${activeGuideTab}`}
-                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out transform group-hover:scale-105"
+                    className={`absolute inset-0 bg-contain ${starterGuideSteps[activeGuideTab].pos} bg-no-repeat transition-all duration-700 ease-out transform group-hover:scale-105 p-4 sm:p-6`}
                     style={{ backgroundImage: `url('${starterGuideSteps[activeGuideTab].image}')` }}
                   />
 
-                  {/* Matching Image Background Color Gradient - Stops right at the Title */}
-                  <div className="absolute inset-x-0 bottom-0 h-[42%] sm:h-[40%] bg-gradient-to-t from-[#EDE3D4] via-[#EDE3D4]/95 to-transparent pointer-events-none" />
+                  {/* Soft bottom fade to ensure perfect text contrast */}
+                  <div className="absolute inset-x-0 bottom-0 h-[48%] sm:h-[42%] bg-gradient-to-t from-[#F9FBFA] via-[#F9FBFA]/90 to-transparent pointer-events-none" />
 
-                  {/* Top Green Rounded Pill Badge (Flat, No Shadow) */}
+                  {/* Top Green Rounded Pill Badge */}
                   <div className="relative z-10 flex items-center justify-start pointer-events-none">
-                    <span className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[12px] sm:text-[14px] font-bold bg-[#E6FDE5] text-[#0F3E17] border border-[#55E590]">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[12px] sm:text-[14px] font-bold bg-[#E6FDE5] text-[#0F3E17] border border-[#86EFAC] shadow-sm">
                       ✓ {starterGuideSteps[activeGuideTab].badge}
                     </span>
                   </div>
 
-                  {/* Bottom Text & Tip Area (No Box Background & No Text Shadow) */}
+                  {/* Bottom Text & Tip Area */}
                   <div className="relative z-10">
-                    <h3 className="text-[18px] sm:text-[23px] font-extrabold text-[#191F28] tracking-tight leading-snug mb-1.5 sm:mb-2">
+                    <h3 className="text-[19px] sm:text-[23px] font-extrabold text-[#191F28] tracking-tight leading-snug mb-1.5 sm:mb-2">
                       {starterGuideSteps[activeGuideTab].title}
                     </h3>
-                    <p className="text-[13px] sm:text-[14.5px] text-[#334155] leading-[160%] mb-3 max-w-[560px] font-medium">
+                    <p className="text-[13px] sm:text-[14.5px] text-[#475569] leading-[160%] mb-3 max-w-[560px] font-medium">
                       {starterGuideSteps[activeGuideTab].desc}
                     </p>
                     <div className="inline-flex items-center gap-2 text-xs sm:text-[13px] font-bold text-[#0F3E17]">
@@ -770,98 +808,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* SECTION 4: 나에게 맞는 첫 번째 여행 섬 찾기 */}
-      {/* ========================================================================= */}
-      <section id="curation-section" className="w-full bg-white mb-[100px] md:mb-[160px]">
-        <div className="max-w-[1440px] mx-auto px-[clamp(16px,4vw,40px)]">
-
-          {/* Header */}
-          <div id="curation-section-header" className="text-center max-w-[700px] mx-auto mb-[32px] md:mb-[48px]">
-            <h2 id="curation-main-title" className="m-0 text-[clamp(28px,3.6vw,48px)] font-bold tracking-tight text-[#282828] mb-3">
-              나에게 맞는 첫 번째 여행 섬 찾기
-            </h2>
-            <p id="curation-subtitle" className="text-[14px] sm:text-[16px] text-[#6A6A6A] leading-[160%] m-0">
-              어떤 여행을 꿈꾸시나요? 목적에 맞는 섬을 추천해 드립니다.
-            </p>
-          </div>
-
-          {/* 3 White Card Type Theme Curation Cards */}
-          <div
-            id="curation-cards-grid"
-            className="grid grid-cols-1 md:grid-cols-3 gap-[24px] sm:gap-[32px]"
-          >
-            {curationThemes.map((theme, idx) => (
-              <Link
-                key={theme.id}
-                id={`curation-card-${idx + 1}`}
-                href={theme.primaryHref}
-                className="flex flex-col rounded-[8px] sm:rounded-[12px] border border-[#D4D4D4] bg-[#FFFFFF] overflow-hidden hover:border-[#0F3E17] hover:shadow-[0_8px_24px_rgba(21,29,31,0.08)] transition-all duration-300 group cursor-pointer"
-              >
-                {/* Top Image Box */}
-                <div className="relative h-[200px] sm:h-[220px] w-full shrink-0 overflow-hidden bg-[#EDEDED]">
-                  <Image
-                    src={theme.image}
-                    alt={theme.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-
-                {/* Bottom Content Area (White Background) */}
-                <div className="p-[20px] sm:p-[24px] bg-[#FFFFFF] flex flex-col flex-1 gap-[12px]">
-                  {/* Hashtags (Above Title) */}
-                  <div className="flex items-center gap-[6px] flex-wrap">
-                    {theme.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-normal border border-[#EDEDED] bg-[#FFFFFF] text-[#6A6A6A]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-[20px] sm:text-[22px] font-bold tracking-[-0.01em] text-[#282828] leading-[130%] group-hover:text-[#0F3E17] transition-colors">
-                    {theme.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[14px] sm:text-[15px] text-[#6A6A6A] leading-[150%] m-0 flex-1">
-                    {theme.desc}
-                  </p>
-
-                  {/* Recommended Islands */}
-                  <div className="pt-[14px] mt-[4px] border-t border-[#EDEDED] flex items-center gap-[6px] flex-wrap">
-                    <span className="text-[12px] text-[#848484] font-medium mr-[2px]">추천 섬</span>
-                    {theme.islands.map((island, i) => {
-                      const color = getIslandColor(island.name, idx * 3 + i);
-                      return (
-                        <span
-                          key={island.name}
-                          id={`curation-island-badge-${theme.id}-${island.name}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.location.href = island.href;
-                          }}
-                          className={`h-[26px] inline-flex items-center px-[10px] rounded-full text-[12px] font-bold border ${color.bg} ${color.text} ${color.border} hover:opacity-85 transition-all cursor-pointer`}
-                        >
-                          {island.name}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
         </div>
       </section>
 

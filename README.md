@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏝️ 한눈섬길 (HN-Sumgil)
 
-## Getting Started
+> **복잡한 섬 여행 준비, 한눈에 명쾌하게!**  
+> 인천 섬 트레킹부터 백패킹, 배 시간표, 물때 정보까지 한곳에서 확인하는 섬 여행 가이드 플랫폼
 
-First, run the development server:
+---
+
+## 📌 서비스 소개
+
+**한눈섬길**은 섬 여행을 준비할 때 겪는 복잡함(배 시간, 물때, 일몰 시각, 트레킹 난이도 등)을 해결하기 위해 만든 **인천 섬 여행 & 트레킹 전문 안내 서비스**입니다.
+
+인천 연안여객터미널, 대부도 방아머리, 삼목선착장 등 주요 선착장에서 출항하는 섬들의 최신 운항 정보와 인기 트레킹 코스를 한눈에 확인하고 나만의 섬 여행을 계획해보세요!
+
+---
+
+## ✨ 주요 기능
+
+| 기능 | 설명 |
+| --- | --- |
+| 🗺️ **섬 탐색 (Explore)** | 굴업도, 승봉도, 덕적도, 무의도, 자월도 등 인천 대표 섬들의 명소, 코스 정보, 이동 팁 제공 |
+| 🎒 **테마별 여행 (Theme)** | 초보 백패킹, 노지 캠핑, 당일치기 트레킹, 일몰 명소 등 취향에 맞는 섬 코스 추천 |
+| 🚢 **배 시간 & 여객선 정보 (Data)** | 주요 선착장별 여객선 노선, 소요 시간, 운항 정보 한눈에 확인 |
+| 📖 **섬 매거진 (Magazine)** | 생생한 섬 이야기와 백패킹 후기, 감성적인 매거진 아티클 제공 |
+
+---
+
+## 🏝️ 주요 추천 섬 및 코스
+
+- **굴업도**: 한국의 갈라파고스, 개머리언덕 붉은 노을 백패킹
+- **승봉도**: 초보자도 쉽게 떠나는 힐링 섬 산책 코스
+- **무의도**: 호룡곡산 종주와 하나개해변 노지 캠핑
+- **덕적도**: 서해의 보석, 비조봉 트레킹과 해변 산책
+- **신도·시도·모도**: 삼목선착장에서 10분, 삼색 매력의 연도교 섬 여행
+
+---
+
+## 🛠️ 실행 방법 (Getting Started)
+
+프로젝트를 실행하려면 다음 명령어를 사용하세요.
 
 ```bash
+# 패키지 설치 (필요시)
+npm install
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+웹 브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속하여 '한눈섬길'을 확인하실 수 있습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💻 기술 스택 (Tech Stack)
 
-## Learn More
+- **Framework**: Next.js (App Router)
+- **Library**: React, TypeScript
+- **Styling**: Tailwind CSS
+- **Utility**: html2canvas
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📬 문의 및 안내
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ⓒ 한눈섬길 (INCHEON ISLANDS). All rights reserved.

@@ -785,24 +785,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
               </div>
             )}
 
-            {/* Top-Left Floating Circular Back to Explore List Link */}
-            <Link
-              id="island-top-back-link"
-              href="/explore"
-              className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-[#2A3036]/80 hover:bg-[#0F3E17] text-white backdrop-blur-md shadow-md border border-white/20 flex items-center justify-center transition-all duration-150 cursor-pointer group/back"
-              title="전체 섬 목록으로 이동"
-              aria-label="전체 섬 목록으로 이동"
-            >
-              <svg
-                className="w-5 h-5 text-white group-hover/back:-translate-x-0.5 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                strokeWidth="2.5"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-            </Link>
+
 
             {/* Gallery Expand Button (Bottom-Right, Fixed 32px Area, No Size Jitter) */}
             <button
@@ -852,24 +835,7 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                     </span>
                   </div>
 
-                  {/* Back to Explore List Button on Map Hero */}
-                  <Link
-                    id="island-map-top-back-link"
-                    href="/explore"
-                    className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-[#2A3036]/80 hover:bg-[#0F3E17] text-white backdrop-blur-md shadow-md border border-white/20 flex items-center justify-center transition-all duration-150 cursor-pointer group/back"
-                    title="전체 섬 목록으로 이동"
-                    aria-label="전체 섬 목록으로 이동"
-                  >
-                    <svg
-                      className="w-5 h-5 text-white group-hover/back:-translate-x-0.5 transition-transform"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      strokeWidth="2.5"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                  </Link>
+
 
                   {/* Naver Map UI Header Badge */}
                   <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#03C75A]/40 shadow-sm text-xs font-bold text-[#1E1E1E]">
@@ -987,23 +953,38 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                   </span>
                 </div>
 
-                {/* Row 5: 주변 편의 (Clickable -> #section-places, Only when data exists) */}
+                {/* Row 5: 주변 편의 (Clickable -> #section-restaurants / #section-lodges) */}
                 {(restaurants.length > 0 || lodges.length > 0 || campsites.length > 0) && (
                   <div className="py-3.5 sm:py-4 flex items-baseline gap-6 sm:gap-10">
                     <span className="w-20 sm:w-24 shrink-0 font-bold text-[#1E1E1E]">
                       주변 편의
                     </span>
-                    <span
-                      onClick={() => scrollToSection("section-places")}
-                      className="text-[#404040] underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all leading-relaxed"
-                      title="클릭하여 식당·숙소·캠핑 목록으로 이동"
-                    >
-                      {[
-                        restaurants.length > 0 ? `식당 ${restaurants.length}개소` : null,
-                        lodges.length > 0 ? `숙소 ${lodges.length}곳` : null,
-                        campsites.length > 0 ? `캠핑장 ${campsites.length}곳` : null
-                      ].filter(Boolean).join(" · ")}
-                    </span>
+                    <div className="flex items-center gap-2 flex-wrap text-[#404040]">
+                      {restaurants.length > 0 && (
+                        <span
+                          onClick={() => scrollToSection("section-restaurants")}
+                          className="underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all"
+                          title="클릭하여 식당 목록으로 이동"
+                        >
+                          식당 {restaurants.length}개소
+                        </span>
+                      )}
+                      {restaurants.length > 0 && (lodges.length > 0 || campsites.length > 0) && (
+                        <span className="text-[#848484] select-none">·</span>
+                      )}
+                      {(lodges.length > 0 || campsites.length > 0) && (
+                        <span
+                          onClick={() => scrollToSection("section-lodges")}
+                          className="underline underline-offset-4 decoration-[#D4D4D4] hover:decoration-[#0F3E17] hover:text-[#0F3E17] hover:font-bold cursor-pointer transition-all"
+                          title="클릭하여 숙소·캠핑 목록으로 이동"
+                        >
+                          {[
+                            lodges.length > 0 ? `숙소 ${lodges.length}곳` : null,
+                            campsites.length > 0 ? `캠핑장 ${campsites.length}곳` : null
+                          ].filter(Boolean).join(" · ")}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -1405,148 +1386,161 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
           </section>
         )}
 
-        {/* Section 05: 주변 식당 & 숙박 정보 (Stayfolio Minimal Card Design - No Inner Divider) */}
-        <section id="section-places">
-          <div className="flex flex-col gap-3 mb-6">
-            <h3 className="text-[24px] sm:text-[28px] font-black tracking-tight text-[#1E1E1E] leading-tight">
-              주변 먹거리 & 머물곳
-            </h3>
-            <p className="text-base text-[#6A6A6A] leading-[180%] break-keep m-0">
-              {islandName} 인근의 추천 식당, 숙소 및 캠핑 편의 시설
-            </p>
-          </div>
+        {/* Section 05-A: 주변 먹거리 (Restaurants) */}
+        {restaurants.length > 0 && (
+          <section id="section-restaurants">
+            <div className="flex flex-col gap-3 mb-6">
+              <h3 className="text-[24px] sm:text-[28px] font-black tracking-tight text-[#1E1E1E] leading-tight">
+                🍽️ 주변 먹거리
+              </h3>
+              <p className="text-base text-[#6A6A6A] leading-[180%] break-keep m-0">
+                {islandName} 인근의 추천 식당 및 맛집
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {/* Campsites */}
-            {campsites.map((camp: any, idx: number) => {
-              const cat = getPlaceCategory(camp, "camp");
-              return (
-                <a
-                  key={`camp-${idx}`}
-                  href={`https://map.naver.com/index.naver?query=${encodeURIComponent(camp.addr1 || camp.facltNm)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-5 sm:p-6 rounded-[10px] bg-white border border-[#E5E5E5] hover:border-[#1E1E1E] transition-all flex flex-col justify-between group cursor-pointer shadow-2xs"
-                >
-                  <div>
-                    {/* Top Row: Pinpoint + Name on Left / Category Badge on Right */}
-                    <div className="flex justify-between items-center gap-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1E1E1E] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                        </svg>
-                        <h4 className="font-bold text-base sm:text-[17px] text-[#1E1E1E] group-hover:text-[#0F3E17] transition-colors truncate">
-                          {camp.facltNm}
-                        </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {restaurants.map((rest: any, idx: number) => {
+                const cat = getPlaceCategory(rest, "rest");
+                return (
+                  <a
+                    key={`rest-${idx}`}
+                    href={`https://map.naver.com/index.naver?query=${encodeURIComponent(rest.addr || rest.bsshNm)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-5 sm:p-6 rounded-[10px] bg-white border border-[#E5E5E5] hover:border-[#1E1E1E] transition-all flex flex-col justify-between group cursor-pointer shadow-2xs"
+                  >
+                    <div>
+                      {/* Top Row: Pinpoint + Name on Left / Category Badge on Right */}
+                      <div className="flex justify-between items-center gap-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1E1E1E] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                          </svg>
+                          <h4 className="font-bold text-base sm:text-[17px] text-[#1E1E1E] group-hover:text-[#0F3E17] transition-colors truncate">
+                            {rest.bsshNm}
+                          </h4>
+                        </div>
+                        <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
+                          {cat.icon} {cat.label}
+                        </span>
                       </div>
-                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
-                        {cat.icon} {cat.label}
-                      </span>
+
+                      {/* Description / Address */}
+                      <p className="text-sm text-[#717171] leading-relaxed line-clamp-2 mt-2.5 m-0">
+                        {rest.addr || `${islandName} 대표 향토 먹거리 식당`}
+                      </p>
                     </div>
 
-                    {/* Description / Address (No Divider Line) */}
-                    <p className="text-sm text-[#717171] leading-relaxed line-clamp-2 mt-2.5 m-0">
-                      {camp.addr1 || `${islandName} 자연 속 힐링 캠핑장`}
-                    </p>
-                  </div>
-
-                  {camp.tel && (
-                    <span className="text-xs text-[#848484] mt-2 block">
-                      📞 {camp.tel}
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-
-            {/* Restaurants */}
-            {restaurants.slice(0, 6).map((rest: any, idx: number) => {
-              const cat = getPlaceCategory(rest, "rest");
-              return (
-                <a
-                  key={`rest-${idx}`}
-                  href={`https://map.naver.com/index.naver?query=${encodeURIComponent(rest.addr || rest.bsshNm)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-5 sm:p-6 rounded-[10px] bg-white border border-[#E5E5E5] hover:border-[#1E1E1E] transition-all flex flex-col justify-between group cursor-pointer shadow-2xs"
-                >
-                  <div>
-                    {/* Top Row: Pinpoint + Name on Left / Category Badge on Right */}
-                    <div className="flex justify-between items-center gap-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1E1E1E] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                        </svg>
-                        <h4 className="font-bold text-base sm:text-[17px] text-[#1E1E1E] group-hover:text-[#0F3E17] transition-colors truncate">
-                          {rest.bsshNm}
-                        </h4>
-                      </div>
-                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
-                        {cat.icon} {cat.label}
+                    {rest.tel && (
+                      <span className="text-xs text-[#848484] mt-2 block">
+                        📞 {rest.tel}
                       </span>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* Section 05-B: 주변 머물곳 (Lodges & Campsites) */}
+        {(lodges.length > 0 || campsites.length > 0) && (
+          <section id="section-lodges">
+            <div className="flex flex-col gap-3 mb-6">
+              <h3 className="text-[24px] sm:text-[28px] font-black tracking-tight text-[#1E1E1E] leading-tight">
+                🏡 주변 머물곳
+              </h3>
+              <p className="text-base text-[#6A6A6A] leading-[180%] break-keep m-0">
+                {islandName} 인근의 추천 숙소, 펜션, 민박 및 캠핑 시설
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {/* Campsites */}
+              {campsites.map((camp: any, idx: number) => {
+                const cat = getPlaceCategory(camp, "camp");
+                return (
+                  <a
+                    key={`camp-${idx}`}
+                    href={`https://map.naver.com/index.naver?query=${encodeURIComponent(camp.addr1 || camp.facltNm)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-5 sm:p-6 rounded-[10px] bg-white border border-[#E5E5E5] hover:border-[#1E1E1E] transition-all flex flex-col justify-between group cursor-pointer shadow-2xs"
+                  >
+                    <div>
+                      <div className="flex justify-between items-center gap-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1E1E1E] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                          </svg>
+                          <h4 className="font-bold text-base sm:text-[17px] text-[#1E1E1E] group-hover:text-[#0F3E17] transition-colors truncate">
+                            {camp.facltNm}
+                          </h4>
+                        </div>
+                        <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
+                          {cat.icon} {cat.label}
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-[#717171] leading-relaxed line-clamp-2 mt-2.5 m-0">
+                        {camp.addr1 || `${islandName} 자연 속 힐링 캠핑장`}
+                      </p>
                     </div>
 
-                    {/* Description / Address (No Divider Line) */}
-                    <p className="text-sm text-[#717171] leading-relaxed line-clamp-2 mt-2.5 m-0">
-                      {rest.addr || `${islandName} 대표 향토 먹거리 식당`}
-                    </p>
-                  </div>
-
-                  {rest.tel && (
-                    <span className="text-xs text-[#848484] mt-2 block">
-                      📞 {rest.tel}
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-
-            {/* Lodges */}
-            {lodges.slice(0, 6).map((lodge: any, idx: number) => {
-              const cat = getPlaceCategory(lodge, "lodge");
-              return (
-                <a
-                  key={`lodge-${idx}`}
-                  href={`https://map.naver.com/index.naver?query=${encodeURIComponent(lodge.addr || lodge.bsshNm)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-5 sm:p-6 rounded-[10px] bg-white border border-[#E5E5E5] hover:border-[#1E1E1E] transition-all flex flex-col justify-between group cursor-pointer shadow-2xs"
-                >
-                  <div>
-                    {/* Top Row: Pinpoint + Name on Left / Category Badge on Right */}
-                    <div className="flex justify-between items-center gap-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1E1E1E] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                        </svg>
-                        <h4 className="font-bold text-base sm:text-[17px] text-[#1E1E1E] group-hover:text-[#0F3E17] transition-colors truncate">
-                          {lodge.bsshNm}
-                        </h4>
-                      </div>
-                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
-                        {cat.icon} {cat.label}
+                    {camp.tel && (
+                      <span className="text-xs text-[#848484] mt-2 block">
+                        📞 {camp.tel}
                       </span>
+                    )}
+                  </a>
+                );
+              })}
+
+              {/* Lodges */}
+              {lodges.map((lodge: any, idx: number) => {
+                const cat = getPlaceCategory(lodge, "lodge");
+                return (
+                  <a
+                    key={`lodge-${idx}`}
+                    href={`https://map.naver.com/index.naver?query=${encodeURIComponent(lodge.addr || lodge.bsshNm)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-5 sm:p-6 rounded-[10px] bg-white border border-[#E5E5E5] hover:border-[#1E1E1E] transition-all flex flex-col justify-between group cursor-pointer shadow-2xs"
+                  >
+                    <div>
+                      <div className="flex justify-between items-center gap-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1E1E1E] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                          </svg>
+                          <h4 className="font-bold text-base sm:text-[17px] text-[#1E1E1E] group-hover:text-[#0F3E17] transition-colors truncate">
+                            {lodge.bsshNm}
+                          </h4>
+                        </div>
+                        <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap ${cat.badgeClass}`}>
+                          {cat.icon} {cat.label}
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-[#717171] leading-relaxed line-clamp-2 mt-2.5 m-0">
+                        {lodge.addr || `${islandName} 편안한 휴식을 선사하는 숙소`}
+                      </p>
                     </div>
 
-                    {/* Description / Address (No Divider Line) */}
-                    <p className="text-sm text-[#717171] leading-relaxed line-clamp-2 mt-2.5 m-0">
-                      {lodge.addr || `${islandName} 편안한 휴식을 선사하는 숙소`}
-                    </p>
-                  </div>
-
-                  {lodge.tel && (
-                    <span className="text-xs text-[#848484] mt-2 block">
-                      📞 {lodge.tel}
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-          </div>
-        </section>
+                    {lodge.tel && (
+                      <span className="text-xs text-[#848484] mt-2 block">
+                        📞 {lodge.tel}
+                      </span>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* Section 06: 블로그 생생 여행기 (LongBlack Style 4 Pastel Cards) */}
         {blogs.length > 0 && (

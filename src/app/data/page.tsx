@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { notFound } from "next/navigation";
 import SumList from "@/components/SumList";
 import BackpackingCheck from "@/components/BackpackingCheck";
 import CampingList from "@/components/CampingList";
@@ -10,6 +12,24 @@ import YoutubeList from "@/components/YoutubeList";
 import PhotoGalleryList from "@/components/PhotoGalleryList";
 
 export default function DataPage() {
+  const [isLocal, setIsLocal] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const isDev =
+      process.env.NODE_ENV === "development" ||
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+    setIsLocal(isDev);
+  }, []);
+
+  if (isLocal === false) {
+    notFound();
+  }
+
+  if (isLocal === null) {
+    return null;
+  }
+
   return (
     <div className="py-12 px-6 max-w-[1000px] m-auto min-h-[80vh] text-[#282828]">
       {/* Header Section */}

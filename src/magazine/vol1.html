@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>테마섬길 Vol.01 — 서해의 알프스, 대청도로 떠나는 낭만 트레킹(테스트)</title>
+  <title>테마섬길 Vol.01 — 서해의 알프스, 대청도로 떠나는 낭만 트레킹</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -247,23 +247,27 @@
 
     /* Section Number Banner Styling */
     .tsg-vol1 .sec-badge {
+      display: inline-block;
       font-family: 'Noto Serif KR', serif;
       font-size: clamp(52px, 7vw, 96px);
-      line-height: 80%;
+      line-height: 1.05;
       font-weight: 300;
       background: linear-gradient(180deg, #C59B27 0%, #8A6910 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.04em;
+      padding-bottom: 0.1em;
     }
 
     .tsg-vol1 .sec-badge-light {
+      display: inline-block;
       font-family: 'Noto Serif KR', serif;
       font-size: clamp(52px, 7vw, 96px);
-      line-height: 80%;
+      line-height: 1.05;
       font-weight: 300;
       color: #C59B27;
       letter-spacing: -0.04em;
+      padding-bottom: 0.1em;
     }
   </style>
 </head>
@@ -281,24 +285,18 @@
       </div>
 
       <div class="g pad" style="padding-top:clamp(48px,6.5vw,88px);position:relative;z-index:2">
-        <div class="full" style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <span class="pill-dark sans">ISSUE N°01 · SUMMER SPECIAL</span>
-          <span
-            style="height:1px;flex:1;background:linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%)"></span>
-        </div>
-
         <span class="s8 sans"
           style="font-size:13px;line-height:100%;font-weight:600;letter-spacing:.22em;color:#C59B27">VOL. 01 · TRAIL ·
           SCENERY · GOURMET</span>
 
         <h1 class="s8 serif"
           style="margin:clamp(20px,2.8vw,36px) 0 0;font-size:clamp(34px,5.2vw,68px);line-height:120%;font-weight:400;letter-spacing:-.03em;color:#FFFFFF;word-break:keep-all">
-          서해의 알프스, 대청도로 떠나는 낭만 트레킹(테스트)
+          서해의 알프스, 대청도로 떠나는 낭만 트레킹
         </h1>
 
         <p class="s4"
           style="margin:clamp(20px,2.8vw,36px) 0 0;align-self:end;font-size:clamp(15px,1.35vw,18px);line-height:185%;font-weight:300;color:#D3E3DA;word-break:keep-all;text-wrap:pretty">
-          웅장한 수직 해안 절벽과 모래 사막, 옥빛 바다가 펼쳐지는 대청도 대표 힐링 트레킹 가이드입니다.
+          서풍받이 절벽과 모래사막 3대 비경부터 일정별 코스, 제철 밥상까지 한눈에 정리했습니다.
         </p>
       </div>
 
@@ -344,7 +342,7 @@
         </h2>
         <p class="hd-intro"
           style="margin:0;align-self:end;font-size:16px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all;text-wrap:pretty">
-          수억 년의 파도가 깎아낸 수직 절벽과 부드러운 모래 사막, 20억 년 지층이 어우러진 대청도의 핵심 비경을 소개합니다.
+          수직 절벽 서풍받이와 신비로운 모래사막, 20억 년 나이테 바위까지. 대청도에 첫발을 디뎠다면 꼭 들러야 할 핵심 명소 3곳입니다.
         </p>
       </div>
 
@@ -352,7 +350,8 @@
       <figure style="margin:0;width:100%;position:relative" class="pad">
         <div
           style="position:relative;width:100%;height:clamp(280px,46vw,580px);overflow:hidden;border-radius:24px;box-shadow:0 20px 50px rgba(4,27,21,0.12)">
-          <div class="ph" style="font-size:15px;color:#C8D8D0">TEMP IMAGE · 대청도 서풍받이 수직 절벽 파노라마 전경</div>
+          <img class="im" src="/images/magazine/vol1-hero.jpg" alt="대청도 대표 절경 서풍받이 해안 절벽 파노라마"
+            style="width:100%;height:100%;object-fit:cover;object-position:center 30%">
           <div
             style="position:absolute;inset:auto 0 0 0;pointer-events:none;height:65%;background:linear-gradient(180deg,rgba(4,27,21,0) 0%,rgba(4,27,21,0.85) 100%)">
           </div>
@@ -364,8 +363,10 @@
             </p>
           </div>
         </div>
-        <figcaption class="sans" style="margin-top:12px;font-size:13px;line-height:170%;color:#708279;text-align:right">
-          📷 대청도 대표 절경 — 서풍받이 해안 절벽 파노라마
+        <figcaption class="sans"
+          style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;line-height:170%;color:#708279">
+          <span style="font-size:12px;color:#8E9F97">출처 — 인천 섬포털</span>
+          <span>📷 대청도 대표 절경 — 서풍받이 해안 절벽 파노라마</span>
         </figcaption>
       </figure>
 
@@ -378,7 +379,8 @@
             <span class="serif" style="font-size:24px;font-weight:300;color:#C59B27">01</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(190px,22vw,250px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 서풍받이 &amp; 마당바위</div>
+            <img class="im" src="/images/magazine/vol1-spot1.jpg" alt="서풍받이 & 마당바위"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:clamp(20px,2vw,24px);line-height:140%;font-weight:600;letter-spacing:-.015em;color:#041B15;word-break:keep-all">
@@ -388,6 +390,7 @@
             style="margin:0;font-size:15px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all;text-wrap:pretty">
             수직 절벽과 웅장한 바다를 품은 대청도 대표 절경. 붉게 물드는 서해 석양 멍의 성지입니다.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">출처 — 인천 섬포털</div>
         </article>
 
         <article class="s4 luxe-card" style="display:flex;flex-direction:column;gap:16px">
@@ -396,7 +399,8 @@
             <span class="serif" style="font-size:24px;font-weight:300;color:#C59B27">02</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(190px,22vw,250px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 옥죽동 해안사구</div>
+            <img class="im" src="/images/magazine/vol1-spot2.jpg" alt="옥죽동 해안사구"
+              style="width:100%;height:100%;object-fit:cover;object-position:center 60%">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:clamp(20px,2vw,24px);line-height:140%;font-weight:600;letter-spacing:-.015em;color:#041B15;word-break:keep-all">
@@ -406,6 +410,7 @@
             style="margin:0;font-size:15px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all;text-wrap:pretty">
             낙타 조형물이 반기는 '한국의 사하라 사막'. 부드럽고 고운 모래 언덕 위 맨발 산책을 즐겨보세요.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">출처 — 인천 섬포털</div>
         </article>
 
         <article class="s4 luxe-card" style="display:flex;flex-direction:column;gap:16px">
@@ -414,7 +419,8 @@
             <span class="serif" style="font-size:24px;font-weight:300;color:#C59B27">03</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(190px,22vw,250px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 농여해변 고목나무 바위</div>
+            <img class="im" src="/images/magazine/vol1-spot3.jpg" alt="농여해변 고목나무 바위 & 풀등"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:clamp(20px,2vw,24px);line-height:140%;font-weight:600;letter-spacing:-.015em;color:#041B15;word-break:keep-all">
@@ -424,6 +430,7 @@
             style="margin:0;font-size:15px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all;text-wrap:pretty">
             20억 년 수직 나이테 지층 기암괴석과 썰물 때 넓게 펼쳐지는 광활한 모래섬(풀등)을 관람합니다.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">출처 — 인천 섬포털</div>
         </article>
 
       </div>
@@ -445,7 +452,7 @@
         </h2>
         <p class="hd-intro"
           style="margin:0;align-self:end;font-size:16px;line-height:185%;font-weight:300;color:#C8D8D0;word-break:keep-all;text-wrap:pretty">
-          체류 기간에 따라 당일치기, 1박 2일, 2박 3일 종주 코스를 한눈에 확인하고 선택하세요.
+          배편 시간에 맞춘 당일치기 알짜 투어부터 여유로운 1박 2일, 섬 전체를 둘러보는 2박 3일 종주까지 내 일정에 맞게 골라보세요.
         </p>
 
         <!-- Course 1: 당일치기 -->
@@ -460,15 +467,17 @@
             핵심 비경 숏폼 투어
           </h3>
           <div style="position:relative;width:100%;height:clamp(140px,14vw,180px);overflow:hidden;border-radius:12px">
-            <div class="ph" style="color:#C8D8D0;background:rgba(255,255,255,0.08)">TEMP IMAGE · 서풍받이 스피드 트레킹</div>
+            <img class="im" src="/images/magazine/vol1-course1.jpg" alt="서풍받이 스피드 트레킹"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#E0ECE5;word-break:keep-all">
             선진포항 입항 ➔ 서풍받이 &amp; 마당바위 (2시간) ➔ 옥죽동 모래사막 ➔ 항구 점심 ➔ 출항
           </p>
           <div
-            style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:#C59B27"
+            style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:6px"
             class="sans">
-            💡 추천: 배 시간 맞춤 알짜배기 당일 코스
+            <span style="font-size:13px;color:#C59B27">💡 추천: 배 시간 맞춤 알짜배기 당일 코스</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.45)">출처 — 인천 섬포털</span>
           </div>
         </div>
 
@@ -484,16 +493,18 @@
             여유 &amp; 노을 힐링
           </h3>
           <div style="position:relative;width:100%;height:clamp(140px,14vw,180px);overflow:hidden;border-radius:12px">
-            <div class="ph" style="color:#C8D8D0;background:rgba(255,255,255,0.08)">TEMP IMAGE · 삼각산 정상 및 노을 전경</div>
+            <img class="im" src="/images/magazine/vol1-course2.jpg" alt="삼각산 정상 및 노을 전경"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#E0ECE5;word-break:keep-all">
             <strong>DAY 1:</strong> 삼각산 등반 ➔ 서풍받이 마당바위 노을 ➔ 성게/홍어 저녁<br>
             <strong>DAY 2:</strong> 옥죽동 사구 ➔ 농여해변 ➔ 답동해변 산책 ➔ 출항
           </p>
           <div
-            style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:#C59B27"
+            style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:6px"
             class="sans">
-            💡 추천: 낮 트레킹 + 저녁 섬 미식 &amp; 석양 감상
+            <span style="font-size:13px;color:#C59B27">💡 추천: 낮 트레킹 + 저녁 섬 미식 &amp; 석양 감상</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.45)">출처 — 인천 섬포털</span>
           </div>
         </div>
 
@@ -509,7 +520,8 @@
             종주 &amp; 소청도 연계
           </h3>
           <div style="position:relative;width:100%;height:clamp(140px,14vw,180px);overflow:hidden;border-radius:12px">
-            <div class="ph" style="color:#C8D8D0;background:rgba(255,255,255,0.08)">TEMP IMAGE · 소청도 분바위 지층</div>
+            <img class="im" src="/images/magazine/vol1-course3.jpg" alt="소청도 분바위 지층"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#E0ECE5;word-break:keep-all">
             <strong>DAY 1:</strong> 서풍받이 &amp; 지두리해변<br>
@@ -517,9 +529,10 @@
             <strong>DAY 3:</strong> 소청도 이동 (배 15분) ➔ 분바위 탐방 ➔ 출항
           </p>
           <div
-            style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:13px;color:#C59B27"
+            style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:6px"
             class="sans">
-            💡 추천: 대청도 완주 &amp; 소청도 분바위 연계 투어
+            <span style="font-size:13px;color:#C59B27">💡 추천: 대청도 완주 &amp; 소청도 분바위 연계 투어</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.45)">출처 — 인천 섬포털</span>
           </div>
         </div>
 
@@ -541,7 +554,7 @@
         </h2>
         <p class="hd-intro"
           style="margin:0;align-self:end;font-size:16px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all;text-wrap:pretty">
-          트레킹 후 땀을 식히며 에너지를 채워줄 대청도 청정 현지 해산물 요리 안내입니다.
+          트레킹 후 허기를 든든하게 달래줄 대청도의 맛. 갓 잡은 싱싱한 생홍어부터 고소한 성게알 비빔밥, 시원한 섭탕까지 한 상에 모았습니다.
         </p>
 
         <!-- Food 1 -->
@@ -551,7 +564,8 @@
             <span style="font-size:12px;font-weight:600;color:#0F3E17" class="sans">⭐ 솔밭나루터</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(170px,18vw,210px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 생홍어회 &amp; 홍어회무침</div>
+            <img class="im" src="/images/magazine/vol1-food1.jpg" alt="생홍어회 & 홍어회무침"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:19px;line-height:145%;font-weight:600;color:#041B15;word-break:keep-all">
@@ -560,6 +574,7 @@
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all">
             대청도에서 갓 잡은 삭히지 않은 신선한 생홍어회. 알싸한 야채 무침이 트레킹 후 입맛을 돋워줍니다.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">※ AI로 생성된 이미지입니다</div>
         </div>
 
         <!-- Food 2 -->
@@ -569,7 +584,8 @@
             <span style="font-size:12px;font-weight:600;color:#0F3E17" class="sans">⭐ 바다식당</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(170px,18vw,210px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 성게알 비빔밥</div>
+            <img class="im" src="/images/magazine/vol1-food2.jpg" alt="성게알 비빔밥 & 해산물 백반"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:19px;line-height:145%;font-weight:600;color:#041B15;word-break:keep-all">
@@ -578,6 +594,7 @@
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all">
             해녀들이 직접 채취한 싱싱하고 고소한 보라성게알 비빔밥과 갓 잡은 제철 해산물 정식입니다.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">※ AI로 생성된 이미지입니다</div>
         </div>
 
         <!-- Food 3 -->
@@ -587,7 +604,8 @@
             <span style="font-size:12px;font-weight:600;color:#0F3E17" class="sans">⭐ 고리식당</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(170px,18vw,210px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 자연산 섭(홍합)탕</div>
+            <img class="im" src="/images/magazine/vol1-food3.jpg" alt="자연산 섭(홍합)탕 & 해물탕"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:19px;line-height:145%;font-weight:600;color:#041B15;word-break:keep-all">
@@ -596,6 +614,7 @@
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all">
             알이 통통하게 오른 대청도 청정 자연산 섭탕과 시원하고 진한 칼국수로 피로를 풀어보세요.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">※ AI로 생성된 이미지입니다</div>
         </div>
 
         <!-- Food 4 -->
@@ -605,7 +624,8 @@
             <span style="font-size:12px;font-weight:600;color:#0F3E17" class="sans">⭐ 섬중화요리</span>
           </div>
           <div style="position:relative;width:100%;height:clamp(170px,18vw,210px);overflow:hidden;border-radius:14px">
-            <div class="ph">TEMP IMAGE · 갑오징어 탕수육</div>
+            <img class="im" src="/images/magazine/vol1-food4.jpg" alt="갑오징어 탕수육 & 해물짬뽕"
+              style="width:100%;height:100%;object-fit:cover;object-position:center">
           </div>
           <h3 class="serif"
             style="margin:4px 0 0;font-size:19px;line-height:145%;font-weight:600;color:#041B15;word-break:keep-all">
@@ -614,6 +634,7 @@
           <p style="margin:0;font-size:14px;line-height:185%;font-weight:300;color:#4F6158;word-break:keep-all">
             두툼한 대청도 통갑오징어 탕수육과 칼칼한 해물짬뽕을 맛볼 수 있는 이색 로컬 별미입니다.
           </p>
+          <div class="sans" style="margin-top:auto;font-size:11px;color:#8E9F97">※ AI로 생성된 이미지입니다</div>
         </div>
 
       </div>

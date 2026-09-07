@@ -3,7 +3,7 @@ import islandsData from '@/app/data/islands.json';
 import themeContents from '@/magazine/data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://hn-sumgil.vercel.app';
+  const baseUrl = 'https://hn-sumgil.kr';
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {

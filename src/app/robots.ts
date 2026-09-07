@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/data', '/api/'],
     },
-    sitemap: 'https://hn-sumgil.vercel.app/sitemap.xml',
+    sitemap: 'https://hn-sumgil.kr/sitemap.xml',
   };
 }

@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hn-sumgil.vercel.app"),
+  metadataBase: new URL("https://hn-sumgil.kr"),
   title: {
     default: "한눈섬길 | 복잡한 섬 여행 준비, 한눈에 명쾌하게",
     template: "%s | 한눈섬길",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "한눈섬길 | 복잡한 섬 여행 준비, 한눈에 명쾌하게",
     description:
       "인천 섬 트레킹 — 배 시간, 물때, 일몰까지 겹쳐 계산해 오늘 갈 수 있는지부터 알려드립니다.",
-    url: "https://hn-sumgil.vercel.app",
+    url: "https://hn-sumgil.kr",
     siteName: "한눈섬길 (HN-Sumgil)",
     images: [
       {
@@ -75,6 +75,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "rbrrAVxUMzBT1rT1zVushX2_ihEGWeEkHK-nmCIPi48",
+  },
 };
 
 export default function RootLayout({
@@ -87,7 +90,7 @@ export default function RootLayout({
     "@type": "WebSite",
     name: "한눈섬길",
     alternateName: ["HN-Sumgil", "인천섬길"],
-    url: "https://hn-sumgil.vercel.app",
+    url: "https://hn-sumgil.kr",
     description:
       "인천 섬 트레킹, 백패킹, 배시간표, 물때 정보를 한눈에 제공하는 섬 여행 가이드",
     inLanguage: "ko-KR",

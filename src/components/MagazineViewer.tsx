@@ -10,7 +10,7 @@ interface MagazineViewerProps {
 export default function MagazineViewer({ html, isFullLayout = false }: MagazineViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeHeight, setIframeHeight] = useState("1200px");
+  const [iframeHeight, setIframeHeight] = useState("auto");
 
   useEffect(() => {
     if (!isFullLayout) {
@@ -30,11 +30,18 @@ export default function MagazineViewer({ html, isFullLayout = false }: MagazineV
 
   useEffect(() => {
     if (isFullLayout && iframeRef.current) {
+      let ro: ResizeObserver | null = null;
+
       const updateHeight = () => {
         try {
           const doc = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
           if (doc && doc.body) {
-            const height = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+            const container =
+              doc.querySelector(".tsg-vol1") ||
+              doc.querySelector(".tsg") ||
+              doc.body.firstElementChild ||
+              doc.body;
+            const height = Math.ceil(container.getBoundingClientRect().height);
             if (height > 0) {
               setIframeHeight(`${height}px`);
             }
@@ -44,12 +51,36 @@ export default function MagazineViewer({ html, isFullLayout = false }: MagazineV
         }
       };
 
+      const handleLoad = () => {
+        updateHeight();
+        try {
+          const doc = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
+          if (doc && doc.body) {
+            const container =
+              doc.querySelector(".tsg-vol1") ||
+              doc.querySelector(".tsg") ||
+              doc.body.firstElementChild ||
+              doc.body;
+            ro = new ResizeObserver(() => updateHeight());
+            ro.observe(container);
+          }
+        } catch {
+          // ignore
+        }
+      };
+
+      const iframe = iframeRef.current;
+      iframe.addEventListener("load", handleLoad);
+
+      updateHeight();
       const timer1 = setTimeout(updateHeight, 100);
       const timer2 = setTimeout(updateHeight, 500);
       const timer3 = setTimeout(updateHeight, 1500);
       window.addEventListener("resize", updateHeight);
 
       return () => {
+        iframe.removeEventListener("load", handleLoad);
+        if (ro) ro.disconnect();
         clearTimeout(timer1);
         clearTimeout(timer2);
         clearTimeout(timer3);
@@ -64,13 +95,18 @@ export default function MagazineViewer({ html, isFullLayout = false }: MagazineV
         ref={iframeRef}
         srcDoc={html}
         className="w-full border-0 overflow-hidden block"
-        style={{ height: iframeHeight, minHeight: "800px" }}
+        style={{ height: iframeHeight }}
         title="Theme Magazine View"
         onLoad={() => {
           try {
             const doc = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
             if (doc && doc.body) {
-              const height = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+              const container =
+                doc.querySelector(".tsg-vol1") ||
+                doc.querySelector(".tsg") ||
+                doc.body.firstElementChild ||
+                doc.body;
+              const height = Math.ceil(container.getBoundingClientRect().height);
               if (height > 0) {
                 setIframeHeight(`${height}px`);
               }

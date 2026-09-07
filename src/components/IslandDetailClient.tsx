@@ -868,8 +868,22 @@ export default function IslandDetailClient({ islandName }: IslandDetailProps) {
                   <h1 id="island-title" className="text-3xl sm:text-4xl font-bold tracking-tight text-[#282828] leading-tight">
                     <span className="text-[#0F3E17]">{islandName}</span>
                   </h1>
-                  <p className="text-sm text-[#848484] mt-1.5 flex items-center gap-2">
+                  <p className="text-sm text-[#848484] mt-1.5 flex items-center gap-2 flex-wrap">
                     <span>📍 위치: {island?.address}</span>
+                    {island?.address && (
+                      <a
+                        href={`https://map.naver.com/v5/search/${encodeURIComponent(island.address)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#03C75A]/10 hover:bg-[#03C75A]/20 text-[#03C75A] text-xs font-semibold border border-[#03C75A]/30 transition-all hover:scale-105"
+                        title="네이버 지도로 위치 보기 (새창)"
+                      >
+                        <span className="w-3.5 h-3.5 rounded-full bg-[#03C75A] text-white flex items-center justify-center font-black text-[9px] leading-none">
+                          N
+                        </span>
+                        <span>지도 보기</span>
+                      </a>
+                    )}
                   </p>
                 </div>
               </div>

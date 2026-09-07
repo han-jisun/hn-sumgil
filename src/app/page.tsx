@@ -478,12 +478,15 @@ export default function HomePage() {
                 <span className="w-6 sm:w-12 h-[1px] bg-white/60 shrink-0" />
                 복잡한 인천 섬 여행 준비,
               </span>
-              <span className="block text-[56px] sm:text-[76px] md:text-[88px] font-bold tracking-[-0.035em] text-white leading-[110%] break-keep">
-                <span className="relative inline-block text-main-50 mr-2 sm:mr-3">
-                  <span className="absolute left-[-4px] right-[-4px] bottom-1 sm:bottom-2 md:bottom-3 h-[14px] sm:h-[18px] md:h-[22px] rounded-full bg-main-50/25 -z-10" />
-                  한눈섬길
-                </span>
-                로 명쾌하게
+              <span className="block text-[40px] xs:text-[44px] sm:text-[76px] md:text-[88px] font-bold tracking-[-0.035em] text-white leading-[115%] sm:leading-[110%] break-keep">
+                <span className="inline-block">
+                  <span className="relative inline-block text-main-50 mr-1 sm:mr-2">
+                    <span className="absolute left-[-4px] right-[-4px] bottom-1 sm:bottom-2 md:bottom-3 h-[10px] sm:h-[18px] md:h-[22px] rounded-full bg-main-50/25 -z-10" />
+                    한눈섬길
+                  </span>
+                  로
+                </span>{" "}
+                <span className="inline-block">명쾌하게</span>
               </span>
             </h1>
 
@@ -528,19 +531,19 @@ export default function HomePage() {
         </div>
 
         {/* Hero Bottom Bar */}
-        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-[20px] sm:bottom-[36px] z-10">
-          <div className="max-w-[1440px] mx-auto px-[16px] sm:px-[40px] flex items-center justify-between gap-4 w-full">
-            {/* Active Slide Name (Left) */}
-            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 max-w-[650px]">
-              <span className="w-4 sm:w-6 h-[1px] bg-white/60 shrink-0" />
+        <div id="hero-bottom-bar" className="absolute left-0 right-0 bottom-[16px] sm:bottom-[36px] z-10">
+          <div className="max-w-[1440px] mx-auto px-[16px] sm:px-[40px] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 w-full">
+            {/* Active Slide Name (Top Line on Mobile) */}
+            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto min-w-0 sm:max-w-[650px]">
+              <span className="w-3.5 sm:w-6 h-[1px] bg-white/60 shrink-0" />
               <span className="text-[11px] sm:text-[12px] font-medium tracking-wider text-sub-500 uppercase shrink-0">지금 보이는 곳</span>
-              <span id="hero-current-slide-label" className="text-[13px] sm:text-[15px] font-medium text-white break-keep leading-snug line-clamp-2">
+              <span id="hero-current-slide-label" className="text-[13px] sm:text-[15px] font-medium text-white break-keep leading-snug truncate sm:line-clamp-2">
                 {heroSlides[heroIdx].name}
               </span>
             </div>
 
-            {/* Slide Progress & Controls (Right - Compact Bars) */}
-            <div id="hero-slide-controls" className="flex items-center justify-end gap-2.5 sm:gap-4 shrink-0">
+            {/* Slide Progress & Controls (Bottom Line on Mobile, Right Aligned) */}
+            <div id="hero-slide-controls" className="flex items-center justify-end gap-2.5 sm:gap-4 w-full sm:w-auto shrink-0">
               <span id="hero-slide-counter" className="text-white text-[12px] sm:text-[14px] font-medium tracking-wider leading-none shrink-0 font-mono">
                 0{heroIdx + 1} / 0{heroSlides.length}
               </span>
